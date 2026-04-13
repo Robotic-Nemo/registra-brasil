@@ -1,0 +1,17 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "env": {
+    "NEXT_PUBLIC_SUPABASE_URL": "@supabase_url",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@supabase_anon_key",
+    "SUPABASE_SERVICE_ROLE_KEY": "@supabase_service_role_key",
+    "YOUTUBE_API_KEY": "@youtube_api_key",
+    "YOUTUBE_DAILY_QUOTA_LIMIT": "9000",
+    "GOOGLE_CSE_API_KEY": "@google_cse_api_key",
+    "GOOGLE_CSE_ID": "@google_cse_id",
+    "REVALIDATE_SECRET": "@revalidate_secret",
+    "ADMIN_SECRET": "@admin_secret"
+  }
+}

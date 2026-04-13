@@ -1,0 +1,36 @@
+{
+  "name": "registra-brasil",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "db:migrate": "supabase db push",
+    "db:seed:politicians": "supabase db execute --file supabase/seed/politicians.sql",
+    "db:seed:statements": "supabase db execute --file supabase/seed/statements.sql",
+    "db:seed": "npm run db:seed:politicians && npm run db:seed:statements",
+    "db:types": "supabase gen types typescript --local > types/database.generated.ts",
+    "db:reset": "supabase db reset"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.10.2",
+    "@supabase/supabase-js": "^2.103.0",
+    "date-fns": "^4.1.0",
+    "lucide-react": "^1.8.0",
+    "next": "16.2.3",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.3",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,16 @@
+INSERT INTO politicians (slug, full_name, common_name, party, state, role, camara_id, wikipedia_url, is_active) VALUES
+  ('jair-bolsonaro',       'Jair Messias Bolsonaro',           'Bolsonaro',        'PL',       'RJ', 'Ex-Presidente',        'https://pt.wikipedia.org/wiki/Jair_Bolsonaro',                NULL,    false),
+  ('lula',                 'Luiz Inácio Lula da Silva',        'Lula',             'PT',       'SP', 'Presidente',           'https://pt.wikipedia.org/wiki/Luiz_In%C3%A1cio_Lula_da_Silva', NULL,    true),
+  ('arthur-lira',          'Arthur César Pereira de Lira',     'Arthur Lira',      'PP',       'AL', 'Deputado Federal',     'https://pt.wikipedia.org/wiki/Arthur_Lira',                    204380,  true),
+  ('rodrigo-pacheco',      'Rodrigo Cunha Pacheco',            'Rodrigo Pacheco',  'PSD',      'MG', 'Senador',              'https://pt.wikipedia.org/wiki/Rodrigo_Pacheco',                NULL,    true),
+  ('marcos-do-val',        'Marcos Aurelio Pinto do Val',      'Marcos do Val',    'PODE',     'ES', 'Senador',              'https://pt.wikipedia.org/wiki/Marcos_do_Val',                  NULL,    true),
+  ('sergio-moro',          'Sérgio Fernando Moro',             'Sérgio Moro',      'UNIÃO',    'PR', 'Senador',              'https://pt.wikipedia.org/wiki/S%C3%A9rgio_Moro',               NULL,    true),
+  ('paulo-bobigio',        'Paulo Roberto Bobigio',            'Bobigio',          'PL',       'AC', 'Deputado Federal',     NULL,                                                           NULL,    true),
+  ('carla-zambelli',       'Carla Zambelli',                   'Carla Zambelli',   'PL',       'SP', 'Deputada Federal',     'https://pt.wikipedia.org/wiki/Carla_Zambelli',                 204360,  true),
+  ('nikolas-ferreira',     'Nikolas Ferreira',                 'Nikolas Ferreira', 'PL',       'MG', 'Deputado Federal',     'https://pt.wikipedia.org/wiki/Nikolas_Ferreira',               220600,  true),
+  ('gleisi-hoffmann',      'Gleisi Helena Hoffmann',           'Gleisi Hoffmann',  'PT',       'PR', 'Deputada Federal',     'https://pt.wikipedia.org/wiki/Gleisi_Hoffmann',                160511,  true),
+  ('paulo-guedes',         'Paulo Roberto Nunes Guedes',       'Paulo Guedes',     'Indep.',   'RJ', 'Ex-Ministro',          'https://pt.wikipedia.org/wiki/Paulo_Guedes',                   NULL,    false),
+  ('damares-alves',        'Damares Regina Alves',             'Damares Alves',    'REPUBLICANOS', 'DF', 'Senadora',         'https://pt.wikipedia.org/wiki/Damares_Alves',                  NULL,    true),
+  ('flavio-bolsonaro',     'Flávio Nantes Bolsonaro',          'Flávio Bolsonaro', 'PL',       'RJ', 'Senador',              'https://pt.wikipedia.org/wiki/Fl%C3%A1vio_Bolsonaro',          NULL,    true),
+  ('eduardo-bolsonaro',    'Eduardo Bolsonaro',                 'Eduardo Bolsonaro','PL',       'SP', 'Deputado Federal',     'https://pt.wikipedia.org/wiki/Eduardo_Bolsonaro',              204374,  true),
+  ('hamilton-mourao',      'Antonio Hamilton Martins Mourão',  'Hamilton Mourão',  'REPUBLICANOS', 'RS', 'Senador',          'https://pt.wikipedia.org/wiki/Hamilton_Mour%C3%A3o',           NULL,    true);
