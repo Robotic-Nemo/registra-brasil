@@ -1,13 +1,10 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
-import dynamic from 'next/dynamic'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { ProgressBar } from '@/components/ui/ProgressBar'
-
-const KeyboardShortcuts = dynamic(() => import('@/components/ui/KeyboardShortcuts').then(m => ({ default: m.KeyboardShortcuts })), { ssr: false })
-const BackToTop = dynamic(() => import('@/components/ui/BackToTop').then(m => ({ default: m.BackToTop })), { ssr: false })
+import { ClientExtras } from '@/components/layout/ClientExtras'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -93,11 +90,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Pular para o conteúdo
         </a>
         <ProgressBar />
-        <KeyboardShortcuts />
         <Header />
         <div id="main-content" className="flex-1" tabIndex={-1}>{children}</div>
         <Footer />
-        <BackToTop />
+        <ClientExtras />
       </body>
     </html>
   )
