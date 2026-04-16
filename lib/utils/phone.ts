@@ -6,7 +6,8 @@
  * Format a Brazilian phone number
  * Input: 11999887766 → Output: (11) 99988-7766
  */
-export function formatPhone(phone: string): string {
+export function formatPhone(phone: string | null | undefined): string {
+  if (!phone) return ''
   const digits = phone.replace(/\D/g, '')
 
   if (digits.length === 11) {
@@ -25,7 +26,8 @@ export function formatPhone(phone: string): string {
 /**
  * Validate a Brazilian phone number
  */
-export function isValidPhone(phone: string): boolean {
+export function isValidPhone(phone: string | null | undefined): boolean {
+  if (!phone || typeof phone !== 'string') return false
   const digits = phone.replace(/\D/g, '')
   return digits.length === 10 || digits.length === 11
 }

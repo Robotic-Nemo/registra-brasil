@@ -8,14 +8,27 @@ export function BackToTop() {
   const [scrollPct, setScrollPct] = useState(0)
 
   useEffect(() => {
-    function onScroll() {
+    let rafId = 0
+    let ticking = false
+    function update() {
+      ticking = false
       const scrollY = window.scrollY
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight
       setVisible(scrollY > 400)
       setScrollPct(maxScroll > 0 ? Math.min(100, Math.round((scrollY / maxScroll) * 100)) : 0)
     }
+    function onScroll() {
+      if (ticking) return
+      ticking = true
+      rafId = window.requestAnimationFrame(update)
+    }
+    // Initialize on mount (useful if page is scrolled on load).
+    update()
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (rafId) window.cancelAnimationFrame(rafId)
+    }
   }, [])
 
   const handleClick = useCallback(() => {

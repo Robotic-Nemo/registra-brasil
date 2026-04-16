@@ -27,8 +27,12 @@ export function buildSearchParams(filters: SearchFilterValues): URLSearchParams 
   }
 
   if (filters.categoria) {
+    const seen = new Set<string>()
     for (const cat of filters.categoria) {
-      if (cat) params.append('categoria', cat)
+      if (cat && !seen.has(cat)) {
+        seen.add(cat)
+        params.append('categoria', cat)
+      }
     }
   }
 
@@ -48,15 +52,21 @@ export function buildSearchParams(filters: SearchFilterValues): URLSearchParams 
  */
 export function parseFilterParams(params: URLSearchParams): SearchFilterValues {
   const q = params.get('q')?.trim() || undefined
-  const categoria = params.getAll('categoria').filter(Boolean)
+  const categoria = Array.from(new Set(params.getAll('categoria').filter(Boolean)))
   const partido = params.get('partido') || undefined
   const estado = params.get('estado') || undefined
   const status = params.get('status') || undefined
   const fonte = params.get('fonte') || undefined
   const rawDe = params.get('de') || ''
   const rawAte = params.get('ate') || ''
-  const de = DATE_RE.test(rawDe) ? rawDe : undefined
-  const ate = DATE_RE.test(rawAte) ? rawAte : undefined
+  let de = DATE_RE.test(rawDe) ? rawDe : undefined
+  let ate = DATE_RE.test(rawAte) ? rawAte : undefined
+  // Swap if inverted
+  if (de && ate && de > ate) {
+    const tmp = de
+    de = ate
+    ate = tmp
+  }
   const rawPage = params.get('page')
   const page = rawPage ? Math.max(1, parseInt(rawPage, 10) || 1) : undefined
 

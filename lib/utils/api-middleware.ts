@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { checkRateLimit, getRateLimitKey } from './rate-limit'
 import { withApiVersionHeaders, getApiVersion } from './api-version'
+import { createLogger } from './logger'
+
+const log = createLogger('api-middleware')
 
 interface ApiMiddlewareOptions {
   /** Rate limit: max requests per window */
@@ -13,8 +16,18 @@ interface ApiMiddlewareOptions {
   allowedMethods?: string[]
   /** Add CORS headers */
   cors?: boolean
+  /** CORS allowed origin (default: '*' when cors=true) */
+  corsOrigin?: string
   /** Cache-Control header */
   cacheControl?: string
+  /** Skip adding security headers (advanced, default: false) */
+  skipSecurityHeaders?: boolean
+}
+
+const SECURITY_HEADERS: Record<string, string> = {
+  'X-Content-Type-Options': 'nosniff',
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
+  'X-Frame-Options': 'DENY',
 }
 
 type ApiHandler = (
@@ -41,14 +54,22 @@ export function withApiMiddleware(
       rateLimitPrefix = 'api',
       allowedMethods,
       cors = false,
+      corsOrigin = '*',
       cacheControl,
+      skipSecurityHeaders = false,
     } = options
 
     // Method check
     if (allowedMethods && !allowedMethods.includes(request.method)) {
       return NextResponse.json(
         { error: `Método ${request.method} não permitido.` },
-        { status: 405, headers: { Allow: allowedMethods.join(', ') } }
+        {
+          status: 405,
+          headers: {
+            Allow: allowedMethods.join(', '),
+            'X-Content-Type-Options': 'nosniff',
+          },
+        }
       )
     }
 
@@ -77,21 +98,42 @@ export function withApiMiddleware(
     try {
       const response = await handler(request, context)
 
-      // Cast to NextResponse for header manipulation
-      const res = response instanceof NextResponse ? response : NextResponse.json(await response.json(), { status: response.status })
+      // Preserve the original body stream — don't re-parse (avoids consumed-stream bugs
+      // and works with non-JSON responses).
+      const res =
+        response instanceof NextResponse
+          ? response
+          : new NextResponse(response.body, {
+              status: response.status,
+              statusText: response.statusText,
+              headers: response.headers,
+            })
 
-      // Add standard headers
+      // Rate limit headers
       res.headers.set('X-RateLimit-Limit', String(rateLimit))
       res.headers.set('X-RateLimit-Remaining', String(remaining))
+      res.headers.set('X-RateLimit-Reset', String(Math.ceil(resetAt / 1000)))
 
       if (cors) {
-        res.headers.set('Access-Control-Allow-Origin', '*')
-        res.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-        res.headers.set('Access-Control-Allow-Headers', 'Content-Type, X-API-Version')
+        res.headers.set('Access-Control-Allow-Origin', corsOrigin)
+        res.headers.set('Access-Control-Allow-Methods', (allowedMethods ?? ['GET', 'POST', 'OPTIONS']).join(', '))
+        res.headers.set('Access-Control-Allow-Headers', 'Content-Type, X-API-Version, Authorization')
+        res.headers.set('Access-Control-Max-Age', '86400')
+        // Hint caches to vary on origin when CORS is restricted.
+        if (corsOrigin !== '*') {
+          const existingVary = res.headers.get('Vary') ?? ''
+          res.headers.set('Vary', existingVary ? `${existingVary}, Origin` : 'Origin')
+        }
       }
 
-      if (cacheControl) {
+      if (cacheControl && !res.headers.has('Cache-Control')) {
         res.headers.set('Cache-Control', cacheControl)
+      }
+
+      if (!skipSecurityHeaders) {
+        for (const [k, v] of Object.entries(SECURITY_HEADERS)) {
+          if (!res.headers.has(k)) res.headers.set(k, v)
+        }
       }
 
       const version = getApiVersion(request)
@@ -99,10 +141,14 @@ export function withApiMiddleware(
 
       return res
     } catch (err) {
-      console.error('[API Error]', err)
+      // Log full detail server-side, return generic message to client.
+      log.error('handler threw', {
+        err: err instanceof Error ? err.message : String(err),
+        path: request.nextUrl.pathname,
+      })
       return NextResponse.json(
-        { error: 'Erro interno do servidor.' },
-        { status: 500 }
+        { error: { code: 'INTERNAL_ERROR', message: 'Erro interno do servidor.' } },
+        { status: 500, headers: { 'X-Content-Type-Options': 'nosniff' } }
       )
     }
   }

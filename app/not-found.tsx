@@ -17,7 +17,7 @@ async function getRecentSuggestions() {
       .eq('verification_status', 'verified')
       .order('created_at', { ascending: false })
       .limit(3)
-    return (data ?? []) as unknown as { id: string; slug: string | null; summary: string; politicians: { common_name: string } }[]
+    return (data ?? []) as unknown as { id: string; slug: string | null; summary: string | null; politicians: { common_name: string } | null }[]
   } catch {
     return []
   }
@@ -58,8 +58,10 @@ export default async function NotFound() {
               >
                 <FileText className="w-4 h-4 mt-0.5 flex-shrink-0" />
                 <div>
-                  <span className="font-medium text-gray-800">{s.politicians.common_name}:</span>{' '}
-                  <span className="line-clamp-1">{s.summary}</span>
+                  {s.politicians?.common_name && (
+                    <span className="font-medium text-gray-800">{s.politicians.common_name}:</span>
+                  )}{' '}
+                  <span className="line-clamp-1">{s.summary ?? ''}</span>
                 </div>
               </Link>
             ))}

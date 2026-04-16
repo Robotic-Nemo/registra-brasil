@@ -17,7 +17,7 @@ export function useReadingProgress(): number {
         setProgress(100)
         return
       }
-      setProgress(Math.min(100, Math.round((scrollTop / docHeight) * 100)))
+      setProgress(Math.max(0, Math.min(100, Math.round((scrollTop / docHeight) * 100))))
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })

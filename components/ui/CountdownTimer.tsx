@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 
 interface CountdownTimerProps {
   targetDate: Date | string
@@ -28,24 +28,43 @@ function getTimeLeft(target: Date): TimeLeft {
 }
 
 export function CountdownTimer({ targetDate, onComplete, className = '' }: CountdownTimerProps) {
-  const target = typeof targetDate === 'string' ? new Date(targetDate) : targetDate
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>(getTimeLeft(target))
-  const [completed, setCompleted] = useState(false)
+  // Stabilize the target so useEffect doesn't restart on every render when a string is passed.
+  const target = useMemo(
+    () => (typeof targetDate === 'string' ? new Date(targetDate) : targetDate),
+    // When the string/Date content changes we do want to reset — key off the epoch value.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [typeof targetDate === 'string' ? targetDate : targetDate.getTime()]
+  )
+  const validTarget = !Number.isNaN(target.getTime())
+  const [timeLeft, setTimeLeft] = useState<TimeLeft>(() => validTarget ? getTimeLeft(target) : { days: 0, hours: 0, minutes: 0, seconds: 0 })
+  const [completed, setCompleted] = useState(() => validTarget ? target.getTime() <= Date.now() : true)
+  // Avoid restarting the interval when the onComplete callback reference changes.
+  const onCompleteRef = useRef(onComplete)
+  onCompleteRef.current = onComplete
 
   useEffect(() => {
+    if (!validTarget) return
+    if (completed) {
+      onCompleteRef.current?.()
+      return
+    }
     const interval = setInterval(() => {
       const tl = getTimeLeft(target)
       setTimeLeft(tl)
 
       if (tl.days === 0 && tl.hours === 0 && tl.minutes === 0 && tl.seconds === 0) {
         setCompleted(true)
-        onComplete?.()
+        onCompleteRef.current?.()
         clearInterval(interval)
       }
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [target, onComplete])
+  }, [target, validTarget, completed])
+
+  if (!validTarget) {
+    return <span className={`text-sm text-zinc-400 ${className}`}>—</span>
+  }
 
   if (completed) {
     return <span className={`text-sm font-medium text-green-600 ${className}`}>Encerrado</span>

@@ -1,8 +1,11 @@
 /**
  * Truncates a string at word boundaries and appends "..." if truncated.
  * Does not split in the middle of a word.
+ * Returns empty string for null/undefined input.
  */
-export function truncate(str: string, maxLen: number): string {
+export function truncate(str: string | null | undefined, maxLen: number): string {
+  if (str == null) return ''
+  if (!Number.isFinite(maxLen) || maxLen <= 0) return ''
   if (str.length <= maxLen) return str
 
   // Try to find a word boundary to break at

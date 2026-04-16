@@ -1,17 +1,27 @@
-/** Returns ISO date string N days ago */
+/**
+ * Format a Date as YYYY-MM-DD in America/Sao_Paulo timezone.
+ * All calendar-date operations in this app use Brazilian local time.
+ */
+function toSaoPauloDateString(d: Date): string {
+  // en-CA locale returns YYYY-MM-DD format
+  return d.toLocaleDateString('en-CA', { timeZone: 'America/Sao_Paulo' })
+}
+
+/** Returns ISO date string N days ago (America/Sao_Paulo). */
 export function daysAgo(days: number): string {
-  return new Date(Date.now() - days * 86_400_000).toISOString().slice(0, 10)
+  if (!Number.isFinite(days) || days < 0) days = 0
+  return toSaoPauloDateString(new Date(Date.now() - days * 86_400_000))
 }
 
-/** Returns ISO date string for the first day of the current month */
+/** Returns ISO date string for the first day of the current month (America/Sao_Paulo). */
 export function startOfMonth(): string {
-  const d = new Date()
-  return new Date(d.getFullYear(), d.getMonth(), 1).toISOString().slice(0, 10)
+  const today = toSaoPauloDateString(new Date())
+  return `${today.slice(0, 7)}-01`
 }
 
-/** Returns ISO date string for the first day of the current year */
+/** Returns ISO date string for the first day of the current year (America/Sao_Paulo). */
 export function startOfYear(): string {
-  return `${new Date().getFullYear()}-01-01`
+  return `${toSaoPauloDateString(new Date()).slice(0, 4)}-01-01`
 }
 
 /** Pre-defined date range presets */
@@ -24,8 +34,10 @@ export const DATE_PRESETS = [
 ] as const
 
 /** Check if a date string is within the last N days */
-export function isWithinDays(dateStr: string, days: number): boolean {
+export function isWithinDays(dateStr: string | null | undefined, days: number): boolean {
+  if (!dateStr || !Number.isFinite(days) || days < 0) return false
   const date = new Date(dateStr)
+  if (Number.isNaN(date.getTime())) return false
   const cutoff = new Date(Date.now() - days * 86_400_000)
   return date >= cutoff
 }

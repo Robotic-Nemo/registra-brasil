@@ -20,7 +20,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { AdminEditLink } from '@/components/ui/AdminEditLink'
 import { EmbedCode } from '@/components/statements/EmbedCode'
 import { StatementMeta } from '@/components/statements/StatementMeta'
-import { claimReviewJsonLd, breadcrumbListJsonLd } from '@/lib/utils/structured-data'
+import { claimReviewJsonLd, breadcrumbListJsonLd, articleJsonLd } from '@/lib/utils/structured-data'
 import type { Metadata } from 'next'
 import type { SecondarySource } from '@/types/database'
 
@@ -126,12 +126,27 @@ export default async function StatementPage({ params }: PageProps) {
     { name: statement.summary.slice(0, 40) + (statement.summary.length > 40 ? '...' : ''), url: permalink },
   ])
 
+  const articleLd = articleJsonLd({
+    headline: `${politician.common_name}: ${statement.summary.slice(0, 80)}`,
+    description: statement.summary,
+    datePublished: statement.statement_date,
+    dateModified: statement.updated_at ?? statement.statement_date,
+    authorName: politician.common_name,
+    authorUrl: `/politico/${politician.slug}`,
+    url: permalink,
+    imageUrl: politician.photo_url ?? undefined,
+  })
+
   return (
     <main className="max-w-3xl mx-auto px-4 py-8">
       {/* JSON-LD */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(claimLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }}
       />
       <script
         type="application/ld+json"

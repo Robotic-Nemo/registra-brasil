@@ -10,7 +10,8 @@ export function getErrorMessage(error: unknown): string {
 /**
  * Safe JSON parse that returns null instead of throwing.
  */
-export function safeJsonParse<T>(json: string): T | null {
+export function safeJsonParse<T>(json: string | null | undefined): T | null {
+  if (!json || typeof json !== 'string') return null
   try {
     return JSON.parse(json) as T
   } catch {

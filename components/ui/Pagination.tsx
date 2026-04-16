@@ -8,19 +8,23 @@ interface PaginationProps {
   hasMore: boolean
   total: number
   totalPages?: number
+  /** Query param name for the page number. Defaults to `page`. */
+  paramName?: string
 }
 
-export function Pagination({ page, hasMore, total, totalPages }: PaginationProps) {
+export function Pagination({ page, hasMore, total, totalPages, paramName = 'page' }: PaginationProps) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
   function navigate(newPage: number) {
+    // Clamp so rapid clicks or stale disabled state can't jump past the bounds.
+    const clamped = Math.max(1, totalPages ? Math.min(newPage, totalPages) : newPage)
     const params = new URLSearchParams(searchParams.toString())
-    if (newPage <= 1) {
-      params.delete('page')
+    if (clamped <= 1) {
+      params.delete(paramName)
     } else {
-      params.set('page', String(newPage))
+      params.set(paramName, String(clamped))
     }
     const qs = params.toString()
     router.push(qs ? `${pathname}?${qs}` : pathname)

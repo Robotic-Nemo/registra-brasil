@@ -1,5 +1,6 @@
 /** Capitalize first letter */
-export function capitalize(str: string): string {
+export function capitalize(str: string | null | undefined): string {
+  if (!str) return ''
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
@@ -19,13 +20,25 @@ export function pluralizePt(count: number, singular: string, plural: string): st
 }
 
 /** Remove HTML tags from a string */
-export function stripHtml(html: string): string {
-  return html.replace(/<[^>]*>/g, '')
+export function stripHtml(html: string | null | undefined): string {
+  if (!html) return ''
+  return html
+    .replace(/<[^>]*>/g, '')
+    // Decode common HTML entities
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&apos;/g, "'")
 }
 
 /** Truncate at word boundary */
-export function truncateWords(str: string, maxWords: number): string {
-  const words = str.split(/\s+/)
+export function truncateWords(str: string | null | undefined, maxWords: number): string {
+  if (!str) return ''
+  if (!Number.isFinite(maxWords) || maxWords <= 0) return ''
+  const words = str.trim().split(/\s+/).filter(Boolean)
   if (words.length <= maxWords) return str
   return words.slice(0, maxWords).join(' ') + '…'
 }

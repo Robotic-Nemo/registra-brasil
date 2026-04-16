@@ -31,13 +31,19 @@ interface Props {
 
 export function TimeAgo({ date, className, refreshInterval = 60_000 }: Props) {
   const parsed = useMemo(() => new Date(date), [date])
+  const valid = !Number.isNaN(parsed.getTime())
   const [, setTick] = useState(0)
 
   useEffect(() => {
-    if (refreshInterval <= 0) return
+    if (!valid) return
+    if (!Number.isFinite(refreshInterval) || refreshInterval <= 0) return
     const id = setInterval(() => setTick((t) => t + 1), refreshInterval)
     return () => clearInterval(id)
-  }, [refreshInterval])
+  }, [refreshInterval, valid])
+
+  if (!valid) {
+    return <span className={className}>—</span>
+  }
 
   const label = timeAgo(parsed)
   const iso = parsed.toISOString()

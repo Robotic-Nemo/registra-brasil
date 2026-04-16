@@ -80,9 +80,10 @@ export function SearchBar({ initialValue = '', placeholder = 'Buscar declaraçõ
 
   const navigate = useCallback(
     (q: string) => {
+      const trimmed = q.trim()
       const params = new URLSearchParams(searchParams.toString())
-      if (q) {
-        params.set('q', q)
+      if (trimmed) {
+        params.set('q', trimmed)
       } else {
         params.delete('q')
       }
@@ -95,28 +96,36 @@ export function SearchBar({ initialValue = '', placeholder = 'Buscar declaraçõ
   )
 
   useEffect(() => {
-    if (debounced !== initialValue) navigate(debounced)
+    if (debounced.trim() !== initialValue.trim()) navigate(debounced)
   }, [debounced, navigate, initialValue])
 
-  // Fetch suggestions
+  // Fetch suggestions (abortable to avoid stale overwrites)
   useEffect(() => {
-    if (suggestDebounced.length < 2) {
+    const trimmed = suggestDebounced.trim()
+    if (trimmed.length < 2) {
       setSuggestions([])
       return
     }
-    let cancelled = false
-    fetch(`/api/suggest?q=${encodeURIComponent(suggestDebounced)}`)
-      .then((r) => r.json())
-      .then((data: Suggestion[]) => {
-        if (!cancelled) {
-          setSuggestions(data)
+    const controller = new AbortController()
+    fetch(`/api/suggest?q=${encodeURIComponent(trimmed)}`, { signal: controller.signal })
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`)
+        return r.json()
+      })
+      .then((data: unknown) => {
+        if (controller.signal.aborted) return
+        if (Array.isArray(data)) {
+          setSuggestions(data as Suggestion[])
           setActiveIndex(-1)
+        } else {
+          setSuggestions([])
         }
       })
-      .catch(() => {
-        if (!cancelled) setSuggestions([])
+      .catch((err) => {
+        if (err?.name === 'AbortError') return
+        setSuggestions([])
       })
-    return () => { cancelled = true }
+    return () => controller.abort()
   }, [suggestDebounced])
 
   // Close on outside click
@@ -142,10 +151,11 @@ export function SearchBar({ initialValue = '', placeholder = 'Buscar declaraçõ
         setActiveIndex((i) => (i <= 0 ? suggestions.length - 1 : i - 1))
         return
       }
-      if (e.key === 'Enter' && activeIndex >= 0) {
+      if (e.key === 'Enter' && activeIndex >= 0 && activeIndex < suggestions.length) {
         e.preventDefault()
         setShowSuggestions(false)
-        router.push(suggestions[activeIndex].href)
+        const target = suggestions[activeIndex]
+        if (target?.href) router.push(target.href)
         return
       }
     }

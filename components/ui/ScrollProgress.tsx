@@ -22,17 +22,28 @@ export function ScrollProgress({
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
-    function onScroll() {
+    let rafId = 0
+    let ticking = false
+    function update() {
+      ticking = false
       const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
       const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight
       const pct = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0
       setProgress(pct)
     }
+    function onScroll() {
+      if (ticking) return
+      ticking = true
+      rafId = window.requestAnimationFrame(update)
+    }
 
     window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
+    update()
 
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (rafId) window.cancelAnimationFrame(rafId)
+    }
   }, [])
 
   if (progress <= 0) return null

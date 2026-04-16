@@ -6,6 +6,7 @@ import { getStatementsByCategory } from '@/lib/supabase/queries/statements'
 import { StatementGrid } from '@/components/statements/StatementGrid'
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { Pagination } from '@/components/ui/Pagination'
+import { breadcrumbListJsonLd } from '@/lib/utils/structured-data'
 import type { Metadata } from 'next'
 
 export const revalidate = 3600
@@ -29,14 +30,33 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params
   const supabase = await getSupabaseServerClient()
   const cat = await getCategoryBySlug(supabase, slug)
-  if (!cat) return { title: 'Categoria não encontrada' }
+  if (!cat) {
+    return {
+      title: 'Categoria não encontrada',
+      robots: { index: false, follow: true },
+    }
+  }
   const title = `${cat.label_pt} — Registra Brasil`
   const description = cat.description ?? `Declarações classificadas como ${cat.label_pt}`
   return {
     title,
     description,
-    openGraph: { title, description },
-    alternates: { canonical: `/categorias/${slug}` },
+    keywords: [cat.label_pt, cat.label_en, 'declarações', 'políticos', 'brasil'].filter(Boolean) as string[],
+    openGraph: {
+      title,
+      description,
+      type: 'website',
+      siteName: 'Registra Brasil',
+    },
+    twitter: {
+      card: 'summary',
+      title,
+      description,
+    },
+    alternates: {
+      canonical: `/categorias/${slug}`,
+      languages: { 'pt-BR': `/categorias/${slug}` },
+    },
   }
 }
 
@@ -61,12 +81,20 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
     description: category.description ?? `Declarações classificadas como ${category.label_pt}`,
     url: `${siteUrl}/categorias/${slug}`,
     numberOfItems: result.total,
-    publisher: { '@type': 'Organization', name: 'Registra Brasil' },
+    inLanguage: 'pt-BR',
+    publisher: { '@type': 'Organization', name: 'Registra Brasil', url: siteUrl },
   }
+
+  const breadcrumbLd = breadcrumbListJsonLd([
+    { name: 'Início', url: '/' },
+    { name: 'Categorias', url: '/categorias' },
+    { name: category.label_pt, url: `/categorias/${slug}` },
+  ])
 
   return (
     <main className="max-w-5xl mx-auto px-4 py-8">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <Breadcrumbs items={[
         { label: 'Categorias', href: '/categorias' },
         { label: category.label_pt },

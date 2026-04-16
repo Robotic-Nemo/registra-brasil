@@ -4,6 +4,15 @@
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://registrabrasil.com.br'
 
+function escapeHtmlAttr(s: string): string {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+}
+
 /**
  * Generate the embed URL for a statement.
  */
@@ -29,7 +38,7 @@ export function getStatementIframeCode(
   const url = getStatementEmbedUrl(idOrSlug)
   const w = typeof width === 'number' ? `${width}px` : width
   const h = typeof height === 'number' ? `${height}px` : height
-  return `<iframe src="${url}" width="${w}" height="${h}" frameborder="0" style="border:1px solid #e5e7eb;border-radius:8px;" loading="lazy" title="Registra Brasil - Declaracao"></iframe>`
+  return `<iframe src="${escapeHtmlAttr(url)}" width="${escapeHtmlAttr(w)}" height="${escapeHtmlAttr(h)}" frameborder="0" style="border:1px solid #e5e7eb;border-radius:8px;" loading="lazy" title="Registra Brasil - Declaracao"></iframe>`
 }
 
 /**
@@ -43,7 +52,7 @@ export function getPoliticianIframeCode(
   const url = getPoliticianEmbedUrl(slug)
   const w = typeof width === 'number' ? `${width}px` : width
   const h = typeof height === 'number' ? `${height}px` : height
-  return `<iframe src="${url}" width="${w}" height="${h}" frameborder="0" style="border:1px solid #e5e7eb;border-radius:8px;" loading="lazy" title="Registra Brasil - Politico"></iframe>`
+  return `<iframe src="${escapeHtmlAttr(url)}" width="${escapeHtmlAttr(w)}" height="${escapeHtmlAttr(h)}" frameborder="0" style="border:1px solid #e5e7eb;border-radius:8px;" loading="lazy" title="Registra Brasil - Politico"></iframe>`
 }
 
 /**

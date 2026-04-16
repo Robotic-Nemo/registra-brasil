@@ -40,8 +40,23 @@ const nextConfig: NextConfig = {
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'X-Frame-Options', value: 'DENY' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+          {
+            key: 'Permissions-Policy',
+            value: [
+              'camera=()',
+              'microphone=()',
+              'geolocation=()',
+              'payment=()',
+              'usb=()',
+              'magnetometer=()',
+              'gyroscope=()',
+              'accelerometer=()',
+              'interest-cohort=()',
+            ].join(', '),
+          },
           { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
+          { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
+          { key: 'X-DNS-Prefetch-Control', value: 'on' },
           {
             key: 'Content-Security-Policy',
             value: [
@@ -50,19 +65,30 @@ const nextConfig: NextConfig = {
               isDev
                 ? "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.youtube.com"
                 : "script-src 'self' 'unsafe-inline' https://www.youtube.com",
-              "frame-src https://www.youtube.com",
-              "img-src 'self' data: https://img.youtube.com https://i.ytimg.com https://*.supabase.co https://www.camara.leg.br https://www25.senado.leg.br https://upload.wikimedia.org https://divulgacandcontas.tse.jus.br https://www.gravatar.com",
+              "frame-src https://www.youtube.com https://www.youtube-nocookie.com",
+              "img-src 'self' data: blob: https://img.youtube.com https://i.ytimg.com https://*.supabase.co https://www.camara.leg.br https://www25.senado.leg.br https://upload.wikimedia.org https://divulgacandcontas.tse.jus.br https://www.gravatar.com",
               "style-src 'self' 'unsafe-inline'",
+              "font-src 'self' data:",
               "connect-src 'self' https://*.supabase.co https://www.googleapis.com",
+              "media-src 'self' https://*.supabase.co",
+              "manifest-src 'self'",
+              "worker-src 'self' blob:",
+              "object-src 'none'",
+              "base-uri 'self'",
+              "form-action 'self'",
+              "frame-ancestors 'none'",
+              "upgrade-insecure-requests",
             ].join('; '),
           },
         ],
       },
-      // No-cache for admin routes
+      // No-cache and noindex for admin routes
       {
         source: '/admin/(.*)',
         headers: [
-          { key: 'Cache-Control', value: 'no-store' },
+          { key: 'Cache-Control', value: 'no-store, no-cache, must-revalidate, private' },
+          { key: 'Pragma', value: 'no-cache' },
+          { key: 'X-Robots-Tag', value: 'noindex, nofollow, noarchive' },
         ],
       },
       // Prevent indexing of API routes
@@ -70,6 +96,16 @@ const nextConfig: NextConfig = {
         source: '/api/(.*)',
         headers: [
           { key: 'X-Robots-Tag', value: 'noindex' },
+        ],
+      },
+      // Note: /_next/static/ Cache-Control is managed by Next itself and should
+      // not be overridden.
+      // Font files are immutable
+      {
+        source: '/fonts/(.*)',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+          { key: 'Access-Control-Allow-Origin', value: '*' },
         ],
       },
     ]

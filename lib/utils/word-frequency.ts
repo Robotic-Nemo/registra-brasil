@@ -24,12 +24,13 @@ export interface WordFrequency {
  * Extract word frequencies from text, excluding Portuguese stop words
  */
 export function getWordFrequencies(
-  text: string,
+  text: string | null | undefined,
   options: { minLength?: number; maxWords?: number } = {}
 ): WordFrequency[] {
   const { minLength = 3, maxWords = 100 } = options
+  if (!text) return []
 
-  const words = text
+  const words = String(text)
     .toLowerCase()
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
@@ -58,7 +59,8 @@ export function getWordFrequencies(
 /**
  * Combine word frequencies from multiple texts
  */
-export function combineFrequencies(texts: string[], maxWords = 100): WordFrequency[] {
-  const combined = texts.join(' ')
+export function combineFrequencies(texts: (string | null | undefined)[], maxWords = 100): WordFrequency[] {
+  const combined = (texts ?? []).filter((t): t is string => typeof t === 'string' && t.length > 0).join(' ')
+  if (!combined) return []
   return getWordFrequencies(combined, { maxWords })
 }

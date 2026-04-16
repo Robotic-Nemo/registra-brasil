@@ -5,7 +5,8 @@
 /**
  * Validate a CPF number
  */
-export function isValidCpf(cpf: string): boolean {
+export function isValidCpf(cpf: string | null | undefined): boolean {
+  if (!cpf || typeof cpf !== 'string') return false
   const digits = cpf.replace(/\D/g, '')
 
   if (digits.length !== 11) return false
@@ -35,7 +36,8 @@ export function isValidCpf(cpf: string): boolean {
 /**
  * Format a CPF: 12345678901 → 123.456.789-01
  */
-export function formatCpf(cpf: string): string {
+export function formatCpf(cpf: string | null | undefined): string {
+  if (!cpf) return ''
   const digits = cpf.replace(/\D/g, '')
   if (digits.length !== 11) return cpf
   return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6, 9)}-${digits.slice(9)}`
@@ -44,7 +46,8 @@ export function formatCpf(cpf: string): string {
 /**
  * Mask a CPF for display: 123.456.789-01 → 123.***.***-01
  */
-export function maskCpf(cpf: string): string {
+export function maskCpf(cpf: string | null | undefined): string {
+  if (!cpf) return ''
   const digits = cpf.replace(/\D/g, '')
   if (digits.length !== 11) return cpf
   return `${digits.slice(0, 3)}.***.***-${digits.slice(9)}`

@@ -4,8 +4,9 @@
  * which decomposes them into base letters + combining marks before stripping accents.
  * Examples: "ação" → "acao", "saúde" → "saude", "coração" → "coracao"
  */
-export function slugify(text: string): string {
-  const slug = text
+export function slugify(text: string | null | undefined): string {
+  if (!text) return 'sem-titulo'
+  const slug = String(text)
     .toLowerCase()
     // NFD decomposes accented chars into base letter + combining diacritic:
     // ã → a + ̃, ç → c + ̧, é → e + ́, etc.

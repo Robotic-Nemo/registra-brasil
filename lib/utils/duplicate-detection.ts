@@ -91,8 +91,9 @@ export function detectDuplicates(
   return candidates.sort((a, b) => b.similarity - a.similarity)
 }
 
-function normalize(text: string): string {
-  return text
+function normalize(text: string | null | undefined): string {
+  if (!text) return ''
+  return String(text)
     .toLowerCase()
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')

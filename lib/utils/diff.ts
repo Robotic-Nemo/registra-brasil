@@ -10,9 +10,12 @@ export interface DiffSegment {
 /**
  * Simple word-level diff between two strings
  */
-export function wordDiff(oldText: string, newText: string): DiffSegment[] {
-  const oldWords = oldText.split(/(\s+)/)
-  const newWords = newText.split(/(\s+)/)
+export function wordDiff(oldText: string | null | undefined, newText: string | null | undefined): DiffSegment[] {
+  const safeOld = oldText ?? ''
+  const safeNew = newText ?? ''
+  if (!safeOld && !safeNew) return []
+  const oldWords = safeOld.split(/(\s+)/)
+  const newWords = safeNew.split(/(\s+)/)
 
   // Simple LCS-based diff
   const m = oldWords.length

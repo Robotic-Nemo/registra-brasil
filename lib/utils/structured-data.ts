@@ -208,6 +208,121 @@ export function faqPageJsonLd(items: FAQItem[]): Record<string, unknown> {
   }
 }
 
+interface ArticleSchemaInput {
+  headline: string
+  description: string
+  datePublished: string
+  dateModified?: string
+  authorName: string
+  authorUrl?: string
+  url: string
+  imageUrl?: string
+}
+
+/**
+ * Generate Article JSON-LD schema — complements ClaimReview for richer surfacing.
+ */
+export function articleJsonLd(input: ArticleSchemaInput): Record<string, unknown> {
+  const schema: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: input.headline.slice(0, 110), // Google prefers <110 chars
+    description: input.description,
+    datePublished: input.datePublished,
+    dateModified: input.dateModified ?? input.datePublished,
+    author: {
+      '@type': 'Person',
+      name: input.authorName,
+      ...(input.authorUrl ? { url: input.authorUrl } : {}),
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      url: SITE_URL,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${SITE_URL}/icon.png`,
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': input.url.startsWith('http') ? input.url : `${SITE_URL}${input.url}`,
+    },
+  }
+  if (input.imageUrl) {
+    schema.image = input.imageUrl
+  }
+  return schema
+}
+
+interface ItemListEntry {
+  name: string
+  url: string
+}
+
+/**
+ * Generate ItemList JSON-LD — useful for listing pages.
+ */
+export function itemListJsonLd(items: ItemListEntry[], name?: string): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    ...(name ? { name } : {}),
+    numberOfItems: items.length,
+    itemListElement: items.map((it, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: it.name,
+      url: it.url.startsWith('http') ? it.url : `${SITE_URL}${it.url}`,
+    })),
+  }
+}
+
+interface CollectionPageInput {
+  name: string
+  description: string
+  url: string
+}
+
+/**
+ * Generate CollectionPage JSON-LD — useful for category, tag, and archive pages.
+ */
+export function collectionPageJsonLd(input: CollectionPageInput): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: input.name,
+    description: input.description,
+    url: input.url.startsWith('http') ? input.url : `${SITE_URL}${input.url}`,
+    isPartOf: {
+      '@type': 'WebSite',
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    inLanguage: 'pt-BR',
+  }
+}
+
+interface OrganizationSchemaInput {
+  description?: string
+  sameAs?: string[]
+}
+
+/**
+ * Generate Organization JSON-LD for the publisher entity (About page etc).
+ */
+export function organizationJsonLd(input: OrganizationSchemaInput = {}): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: SITE_NAME,
+    url: SITE_URL,
+    logo: `${SITE_URL}/icon.png`,
+    ...(input.description ? { description: input.description } : {}),
+    ...(input.sameAs && input.sameAs.length > 0 ? { sameAs: input.sameAs } : {}),
+  }
+}
+
 /**
  * Render JSON-LD as a script tag string for use in Next.js metadata.
  */

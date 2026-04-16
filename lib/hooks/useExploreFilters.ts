@@ -21,18 +21,28 @@ export function useExploreFilters() {
   const router = useRouter()
   const pathname = usePathname()
 
-  const filters: ExploreFilters = useMemo(() => ({
-    partido: searchParams.get('partido') ?? undefined,
-    estado: searchParams.get('estado') ?? undefined,
-    categoria: searchParams.get('categoria') ?? undefined,
-    de: searchParams.get('de') ?? undefined,
-    ate: searchParams.get('ate') ?? undefined,
-    status: searchParams.get('status') ?? undefined,
-    q: searchParams.get('q') ?? undefined,
-    ordem: searchParams.get('ordem') ?? undefined,
-    visualizacao: (searchParams.get('visualizacao') as ExploreFilters['visualizacao']) ?? undefined,
-    pagina: searchParams.get('pagina') ? Number(searchParams.get('pagina')) : undefined,
-  }), [searchParams])
+  const filters: ExploreFilters = useMemo(() => {
+    const rawPagina = searchParams.get('pagina')
+    const paginaNum = rawPagina ? parseInt(rawPagina, 10) : NaN
+    const pagina = Number.isFinite(paginaNum) && paginaNum >= 1 ? paginaNum : undefined
+    const rawView = searchParams.get('visualizacao')
+    const validViews = new Set(['grid', 'lista', 'timeline'])
+    const visualizacao = rawView && validViews.has(rawView)
+      ? (rawView as ExploreFilters['visualizacao'])
+      : undefined
+    return {
+      partido: searchParams.get('partido') || undefined,
+      estado: searchParams.get('estado') || undefined,
+      categoria: searchParams.get('categoria') || undefined,
+      de: searchParams.get('de') || undefined,
+      ate: searchParams.get('ate') || undefined,
+      status: searchParams.get('status') || undefined,
+      q: searchParams.get('q')?.trim() || undefined,
+      ordem: searchParams.get('ordem') || undefined,
+      visualizacao,
+      pagina,
+    }
+  }, [searchParams])
 
   const activeCount = useMemo(() => {
     let count = 0
@@ -57,7 +67,8 @@ export function useExploreFilters() {
     if (key !== 'pagina') {
       params.delete('pagina')
     }
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
+    const qs = params.toString()
+    router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: false })
   }, [searchParams, router, pathname])
 
   const setFilters = useCallback((updates: Partial<ExploreFilters>) => {
@@ -70,7 +81,8 @@ export function useExploreFilters() {
       }
     }
     params.delete('pagina')
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
+    const qs = params.toString()
+    router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: false })
   }, [searchParams, router, pathname])
 
   const removeFilter = useCallback((key: keyof ExploreFilters) => {

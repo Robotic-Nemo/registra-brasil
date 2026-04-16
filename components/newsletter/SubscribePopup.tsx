@@ -20,7 +20,12 @@ export default function SubscribePopup({ delayMs = 15_000, storageKey = 'rb-news
   useEffect(() => {
     if (typeof window === 'undefined') return
 
-    const dismissed = localStorage.getItem(storageKey)
+    let dismissed: string | null = null
+    try {
+      dismissed = localStorage.getItem(storageKey)
+    } catch {
+      // localStorage may be unavailable (private browsing, SSR edge, etc.)
+    }
     if (dismissed) return
 
     const timer = setTimeout(() => setVisible(true), delayMs)
@@ -35,6 +40,16 @@ export default function SubscribePopup({ delayMs = 15_000, storageKey = 'rb-news
       // localStorage may be unavailable
     }
   }, [storageKey])
+
+  // Allow ESC to dismiss the popup
+  useEffect(() => {
+    if (!visible) return
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') dismiss()
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [visible, dismiss])
 
   if (!visible) return null
 

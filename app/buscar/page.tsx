@@ -18,7 +18,9 @@ interface PageProps {
 
 export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
   const sp = await searchParams
-  const q = typeof sp.q === 'string' ? sp.q : ''
+  // Trim and cap length so overlong queries can't bloat metadata.
+  const rawQ = typeof sp.q === 'string' ? sp.q.trim() : ''
+  const q = rawQ.length > 60 ? `${rawQ.slice(0, 57)}...` : rawQ
   const title = q ? `"${q}" — Buscar — Registra Brasil` : 'Buscar — Registra Brasil'
   const description = q
     ? `Resultados para "${q}" no Registra Brasil — arquivo de declarações de políticos brasileiros.`

@@ -18,11 +18,17 @@ export function SearchResultCard({ statement, query }: SearchResultCardProps) {
   const primaryCategory = statement.statement_categories?.find((sc) => sc.is_primary)?.categories
   const otherCategories = statement.statement_categories?.filter((sc) => !sc.is_primary && sc.categories) ?? []
 
-  const formattedDate = new Date(statement.statement_date + 'T00:00:00').toLocaleDateString('pt-BR', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  })
+  // Guard against null/invalid dates so the card still renders.
+  const dateObj = statement.statement_date
+    ? new Date(statement.statement_date + 'T00:00:00')
+    : null
+  const formattedDate = dateObj && !Number.isNaN(dateObj.getTime())
+    ? dateObj.toLocaleDateString('pt-BR', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      })
+    : ''
 
   return (
     <article className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
@@ -97,14 +103,15 @@ export function SearchResultCard({ statement, query }: SearchResultCardProps) {
   )
 }
 
-function HighlightedText({ text, query }: { text: string; query?: string }) {
+function HighlightedText({ text, query }: { text: string | null | undefined; query?: string }) {
+  const safeText = text ?? ''
   if (!query || !query.trim()) {
-    return <>{text}</>
+    return <>{safeText}</>
   }
 
-  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const escaped = query.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
   const regex = new RegExp(`(${escaped})`, 'gi')
-  const parts = text.split(regex)
+  const parts = safeText.split(regex)
 
   return (
     <>

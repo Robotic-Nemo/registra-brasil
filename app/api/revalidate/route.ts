@@ -1,16 +1,44 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { revalidatePath } from 'next/cache'
+import { checkRateLimit, getRateLimitKey } from '@/lib/utils/rate-limit'
 
 export const runtime = 'nodejs'
 
+// Restrict slugs to prevent injection via revalidatePath.
+const SLUG_PATTERN = /^[a-z0-9](?:[a-z0-9-]{0,98}[a-z0-9])?$/
+
+function timingSafeEqual(a: string, b: string): boolean {
+  const len = Math.max(a.length, b.length)
+  let result = a.length === b.length ? 0 : 1
+  for (let i = 0; i < len; i++) {
+    result |= (a.charCodeAt(i) || 0) ^ (b.charCodeAt(i) || 0)
+  }
+  return result === 0
+}
+
 export async function POST(req: NextRequest) {
-  // Accept Authorization header (preferred) or query param as fallback for legacy callers
+  // Rate limit to prevent secret brute-force.
+  const rl = checkRateLimit(getRateLimitKey(req, 'revalidate'), {
+    limit: 30,
+    windowMs: 60_000,
+  })
+  if (!rl.allowed) {
+    return NextResponse.json(
+      { error: 'Rate limited' },
+      {
+        status: 429,
+        headers: { 'Retry-After': String(Math.ceil((rl.resetAt - Date.now()) / 1000)) },
+      }
+    )
+  }
+
   const authHeader = req.headers.get('authorization') ?? ''
   const headerSecret = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null
-  const querySecret = req.nextUrl.searchParams.get('secret')
-  const secret = headerSecret ?? querySecret
+  // Header-only — query secrets leak via logs.
+  const secret = headerSecret ?? ''
+  const expected = process.env.REVALIDATE_SECRET
 
-  if (!secret || secret !== process.env.REVALIDATE_SECRET) {
+  if (!expected || !secret || !timingSafeEqual(secret, expected)) {
     return NextResponse.json({ error: 'Invalid secret' }, { status: 401 })
   }
 
@@ -34,8 +62,11 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  if (body.politician_slug) tryRevalidate(`/politico/${body.politician_slug}`)
-  if (body.statement_slug) tryRevalidate(`/declaracao/${body.statement_slug}`)
+  const isValidSlug = (s: unknown): s is string =>
+    typeof s === 'string' && SLUG_PATTERN.test(s)
+
+  if (isValidSlug(body.politician_slug)) tryRevalidate(`/politico/${body.politician_slug}`)
+  if (isValidSlug(body.statement_slug)) tryRevalidate(`/declaracao/${body.statement_slug}`)
   tryRevalidate('/buscar')
   tryRevalidate('/')
   tryRevalidate('/politicos')

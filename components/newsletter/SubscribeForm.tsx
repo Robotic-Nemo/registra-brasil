@@ -24,9 +24,14 @@ export default function SubscribeForm({ compact = false, className = '', onSucce
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault()
+      // Guard against double-submit from Enter or rapid clicks.
+      if (state === 'loading') return
       setErrorMessage('')
 
-      if (!email || !isValidEmail(email)) {
+      const trimmedEmail = email.trim()
+      const trimmedName = name.trim()
+
+      if (!trimmedEmail || !isValidEmail(trimmedEmail)) {
         setErrorMessage('Por favor, insira um email valido.')
         setState('error')
         return
@@ -38,7 +43,7 @@ export default function SubscribeForm({ compact = false, className = '', onSucce
         const res = await fetch('/api/newsletter/subscribe', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, name: name || undefined }),
+          body: JSON.stringify({ email: trimmedEmail, name: trimmedName || undefined }),
         })
 
         if (!res.ok) {
@@ -55,7 +60,7 @@ export default function SubscribeForm({ compact = false, className = '', onSucce
         setErrorMessage(err instanceof Error ? err.message : 'Erro ao se inscrever')
       }
     },
-    [email, name, onSuccess]
+    [email, name, onSuccess, state]
   )
 
   if (state === 'success') {

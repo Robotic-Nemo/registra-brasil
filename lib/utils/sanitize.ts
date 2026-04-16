@@ -5,9 +5,10 @@
  * Note: For rich-text rendering, prefer a dedicated library like DOMPurify.
  * This utility is for plain-text contexts (search inputs, display text, etc.).
  */
-export function sanitizeHtml(str: string): string {
+export function sanitizeHtml(str: string | null | undefined): string {
+  if (!str) return ''
   // First pass: remove all HTML/XML tags
-  let result = str.replace(/<[^>]*>/g, '')
+  let result = String(str).replace(/<[^>]*>/g, '')
   // Decode common HTML entities
   result = result
     .replace(/&amp;/g, '&')

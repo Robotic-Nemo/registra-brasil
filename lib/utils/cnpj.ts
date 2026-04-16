@@ -8,7 +8,8 @@ const CNPJ_WEIGHTS_2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
 /**
  * Validate a CNPJ number
  */
-export function isValidCnpj(cnpj: string): boolean {
+export function isValidCnpj(cnpj: string | null | undefined): boolean {
+  if (!cnpj || typeof cnpj !== 'string') return false
   const digits = cnpj.replace(/\D/g, '')
 
   if (digits.length !== 14) return false
@@ -38,7 +39,8 @@ export function isValidCnpj(cnpj: string): boolean {
 /**
  * Format a CNPJ: 12345678000199 → 12.345.678/0001-99
  */
-export function formatCnpj(cnpj: string): string {
+export function formatCnpj(cnpj: string | null | undefined): string {
+  if (!cnpj) return ''
   const digits = cnpj.replace(/\D/g, '')
   if (digits.length !== 14) return cnpj
   return `${digits.slice(0, 2)}.${digits.slice(2, 5)}.${digits.slice(5, 8)}/${digits.slice(8, 12)}-${digits.slice(12)}`

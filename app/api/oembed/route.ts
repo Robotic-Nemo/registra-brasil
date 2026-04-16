@@ -1,9 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { checkRateLimit, getRateLimitKey } from '@/lib/utils/rate-limit'
 
 export const runtime = 'edge'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://registrabrasil.com.br'
 const SITE_NAME = 'Registra Brasil'
+
+const SLUG_PATTERN = /^[a-z0-9](?:[a-z0-9-]{0,98}[a-z0-9])?$/
+
+function clampDimension(raw: string | null, fallback: number, min: number, max: number): number {
+  const n = Number(raw)
+  if (!Number.isFinite(n) || n <= 0) return fallback
+  return Math.min(Math.max(Math.floor(n), min), max)
+}
 
 interface OEmbedResponse {
   version: string
@@ -27,11 +36,25 @@ interface OEmbedResponse {
  *   - /politico/:slug
  */
 export async function GET(request: NextRequest) {
+  const rl = checkRateLimit(getRateLimitKey(request, 'oembed'), {
+    limit: 120,
+    windowMs: 60_000,
+  })
+  if (!rl.allowed) {
+    return NextResponse.json(
+      { error: 'Rate limited' },
+      {
+        status: 429,
+        headers: { 'Retry-After': String(Math.ceil((rl.resetAt - Date.now()) / 1000)) },
+      }
+    )
+  }
+
   const { searchParams } = new URL(request.url)
   const url = searchParams.get('url')
   const format = searchParams.get('format') ?? 'json'
-  const maxWidth = Math.min(Number(searchParams.get('maxwidth')) || 600, 800)
-  const maxHeight = Math.min(Number(searchParams.get('maxheight')) || 400, 600)
+  const maxWidth = clampDimension(searchParams.get('maxwidth'), 600, 200, 800)
+  const maxHeight = clampDimension(searchParams.get('maxheight'), 400, 150, 600)
 
   if (format !== 'json') {
     return NextResponse.json(
@@ -65,7 +88,10 @@ export async function GET(request: NextRequest) {
   const statementMatch = pathname.match(/^\/declaracao\/([^/]+)$/)
   if (statementMatch) {
     const slug = statementMatch[1]
-    const embedUrl = `${SITE_URL}/embed/declaracao/${slug}`
+    if (!SLUG_PATTERN.test(slug)) {
+      return NextResponse.json({ error: 'Invalid slug' }, { status: 400 })
+    }
+    const embedUrl = `${SITE_URL}/embed/declaracao/${encodeURIComponent(slug)}`
 
     const response: OEmbedResponse = {
       version: '1.0',
@@ -90,7 +116,10 @@ export async function GET(request: NextRequest) {
   const politicianMatch = pathname.match(/^\/politico\/([^/]+)$/)
   if (politicianMatch) {
     const slug = politicianMatch[1]
-    const embedUrl = `${SITE_URL}/embed/politico/${slug}`
+    if (!SLUG_PATTERN.test(slug)) {
+      return NextResponse.json({ error: 'Invalid slug' }, { status: 400 })
+    }
+    const embedUrl = `${SITE_URL}/embed/politico/${encodeURIComponent(slug)}`
 
     const response: OEmbedResponse = {
       version: '1.0',

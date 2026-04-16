@@ -33,6 +33,7 @@ export function Footer() {
               <li><Link href="/linha-do-tempo" className="hover:text-gray-900">Linha do Tempo</Link></li>
               <li><Link href="/partidos" className="hover:text-gray-900">Partidos</Link></li>
               <li><Link href="/estados" className="hover:text-gray-900">Estados</Link></li>
+              <li><Link href="/ranking" className="hover:text-gray-900">Ranking</Link></li>
             </ul>
           </div>
           <div>
@@ -41,6 +42,10 @@ export function Footer() {
               <li><Link href="/sobre" className="hover:text-gray-900">Metodologia</Link></li>
               <li><Link href="/sobre#fontes" className="hover:text-gray-900">Fontes aceitas</Link></li>
               <li><Link href="/contato" className="hover:text-gray-900">Contato</Link></li>
+              <li><Link href="/imprensa" className="hover:text-gray-900">Imprensa</Link></li>
+              <li><Link href="/dados" className="hover:text-gray-900">Dados abertos</Link></li>
+              <li><Link href="/desenvolvedores" className="hover:text-gray-900">Para devs</Link></li>
+              <li><Link href="/retratacoes" className="hover:text-gray-900">Retratações</Link></li>
               <li><Link href="/api-docs" className="hover:text-gray-900"><span lang="en">API</span></Link></li>
               <li>
                 <a href="/feed.xml" rel="noopener noreferrer" type="application/rss+xml" className="inline-flex items-center gap-1 hover:text-gray-900">

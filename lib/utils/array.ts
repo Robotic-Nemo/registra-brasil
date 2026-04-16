@@ -28,10 +28,11 @@ export function uniqueBy<T>(items: T[], keyFn: (item: T) => string): T[] {
  * Chunk an array into groups of a given size.
  */
 export function chunk<T>(items: T[], size: number): T[][] {
-  if (size <= 0) return items.length > 0 ? [items] : []
+  if (!Number.isFinite(size) || size <= 0) return items.length > 0 ? [items] : []
+  const chunkSize = Math.floor(size)
   const result: T[][] = []
-  for (let i = 0; i < items.length; i += size) {
-    result.push(items.slice(i, i + size))
+  for (let i = 0; i < items.length; i += chunkSize) {
+    result.push(items.slice(i, i + chunkSize))
   }
   return result
 }

@@ -35,7 +35,8 @@ export const YOUTUBE_URL_REGEX = /(?:youtube\.com\/(?:watch\?v=|embed\/|v\/)|you
 /**
  * Extract YouTube video ID from a URL
  */
-export function extractYouTubeId(url: string): string | null {
+export function extractYouTubeId(url: string | null | undefined): string | null {
+  if (!url || typeof url !== 'string') return null
   const match = url.match(YOUTUBE_URL_REGEX)
   return match?.[1] ?? null
 }
@@ -43,14 +44,17 @@ export function extractYouTubeId(url: string): string | null {
 /**
  * Escape special regex characters
  */
-export function escapeRegex(str: string): string {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+export function escapeRegex(str: string | null | undefined): string {
+  if (!str) return ''
+  return String(str).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
 /**
  * Create a case-insensitive search regex with accent folding
  */
-export function createSearchRegex(query: string): RegExp {
+export function createSearchRegex(query: string | null | undefined): RegExp {
   const escaped = escapeRegex(query)
+  // Empty pattern would match everywhere — fall back to a never-matching regex.
+  if (!escaped) return /(?!)/g
   return new RegExp(escaped, 'gi')
 }

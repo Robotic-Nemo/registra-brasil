@@ -13,12 +13,19 @@ export function useFocusTrap(ref: RefObject<HTMLElement | null>, active: boolean
     if (!active || !ref.current) return
 
     const container = ref.current
+    // Remember the previously-focused element so we can restore focus on close.
+    const previouslyFocused = document.activeElement as HTMLElement | null
     const focusable = () => Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE))
 
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key !== 'Tab') return
       const elements = focusable()
-      if (elements.length === 0) return
+      if (elements.length === 0) {
+        // Nothing focusable inside — keep focus on the container itself.
+        e.preventDefault()
+        container.focus()
+        return
+      }
 
       const first = elements[0]
       const last = elements[elements.length - 1]
@@ -37,6 +44,12 @@ export function useFocusTrap(ref: RefObject<HTMLElement | null>, active: boolean
     if (elements.length > 0) elements[0].focus()
 
     container.addEventListener('keydown', handleKeyDown)
-    return () => container.removeEventListener('keydown', handleKeyDown)
+    return () => {
+      container.removeEventListener('keydown', handleKeyDown)
+      // Restore focus to the element that had it before the trap was activated.
+      if (previouslyFocused && typeof previouslyFocused.focus === 'function' && document.contains(previouslyFocused)) {
+        previouslyFocused.focus()
+      }
+    }
   }, [ref, active])
 }

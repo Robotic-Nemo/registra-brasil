@@ -13,7 +13,8 @@ export function formatDatePtBR(dateStr: string | null | undefined, approx = fals
   }
 }
 
-export function formatDateShort(dateStr: string): string {
+export function formatDateShort(dateStr: string | null | undefined): string {
+  if (!dateStr) return ''
   try {
     const date = parseISO(dateStr)
     if (!isValid(date)) return dateStr
@@ -23,7 +24,8 @@ export function formatDateShort(dateStr: string): string {
   }
 }
 
-export function formatDateRelative(dateStr: string): string {
+export function formatDateRelative(dateStr: string | null | undefined): string {
+  if (!dateStr) return ''
   try {
     const date = parseISO(dateStr)
     if (!isValid(date)) return dateStr

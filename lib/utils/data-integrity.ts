@@ -5,8 +5,14 @@
 
 import type { SupabaseClient } from '@supabase/supabase-js'
 
+export type IntegrityIssueType =
+  | 'orphaned_record'
+  | 'broken_reference'
+  | 'missing_data'
+  | 'inconsistency'
+
 export interface IntegrityIssue {
-  type: 'orphaned_record' | 'broken_reference' | 'missing_data' | 'inconsistency'
+  type: IntegrityIssueType
   table: string
   description: string
   count: number
@@ -20,6 +26,25 @@ export interface IntegrityReport {
   ok: boolean
 }
 
+const SAMPLE_ID_LIMIT = 5
+const STATEMENTS_QUERY_LIMIT = 10
+const POLITICIANS_QUERY_LIMIT = 100
+
+interface StatementWithCategories {
+  id: string
+  statement_categories: Array<{ id: string }> | null
+}
+
+interface PoliticianWithStatements {
+  id: string
+  slug: string
+  statements: Array<{ id: string }> | null
+}
+
+interface DuplicateSlugRow {
+  slug: string
+}
+
 /**
  * Check for statements without any categories assigned.
  */
@@ -30,12 +55,13 @@ async function checkStatementsWithoutCategories(
     .from('statements')
     .select('id, statement_categories(id)')
     .is('statement_categories', null)
-    .limit(10) as any
+    .limit(STATEMENTS_QUERY_LIMIT)
 
   if (error || !data || data.length === 0) return null
 
-  const statementsWithoutCategories = data.filter(
-    (s: any) => !s.statement_categories || s.statement_categories.length === 0
+  const rows = data as unknown as StatementWithCategories[]
+  const statementsWithoutCategories = rows.filter(
+    (s) => !s.statement_categories || s.statement_categories.length === 0
   )
 
   if (statementsWithoutCategories.length === 0) return null
@@ -45,7 +71,7 @@ async function checkStatementsWithoutCategories(
     table: 'statements',
     description: 'Declarações sem categorias associadas',
     count: statementsWithoutCategories.length,
-    sampleIds: statementsWithoutCategories.slice(0, 5).map((s: any) => s.id),
+    sampleIds: statementsWithoutCategories.slice(0, SAMPLE_ID_LIMIT).map((s) => s.id),
   }
 }
 
@@ -76,18 +102,16 @@ async function checkStatementsMissingFields(
 async function checkPoliticiansWithoutStatements(
   supabase: SupabaseClient
 ): Promise<IntegrityIssue | null> {
-  // Use a simple approach: count politicians with is_active=true and no statements
   const { data: politicians } = await supabase
     .from('politicians')
     .select('id, slug, statements(id)')
     .eq('is_active', true)
-    .limit(100) as any
+    .limit(POLITICIANS_QUERY_LIMIT)
 
   if (!politicians) return null
 
-  const empty = politicians.filter(
-    (p: any) => !p.statements || p.statements.length === 0
-  )
+  const rows = politicians as unknown as PoliticianWithStatements[]
+  const empty = rows.filter((p) => !p.statements || p.statements.length === 0)
 
   if (empty.length === 0) return null
 
@@ -96,7 +120,7 @@ async function checkPoliticiansWithoutStatements(
     table: 'politicians',
     description: 'Políticos ativos sem declarações registradas',
     count: empty.length,
-    sampleIds: empty.slice(0, 5).map((p: any) => p.slug),
+    sampleIds: empty.slice(0, SAMPLE_ID_LIMIT).map((p) => p.slug),
   }
 }
 
@@ -106,18 +130,20 @@ async function checkPoliticiansWithoutStatements(
 async function checkDuplicateSlugs(
   supabase: SupabaseClient
 ): Promise<IntegrityIssue | null> {
-  const { data, error } = await supabase
-    .rpc('check_duplicate_slugs') as any
+  const { data, error } = await supabase.rpc('check_duplicate_slugs')
 
   // RPC might not exist — gracefully handle
-  if (error || !data || data.length === 0) return null
+  if (error || !data) return null
+
+  const rows = data as unknown as DuplicateSlugRow[]
+  if (rows.length === 0) return null
 
   return {
     type: 'inconsistency',
     table: 'statements',
     description: 'Slugs duplicados encontrados',
-    count: data.length,
-    sampleIds: data.slice(0, 5).map((d: any) => d.slug),
+    count: rows.length,
+    sampleIds: rows.slice(0, SAMPLE_ID_LIMIT).map((d) => d.slug),
   }
 }
 

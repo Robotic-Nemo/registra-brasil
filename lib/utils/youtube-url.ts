@@ -46,9 +46,10 @@ export function formatTimestamp(seconds: number): string {
 }
 
 /** Parse HH:MM:SS or MM:SS string into total seconds */
-export function parseTimestamp(input: string): number | null {
-  const parts = input.split(':').map(Number)
-  if (parts.some((p) => !Number.isFinite(p) || p < 0)) return null
+export function parseTimestamp(input: string | null | undefined): number | null {
+  if (!input || typeof input !== 'string') return null
+  const parts = input.trim().split(':').map(Number)
+  if (parts.length === 0 || parts.some((p) => !Number.isFinite(p) || p < 0)) return null
 
   if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2]
   if (parts.length === 2) return parts[0] * 60 + parts[1]

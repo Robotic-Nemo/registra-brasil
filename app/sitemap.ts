@@ -29,6 +29,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/changelog`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.4 },
     { url: `${SITE_URL}/mapa`, lastModified: STATIC_DATE, changeFrequency: 'weekly', priority: 0.6 },
     { url: `${SITE_URL}/nuvem-de-palavras`, lastModified: STATIC_DATE, changeFrequency: 'weekly', priority: 0.5 },
+    { url: `${SITE_URL}/narrativas`, lastModified: STATIC_DATE, changeFrequency: 'weekly', priority: 0.6 },
+    { url: `${SITE_URL}/glossario`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.4 },
+    { url: `${SITE_URL}/explorar`, lastModified: STATIC_DATE, changeFrequency: 'daily', priority: 0.7 },
+    { url: `${SITE_URL}/metodologia`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.3 },
+    { url: `${SITE_URL}/estatisticas/categorias`, lastModified: STATIC_DATE, changeFrequency: 'weekly', priority: 0.5 },
+    { url: `${SITE_URL}/estatisticas/estados`, lastModified: STATIC_DATE, changeFrequency: 'weekly', priority: 0.5 },
+    { url: `${SITE_URL}/estatisticas/partidos`, lastModified: STATIC_DATE, changeFrequency: 'weekly', priority: 0.5 },
+    { url: `${SITE_URL}/estatisticas/tendencias`, lastModified: STATIC_DATE, changeFrequency: 'daily', priority: 0.5 },
+    { url: `${SITE_URL}/status`, lastModified: STATIC_DATE, changeFrequency: 'daily', priority: 0.3 },
+    { url: `${SITE_URL}/ranking`, lastModified: STATIC_DATE, changeFrequency: 'daily', priority: 0.6 },
+    { url: `${SITE_URL}/dados`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.4 },
+    { url: `${SITE_URL}/desenvolvedores`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.4 },
+    { url: `${SITE_URL}/imprensa`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.3 },
+    { url: `${SITE_URL}/retratacoes`, lastModified: STATIC_DATE, changeFrequency: 'weekly', priority: 0.4 },
   ]
 
   // Dynamic pages from Supabase
@@ -106,7 +120,39 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.5,
     }))
 
-    return [...staticPages, ...politicianPages, ...categoryPages, ...statementPages, ...partyPages, ...statePages]
+    // Timeline year archives — from earliest statement year to current year.
+    const { data: earliestRow } = await supabase
+      .from('statements')
+      .select('statement_date')
+      .eq('verification_status', 'verified')
+      .order('statement_date', { ascending: true })
+      .limit(1)
+      .maybeSingle()
+
+    const earliestDate = (earliestRow as unknown as { statement_date?: string } | null)?.statement_date
+    const earliestYear = earliestDate
+      ? new Date(earliestDate).getUTCFullYear()
+      : new Date().getUTCFullYear() - 10
+    const currentYear = new Date().getUTCFullYear()
+    const yearPages: MetadataRoute.Sitemap = []
+    for (let y = earliestYear; y <= currentYear; y++) {
+      yearPages.push({
+        url: `${SITE_URL}/linha-do-tempo/${y}`,
+        lastModified: STATIC_DATE,
+        changeFrequency: 'weekly',
+        priority: 0.4,
+      })
+    }
+
+    return [
+      ...staticPages,
+      ...politicianPages,
+      ...categoryPages,
+      ...statementPages,
+      ...partyPages,
+      ...statePages,
+      ...yearPages,
+    ]
   } catch {
     // Fallback if DB is unavailable
     return staticPages

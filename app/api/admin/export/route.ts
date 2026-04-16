@@ -60,10 +60,16 @@ export async function GET(request: NextRequest) {
     'editor_notes', 'created_at',
   ]
 
+  // CSV injection defense: prefix cells Excel/Sheets/Numbers would evaluate
+  // as formulas with a single quote so they render as plain text.
+  const FORMULA_PREFIX = /^[=+\-@\t\r]/
   function csvEscape(val: string | null | undefined): string {
     if (val == null) return ''
-    const str = String(val)
-    if (str.includes(',') || str.includes('"') || str.includes('\n')) {
+    let str = String(val)
+    if (FORMULA_PREFIX.test(str)) {
+      str = `'${str}`
+    }
+    if (str.includes(',') || str.includes('"') || str.includes('\n') || str.includes('\r')) {
       return `"${str.replace(/"/g, '""')}"`
     }
     return str
@@ -97,6 +103,9 @@ export async function GET(request: NextRequest) {
     headers: {
       'Content-Type': 'text/csv; charset=utf-8',
       'Content-Disposition': `attachment; filename="${filename}"`,
+      'Cache-Control': 'private, no-store',
+      'X-Robots-Tag': 'noindex, nofollow',
+      'X-Content-Type-Options': 'nosniff',
     },
   })
 }

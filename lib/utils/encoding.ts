@@ -37,8 +37,11 @@ export function hexEncode(bytes: Uint8Array): string {
     .join('')
 }
 
-/** Hex decode to Uint8Array */
+/** Hex decode to Uint8Array. Throws on invalid input. */
 export function hexDecode(hex: string): Uint8Array {
+  if (typeof hex !== 'string' || hex.length % 2 !== 0 || !/^[0-9a-fA-F]*$/.test(hex)) {
+    throw new Error('Invalid hex string')
+  }
   const bytes = new Uint8Array(hex.length / 2)
   for (let i = 0; i < hex.length; i += 2) {
     bytes[i / 2] = parseInt(hex.slice(i, i + 2), 16)

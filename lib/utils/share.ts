@@ -15,11 +15,17 @@ export interface ShareLinks {
  */
 export function getStatementShareLinks(
   statementId: string,
-  summary: string,
-  politicianName: string
+  summary: string | null | undefined,
+  politicianName: string | null | undefined
 ): ShareLinks {
   const url = `${SITE_URL}/declaracao/${statementId}`
-  const text = `"${summary}" — ${politicianName} | Registra Brasil`
+  const safeSummary = (summary ?? '').trim()
+  const safePolitician = (politicianName ?? '').trim()
+  // Twitter limits share text — trim long summaries so the link is guaranteed to fit.
+  const truncated = safeSummary.length > 180 ? `${safeSummary.slice(0, 177)}...` : safeSummary
+  const text = truncated
+    ? `"${truncated}" — ${safePolitician || 'Registra Brasil'} | Registra Brasil`
+    : `Declaração no Registra Brasil`
   const encodedUrl = encodeURIComponent(url)
   const encodedText = encodeURIComponent(text)
 
@@ -29,7 +35,7 @@ export function getStatementShareLinks(
     whatsapp: `https://wa.me/?text=${encodeURIComponent(`${text}\n${url}`)}`,
     telegram: `https://t.me/share/url?url=${encodedUrl}&text=${encodedText}`,
     linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
-    email: `mailto:?subject=${encodeURIComponent(`Declaração de ${politicianName}`)}&body=${encodeURIComponent(`${text}\n\n${url}`)}`,
+    email: `mailto:?subject=${encodeURIComponent(`Declaração de ${safePolitician || 'político'}`)}&body=${encodeURIComponent(`${text}\n\n${url}`)}`,
     copy: url,
   }
 }

@@ -17,10 +17,12 @@ interface YouTubeEmbedProps {
 
 export function YouTubeEmbed({ videoId, timestampSec, thumbnailUrl, title }: YouTubeEmbedProps) {
   const [playing, setPlaying] = useState(false)
+  const [thumbFailed, setThumbFailed] = useState(false)
 
   // Guard: don't render if videoId is malformed
   if (!videoId || !VALID_VIDEO_ID.test(videoId)) return null
 
+  // Prefer the provided URL; fall back to the default/HQ CDN image; finally an in-component placeholder.
   const thumb = thumbnailUrl ?? `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`
 
   const descId = `yt-desc-${videoId}`
@@ -49,14 +51,21 @@ export function YouTubeEmbed({ videoId, timestampSec, thumbnailUrl, title }: You
       className="relative w-full aspect-video rounded-lg overflow-hidden group"
       aria-label={`Reproduzir: ${title ?? 'vídeo'}`}
     >
-      <Image
-        src={thumb}
-        alt={title ?? 'Thumbnail do vídeo'}
-        fill
-        className="object-cover"
-        sizes="(max-width: 768px) 100vw, 672px"
-        unoptimized={!thumbnailUrl} // YouTube CDN images — no need to re-optimize
-      />
+      {thumbFailed ? (
+        <div className="absolute inset-0 bg-zinc-800 flex items-center justify-center text-zinc-400 text-xs">
+          Prévia indisponível
+        </div>
+      ) : (
+        <Image
+          src={thumb}
+          alt={title ?? 'Thumbnail do vídeo'}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, 672px"
+          unoptimized={!thumbnailUrl} // YouTube CDN images — no need to re-optimize
+          onError={() => setThumbFailed(true)}
+        />
+      )}
       <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors flex items-center justify-center">
         <div className="bg-red-600 rounded-full p-4 group-hover:scale-110 transition-transform">
           <Play className="w-8 h-8 text-white fill-white" />

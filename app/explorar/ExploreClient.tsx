@@ -74,6 +74,7 @@ export function ExploreClient({ statements, total, parties, categories }: Props)
                 hasMore={(filters.pagina ?? 1) * 20 < total}
                 total={total}
                 totalPages={Math.ceil(total / 20)}
+                paramName="pagina"
               />
             </div>
           )}

@@ -1,10 +1,12 @@
 /** Format number with Brazilian locale (e.g., 1.234) */
-export function formatBR(n: number): string {
+export function formatBR(n: number | null | undefined): string {
+  if (n == null || !Number.isFinite(n)) return '0'
   return n.toLocaleString('pt-BR')
 }
 
 /** Format as compact (e.g., 1,2K, 3,4M) */
-export function formatCompact(n: number): string {
+export function formatCompact(n: number | null | undefined): string {
+  if (n == null || !Number.isFinite(n)) return '0'
   return new Intl.NumberFormat('pt-BR', {
     notation: 'compact',
     maximumFractionDigits: 1,
@@ -12,7 +14,8 @@ export function formatCompact(n: number): string {
 }
 
 /** Format as percentage */
-export function formatPercent(value: number, total: number): string {
+export function formatPercent(value: number | null | undefined, total: number | null | undefined): string {
+  if (value == null || total == null || !Number.isFinite(value) || !Number.isFinite(total)) return '0%'
   if (total === 0) return '0%'
   return `${Math.round((value / total) * 100)}%`
 }

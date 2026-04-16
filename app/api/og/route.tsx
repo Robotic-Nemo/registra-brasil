@@ -3,10 +3,15 @@ import { NextRequest } from 'next/server'
 
 export const runtime = 'edge'
 
+const MAX_TITLE_LEN = 200
+const MAX_SUBTITLE_LEN = 200
+
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl
-  const title = searchParams.get('title') ?? 'Registra Brasil'
-  const subtitle = searchParams.get('subtitle') ?? ''
+  const rawTitle = (searchParams.get('title') ?? 'Registra Brasil').slice(0, MAX_TITLE_LEN)
+  const rawSubtitle = (searchParams.get('subtitle') ?? '').slice(0, MAX_SUBTITLE_LEN)
+  const title = rawTitle.replace(/[\u0000-\u001F\u007F]/g, '').trim() || 'Registra Brasil'
+  const subtitle = rawSubtitle.replace(/[\u0000-\u001F\u007F]/g, '').trim()
 
   return new ImageResponse(
     (
@@ -43,6 +48,12 @@ export async function GET(request: NextRequest) {
         )}
       </div>
     ),
-    { width: 1200, height: 630 }
+    {
+      width: 1200,
+      height: 630,
+      headers: {
+        'Cache-Control': 'public, max-age=86400, s-maxage=604800, immutable',
+      },
+    }
   )
 }

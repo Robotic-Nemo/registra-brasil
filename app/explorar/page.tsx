@@ -33,7 +33,9 @@ export default async function ExplorarPage({ searchParams }: PageProps) {
   })
 
   // Build query
-  const page = params.pagina ? Number(params.pagina) : 1
+  const rawPagina = typeof params.pagina === 'string' ? params.pagina : Array.isArray(params.pagina) ? params.pagina[0] : undefined
+  const parsedPage = rawPagina ? parseInt(rawPagina, 10) : 1
+  const page = Math.min(1000, Math.max(1, Number.isFinite(parsedPage) ? parsedPage : 1))
   const limit = 20
   const offset = (page - 1) * limit
 
@@ -54,11 +56,20 @@ export default async function ExplorarPage({ searchParams }: PageProps) {
     query = query.eq('verification_status', 'verified')
   }
 
-  if (typeof params.q === 'string' && params.q) {
-    query = query.textSearch('search_vector', params.q, { type: 'websearch', config: 'portuguese' })
+  if (typeof params.q === 'string' && params.q.trim()) {
+    query = query.textSearch('search_vector', params.q.trim(), { type: 'websearch', config: 'portuguese' })
   }
-  if (typeof params.de === 'string') query = query.gte('statement_date', params.de)
-  if (typeof params.ate === 'string') query = query.lte('statement_date', params.ate)
+  const DATE_RE = /^\d{4}-\d{2}-\d{2}$/
+  let deParam = typeof params.de === 'string' && DATE_RE.test(params.de) ? params.de : undefined
+  let ateParam = typeof params.ate === 'string' && DATE_RE.test(params.ate) ? params.ate : undefined
+  // Swap if user inverted the range
+  if (deParam && ateParam && deParam > ateParam) {
+    const tmp = deParam
+    deParam = ateParam
+    ateParam = tmp
+  }
+  if (deParam) query = query.gte('statement_date', deParam)
+  if (ateParam) query = query.lte('statement_date', ateParam)
 
   // Party/state filter via politician
   if (typeof params.partido === 'string' || typeof params.estado === 'string') {

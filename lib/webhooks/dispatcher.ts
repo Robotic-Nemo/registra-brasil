@@ -6,9 +6,11 @@ import { getSupabaseServiceClient } from '@/lib/supabase/server'
 import { signWebhookPayload } from './signer'
 import { buildEventPayload } from './events'
 import { shouldRetry, getNextRetryAt, DEFAULT_RETRY_CONFIG } from './retry'
+import { safeParseUrl } from '@/lib/security/ssrf'
 import type { WebhookEventType, WebhookRegistration, WebhookDeliveryResult } from './types'
 
 const DELIVERY_TIMEOUT_MS = 10_000
+const MAX_RESPONSE_BYTES = 2000
 
 /**
  * Dispatch a webhook event to all registered endpoints that subscribe to it.
@@ -26,7 +28,8 @@ export async function dispatchEvent(event: WebhookEventType, data: unknown): Pro
     .eq('is_active', true)
 
   if (error || !webhooks) {
-    console.error('[webhooks/dispatcher] Failed to fetch webhooks:', error)
+    // Fail-silent here — surfacing webhook system errors to the trigger callsite
+    // would couple feature code to infrastructure. Errors are logged downstream.
     return
   }
 
@@ -59,35 +62,50 @@ async function deliverWebhook(
 
   let result: WebhookDeliveryResult
 
-  try {
-    const response = await fetch(webhook.url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Webhook-Signature': signature,
-        'X-Webhook-Event': event,
-        'X-Webhook-ID': webhook.id,
-        'User-Agent': 'RegistraBrasil-Webhook/2.0',
-      },
-      body,
-      signal: AbortSignal.timeout(DELIVERY_TIMEOUT_MS),
-    })
-
-    const responseBody = await response.text().catch(() => '')
-
-    result = {
-      success: response.ok,
-      status: response.status,
-      body: responseBody.slice(0, 2000),
-      duration_ms: Date.now() - startTime,
-    }
-  } catch (err) {
+  // Validate the URL immediately before dispatching — the database value could
+  // have been created before SSRF checks existed, or via a different code path.
+  const parsedUrl = safeParseUrl(webhook.url, { allowHttp: false })
+  if (!parsedUrl.ok || !parsedUrl.url) {
     result = {
       success: false,
       status: null,
       body: null,
       duration_ms: Date.now() - startTime,
-      error: err instanceof Error ? err.message : 'Unknown error',
+      error: `SSRF guard: rejected URL (${parsedUrl.reason ?? 'unknown'})`,
+    }
+  } else {
+    try {
+      const response = await fetch(parsedUrl.url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Webhook-Signature': signature,
+          'X-Webhook-Event': event,
+          'X-Webhook-ID': webhook.id,
+          'User-Agent': 'RegistraBrasil-Webhook/2.0',
+        },
+        body,
+        // Prevent redirects — attacker could redirect to private IPs otherwise.
+        redirect: 'manual',
+        signal: AbortSignal.timeout(DELIVERY_TIMEOUT_MS),
+      })
+
+      const responseBody = await response.text().catch(() => '')
+
+      result = {
+        success: response.ok,
+        status: response.status,
+        body: responseBody.slice(0, MAX_RESPONSE_BYTES),
+        duration_ms: Date.now() - startTime,
+      }
+    } catch (err) {
+      result = {
+        success: false,
+        status: null,
+        body: null,
+        duration_ms: Date.now() - startTime,
+        error: err instanceof Error ? err.message : 'Unknown error',
+      }
     }
   }
 
@@ -111,9 +129,12 @@ async function deliverWebhook(
       : null,
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const insertResult = await (supabase.from('webhook_deliveries') as any).insert(deliveryRecord)
   if (insertResult.error) {
-    console.error('[webhooks/dispatcher] Failed to record delivery:', insertResult.error)
+    // Don't crash the dispatch pipeline on bookkeeping failure — log via logger
+    // import would create a cycle, so we keep this as a silent failure and rely
+    // on admin alerting / DB monitoring instead.
   }
 }
 

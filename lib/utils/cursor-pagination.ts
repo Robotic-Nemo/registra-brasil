@@ -45,11 +45,11 @@ export function decodeCursor(cursor: string): CursorData | null {
 }
 
 /** Clamp and parse the limit parameter */
-export function parseLimit(raw: string | null, defaultLimit = 20, maxLimit = 100): number {
+export function parseLimit(raw: string | null | undefined, defaultLimit = 20, maxLimit = 100): number {
   if (!raw) return defaultLimit
-  const n = Number(raw)
-  if (Number.isNaN(n) || n < 1) return defaultLimit
-  return Math.min(n, maxLimit)
+  const n = parseInt(raw, 10)
+  if (!Number.isFinite(n) || n < 1) return defaultLimit
+  return Math.min(Math.floor(n), maxLimit)
 }
 
 /**

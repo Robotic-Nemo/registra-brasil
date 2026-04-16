@@ -23,13 +23,22 @@ interface RssItem {
   categories?: string[]
 }
 
-function escapeXml(str: string): string {
-  return str
+function escapeXml(str: string | null | undefined): string {
+  if (str == null) return ''
+  return String(str)
+    // Strip characters that are illegal in XML 1.0 to prevent readers from choking.
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '')
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&apos;')
+}
+
+function safeToUTCString(value: string | null | undefined): string {
+  if (!value) return new Date(0).toUTCString()
+  const d = new Date(value)
+  return Number.isNaN(d.getTime()) ? new Date(0).toUTCString() : d.toUTCString()
 }
 
 export function buildRssFeed(channel: RssChannel, items: RssItem[]): string {
@@ -45,7 +54,7 @@ export function buildRssFeed(channel: RssChannel, items: RssItem[]): string {
   ]
 
   if (channel.lastBuildDate) {
-    lines.push(`<lastBuildDate>${new Date(channel.lastBuildDate).toUTCString()}</lastBuildDate>`)
+    lines.push(`<lastBuildDate>${safeToUTCString(channel.lastBuildDate)}</lastBuildDate>`)
   }
   if (channel.ttl) {
     lines.push(`<ttl>${channel.ttl}</ttl>`)
@@ -68,7 +77,7 @@ export function buildRssFeed(channel: RssChannel, items: RssItem[]): string {
     lines.push(`<title>${escapeXml(item.title)}</title>`)
     lines.push(`<description>${escapeXml(item.description)}</description>`)
     lines.push(`<link>${escapeXml(item.link)}</link>`)
-    lines.push(`<pubDate>${new Date(item.pubDate).toUTCString()}</pubDate>`)
+    lines.push(`<pubDate>${safeToUTCString(item.pubDate)}</pubDate>`)
     lines.push(`<guid isPermaLink="true">${escapeXml(item.guid ?? item.link)}</guid>`)
     if (item.author) {
       lines.push(`<author>${escapeXml(item.author)}</author>`)

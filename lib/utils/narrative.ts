@@ -114,21 +114,28 @@ export function groupIntoNarratives(
 /**
  * Format a date range as a human-readable string.
  */
-export function formatDateRange(start: string, end: string): string {
-  const startDate = new Date(start + 'T00:00:00')
-  const endDate = new Date(end + 'T00:00:00')
+export function formatDateRange(start: string | null | undefined, end: string | null | undefined): string {
+  if (!start && !end) return ''
+  const startDate = start ? new Date(start + 'T00:00:00') : null
+  const endDate = end ? new Date(end + 'T00:00:00') : null
+  const startValid = startDate && !Number.isNaN(startDate.getTime())
+  const endValid = endDate && !Number.isNaN(endDate.getTime())
+  if (!startValid && !endValid) return ''
+  // Fall back to whichever side is valid.
+  const a = startValid ? startDate! : endDate!
+  const b = endValid ? endDate! : startDate!
 
   const months = [
     'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
     'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez',
   ]
 
-  const startMonth = months[startDate.getMonth()]
-  const endMonth = months[endDate.getMonth()]
-  const startYear = startDate.getFullYear()
-  const endYear = endDate.getFullYear()
+  const startMonth = months[a.getMonth()]
+  const endMonth = months[b.getMonth()]
+  const startYear = a.getFullYear()
+  const endYear = b.getFullYear()
 
-  if (startYear === endYear && startDate.getMonth() === endDate.getMonth()) {
+  if (startYear === endYear && a.getMonth() === b.getMonth()) {
     return `${startMonth} ${startYear}`
   }
   if (startYear === endYear) {
