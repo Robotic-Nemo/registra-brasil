@@ -18,7 +18,15 @@ export async function getCachedResults(cacheKey: string): Promise<YouTubeResult[
     .gt('expires_at', new Date().toISOString())
     .single()
 
-  return data ? (data.results as YouTubeResult[]) : null
+  if (process.env.NODE_ENV === 'development') {
+    if (data) {
+      console.debug('[youtube/cache] Cache hit for key:', cacheKey)
+    } else {
+      console.debug('[youtube/cache] Cache miss for key:', cacheKey)
+    }
+  }
+
+  return data ? ((data as any).results as YouTubeResult[]) : null
 }
 
 export async function setCachedResults(
@@ -30,13 +38,16 @@ export async function setCachedResults(
   const supabase = getSupabaseServiceClient()
   const expiresAt = new Date(Date.now() + CACHE_TTL_HOURS * 60 * 60 * 1000).toISOString()
 
-  await supabase.from('youtube_search_cache').upsert({
-    cache_key: cacheKey,
-    query,
-    results,
-    quota_cost: quotaCost,
-    expires_at: expiresAt,
-  })
+  await supabase.from('youtube_search_cache').upsert(
+    {
+      cache_key: cacheKey,
+      query,
+      results,
+      quota_cost: quotaCost,
+      expires_at: expiresAt,
+    } as any,
+    { onConflict: 'cache_key' }
+  )
 }
 
 // Cleanup expired entries (call from a scheduled function)

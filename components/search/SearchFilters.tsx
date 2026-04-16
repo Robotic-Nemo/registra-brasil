@@ -2,18 +2,9 @@
 
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import type { Category } from '@/types/database'
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { SlidersHorizontal, X } from 'lucide-react'
-
-const STATES = [
-  'AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS',
-  'MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO',
-]
-
-const PARTIES = [
-  'PT','PL','UNIÃO','PP','REPUBLICANOS','MDB','PSD','PDT','PSDB',
-  'PSB','PODE','NOVO','PSOL','SOLIDARIEDADE','AVANTE','PRD','DC',
-]
+import { BRAZILIAN_STATES, BRAZILIAN_PARTIES } from '@/lib/constants/brazil'
 
 interface SearchFiltersProps {
   categories: Category[]
@@ -48,6 +39,18 @@ export function SearchFilters({ categories }: SearchFiltersProps) {
     params.delete('page')
     router.push(`${pathname}?${params.toString()}`)
   }
+
+  const closeMobile = useCallback(() => setMobileOpen(false), [])
+
+  // Close mobile modal on Escape key
+  useEffect(() => {
+    if (!mobileOpen) return
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') closeMobile()
+    }
+    document.addEventListener('keydown', handleKey)
+    return () => document.removeEventListener('keydown', handleKey)
+  }, [mobileOpen, closeMobile])
 
   const selectedCats = searchParams.getAll('categoria')
   const selectedParty = searchParams.get('partido')
@@ -101,7 +104,7 @@ export function SearchFilters({ categories }: SearchFiltersProps) {
           className="w-full text-sm border border-gray-300 rounded-lg px-2.5 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">Todos</option>
-          {PARTIES.map((p) => (
+          {BRAZILIAN_PARTIES.map((p) => (
             <option key={p} value={p}>{p}</option>
           ))}
         </select>
@@ -116,7 +119,7 @@ export function SearchFilters({ categories }: SearchFiltersProps) {
           className="w-full text-sm border border-gray-300 rounded-lg px-2.5 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">Todos</option>
-          {STATES.map((s) => (
+          {BRAZILIAN_STATES.map((s) => (
             <option key={s} value={s}>{s}</option>
           ))}
         </select>
@@ -125,18 +128,52 @@ export function SearchFilters({ categories }: SearchFiltersProps) {
       {/* Date range */}
       <div>
         <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Período</h3>
+        <div className="flex flex-wrap gap-1.5 mb-2">
+          {[
+            { label: '7 dias', days: 7 },
+            { label: '30 dias', days: 30 },
+            { label: '6 meses', days: 180 },
+            { label: '1 ano', days: 365 },
+          ].map((preset) => {
+            const from = new Date(Date.now() - preset.days * 86_400_000).toISOString().slice(0, 10)
+            const isActive = dateFrom === from && !dateTo
+            return (
+              <button
+                key={preset.days}
+                onClick={() => {
+                  const params = new URLSearchParams(searchParams.toString())
+                  if (isActive) {
+                    params.delete('de')
+                  } else {
+                    params.set('de', from)
+                    params.delete('ate')
+                  }
+                  params.delete('page')
+                  router.push(`${pathname}?${params.toString()}`)
+                }}
+                className={`text-xs px-2 py-1 rounded-full border transition-colors ${
+                  isActive ? 'bg-blue-100 border-blue-300 text-blue-700' : 'border-gray-200 text-gray-600 hover:bg-gray-50'
+                }`}
+              >
+                {preset.label}
+              </button>
+            )
+          })}
+        </div>
         <div className="flex flex-col gap-2">
           <input
             type="date"
             value={dateFrom ?? ''}
             onChange={(e) => update('de', e.target.value || null)}
             className="w-full text-sm border border-gray-300 rounded-lg px-2.5 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            aria-label="Data inicial"
           />
           <input
             type="date"
             value={dateTo ?? ''}
             onChange={(e) => update('ate', e.target.value || null)}
             className="w-full text-sm border border-gray-300 rounded-lg px-2.5 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            aria-label="Data final"
           />
         </div>
       </div>
@@ -179,6 +216,7 @@ export function SearchFilters({ categories }: SearchFiltersProps) {
       <div className="lg:hidden">
         <button
           onClick={() => setMobileOpen(true)}
+          data-testid="filter-toggle"
           className="flex items-center gap-2 text-sm border border-gray-300 rounded-lg px-3 py-2 hover:bg-gray-50"
         >
           <SlidersHorizontal className="w-4 h-4" />
@@ -191,12 +229,12 @@ export function SearchFilters({ categories }: SearchFiltersProps) {
         </button>
 
         {mobileOpen && (
-          <div className="fixed inset-0 z-50 flex">
-            <div className="absolute inset-0 bg-black/40" onClick={() => setMobileOpen(false)} />
+          <div className="fixed inset-0 z-50 flex" role="dialog" aria-modal="true" aria-label="Filtros de busca">
+            <div className="absolute inset-0 bg-black/40" onClick={closeMobile} />
             <div className="relative ml-auto w-72 bg-white h-full overflow-y-auto p-5 shadow-xl">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="font-semibold text-gray-900">Filtros</h2>
-                <button onClick={() => setMobileOpen(false)}>
+                <button onClick={closeMobile} aria-label="Fechar filtros">
                   <X className="w-5 h-5 text-gray-500" />
                 </button>
               </div>

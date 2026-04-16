@@ -23,9 +23,15 @@ export async function getSupabaseServerClient() {
 }
 
 // Service role client for server-side write operations (API routes)
+// Memoized — the service client has no per-request state (unlike the cookie-based one)
+let serviceClient: ReturnType<typeof createClient> | null = null
+
 export function getSupabaseServiceClient() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
-  )
+  if (!serviceClient) {
+    serviceClient = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    )
+  }
+  return serviceClient
 }

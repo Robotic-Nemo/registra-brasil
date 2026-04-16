@@ -7,7 +7,7 @@ import { SearchFilters } from '@/components/search/SearchFilters'
 import { CuratedResults } from '@/components/search/CuratedResults'
 import { LiveResults } from '@/components/search/LiveResults'
 import { StatementCardSkeleton } from '@/components/ui/Skeleton'
-import type { SearchParams } from '@/types/search'
+import { parseSearchParams } from '@/lib/utils/validate-search-params'
 import type { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
@@ -19,27 +19,31 @@ interface PageProps {
 export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
   const sp = await searchParams
   const q = typeof sp.q === 'string' ? sp.q : ''
+  const title = q ? `"${q}" — Buscar — Registra Brasil` : 'Buscar — Registra Brasil'
+  const description = q
+    ? `Resultados para "${q}" no Registra Brasil — arquivo de declarações de políticos brasileiros.`
+    : 'Busque declarações de políticos brasileiros com filtros por categoria, partido, estado e período.'
   return {
-    title: q ? `"${q}" — Registra Brasil` : 'Buscar — Registra Brasil',
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: 'website',
+      siteName: 'Registra Brasil',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
+    alternates: { canonical: '/buscar' },
   }
 }
 
 export default async function BuscarPage({ searchParams }: PageProps) {
   const sp = await searchParams
-
-  const params: SearchParams = {
-    q: typeof sp.q === 'string' ? sp.q : undefined,
-    categoria: typeof sp.categoria === 'string' ? [sp.categoria] : (sp.categoria as string[] | undefined),
-    partido: typeof sp.partido === 'string' ? sp.partido : undefined,
-    estado: typeof sp.estado === 'string' ? sp.estado : undefined,
-    politico: typeof sp.politico === 'string' ? sp.politico : undefined,
-    de: typeof sp.de === 'string' ? sp.de : undefined,
-    ate: typeof sp.ate === 'string' ? sp.ate : undefined,
-    status: typeof sp.status === 'string' ? (sp.status as SearchParams['status']) : undefined,
-    fonte: typeof sp.fonte === 'string' ? (sp.fonte as SearchParams['fonte']) : 'todos',
-    page: typeof sp.page === 'string' ? Number(sp.page) : 1,
-    limit: 20,
-  }
+  const params = parseSearchParams(sp)
 
   const [supabase, searchResult] = await Promise.all([
     getSupabaseServerClient(),
@@ -63,9 +67,13 @@ export default async function BuscarPage({ searchParams }: PageProps) {
 
         <div className="flex-1 min-w-0 flex flex-col gap-10">
           <Suspense fallback={<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">{Array.from({length:6}).map((_,i)=><StatementCardSkeleton key={i}/>)}</div>}>
-            <CuratedResults result={searchResult.curated} />
+            <CuratedResults result={searchResult.curated} durationMs={searchResult.meta.durationMs} />
           </Suspense>
-          {params.q && <LiveResults result={searchResult.live} query={params.q} />}
+          {params.q && (
+            <Suspense fallback={<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">{Array.from({length:3}).map((_,i)=><StatementCardSkeleton key={i}/>)}</div>}>
+              <LiveResults result={searchResult.live} query={params.q} />
+            </Suspense>
+          )}
         </div>
       </div>
     </main>

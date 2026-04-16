@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import type { Politician } from '@/types/database'
 import { MapPin, ExternalLink, Building2 } from 'lucide-react'
 
@@ -10,14 +11,19 @@ export function PoliticianHeader({ politician, statementCount }: PoliticianHeade
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col sm:flex-row gap-4">
       {politician.photo_url ? (
-        <img
+        <Image
           src={politician.photo_url}
           alt={politician.common_name}
+          width={80}
+          height={80}
+          sizes="80px"
           className="w-20 h-20 rounded-full object-cover border-2 border-gray-200 flex-shrink-0"
+          priority
+          fetchPriority="high"
         />
       ) : (
         <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center text-2xl font-bold text-gray-500 flex-shrink-0">
-          {politician.common_name[0]}
+          {politician.common_name?.[0] ?? '?'}
         </div>
       )}
 
@@ -79,7 +85,7 @@ export function PoliticianHeader({ politician, statementCount }: PoliticianHeade
       </div>
 
       <div className="flex-shrink-0 text-center">
-        <p className="text-3xl font-bold text-red-600">{statementCount}</p>
+        <p className="text-3xl font-bold text-red-600 tabular-nums">{statementCount}</p>
         <p className="text-xs text-gray-500">declaração{statementCount !== 1 ? 'ões' : ''} registrada{statementCount !== 1 ? 's' : ''}</p>
       </div>
     </div>

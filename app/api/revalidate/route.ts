@@ -1,34 +1,49 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { revalidatePath, revalidateTag } from 'next/cache'
+import { revalidatePath } from 'next/cache'
 
 export const runtime = 'nodejs'
 
 export async function POST(req: NextRequest) {
-  const secret = req.nextUrl.searchParams.get('secret')
+  // Accept Authorization header (preferred) or query param as fallback for legacy callers
+  const authHeader = req.headers.get('authorization') ?? ''
+  const headerSecret = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null
+  const querySecret = req.nextUrl.searchParams.get('secret')
+  const secret = headerSecret ?? querySecret
 
-  if (secret !== process.env.REVALIDATE_SECRET) {
+  if (!secret || secret !== process.env.REVALIDATE_SECRET) {
     return NextResponse.json({ error: 'Invalid secret' }, { status: 401 })
   }
 
+  let body: { politician_slug?: string; statement_slug?: string } = {}
   try {
-    const body = await req.json()
-
-    // Revalidate specific politician page if slug provided
-    if (body.politician_slug) {
-      revalidatePath(`/politico/${body.politician_slug}`)
-    }
-
-    // Revalidate specific statement page
-    if (body.statement_slug) {
-      revalidatePath(`/declaracao/${body.statement_slug}`)
-    }
-
-    // Revalidate search and home
-    revalidatePath('/buscar')
-    revalidatePath('/')
-
-    return NextResponse.json({ revalidated: true })
+    const text = await req.text()
+    if (text) body = JSON.parse(text)
   } catch {
-    return NextResponse.json({ error: 'Revalidation failed' }, { status: 500 })
+    // Body is optional — proceed without it
   }
+
+  const revalidated: string[] = []
+  const errors: string[] = []
+
+  const tryRevalidate = (path: string) => {
+    try {
+      revalidatePath(path)
+      revalidated.push(path)
+    } catch (err) {
+      errors.push(`${path}: ${err instanceof Error ? err.message : 'unknown error'}`)
+    }
+  }
+
+  if (body.politician_slug) tryRevalidate(`/politico/${body.politician_slug}`)
+  if (body.statement_slug) tryRevalidate(`/declaracao/${body.statement_slug}`)
+  tryRevalidate('/buscar')
+  tryRevalidate('/')
+  tryRevalidate('/politicos')
+  tryRevalidate('/categorias')
+
+  const status = errors.length > 0 && revalidated.length === 0 ? 500 : 200
+  return NextResponse.json(
+    { revalidated: revalidated.length > 0, paths: revalidated, errors },
+    { status },
+  )
 }

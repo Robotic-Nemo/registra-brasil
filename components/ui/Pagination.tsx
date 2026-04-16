@@ -1,47 +1,83 @@
 'use client'
 
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react'
 
 interface PaginationProps {
   page: number
   hasMore: boolean
   total: number
+  totalPages?: number
 }
 
-export function Pagination({ page, hasMore, total }: PaginationProps) {
+export function Pagination({ page, hasMore, total, totalPages }: PaginationProps) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
   function navigate(newPage: number) {
     const params = new URLSearchParams(searchParams.toString())
-    params.set('page', String(newPage))
-    router.push(`${pathname}?${params.toString()}`)
+    if (newPage <= 1) {
+      params.delete('page')
+    } else {
+      params.set('page', String(newPage))
+    }
+    const qs = params.toString()
+    router.push(qs ? `${pathname}?${qs}` : pathname)
   }
 
+  const btnClass = 'flex items-center gap-1 px-2.5 py-1.5 rounded border border-gray-200 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors'
+
   return (
-    <div className="flex items-center justify-between text-sm text-gray-600 mt-6">
+    <nav aria-label="Paginação" className="flex items-center justify-between text-sm text-gray-600 mt-6">
       <span>{total} resultado{total !== 1 ? 's' : ''}</span>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1.5">
+        {totalPages && totalPages > 2 && (
+          <button
+            onClick={() => navigate(1)}
+            disabled={page <= 1}
+            aria-label="Primeira página"
+            data-testid="pagination-first"
+            className={btnClass}
+          >
+            <ChevronsLeft className="w-4 h-4" />
+          </button>
+        )}
         <button
           onClick={() => navigate(page - 1)}
           disabled={page <= 1}
-          className="flex items-center gap-1 px-3 py-1.5 rounded border border-gray-200 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
+          aria-label="Página anterior"
+          data-testid="pagination-prev"
+          className={btnClass}
         >
           <ChevronLeft className="w-4 h-4" />
-          Anterior
+          <span className="hidden sm:inline">Anterior</span>
         </button>
-        <span className="px-3 py-1.5 bg-gray-100 rounded font-medium">{page}</span>
+        <span className="px-3 py-1.5 bg-gray-100 rounded font-medium tabular-nums" aria-current="page" aria-label={`Pagina ${page}${totalPages ? ` de ${totalPages}` : ''}`}>
+          {page}{totalPages ? ` / ${totalPages}` : ''}
+        </span>
         <button
           onClick={() => navigate(page + 1)}
           disabled={!hasMore}
-          className="flex items-center gap-1 px-3 py-1.5 rounded border border-gray-200 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
+          aria-label="Próxima página"
+          data-testid="pagination-next"
+          className={btnClass}
         >
-          Próxima
+          <span className="hidden sm:inline">Próxima</span>
           <ChevronRight className="w-4 h-4" />
         </button>
+        {totalPages && totalPages > 2 && (
+          <button
+            onClick={() => navigate(totalPages)}
+            disabled={page >= totalPages}
+            aria-label="Última página"
+            data-testid="pagination-last"
+            className={btnClass}
+          >
+            <ChevronsRight className="w-4 h-4" />
+          </button>
+        )}
       </div>
-    </div>
+    </nav>
   )
 }

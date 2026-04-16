@@ -1,6 +1,7 @@
 'use server'
 
 import { cookies } from 'next/headers'
+import { deriveSessionToken, timingSafeEqual, SESSION_COOKIE } from '@/lib/auth/session'
 
 export async function adminLogin(
   formData: FormData
@@ -12,12 +13,15 @@ export async function adminLogin(
     return { ok: false, message: 'ADMIN_SECRET não configurado.' }
   }
 
-  if (secret !== adminSecret) {
+  if (!secret || !timingSafeEqual(secret, adminSecret)) {
     return { ok: false, message: 'Senha incorreta.' }
   }
 
+  // Store HMAC-derived token — cookie value ≠ raw secret
+  const token = await deriveSessionToken(adminSecret)
+
   const cookieStore = await cookies()
-  cookieStore.set('admin_session', adminSecret, {
+  cookieStore.set(SESSION_COOKIE, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
@@ -26,4 +30,9 @@ export async function adminLogin(
   })
 
   return { ok: true, message: 'Autenticado.' }
+}
+
+export async function adminLogout(): Promise<void> {
+  const cookieStore = await cookies()
+  cookieStore.delete(SESSION_COOKIE)
 }

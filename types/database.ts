@@ -61,7 +61,7 @@ export interface Statement {
   youtube_timestamp_sec: number | null
   youtube_channel_id: string | null
   transcript_excerpt: string | null
-  secondary_sources: SecondarySource[]
+  secondary_sources: SecondarySource[] | null
   venue: string | null
   event_name: string | null
   editor_notes: string | null

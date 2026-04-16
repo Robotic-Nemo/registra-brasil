@@ -2,15 +2,24 @@ import { NextRequest, NextResponse } from 'next/server'
 import { searchYouTube } from '@/lib/youtube/client'
 import { makeCacheKey, getCachedResults, setCachedResults } from '@/lib/youtube/cache'
 import { hasQuotaAvailable, logQuotaUsage, getQuotaRemaining } from '@/lib/youtube/quota'
+import { checkRateLimit, getRateLimitKey } from '@/lib/utils/rate-limit'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 export async function GET(req: NextRequest) {
+  const { allowed } = checkRateLimit(getRateLimitKey(req, 'youtube-search'), { limit: 20, windowMs: 60_000 })
+  if (!allowed) {
+    return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 })
+  }
+
   const q = req.nextUrl.searchParams.get('q')
 
   if (!q) {
     return NextResponse.json({ error: 'q is required' }, { status: 400 })
+  }
+  if (q.length > 200) {
+    return NextResponse.json({ error: 'q must be under 200 characters' }, { status: 400 })
   }
 
   const cacheKey = makeCacheKey(q)

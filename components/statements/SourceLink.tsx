@@ -1,5 +1,5 @@
 import type { SourceType } from '@/types/database'
-import { ExternalLink, PlayCircle, FileText, Tv, Newspaper } from 'lucide-react'
+import { ExternalLink, PlayCircle, FileText, Tv, Newspaper, Shield } from 'lucide-react'
 import { buildWatchUrl, formatTimestamp } from '@/lib/utils/youtube-url'
 
 interface SourceLinkProps {
@@ -41,7 +41,7 @@ export function SourceLink({ url, type, videoId, timestampSec, isOfficial, label
     <a
       href={href}
       target="_blank"
-      rel="noopener noreferrer"
+      rel="noopener noreferrer nofollow"
       className="inline-flex items-center gap-1.5 text-sm text-blue-700 hover:text-blue-900 hover:underline font-medium"
     >
       <Icon className="w-4 h-4 flex-shrink-0" />
@@ -54,7 +54,8 @@ export function SourceLink({ url, type, videoId, timestampSec, isOfficial, label
         )}
       </span>
       {isOfficial && (
-        <span className="text-xs bg-green-100 text-green-700 border border-green-200 px-1.5 py-0.5 rounded font-medium">
+        <span className="inline-flex items-center gap-0.5 text-xs bg-green-100 text-green-700 border border-green-200 px-1.5 py-0.5 rounded font-medium" title="Fonte institucional verificada">
+          <Shield className="w-3 h-3" />
           Oficial
         </span>
       )}

@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import type { YouTubeResult } from '@/types/search'
 import { ExternalLink, BadgeCheck } from 'lucide-react'
 import { formatDateShort } from '@/lib/utils/date'
@@ -14,9 +15,13 @@ export function YouTubeResultCard({ result }: YouTubeResultCardProps) {
       rel="noopener noreferrer"
       className="flex gap-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors group"
     >
-      <img
+      <Image
         src={result.thumbnailUrl}
         alt={result.title}
+        width={128}
+        height={80}
+        sizes="128px"
+        unoptimized
         className="w-32 h-20 object-cover rounded flex-shrink-0"
       />
       <div className="flex flex-col gap-1 min-w-0">
@@ -37,7 +42,7 @@ export function YouTubeResultCard({ result }: YouTubeResultCardProps) {
         </p>
         <p className="text-xs text-gray-600 line-clamp-2">{result.description}</p>
       </div>
-      <ExternalLink className="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5" />
+      <ExternalLink className="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5" aria-hidden="true" />
     </a>
   )
 }

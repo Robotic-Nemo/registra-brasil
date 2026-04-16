@@ -3,11 +3,12 @@
 import { useState, useTransition } from 'react'
 import type { Category } from '@/types/database'
 import { submitStatement } from './actions'
-import { parseYouTubeVideoId } from '@/lib/utils/youtube-url'
+import { parseYouTubeVideoId, parseTimestamp, formatTimestamp } from '@/lib/utils/youtube-url'
 import { CheckCircle, AlertCircle } from 'lucide-react'
 
 interface AddStatementFormProps {
   categories: Category[]
+  politicianSlugs?: string[]
 }
 
 const SOURCE_TYPES = [
@@ -22,12 +23,55 @@ const SOURCE_TYPES = [
   { value: 'other', label: 'Outro' },
 ]
 
-export function AddStatementForm({ categories }: AddStatementFormProps) {
+export function AddStatementForm({ categories, politicianSlugs = [] }: AddStatementFormProps) {
   const [isPending, startTransition] = useTransition()
   const [result, setResult] = useState<{ ok: boolean; message: string } | null>(null)
   const [sourceUrl, setSourceUrl] = useState('')
   const [sourceType, setSourceType] = useState('youtube_video')
+  const [timestampInput, setTimestampInput] = useState('')
   const detectedVideoId = parseYouTubeVideoId(sourceUrl)
+
+  // Auto-convert timestamp from HH:MM:SS or seconds
+  const parsedTimestamp = timestampInput ? (parseTimestamp(timestampInput) ?? (parseInt(timestampInput, 10) || null)) : null
+
+  const [errors, setErrors] = useState<Record<string, string>>({})
+
+  function validate(data: FormData): Record<string, string> {
+    const errs: Record<string, string> = {}
+
+    const slug = data.get('politician_slug')?.toString().trim()
+    if (!slug) errs.politician_slug = 'Slug do político é obrigatório.'
+    else if (!/^[a-z0-9-]+$/.test(slug)) errs.politician_slug = 'Slug deve conter apenas letras minúsculas, números e hifens.'
+
+    const summary = data.get('summary')?.toString().trim()
+    if (!summary) errs.summary = 'Resumo é obrigatório.'
+    else if (summary.length < 10) errs.summary = 'Resumo deve ter pelo menos 10 caracteres.'
+
+    const sourceUrl = data.get('primary_source_url')?.toString().trim()
+    if (!sourceUrl) errs.primary_source_url = 'URL da fonte é obrigatória.'
+    else {
+      try { new URL(sourceUrl) } catch { errs.primary_source_url = 'URL inválida.' }
+    }
+
+    const date = data.get('statement_date')?.toString()
+    if (!date) {
+      errs.statement_date = 'Data é obrigatória.'
+    } else {
+      const dateObj = new Date(date + 'T00:00:00')
+      if (isNaN(dateObj.getTime())) {
+        errs.statement_date = 'Data inválida.'
+      } else if (dateObj > new Date()) {
+        errs.statement_date = 'Data não pode ser no futuro.'
+      } else if (dateObj < new Date('1988-01-01')) {
+        errs.statement_date = 'Data anterior a 1988 não é aceita.'
+      }
+    }
+
+    const cats = data.getAll('categories')
+    if (cats.length === 0) errs.categories = 'Selecione pelo menos uma categoria.'
+
+    return errs
+  }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -35,10 +79,20 @@ export function AddStatementForm({ categories }: AddStatementFormProps) {
     const form = e.currentTarget
     const data = new FormData(form)
 
+    const validationErrors = validate(data)
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors)
+      return
+    }
+    setErrors({})
+
     startTransition(async () => {
       const res = await submitStatement(data)
       setResult(res)
-      if (res.ok) form.reset()
+      if (res.ok) {
+        form.reset()
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
     })
   }
 
@@ -65,10 +119,22 @@ export function AddStatementForm({ categories }: AddStatementFormProps) {
         <input
           name="politician_slug"
           required
+          list="politician-slugs-list"
           placeholder="ex: jair-bolsonaro"
+          spellCheck={false}
+          autoCorrect="off"
+          aria-describedby="politician-slug-help"
           className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <p className="text-xs text-gray-500 mt-1">Deve coincidir com slug cadastrado na tabela politicians.</p>
+        {politicianSlugs.length > 0 && (
+          <datalist id="politician-slugs-list">
+            {politicianSlugs.map((slug) => (
+              <option key={slug} value={slug} />
+            ))}
+          </datalist>
+        )}
+        <p id="politician-slug-help" className="text-xs text-gray-500 mt-1">Deve coincidir com slug cadastrado na tabela politicians.</p>
+        {errors.politician_slug && <p className="text-xs text-red-600 mt-1">{errors.politician_slug}</p>}
       </div>
 
       {/* Summary */}
@@ -79,10 +145,13 @@ export function AddStatementForm({ categories }: AddStatementFormProps) {
         <textarea
           name="summary"
           required
+          minLength={10}
+          maxLength={500}
           rows={3}
           placeholder="Descreva a declaração em 1-2 frases objetivas, na terceira pessoa."
           className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
         />
+        {errors.summary && <p className="text-xs text-red-600 mt-1">{errors.summary}</p>}
       </div>
 
       {/* Full quote */}
@@ -93,6 +162,7 @@ export function AddStatementForm({ categories }: AddStatementFormProps) {
         <textarea
           name="full_quote"
           rows={3}
+          maxLength={5000}
           placeholder="Transcreva as palavras exatas, se disponíveis."
           className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
         />
@@ -104,6 +174,7 @@ export function AddStatementForm({ categories }: AddStatementFormProps) {
         <textarea
           name="context"
           rows={2}
+          maxLength={2000}
           placeholder="O que estava acontecendo? Onde? Para quem foi dito?"
           className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
         />
@@ -119,8 +190,10 @@ export function AddStatementForm({ categories }: AddStatementFormProps) {
             type="date"
             name="statement_date"
             required
+            aria-label="Data da declaracao"
             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+          {errors.statement_date && <p className="text-xs text-red-600 mt-1">{errors.statement_date}</p>}
         </div>
         <div className="flex items-end pb-2">
           <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
@@ -145,8 +218,11 @@ export function AddStatementForm({ categories }: AddStatementFormProps) {
             value={sourceUrl}
             onChange={(e) => setSourceUrl(e.target.value)}
             placeholder="https://www.youtube.com/watch?v=..."
+            spellCheck={false}
+            autoCorrect="off"
             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+          {errors.primary_source_url && <p className="text-xs text-red-600 mt-1">{errors.primary_source_url}</p>}
           {detectedVideoId && (
             <p className="text-xs text-green-700 mt-1">
               ID do vídeo detectado: <code className="font-mono">{detectedVideoId}</code>
@@ -171,17 +247,27 @@ export function AddStatementForm({ categories }: AddStatementFormProps) {
         {(sourceType === 'youtube_video' || sourceType === 'youtube_live_archive') && (
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Tempo no vídeo (segundos)
+              Tempo no vídeo
             </label>
-            <input
-              type="number"
-              name="youtube_timestamp_sec"
-              min={0}
-              placeholder="ex: 4523 para 1h15m23s"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <p className="text-xs text-gray-500 mt-1">
-              Converta hh:mm:ss → segundos. Ex: 1:15:23 = 4523
+            <div className="flex gap-2 items-center">
+              <input
+                type="text"
+                value={timestampInput}
+                onChange={(e) => setTimestampInput(e.target.value)}
+                placeholder="1:15:23 ou 4523"
+                spellCheck={false}
+                aria-describedby="timestamp-help"
+                className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              {parsedTimestamp != null && parsedTimestamp > 0 && (
+                <span className="text-xs text-green-700 bg-green-50 border border-green-200 px-2 py-1 rounded font-mono whitespace-nowrap">
+                  {formatTimestamp(parsedTimestamp)} ({parsedTimestamp}s)
+                </span>
+              )}
+            </div>
+            <input type="hidden" name="youtube_timestamp_sec" value={parsedTimestamp ?? ''} />
+            <p id="timestamp-help" className="text-xs text-gray-500 mt-1">
+              Aceita formato HH:MM:SS, MM:SS ou segundos.
             </p>
           </div>
         )}
@@ -241,7 +327,19 @@ export function AddStatementForm({ categories }: AddStatementFormProps) {
             </label>
           ))}
         </div>
-        <p className="text-xs text-gray-500 mt-1">A primeira categoria marcada será a principal.</p>
+        <p id="categories-help" className="text-xs text-gray-500 mt-1">A primeira categoria marcada será a principal.</p>
+        {errors.categories && <p className="text-xs text-red-600 mt-1">{errors.categories}</p>}
+      </div>
+
+      {/* Editor notes */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Notas editoriais</label>
+        <textarea
+          name="editor_notes"
+          rows={2}
+          placeholder="Observações internas sobre a verificação, confiabilidade da fonte, etc."
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+        />
       </div>
 
       {/* Submitted by */}
@@ -257,8 +355,12 @@ export function AddStatementForm({ categories }: AddStatementFormProps) {
       <button
         type="submit"
         disabled={isPending}
-        className="bg-blue-700 hover:bg-blue-800 disabled:opacity-60 text-white font-medium px-6 py-3 rounded-lg text-sm transition-colors"
+        data-testid="submit-statement"
+        className="inline-flex items-center justify-center gap-2 bg-blue-700 hover:bg-blue-800 disabled:opacity-60 disabled:cursor-not-allowed text-white font-medium px-6 py-3 rounded-lg text-sm transition-colors"
       >
+        {isPending && (
+          <span className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+        )}
         {isPending ? 'Salvando...' : 'Salvar declaração'}
       </button>
     </form>

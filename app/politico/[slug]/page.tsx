@@ -1,12 +1,16 @@
 import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import { getSupabaseServerClient } from '@/lib/supabase/server'
-import { getPoliticianBySlug, getPoliticianCategoryStats, getAllPoliticianSlugs } from '@/lib/supabase/queries/politicians'
+import { getPoliticianBySlug, getPoliticianCategoryStats, getPoliticianActivityByMonth, getAllPoliticianSlugs, getRelatedPoliticians } from '@/lib/supabase/queries/politicians'
 import { searchStatements } from '@/lib/supabase/queries/statements'
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { PoliticianHeader } from '@/components/politicians/PoliticianHeader'
 import { PoliticianStats } from '@/components/politicians/PoliticianStats'
-import { StatementGrid } from '@/components/statements/StatementGrid'
+import { PoliticianStatements } from '@/components/politicians/PoliticianStatements'
 import { Pagination } from '@/components/ui/Pagination'
+import { RelatedPoliticians } from '@/components/politicians/RelatedPoliticians'
+import { PoliticianActivityChart } from '@/components/politicians/PoliticianActivityChart'
+import { breadcrumbListJsonLd, personJsonLd } from '@/lib/utils/structured-data'
 import type { Metadata } from 'next'
 
 export const revalidate = 3600
@@ -31,46 +35,103 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const supabase = await getSupabaseServerClient()
   const politician = await getPoliticianBySlug(supabase, slug)
   if (!politician) return { title: 'Político não encontrado' }
+  const title = `${politician.common_name} (${politician.party}) — Registra Brasil`
+  const description = `Declarações registradas de ${politician.common_name}, ${politician.party}${politician.state ? `/${politician.state}` : ''}.`
   return {
-    title: `${politician.common_name} (${politician.party}) — Registra Brasil`,
-    description: `Declarações registradas de ${politician.common_name}, ${politician.party}${politician.state ? `/${politician.state}` : ''}.`,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: 'profile',
+      siteName: 'Registra Brasil',
+      ...(politician.photo_url ? { images: [{ url: politician.photo_url }] } : {}),
+    },
+    twitter: {
+      card: 'summary',
+      title,
+      description,
+      ...(politician.photo_url ? { images: [politician.photo_url] } : {}),
+    },
+    alternates: { canonical: `/politico/${slug}` },
   }
 }
 
 export default async function PoliticianPage({ params, searchParams }: PageProps) {
   const { slug } = await params
   const { page: pageStr } = await searchParams
-  const page = pageStr ? Number(pageStr) : 1
+  const page = Math.max(1, parseInt(pageStr ?? '1', 10) || 1)
 
   const supabase = await getSupabaseServerClient()
 
-  const [politician, statementsResult, categoryStats] = await Promise.all([
+  const [politician, statementsResult] = await Promise.all([
     getPoliticianBySlug(supabase, slug),
-    searchStatements(supabase, { politico: slug, page, limit: 20, status: 'verified' }),
-    (async () => {
-      const p = await getPoliticianBySlug(supabase, slug)
-      if (!p) return []
-      return getPoliticianCategoryStats(supabase, p.id)
-    })(),
+    searchStatements(supabase, { politico: slug, page, limit: 20, status: 'verified' }).catch(() => ({
+      results: [], total: 0, page, hasMore: false,
+    })),
   ])
 
   if (!politician) notFound()
 
+  // Load category stats and related politicians after confirming politician exists
+  const [categoryStats, relatedPoliticians, activityData] = await Promise.all([
+    getPoliticianCategoryStats(supabase, politician.id).catch(() => []),
+    getRelatedPoliticians(supabase, politician.slug, politician.party, politician.state, 4).catch(() => []),
+    getPoliticianActivityByMonth(supabase, politician.id, 12).catch(() => []),
+  ])
+
+  const personLd = personJsonLd({
+    name: politician.full_name,
+    slug: politician.slug,
+    party: politician.party,
+    state: politician.state,
+    role: politician.role,
+    photoUrl: politician.photo_url,
+  })
+
+  const breadcrumbLd = breadcrumbListJsonLd([
+    { name: 'Inicio', url: '/' },
+    { name: 'Politicos', url: '/politicos' },
+    { name: politician.common_name, url: `/politico/${politician.slug}` },
+  ])
+
   return (
     <main className="max-w-5xl mx-auto px-4 py-8 flex flex-col gap-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
+      <Breadcrumbs items={[
+        { label: 'Políticos', href: '/politicos' },
+        { label: politician.common_name },
+      ]} />
       <PoliticianHeader politician={politician} statementCount={statementsResult.total} />
 
       {categoryStats.length > 0 && <PoliticianStats stats={categoryStats} />}
 
+      {activityData.length > 0 && (
+        <PoliticianActivityChart data={activityData} className="bg-white border border-gray-200 rounded-xl p-4" />
+      )}
+
       <section>
-        <h2 className="font-semibold text-gray-900 mb-4">Declarações registradas</h2>
-        <StatementGrid statements={statementsResult.results} />
+        <PoliticianStatements statements={statementsResult.results} />
         {(page > 1 || statementsResult.hasMore) && (
           <Suspense fallback={null}>
-            <Pagination page={page} hasMore={statementsResult.hasMore} total={statementsResult.total} />
+            <Pagination page={page} hasMore={statementsResult.hasMore} total={statementsResult.total} totalPages={Math.ceil(statementsResult.total / 20)} />
           </Suspense>
         )}
       </section>
+
+      {relatedPoliticians.length > 0 && (
+        <RelatedPoliticians
+          politicians={relatedPoliticians}
+          label={`Outros políticos do ${politician.party}`}
+        />
+      )}
     </main>
   )
 }
