@@ -15,68 +15,123 @@ export default function TermosPage() {
 
       <div className="prose prose-gray max-w-none space-y-6 text-sm leading-relaxed text-gray-700">
         <p>
-          <strong>Última atualização:</strong> abril de 2026
+          <strong>Última atualização:</strong> {new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}
         </p>
 
         <p>
-          Ao acessar e utilizar o Registra Brasil, você concorda com os termos e condições descritos
-          abaixo. Caso não concorde, pedimos que não utilize o site.
+          Ao acessar o Registra Brasil você concorda com estes termos. Caso não concorde, pedimos
+          que não utilize o serviço.
         </p>
 
         <h2 className="text-lg font-semibold text-gray-900 mt-8">1. Finalidade</h2>
         <p>
-          O Registra Brasil é um arquivo público de declarações de políticos brasileiros, com
-          ligação obrigatória a fontes primárias. O projeto tem finalidade cívica e não possui
-          vinculação partidária.
+          O Registra Brasil é um arquivo público independente de declarações de agentes políticos
+          brasileiros com ligação obrigatória a fontes primárias. A finalidade é jornalística, cívica
+          e educacional, resguardada pelo art. 5º, incisos IV, IX e XIV da Constituição Federal e
+          pelo art. 220 da mesma Carta. Não há vinculação partidária e não oferecemos consultoria
+          política.
         </p>
 
-        <h2 className="text-lg font-semibold text-gray-900 mt-8">2. Conteúdo</h2>
+        <h2 className="text-lg font-semibold text-gray-900 mt-8">2. Responsabilidade editorial</h2>
         <p>
-          As declarações catalogadas são atribuídas a políticos com base em fontes públicas
-          verificáveis. O Registra Brasil não é responsável pelo conteúdo das declarações em si,
-          apenas pelo registro e organização das mesmas.
+          Cada declaração catalogada é atribuída a um político com base em fontes públicas
+          verificáveis indicadas em cada registro. O Registra Brasil responde editorialmente pela
+          curadoria (seleção, contextualização, categorização e severidade atribuída), mas não pelo
+          mérito do que foi dito pelo próprio agente político. Correções são recebidas pela{' '}
+          <a href="/contato" className="text-blue-700 underline">página de contato</a> e, quando
+          procedentes, resultam em retificação pública registrada em{' '}
+          <a href="/retratacoes" className="text-blue-700 underline">/retratacoes</a>.
         </p>
 
         <h2 className="text-lg font-semibold text-gray-900 mt-8">3. Uso permitido</h2>
         <ul className="list-disc pl-5 space-y-1">
-          <li>Consultar declarações para fins informativos, educacionais ou jornalísticos</li>
-          <li>Compartilhar links para declarações específicas</li>
-          <li>Citar o Registra Brasil como fonte, com devida atribuição</li>
+          <li>Consulta individual, pesquisa acadêmica, cobertura jornalística e usos cívicos</li>
+          <li>Compartilhamento de links para declarações individuais</li>
+          <li>Reutilização do conteúdo textual sob a licença <strong>Creative Commons Atribuição 4.0 (CC BY 4.0)</strong>, com crédito ao Registra Brasil e link para a fonte primária original</li>
+          <li>Consumo automatizado via APIs públicas documentadas em{' '}
+            <a href="/api-docs" className="text-blue-700 underline">/api-docs</a>, respeitados os limites de rate limit publicados</li>
+          <li>Uso de feeds RSS/Atom e embeds oficiais (iframes de{' '}
+            <a href="/desenvolvedores" className="text-blue-700 underline">/desenvolvedores</a>)</li>
         </ul>
 
-        <h2 className="text-lg font-semibold text-gray-900 mt-8">4. Uso proibido</h2>
+        <h2 className="text-lg font-semibold text-gray-900 mt-8">4. Uso vedado</h2>
         <ul className="list-disc pl-5 space-y-1">
-          <li>Extração automatizada massiva de dados (scraping) sem autorização</li>
-          <li>Uso do conteúdo para desinformação ou fora de contexto</li>
-          <li>Tentativa de acesso não autorizado a áreas administrativas</li>
-          <li>Uso que viole a legislação brasileira</li>
+          <li>Scraping que ultrapasse os limites documentados da API ou que ignore cabeçalhos <code>Retry-After</code></li>
+          <li>Reprodução de citações fora de contexto de modo a distorcer o sentido original</li>
+          <li>Tentativa de acesso não autorizado a áreas administrativas ou a endpoints internos</li>
+          <li>Qualquer uso que viole a legislação brasileira, incluindo a Lei Geral de Proteção de Dados, o Marco Civil da Internet e a legislação eleitoral</li>
+          <li>Revenda ou relicenciamento do acervo em termos mais restritivos que a licença CC BY 4.0</li>
         </ul>
 
-        <h2 className="text-lg font-semibold text-gray-900 mt-8">5. Propriedade intelectual</h2>
+        <h2 className="text-lg font-semibold text-gray-900 mt-8">5. Licença e propriedade intelectual</h2>
         <p>
-          O código-fonte, design e organização do Registra Brasil são propriedade do projeto. As
-          declarações em si são de domínio público por se tratarem de pronunciamentos de agentes
-          públicos em exercício de função.
+          O conteúdo editorial do Registra Brasil (resumos, contextos, categorização, curadoria) é
+          licenciado sob{' '}
+          <a
+            href="https://creativecommons.org/licenses/by/4.0/deed.pt-BR"
+            className="text-blue-700 underline"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Creative Commons Atribuição 4.0 Internacional (CC BY 4.0)
+          </a>
+          . As citações de agentes públicos são de caráter público e sua redistribuição é amparada
+          pelo direito à informação. O código-fonte do site é disponibilizado publicamente no{' '}
+          <a
+            href="https://github.com/Robotic-Nemo/registra-brasil"
+            className="text-blue-700 underline"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            GitHub
+          </a>
+          {' '}sob licença MIT.
         </p>
 
-        <h2 className="text-lg font-semibold text-gray-900 mt-8">6. Isenção de responsabilidade</h2>
+        <h2 className="text-lg font-semibold text-gray-900 mt-8">6. Retificação, remoção e contraditório</h2>
         <p>
-          O Registra Brasil é oferecido &quot;como está&quot;, sem garantias de qualquer tipo. Não
-          nos responsabilizamos por decisões tomadas com base nas informações disponibilizadas.
+          Agentes citados podem solicitar:
+        </p>
+        <ul className="list-disc pl-5 space-y-1">
+          <li><strong>Retificação editorial</strong> quando houver erro verificável no resumo ou no contexto</li>
+          <li><strong>Inclusão de esclarecimento</strong> (direito de resposta) adjacente à declaração</li>
+          <li><strong>Remoção</strong> em casos de fonte inválida, deepfake, atribuição equivocada ou decisão judicial transitada em julgado</li>
+        </ul>
+        <p>
+          Pedidos devem ser enviados pela <a href="/contato" className="text-blue-700 underline">página de contato</a>{' '}
+          com indicação da declaração, fundamentação e, quando aplicável, fonte primária
+          corretiva. Respondemos em até 10 dias úteis.
         </p>
 
-        <h2 className="text-lg font-semibold text-gray-900 mt-8">7. Alterações</h2>
+        <h2 className="text-lg font-semibold text-gray-900 mt-8">7. Isenção de responsabilidade e limitação</h2>
         <p>
-          Reservamo-nos o direito de modificar estes termos a qualquer momento. Alterações
-          significativas serão comunicadas na página inicial.
+          O serviço é oferecido &quot;como está&quot;, sem garantias de disponibilidade contínua ou
+          de atualidade integral do acervo. Não nos responsabilizamos por decisões tomadas com base
+          exclusivamente no que está registrado aqui; usuários devem sempre consultar as fontes
+          primárias citadas. Na máxima extensão permitida em lei, nossa responsabilidade por danos
+          indiretos, lucros cessantes ou danos morais decorrentes do uso do site está limitada ao
+          valor eventualmente pago pelo usuário pelos serviços — que para este projeto é{' '}
+          <strong>zero</strong>.
         </p>
 
-        <h2 className="text-lg font-semibold text-gray-900 mt-8">8. Contato</h2>
+        <h2 className="text-lg font-semibold text-gray-900 mt-8">8. Alterações</h2>
         <p>
-          Dúvidas sobre estes termos podem ser enviadas para{' '}
-          <a href="mailto:contato@registrabrasil.com.br" className="text-blue-700 underline">
-            contato@registrabrasil.com.br
-          </a>.
+          Podemos atualizar estes termos. Mudanças relevantes são anunciadas no rodapé do site e em{' '}
+          <a href="/changelog" className="text-blue-700 underline">/changelog</a>. O uso continuado
+          após a atualização caracteriza aceitação dos novos termos.
+        </p>
+
+        <h2 className="text-lg font-semibold text-gray-900 mt-8">9. Lei aplicável e foro</h2>
+        <p>
+          Estes termos são regidos pela legislação brasileira. Fica eleito o foro da Comarca de
+          São Paulo — SP para dirimir controvérsias, com renúncia a qualquer outro, por mais
+          privilegiado que seja.
+        </p>
+
+        <h2 className="text-lg font-semibold text-gray-900 mt-8">10. Contato</h2>
+        <p>
+          Dúvidas sobre estes termos podem ser enviadas pela{' '}
+          <a href="/contato" className="text-blue-700 underline">página de contato</a>.
         </p>
       </div>
     </main>

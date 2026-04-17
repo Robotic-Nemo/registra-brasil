@@ -22,7 +22,9 @@ export default function TimelineError({ error, reset }: { error: Error & { diges
       </div>
       <div className="mt-8">
         <a
-          href={`mailto:contato@registrabrasil.com.br?subject=${encodeURIComponent('Erro na linha do tempo')}&body=${encodeURIComponent(`Erro: ${error.message}\nCódigo: ${error.digest ?? 'N/A'}\nData: ${new Date().toISOString()}`)}`}
+          href="https://github.com/Robotic-Nemo/registra-brasil/issues/new"
+          rel="noopener noreferrer"
+          target="_blank"
           className="text-xs text-gray-400 hover:text-gray-600 underline underline-offset-2 transition-colors"
         >
           Reportar problema

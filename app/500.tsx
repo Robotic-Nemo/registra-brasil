@@ -27,7 +27,9 @@ export default function Custom500() {
       </div>
       <div className="mt-8">
         <a
-          href="mailto:contato@registrabrasil.com.br?subject=Erro%20500%20no%20servidor"
+          href="https://github.com/Robotic-Nemo/registra-brasil/issues/new?labels=bug&title=Erro+500"
+          rel="noopener noreferrer"
+          target="_blank"
           className="text-xs text-gray-400 hover:text-gray-600 underline underline-offset-2 transition-colors"
         >
           Reportar problema

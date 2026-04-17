@@ -56,11 +56,17 @@ export default function AcessibilidadePage() {
 
         <h2 className="text-lg font-semibold text-gray-900 mt-8">Contato</h2>
         <p>
-          Se encontrar barreiras de acessibilidade ou tiver sugestões de melhoria, entre em contato
-          conosco pelo e-mail{' '}
-          <a href="mailto:contato@registrabrasil.com.br" className="text-blue-700 underline">
-            contato@registrabrasil.com.br
-          </a>.
+          Se encontrar barreiras de acessibilidade ou tiver sugestões de melhoria, abra uma
+          issue em{' '}
+          <a
+            href="https://github.com/Robotic-Nemo/registra-brasil/issues/new?labels=acessibilidade"
+            rel="noopener noreferrer"
+            target="_blank"
+            className="text-blue-700 underline"
+          >
+            github.com/Robotic-Nemo/registra-brasil
+          </a>
+          {' '}ou use a <a href="/contato" className="text-blue-700 underline">página de contato</a>.
           Faremos o possível para responder em até 5 dias úteis.
         </p>
       </div>

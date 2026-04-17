@@ -38,10 +38,13 @@ export function StatementActions({ permalink, summary, politicianName }: Props) 
           Incorporar
         </button>
         <a
-          href={`mailto:contato@registrabrasil.com.br?subject=Reportar declaração&body=Permalink: ${permalink}`}
-          className="inline-flex items-center gap-1 text-xs text-gray-400 hover:text-red-500 transition-colors ml-auto"
+          href={`https://github.com/Robotic-Nemo/registra-brasil/issues/new?labels=report&title=${encodeURIComponent('Reportar declaração')}&body=${encodeURIComponent(`Permalink: ${permalink}\n\nDescreva o problema:`)}`}
+          rel="noopener noreferrer"
+          target="_blank"
+          className="inline-flex items-center gap-1 text-xs text-gray-400 hover:text-red-500 transition-colors ml-auto focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-red-500 rounded"
+          aria-label="Reportar declaração no GitHub"
         >
-          <Flag className="w-3 h-3" />
+          <Flag className="w-3 h-3" aria-hidden="true" />
           Reportar
         </a>
       </div>
