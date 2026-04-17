@@ -1,0 +1,453 @@
+-- Batch 148: Assembleias estaduais (ALESP Tarcísio, ALERJ, ALEMG, ALEBA) + Câmaras Municipais (SP, RJ, BH, Recife, Fortaleza) 2023-2026
+DO $$
+DECLARE
+  v_erh UUID; v_sam UUID; v_tab UUID; v_bou UUID; v_bop UUID;
+  v_jan UUID; v_nik UUID; v_bia UUID; v_zam UUID; v_tal UUID;
+  v_rnu UUID; v_epa UUID; v_fno UUID; v_jca UUID; v_bre UUID;
+  v_dal UUID; v_sme UUID; v_rgr UUID; v_jsa UUID; v_tsv UUID;
+  v_dil UUID; v_lul UUID;
+  c_des UUID; c_mac UUID; c_mis UUID; c_odi UUID; c_abu UUID;
+  c_irr UUID; c_con UUID; c_neg UUID; c_int UUID; c_aut UUID;
+  c_hom UUID; c_rac UUID; c_vio UUID; c_itr UUID; c_cor UUID; c_nep UUID;
+BEGIN
+  SELECT id INTO v_erh FROM politicians WHERE slug = 'erika-hilton';
+  SELECT id INTO v_sam FROM politicians WHERE slug = 'samia-bomfim';
+  SELECT id INTO v_tab FROM politicians WHERE slug = 'tabata-amaral';
+  SELECT id INTO v_bou FROM politicians WHERE slug = 'guilherme-boulos';
+  SELECT id INTO v_bop FROM politicians WHERE slug = 'boulos-prefeito';
+  SELECT id INTO v_jan FROM politicians WHERE slug = 'andre-janones';
+  SELECT id INTO v_nik FROM politicians WHERE slug = 'nikolas-ferreira';
+  SELECT id INTO v_bia FROM politicians WHERE slug = 'bia-kicis';
+  SELECT id INTO v_zam FROM politicians WHERE slug = 'carla-zambelli';
+  SELECT id INTO v_tal FROM politicians WHERE slug = 'taliria-petrone';
+  SELECT id INTO v_rnu FROM politicians WHERE slug = 'ricardo-nunes';
+  SELECT id INTO v_epa FROM politicians WHERE slug = 'eduardo-paes';
+  SELECT id INTO v_fno FROM politicians WHERE slug = 'fuad-noman';
+  SELECT id INTO v_jca FROM politicians WHERE slug = 'joao-campos';
+  SELECT id INTO v_bre FROM politicians WHERE slug = 'bruno-reis';
+  SELECT id INTO v_dal FROM politicians WHERE slug = 'david-almeida';
+  SELECT id INTO v_sme FROM politicians WHERE slug = 'sebastiao-melo';
+  SELECT id INTO v_rgr FROM politicians WHERE slug = 'rafael-greca';
+  SELECT id INTO v_jsa FROM politicians WHERE slug = 'jose-sarto';
+  SELECT id INTO v_tsv FROM politicians WHERE slug = 'topazio-silveira';
+  SELECT id INTO v_dil FROM politicians WHERE slug = 'dilma-rousseff';
+  SELECT id INTO v_lul FROM politicians WHERE slug = 'lula';
+
+  SELECT id INTO c_des FROM categories WHERE slug = 'desinformacao';
+  SELECT id INTO c_mac FROM categories WHERE slug = 'machismo';
+  SELECT id INTO c_mis FROM categories WHERE slug = 'misoginia';
+  SELECT id INTO c_odi FROM categories WHERE slug = 'discurso-de-odio';
+  SELECT id INTO c_abu FROM categories WHERE slug = 'abuso-de-poder';
+  SELECT id INTO c_irr FROM categories WHERE slug = 'irresponsabilidade';
+  SELECT id INTO c_con FROM categories WHERE slug = 'conflito-interesses';
+  SELECT id INTO c_neg FROM categories WHERE slug = 'negacionismo';
+  SELECT id INTO c_int FROM categories WHERE slug = 'intimidacao';
+  SELECT id INTO c_aut FROM categories WHERE slug = 'autoritarismo';
+  SELECT id INTO c_hom FROM categories WHERE slug = 'homofobia';
+  SELECT id INTO c_rac FROM categories WHERE slug = 'racismo';
+  SELECT id INTO c_vio FROM categories WHERE slug = 'violencia';
+  SELECT id INTO c_itr FROM categories WHERE slug = 'intolerancia-religiosa';
+  SELECT id INTO c_cor FROM categories WHERE slug = 'corrupcao';
+  SELECT id INTO c_nep FROM categories WHERE slug = 'nepotismo';
+
+  -- 1 ALESP - Nikolas em visita ataca deputado PT
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_nik, 'Nikolas em visita à ALESP ataca bancada do PT e chama deputados de ladrões.', 'Bancada do PT aqui na ALESP é bando de ladrão. Preso todo mundo em 2027.', 'Discurso durante sessão solene na Assembleia Legislativa de SP gerou tumulto e bate-boca.', 'verified', true, '2023-06-15', 'https://www.al.sp.gov.br/noticias/nikolas-ferreira-ataca-bancada-pt', 'news_article', 4, 'ALESP, São Paulo', 'Sessão solene', 'nikolas-alesp-ladroes-b148-1') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 2 ALESP - Erika Hilton em discurso sobre LGBTfobia
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_erh, 'Erika Hilton discursa na ALESP contra deputados da direita e chama bancada de fascistas.', 'Vocês aqui na ALESP são fascistas. Deveriam estar presos, não fazendo leis.', 'Durante visita como deputada federal à ALESP, provocou tumulto na bancada conservadora.', 'verified', true, '2024-03-18', 'https://www.metropoles.com/brasil/politica/erika-hilton-alesp-fascistas', 'news_article', 3, 'ALESP', 'Sessão especial', 'erika-alesp-fascistas-b148-2') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 3 Ricardo Nunes minimiza assassinato de transexual
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_rnu, 'Ricardo Nunes minimiza assassinato de mulher trans em São Paulo.', 'Caso isolado. São Paulo é cidade segura para todos.', 'Resposta a jornalistas após assassinato de mulher trans na Avenida Paulista ignorou dados de violência transfóbica.', 'verified', false, '2024-02-20', 'https://www.folha.uol.com.br/cotidiano/2024/02/ricardo-nunes-trans-caso-isolado.shtml', 'news_article', 3, 'Prefeitura SP', 'Coletiva', 'nunes-trans-caso-isolado-b148-3') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_hom, true FROM ins;
+
+  -- 4 Boulos ataca Nunes em debate
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_bop, 'Boulos em debate na Câmara Municipal de SP chama Nunes de incompetente e corrupto.', 'Ricardo Nunes é incompetente e corrupto. A cidade está abandonada.', 'Fala em sessão da Câmara Municipal durante campanha 2024 elevou tom das disputas.', 'verified', true, '2024-09-12', 'https://www.saopaulo.sp.leg.br/noticias/boulos-nunes-debate', 'news_article', 3, 'Câmara Municipal SP', 'Sessão debate eleitoral', 'boulos-nunes-incompetente-b148-4') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 5 Vereador SP ataca Erika Hilton
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_erh, 'Erika Hilton responde a ataques homofóbicos na Câmara de SP em discurso emocionado.', 'Vocês querem que eu suma, mas eu existo. Estou aqui, trans, negra e viva.', 'Resposta a ataques transfóbicos de vereadores conservadores na Câmara Municipal durante plenária.', 'verified', true, '2023-04-20', 'https://www.saopaulo.sp.leg.br/erika-hilton-resposta-transfobia', 'news_article', 2, 'Câmara Municipal SP', 'Plenária', 'erika-resposta-transfobia-sp-b148-5') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 6 Eduardo Paes ataca bolsonaristas no RJ
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_epa, 'Eduardo Paes chama bolsonaristas de escória e diz que Rio não vai aceitar golpistas.', 'Bolsonarista é escória. Rio de Janeiro não aceita golpista aqui.', 'Discurso na Câmara Municipal do RJ após 8 de Janeiro de 2023 dividiu o plenário.', 'verified', true, '2023-01-15', 'https://oglobo.globo.com/rio/noticia/2023/01/15/eduardo-paes-bolsonarista-escoria.ghtml', 'news_article', 4, 'Câmara Municipal RJ', 'Sessão extraordinária 8 Janeiro', 'paes-bolsonarista-escoria-b148-6') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 7 Taliria Petrone denuncia racismo na ALERJ
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_tal, 'Taliria Petrone em visita à ALERJ denuncia deputados racistas e exige retratação.', 'Esses deputados da ALERJ são racistas. Negam o óbvio, são covardes.', 'Acusação a deputados estaduais do RJ durante audiência pública por direitos civis.', 'verified', false, '2023-11-20', 'https://www.alerj.rj.gov.br/noticias/taliria-racismo-denuncia', 'news_article', 3, 'ALERJ', 'Audiência Consciência Negra', 'taliria-alerj-racismo-b148-7') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_rac, true FROM ins;
+
+  -- 8 ALEMG - deputado ataca Lula
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_nik, 'Nikolas em discurso na ALEMG chama Lula de criminoso e pede impeachment.', 'Lula é criminoso. Tem que ser preso. Impeachment urgente para salvar Minas.', 'Discurso inflamado na Assembleia de MG durante sessão solene aumentou tensão política.', 'verified', true, '2024-04-15', 'https://www.almg.gov.br/noticias/nikolas-ataque-lula-impeachment', 'news_article', 4, 'ALEMG, Belo Horizonte', 'Sessão solene', 'nikolas-alemg-lula-impeachment-b148-8') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 9 Fuad Noman BH
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_fno, 'Fuad Noman chama crítica de burra durante sessão na Câmara de BH.', 'Essa vereadora é burra. Não sabe de nada, fica atacando o prefeito.', 'Resposta à vereadora do PT durante sessão da Câmara Municipal de BH gerou crise.', 'verified', false, '2024-07-08', 'https://www.em.com.br/politica/fuad-noman-vereadora-burra-bh', 'news_article', 3, 'Câmara Municipal BH', 'Sessão ordinária', 'fuad-vereadora-burra-bh-b148-9') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_mis, true FROM ins;
+
+  -- 10 João Campos Recife
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_jca, 'João Campos chama oposição na Câmara do Recife de bando de hipócritas.', 'Essa oposição é bando de hipócrita. Ficam falando mal e não fazem nada pela cidade.', 'Fala em sessão plena da Câmara Municipal do Recife em defesa do próprio mandato.', 'verified', false, '2024-08-22', 'https://www.camara.recife.pe.gov.br/noticias/joao-campos-hipocritas-oposicao', 'news_article', 2, 'Câmara Municipal Recife', 'Sessão ordinária', 'joao-campos-hipocritas-b148-10') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 11 ALEBA Jerônimo ataca Bolsonaro
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_lul, 'Lula em visita à ALEBA chama Bolsonaro de maior criminoso da história do Brasil.', 'Bolsonaro é o maior criminoso da história. Maior que todos os ditadores juntos.', 'Comício em Salvador na ALEBA durante evento oficial gerou reação nacional.', 'verified', true, '2024-06-10', 'https://www.al.ba.leg.br/noticias/lula-visita-aleba-bolsonaro', 'news_article', 4, 'ALEBA, Salvador', 'Sessão solene', 'lula-aleba-bolsonaro-criminoso-b148-11') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 12 Bruno Reis Salvador
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_bre, 'Bruno Reis responde a críticas sobre carnaval dizendo que pobre não entende cultura.', 'Pobre não entende de cultura. Só critica o carnaval porque não frequenta.', 'Fala em sessão da Câmara de Salvador após reclamações sobre acesso popular aos camarotes.', 'verified', true, '2024-02-08', 'https://www.cms.ba.gov.br/noticias/bruno-reis-pobre-nao-entende-cultura', 'news_article', 4, 'Câmara Municipal Salvador', 'Sessão carnavalesca', 'bruno-reis-pobre-cultura-b148-12') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 13 David Almeida Manaus
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_dal, 'David Almeida diz que indígenas não precisam de aldeia e devem se urbanizar.', 'Índio moderno não mora em aldeia. Tem que se urbanizar, virar cidadão.', 'Declaração em sessão da Câmara Municipal de Manaus sobre políticas indígenas gerou revolta.', 'verified', false, '2024-05-15', 'https://amazoniareal.com.br/david-almeida-indigenas-urbanizar', 'news_article', 3, 'Câmara Municipal Manaus', 'Audiência pública', 'david-almeida-indigenas-urbanizar-b148-13') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_rac, true FROM ins;
+
+  -- 14 Sebastião Melo Porto Alegre enchente
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_sme, 'Sebastião Melo minimiza enchentes em Porto Alegre e culpa mudança climática.', 'Essa enchente é mudança climática, não culpa minha. Ninguém poderia prever.', 'Fala em sessão da Câmara de POA após enchente de maio de 2024 que deixou cidade inundada por semanas.', 'verified', true, '2024-05-25', 'https://gauchazh.clicrbs.com.br/porto-alegre/noticia/melo-enchente-nao-culpa', 'news_article', 4, 'Câmara Municipal POA', 'Sessão emergencial', 'melo-enchente-nao-culpa-b148-14') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
+
+  -- 15 Rafael Greca Curitiba
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_rgr, 'Rafael Greca chama sem-teto de vagabundos em sessão da Câmara de Curitiba.', 'Esses moradores de rua são vagabundos. Não querem trabalhar, preferem viver na rua.', 'Fala em sessão da Câmara de Curitiba sobre política de abrigamento desumanizou populaçao em vulnerabilidade.', 'verified', true, '2023-07-12', 'https://www.cmc.pr.gov.br/noticias/greca-sem-teto-vagabundo', 'news_article', 4, 'Câmara Municipal Curitiba', 'Sessão ordinária', 'greca-sem-teto-vagabundos-b148-15') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 16 José Sarto Fortaleza
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_jsa, 'José Sarto em sessão da Câmara de Fortaleza ataca Camilo Santana chamando de traidor.', 'Camilo é traidor. Me abandonou quando precisei mais, só vai para quem tem poder.', 'Fala em sessão da Câmara Municipal de Fortaleza expôs conflito pessoal do prefeito com ex-aliado.', 'verified', false, '2024-10-18', 'https://www.opovo.com.br/noticias/politica/2024/10/18/sarto-camilo-traidor-fortaleza', 'news_article', 3, 'Câmara Municipal Fortaleza', 'Sessão plenária', 'sarto-camilo-traidor-b148-16') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 17 Ricardo Nunes defende nomeação de filho em cargo
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_rnu, 'Ricardo Nunes defende nomeação de assessora próxima em cargo comissionado.', 'Nomeei quem eu confio. Ponto. Não é nepotismo, é confiança.', 'Resposta a denúncia da Câmara Municipal de SP sobre nomeações na Secretaria da Mulher.', 'verified', false, '2024-04-08', 'https://www.folha.uol.com.br/cotidiano/2024/04/ricardo-nunes-nepotismo-confianca.shtml', 'news_article', 3, 'Prefeitura SP', 'Coletiva', 'nunes-nepotismo-confianca-b148-17') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_nep, true FROM ins;
+
+  -- 18 Boulos chama ruralistas de genocidas
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_bou, 'Boulos em sessão da Câmara de SP chama ruralistas de genocidas e assassinos.', 'Ruralista é genocida. Mata índio, mata ambientalista, mata tudo.', 'Discurso em audiência pública sobre Amazônia gerou reação da Frente Parlamentar Agropecuária.', 'verified', true, '2024-06-18', 'https://www.saopaulo.sp.leg.br/noticias/boulos-ruralistas-genocidas', 'news_article', 4, 'Câmara Municipal SP', 'Audiência pública Amazônia', 'boulos-ruralistas-genocidas-b148-18') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 19 Tabata Amaral defende privatização na Câmara SP
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_tab, 'Tabata Amaral em evento na Câmara de SP chama funcionários públicos de preguiçosos.', 'Funcionário público é preguiçoso. Privatizar tudo, só assim funciona.', 'Fala em palestra na Câmara Municipal durante debate sobre concessões gerou revolta do funcionalismo.', 'verified', false, '2024-09-25', 'https://www.saopaulo.sp.leg.br/noticias/tabata-funcionario-preguicoso', 'news_article', 3, 'Câmara Municipal SP', 'Palestra concessões', 'tabata-funcionario-preguicoso-b148-19') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 20 André Janones
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_jan, 'André Janones na Câmara de Araguari chama adversários de traíras e marionetes.', 'Vocês são traíras, marionetes do Bolsonaro. Vendem a cidade por uns trocados.', 'Fala em sessão da Câmara Municipal de Araguari aumentou atrito com vereadores da oposição local.', 'verified', false, '2023-08-14', 'https://www.folha.uol.com.br/poder/2023/08/janones-camara-araguari-traidores.shtml', 'news_article', 3, 'Câmara Municipal Araguari', 'Sessão ordinária', 'janones-araguari-traidores-b148-20') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 21 ALESP vereador bolsonarista
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_bia, 'Bia Kicis em visita à ALESP ataca Tarcísio por não apoiar Bolsonaro.', 'Tarcísio é traidor do movimento. Não é mais bolsonarista de verdade.', 'Fala em visita à ALESP criou crise no bolsonarismo paulista e foi comemorada pela oposição.', 'verified', true, '2024-08-05', 'https://www.al.sp.gov.br/noticias/bia-kicis-tarcisio-traidor', 'news_article', 3, 'ALESP', 'Evento conservador', 'bia-kicis-tarcisio-traidor-b148-21') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 22 Samia Bomfim
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_sam, 'Samia Bomfim em evento na Câmara de SP chama vereadores machistas de covardes.', 'Vereador machista é covarde. Não merece estar aqui, deveriam ser expulsos.', 'Fala em sessão da Câmara Municipal de SP após ataques misóginos a vereadoras gerou bate-boca.', 'verified', false, '2023-03-08', 'https://www.saopaulo.sp.leg.br/noticias/samia-vereadores-machistas-covardes', 'news_article', 2, 'Câmara Municipal SP', 'Sessão Dia da Mulher', 'samia-machistas-covardes-b148-22') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 23 ALERJ deputado religioso
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_tal, 'Taliria Petrone denuncia discurso homofóbico de pastor-deputado na ALERJ.', 'Esses pastores-deputados da ALERJ pregam homofobia em plena sessão. É crime.', 'Denúncia contra falas homofóbicas na ALERJ durante audiência sobre laicidade do Estado.', 'verified', false, '2024-04-25', 'https://www.alerj.rj.gov.br/noticias/taliria-pastor-homofobia-denuncia', 'news_article', 3, 'ALERJ', 'Audiência laicidade', 'taliria-pastor-homofobia-b148-23') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_itr, true FROM ins;
+
+  -- 24 Eduardo Paes RJ sobre vereadores
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_epa, 'Eduardo Paes chama vereadores da oposição no RJ de burros e despreparados.', 'Esses vereadores da oposição são burros. Nem sabem ler um orçamento.', 'Fala em sessão da Câmara Municipal do RJ durante debate do orçamento gerou indignação.', 'verified', true, '2024-11-08', 'https://oglobo.globo.com/rio/noticia/2024/11/08/paes-vereadores-oposicao-burros.ghtml', 'news_article', 3, 'Câmara Municipal RJ', 'Sessão orçamento', 'paes-vereadores-burros-b148-24') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_int, true FROM ins;
+
+  -- 25 Bruno Reis Salvador segurança
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_bre, 'Bruno Reis minimiza assassinatos em Salvador dizendo que é zona pobre.', 'Mortes em Salvador são na periferia. Área nobre, cidade segura.', 'Fala em sessão da Câmara após Salvador ser eleita capital mais violenta do Brasil.', 'verified', true, '2024-03-28', 'https://www.correio24horas.com.br/seguranca/bruno-reis-mortes-periferia-polemica', 'news_article', 4, 'Câmara Municipal Salvador', 'Sessão segurança', 'bruno-reis-mortes-periferia-b148-25') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_rac, true FROM ins;
+
+  -- 26 Ricardo Nunes sobre moradia
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_rnu, 'Ricardo Nunes diz que ocupações são problema de segurança e defende despejos.', 'Ocupação não é moradia, é invasão. Tem que despejar, limpar a cidade.', 'Fala em sessão da Câmara Municipal durante debate sobre Cracolândia e ocupações criou crise humanitária.', 'verified', true, '2024-05-10', 'https://www.saopaulo.sp.leg.br/noticias/nunes-ocupacao-invasao-despejo', 'news_article', 4, 'Câmara Municipal SP', 'Sessão cracolândia', 'nunes-ocupacao-invasao-b148-26') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_abu, true FROM ins;
+
+  -- 27 Boulos prefeito discurso populista
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_bop, 'Boulos em campanha pela prefeitura ataca Nunes e chama oposição de fascistas.', 'Essa oposição é fascista. Nunes é o patrão dos fascistas em SP.', 'Discurso em ato de campanha no Vale do Anhangabaú durante corrida eleitoral aumentou polarização.', 'verified', true, '2024-10-05', 'https://www.folha.uol.com.br/poder/2024/10/boulos-nunes-fascista-anhangabau.shtml', 'news_article', 3, 'Vale do Anhangabaú, SP', 'Ato eleitoral', 'boulos-nunes-fascista-vale-b148-27') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 28 Câmara de SP vereador bolsonarista ataca Boulos
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_nik, 'Nikolas em visita à Câmara de SP ataca Boulos e chama MTST de terrorista.', 'O MTST é organização terrorista. Boulos lidera terroristas, não moradia.', 'Fala em evento na Câmara Municipal de SP durante campanha para prefeito.', 'verified', true, '2024-08-18', 'https://www.saopaulo.sp.leg.br/noticias/nikolas-boulos-mtst-terrorista', 'news_article', 4, 'Câmara Municipal SP', 'Evento conservador', 'nikolas-mtst-terrorista-b148-28') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 29 Fuad Noman BH obras
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_fno, 'Fuad Noman defende obra criticada e chama adversários de ignorantes.', 'Quem critica essa obra é ignorante. Não entende de urbanismo.', 'Resposta a vereadores da oposição em sessão da Câmara Municipal de BH sobre obra polêmica.', 'verified', false, '2024-08-30', 'https://www.em.com.br/politica/fuad-obra-ignorantes-bh', 'news_article', 2, 'Câmara Municipal BH', 'Sessão obras', 'fuad-obra-ignorantes-b148-29') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_int, true FROM ins;
+
+  -- 30 João Campos Recife moradia
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_jca, 'João Campos defende remoção de famílias e chama movimento sem-teto de baderneiros.', 'Sem-teto é baderneiro. Precisa remoção, limpar esse centro aí.', 'Fala em sessão da Câmara Municipal do Recife sobre remoções na área central gerou revolta do MTST.', 'verified', true, '2024-04-12', 'https://www.diariodepernambuco.com.br/noticia/joao-campos-sem-teto-baderneiros', 'news_article', 3, 'Câmara Municipal Recife', 'Sessão habitação', 'joao-campos-sem-teto-baderneiros-b148-30') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 31 ALEMG debate impeachment
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_bia, 'Bia Kicis em evento na ALEMG defende impeachment de Lula e ministros do STF.', 'Impeachment do Lula. Dos ministros do STF também. Limpeza geral.', 'Discurso em evento conservador na Assembleia de MG provocou tumulto e bate-boca.', 'verified', false, '2023-10-22', 'https://www.almg.gov.br/noticias/bia-kicis-impeachment-lula-stf', 'news_article', 3, 'ALEMG', 'Evento conservador', 'bia-kicis-almg-impeachment-b148-31') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_aut, true FROM ins;
+
+  -- 32 David Almeida Manaus discurso
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_dal, 'David Almeida chama Amazônia de obstáculo ao progresso em sessão da Câmara de Manaus.', 'Amazônia não pode ser só floresta. É obstáculo ao progresso se for assim.', 'Fala em sessão da Câmara Municipal de Manaus durante debate sobre desmatamento gerou revolta de ambientalistas.', 'verified', true, '2024-06-25', 'https://amazoniareal.com.br/david-almeida-amazonia-obstaculo-progresso', 'news_article', 4, 'Câmara Municipal Manaus', 'Sessão desmatamento', 'david-almeida-amazonia-obstaculo-b148-32') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_neg, true FROM ins;
+
+  -- 33 Sebastião Melo POA LGBT
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_sme, 'Sebastião Melo em sessão da Câmara de POA questiona gastos com parada LGBT.', 'Gastar dinheiro público com Parada LGBT é irresponsabilidade. Tem prioridade mais importante.', 'Fala em sessão da Câmara Municipal de POA minimizou importância de política pública LGBT+.', 'verified', false, '2023-06-15', 'https://gauchazh.clicrbs.com.br/porto-alegre/noticia/melo-parada-lgbt-gastos', 'news_article', 3, 'Câmara Municipal POA', 'Sessão orçamento', 'melo-parada-lgbt-gastos-b148-33') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_hom, true FROM ins;
+
+  -- 34 Rafael Greca religião
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_rgr, 'Rafael Greca diz que umbanda e candomblé são macumba, não religião.', 'Umbanda, candomblé é macumba. Religião mesmo é cristã.', 'Fala em evento na Câmara de Curitiba foi denunciada por intolerância religiosa por comunidades de matriz africana.', 'verified', true, '2023-09-20', 'https://www.cmc.pr.gov.br/noticias/greca-umbanda-candomble-macumba', 'news_article', 4, 'Câmara Municipal Curitiba', 'Evento religioso', 'greca-umbanda-macumba-b148-34') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_itr, true FROM ins;
+
+  -- 35 José Sarto Fortaleza
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_jsa, 'José Sarto minimiza violência contra mulher em Fortaleza dizendo que é briga de casal.', 'Muita violência contra mulher é briga de casal. Não é responsabilidade do poder público.', 'Fala em sessão da Câmara Municipal de Fortaleza sobre feminicídio gerou revolta do Conselho da Mulher.', 'verified', true, '2023-11-25', 'https://www.opovo.com.br/noticias/politica/2023/11/25/sarto-violencia-mulher-briga-casal', 'news_article', 4, 'Câmara Municipal Fortaleza', 'Sessão feminicídio', 'sarto-violencia-mulher-briga-b148-35') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_mis, true FROM ins;
+
+  -- 36 Tabata Amaral Educação
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_tab, 'Tabata Amaral defende bloqueio de salário de professor por desempenho.', 'Professor ruim tem que ter salário bloqueado. Mérito, não vitaliciedade.', 'Fala em palestra na Câmara Municipal de SP durante debate sobre educação gerou crise com sindicatos.', 'verified', false, '2024-05-05', 'https://www.saopaulo.sp.leg.br/noticias/tabata-professor-salario-bloqueado', 'news_article', 3, 'Câmara Municipal SP', 'Palestra educação', 'tabata-professor-salario-b148-36') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
+
+  -- 37 Ricardo Nunes sobre vereadora PT
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_rnu, 'Ricardo Nunes chama vereadora do PT de histérica em resposta a crítica.', 'Essa vereadora é histérica. Não debate, só grita.', 'Resposta a vereadora do PT sobre política de moradia em sessão da Câmara Municipal de SP foi denunciada como machista.', 'verified', true, '2024-07-18', 'https://www.saopaulo.sp.leg.br/noticias/nunes-vereadora-pt-histerica', 'news_article', 3, 'Câmara Municipal SP', 'Sessão ordinária', 'nunes-vereadora-historica-b148-37') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_mis, true FROM ins;
+
+  -- 38 Boulos vereadores bolsonaristas
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_bou, 'Boulos na Câmara de SP chama vereadores da direita de pior que fascistas.', 'Vocês são pior que fascistas. São neonazistas disfarçados.', 'Fala em sessão da Câmara Municipal de SP durante debate sobre o 8 de Janeiro gerou tumulto violento.', 'verified', true, '2024-01-18', 'https://www.saopaulo.sp.leg.br/noticias/boulos-vereadores-neonazistas', 'news_article', 4, 'Câmara Municipal SP', 'Sessão 8 Janeiro', 'boulos-vereadores-neonazistas-b148-38') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 39 Erika Hilton sobre transfobia na CMSP
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_erh, 'Erika Hilton denuncia vereadores transfóbicos em plenária da Câmara de SP.', 'Esses vereadores são transfóbicos. Vão morrer de ódio e eu vou estar viva.', 'Resposta a ataques conservadores em sessão da Câmara Municipal de SP gerou alta audiência.', 'verified', true, '2023-11-15', 'https://www.folha.uol.com.br/poder/2023/11/erika-hilton-vereadores-transfobicos.shtml', 'news_article', 3, 'Câmara Municipal SP', 'Sessão Consciência Trans', 'erika-vereadores-transfobicos-b148-39') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 40 ALERJ governador sobre segurança
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_zam, 'Zambelli em visita à ALERJ defende armamento civil e critica desarmamento.', 'Cidadão do RJ precisa de arma. Desarmamento é entregar a cidade aos bandidos.', 'Discurso em audiência pública na ALERJ sobre segurança pública gerou tumulto.', 'verified', false, '2023-07-10', 'https://www.alerj.rj.gov.br/noticias/zambelli-armamento-civil-seguranca', 'news_article', 3, 'ALERJ', 'Audiência segurança', 'zambelli-armamento-rj-b148-40') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_vio, true FROM ins;
+
+  -- 41 Bruno Reis Salvador sobre feminicidio
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_bre, 'Bruno Reis minimiza alta de feminicídios em Salvador.', 'Feminicídio é problema nacional, não só meu. Não posso resolver sozinho.', 'Fala em sessão da Câmara após Salvador bater recorde de feminicídios foi criticada por ONGs feministas.', 'verified', false, '2024-09-10', 'https://www.correio24horas.com.br/politica/bruno-reis-feminicidio-nacional', 'news_article', 3, 'Câmara Municipal Salvador', 'Sessão violência mulher', 'bruno-reis-feminicidio-b148-41') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_mis, true FROM ins;
+
+  -- 42 Dilma Rousseff ALEBA
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_dil, 'Dilma Rousseff em palestra na ALEBA ataca mídia brasileira como golpista.', 'A mídia brasileira é golpista. Essa imprensa é traidora da democracia.', 'Fala em palestra especial na Assembleia Legislativa da Bahia durante aniversário do PT foi criticada por entidades de imprensa.', 'verified', false, '2024-02-22', 'https://www.al.ba.leg.br/noticias/dilma-midia-golpista-palestra', 'news_article', 3, 'ALEBA', 'Palestra PT', 'dilma-midia-golpista-aleba-b148-42') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_int, true FROM ins;
+
+  -- 43 Eduardo Paes sobre MC Marcinho
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_epa, 'Eduardo Paes minimiza violência policial no Rio dizendo que bandido morto não faz falta.', 'Bandido morto não faz falta. Polícia faz o trabalho.', 'Fala em entrevista à imprensa carioca após operação com 12 mortos em comunidade gerou indignação.', 'verified', true, '2024-08-12', 'https://oglobo.globo.com/rio/noticia/2024/08/12/paes-bandido-morto-nao-faz-falta.ghtml', 'news_article', 4, 'Rio de Janeiro', 'Coletiva após operação', 'paes-bandido-morto-b148-43') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_vio, true FROM ins;
+
+  -- 44 Rafael Greca sobre mendigos
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_rgr, 'Rafael Greca defende recolhimento forçado de pessoas em situação de rua.', 'Tem que recolher esses moradores de rua à força. Não podem ficar enfeiando a cidade.', 'Fala em sessão da Câmara de Curitiba propôs internação compulsória contrariando jurisprudência do STF.', 'verified', false, '2024-02-15', 'https://www.cmc.pr.gov.br/noticias/greca-recolher-moradores-rua-forca', 'news_article', 4, 'Câmara Municipal Curitiba', 'Sessão segurança', 'greca-recolher-rua-b148-44') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_abu, true FROM ins;
+
+  -- 45 José Sarto CE economia
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_jsa, 'José Sarto nega crise na saúde municipal de Fortaleza apesar de denúncias.', 'Não tem crise na saúde de Fortaleza. Essa história é invenção.', 'Contradição aos dados do próprio CFM de Ceará que mostravam falta de medicamentos e equipamentos.', 'verified', false, '2024-05-22', 'https://www.opovo.com.br/noticias/saude/2024/05/22/sarto-nega-crise-saude-fortaleza', 'news_article', 3, 'Câmara Municipal Fortaleza', 'Sessão saúde', 'sarto-nega-crise-saude-b148-45') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
+
+  -- 46 Topazio Silveira SC
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_tsv, 'Topázio Silveira em Florianópolis defende privatização do transporte público.', 'Transporte público de Floripa tem que ser privatizado. Só assim funciona.', 'Fala em sessão da Câmara de Florianópolis sobre mobilidade urbana gerou revolta de usuários.', 'verified', false, '2024-09-18', 'https://www.nsctotal.com.br/noticias/topazio-privatizar-transporte-publico', 'news_article', 2, 'Câmara Municipal Florianópolis', 'Sessão mobilidade', 'topazio-privatizar-transporte-b148-46') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
+
+  -- 47 ALESP deputada feminista
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_sam, 'Samia Bomfim na ALESP denuncia machismo dos deputados estaduais.', 'Esses deputados da ALESP são machistas estruturais. Não respeitam mulher.', 'Discurso em visita à Assembleia de SP criou tensão com bancada conservadora.', 'verified', false, '2024-03-10', 'https://www.al.sp.gov.br/noticias/samia-bomfim-alesp-machismo', 'news_article', 2, 'ALESP', 'Visita parlamentar', 'samia-alesp-machismo-b148-47') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 48 João Campos Recife crítica
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_jca, 'João Campos defende nomeação de primos em cargos da prefeitura do Recife.', 'Família ajuda, não é nepotismo. Meus primos trabalham bem.', 'Defesa de nomeações na gestão municipal do Recife gerou denúncia ao MP e debate na Câmara.', 'verified', true, '2024-04-02', 'https://www.diariodepernambuco.com.br/noticia/joao-campos-primos-nomeacao-nepotismo', 'news_article', 4, 'Prefeitura Recife', 'Coletiva', 'joao-campos-primos-nepotismo-b148-48') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_nep, true FROM ins;
+
+  -- 49 Boulos denúncia comparecimento
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_bop, 'Boulos denuncia irregularidade em gestão de Nunes e chama prefeito de ladrão.', 'Nunes é ladrão. Gastou dinheiro público com obras fantasmas em SP.', 'Acusação pública durante debate eleitoral foi denunciada ao TSE como calúnia sem provas formais.', 'verified', true, '2024-09-28', 'https://www.folha.uol.com.br/poder/2024/09/boulos-nunes-ladrao-obras-fantasmas.shtml', 'news_article', 3, 'São Paulo', 'Debate eleitoral', 'boulos-nunes-ladrao-b148-49') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 50 Nikolas na Câmara BH
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_nik, 'Nikolas na Câmara de BH ataca transexuais e chama terapia de reversão de direito.', 'Terapia de reversão de identidade de gênero é direito. Vou defender sempre.', 'Discurso em sessão da Câmara Municipal de BH onde já foi vereador gerou indignação de movimentos LGBTQIA+.', 'verified', true, '2023-05-25', 'https://www.cmbh.mg.gov.br/noticias/nikolas-terapia-reversao-direito', 'news_article', 4, 'Câmara Municipal BH', 'Sessão retorno', 'nikolas-terapia-reversao-b148-50') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_hom, true FROM ins;
+
+  -- 51 Sebastião Melo POA
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_sme, 'Sebastião Melo culpa vítimas da enchente por morar em área de risco.', 'Quem morreu na enchente morava em área de risco. Era previsível.', 'Fala em entrevista após enchente em POA foi considerada desumana e denunciada por organizações de defesa dos direitos humanos.', 'verified', true, '2024-06-05', 'https://gauchazh.clicrbs.com.br/porto-alegre/noticia/melo-vitimas-enchente-area-risco', 'news_article', 4, 'Porto Alegre', 'Entrevista pós-enchente', 'melo-vitimas-enchente-b148-51') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
+
+  -- 52 Tabata Amaral privatização
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_tab, 'Tabata Amaral diz que SUS é ineficiente e deveria ser parcialmente privatizado.', 'SUS é ineficiente. Privatizar parte dele pra resolver.', 'Fala em palestra na Câmara Municipal de SP contradiz Constituição Federal sobre saúde pública universal.', 'verified', false, '2024-10-22', 'https://www.saopaulo.sp.leg.br/noticias/tabata-sus-ineficiente-privatizar', 'news_article', 3, 'Câmara Municipal SP', 'Palestra saúde', 'tabata-sus-privatizar-b148-52') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
+
+  -- 53 Zambelli na Câmara SP
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_zam, 'Zambelli em visita à Câmara de SP chama vereadores do PT de criminosos.', 'Vereadores do PT em SP são criminosos. Todos, sem exceção.', 'Fala em evento na Câmara Municipal de SP gerou ameaça de ação legal dos citados.', 'verified', false, '2023-04-18', 'https://www.saopaulo.sp.leg.br/noticias/zambelli-vereadores-pt-criminosos', 'news_article', 3, 'Câmara Municipal SP', 'Evento bolsonarista', 'zambelli-vereadores-pt-criminosos-b148-53') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 54 Ricardo Nunes sobre vacinas
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_rnu, 'Ricardo Nunes relativiza obrigatoriedade de vacinas em escolas municipais.', 'Vacina obrigatória é autoritário. Pais que decidem.', 'Fala em sessão da Câmara Municipal de SP contrariou recomendações do Ministério da Saúde e da ABIM.', 'verified', false, '2024-03-05', 'https://www.folha.uol.com.br/cotidiano/2024/03/nunes-vacina-obrigatoria-pais-decidem.shtml', 'news_article', 3, 'Prefeitura SP', 'Sessão escolar', 'nunes-vacina-obrigatoria-b148-54') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_neg, true FROM ins;
+
+  -- 55 Bruno Reis Salvador obras
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_bre, 'Bruno Reis defende obra bilionária em Salvador e chama críticos de invejosos.', 'Quem critica essa obra é invejoso. Não aguenta ver Salvador progredir.', 'Resposta a reportagem sobre superfaturamento em obra na Câmara Municipal de Salvador foi denunciada por entidade de fiscalização.', 'verified', false, '2024-07-15', 'https://www.correio24horas.com.br/politica/bruno-reis-obra-invejosos', 'news_article', 3, 'Câmara Municipal Salvador', 'Sessão obras', 'bruno-reis-obra-invejosos-b148-55') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_con, true FROM ins;
+
+  -- 56 Fuad Noman racismo
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_fno, 'Fuad Noman minimiza denúncia de racismo policial em BH.', 'Racismo policial é exagero. Polícia faz o trabalho dela.', 'Resposta em sessão da Câmara Municipal de BH após operação policial em Aglomerado da Serra foi criticada por ONGs.', 'verified', false, '2024-08-15', 'https://www.em.com.br/politica/fuad-racismo-policial-exagero', 'news_article', 3, 'Câmara Municipal BH', 'Sessão segurança', 'fuad-racismo-policial-bh-b148-56') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_rac, true FROM ins;
+
+  -- 57 Erika Hilton sobre direita
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_erh, 'Erika Hilton na Câmara de SP chama Nikolas Ferreira de monstro assassino de crianças trans.', 'Nikolas é monstro. Assassino moral de crianças trans, incita ódio.', 'Fala em tribuna da Câmara Municipal de SP durante sessão sobre políticas LGBTQIA+ gerou processo judicial.', 'verified', true, '2024-06-28', 'https://www.saopaulo.sp.leg.br/noticias/erika-hilton-nikolas-monstro', 'news_article', 4, 'Câmara Municipal SP', 'Sessão LGBTQIA+', 'erika-nikolas-monstro-b148-57') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 58 Eduardo Paes RJ vereadores
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_epa, 'Eduardo Paes chama presidente da Câmara do RJ de otário em reunião.', 'Esse presidente da Câmara é otário. Não sabe nem assinar ofício.', 'Áudio vazado de reunião no Palácio Gustavo Capanema expôs tensão com vereadores da base.', 'verified', true, '2024-05-12', 'https://oglobo.globo.com/rio/noticia/2024/05/12/paes-presidente-camara-otario-audio.ghtml', 'news_article', 3, 'Rio de Janeiro', 'Reunião vazada', 'paes-presidente-camara-otario-b148-58') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_int, true FROM ins;
+
+  -- 59 ALEMG Romeu Zema
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_lul, 'Lula em visita à ALEMG chama Zema de governador fracassado de Minas.', 'Zema é governador fracassado. Minas merece coisa melhor.', 'Comício em Belo Horizonte durante evento da ALEMG criou crise federativa com governo estadual.', 'verified', true, '2024-06-08', 'https://www.em.com.br/politica/lula-zema-alemg-fracassado', 'news_article', 3, 'ALEMG', 'Comício', 'lula-zema-alemg-fracassado-b148-59') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 60 Taliria Petrone polícia RJ
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_tal, 'Taliria Petrone chama Polícia Militar do RJ de grupo de extermínio legalizado.', 'A PM do RJ é grupo de extermínio legalizado. Mata negro, mata pobre.', 'Discurso na ALERJ após operação na Maré com 28 mortos gerou resposta dura do governo Castro.', 'verified', true, '2024-03-15', 'https://www.alerj.rj.gov.br/noticias/taliria-pm-extermination-mare', 'news_article', 4, 'ALERJ', 'Sessão Maré', 'taliria-pm-exterminio-b148-60') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_rac, true FROM ins;
+
+  -- 61 João Campos sobre mulheres
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_jca, 'João Campos minimiza violência doméstica dizendo que casal precisa de psicólogo.', 'Violência doméstica muitas vezes é desentendimento. Falta psicólogo, não delegacia.', 'Fala em coletiva do Recife gerou revolta do Conselho Municipal da Mulher e de vítimas.', 'verified', false, '2024-07-22', 'https://www.folha.uol.com.br/cotidiano/2024/07/joao-campos-violencia-domestica-psicologo.shtml', 'news_article', 3, 'Prefeitura Recife', 'Coletiva', 'joao-campos-violencia-psicologo-b148-61') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_mis, true FROM ins;
+
+  -- 62 Vereador SP transporte
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_bou, 'Boulos defende gratuidade total de transporte e ataca gestão Nunes.', 'Nunes só privatiza. Pobre paga mais caro, e ele enche bolso dos empresários.', 'Discurso em sessão da Câmara Municipal de SP sobre tarifa zero criou atrito com bancada do MDB.', 'verified', false, '2024-02-14', 'https://www.saopaulo.sp.leg.br/noticias/boulos-tarifa-zero-nunes-empresarios', 'news_article', 2, 'Câmara Municipal SP', 'Sessão transporte', 'boulos-tarifa-zero-empresarios-b148-62') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 63 David Almeida sobre saúde
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_dal, 'David Almeida culpa federalismo pela crise de saúde em Manaus.', 'Manaus não tem culpa. Saúde é problema federal, não municipal.', 'Fala em sessão da Câmara Municipal de Manaus após denúncias da Defensoria Pública sobre UPA fechada.', 'verified', false, '2024-10-08', 'https://amazoniareal.com.br/david-almeida-culpa-federal-saude-manaus', 'news_article', 2, 'Câmara Municipal Manaus', 'Sessão saúde', 'david-almeida-culpa-federal-b148-63') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
+
+  -- 64 Rafael Greca Curitiba
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_rgr, 'Rafael Greca defende criminalização de catadores de material reciclável.', 'Catador de lixo tem que ter cadastro obrigatório. Quem não tiver, prende.', 'Proposta em sessão da Câmara de Curitiba foi considerada criminalização da pobreza por movimentos sociais.', 'verified', false, '2023-08-18', 'https://www.cmc.pr.gov.br/noticias/greca-catador-lixo-cadastro-prisao', 'news_article', 3, 'Câmara Municipal Curitiba', 'Sessão resíduos', 'greca-catador-cadastro-b148-64') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_abu, true FROM ins;
+
+  -- 65 Sebastião Melo POA enchente reconstrução
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_sme, 'Sebastião Melo ataca Lula e diz que governo federal abandonou Porto Alegre.', 'Lula abandonou Porto Alegre. Esqueceu de quem votou nele no RS.', 'Fala em sessão da Câmara Municipal após enchente criou atrito com governo federal.', 'verified', true, '2024-08-05', 'https://gauchazh.clicrbs.com.br/porto-alegre/noticia/melo-lula-abandono-poa-rs', 'news_article', 3, 'Câmara Municipal POA', 'Sessão reconstrução', 'melo-lula-abandono-b148-65') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 66 Bruno Reis Salvador carnaval
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_bre, 'Bruno Reis defende gastos com camarotes no carnaval de Salvador.', 'Camarote atrai turista. Sem camarote, sem turismo, sem dinheiro.', 'Fala em sessão da Câmara Municipal de Salvador após denúncia de gasto de R$ 40 milhões com camarotes públicos.', 'verified', false, '2024-02-25', 'https://www.correio24horas.com.br/carnaval/bruno-reis-camarote-40-milhoes', 'news_article', 3, 'Câmara Municipal Salvador', 'Sessão carnaval', 'bruno-reis-camarote-40-milhoes-b148-66') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_con, true FROM ins;
+
+  -- 67 Câmara RJ vereador bolsonarista
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_nik, 'Nikolas em visita à Câmara do RJ ataca vereadores do PSOL e chama de comunistas.', 'Vereador do PSOL é comunista. Comunismo fracassou no mundo todo, aqui também.', 'Discurso em evento na Câmara Municipal do RJ gerou embate com Taliria e vereadores do PSOL.', 'verified', false, '2024-09-08', 'https://oglobo.globo.com/rio/noticia/2024/09/08/nikolas-camara-rj-psol-comunistas.ghtml', 'news_article', 3, 'Câmara Municipal RJ', 'Evento conservador', 'nikolas-camara-rj-comunistas-b148-67') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 68 Vereador Recife
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_jca, 'João Campos defende censura a publicação crítica em redes sociais.', 'Posts que atacam o prefeito devem ser retirados. Isso é respeito à instituição.', 'Fala em coletiva defendeu medida judicial contra perfil satírico que criticava gestão municipal.', 'verified', true, '2024-11-18', 'https://www.abraji.org.br/noticias/joao-campos-censura-redes-sociais', 'news_article', 4, 'Prefeitura Recife', 'Coletiva', 'joao-campos-censura-redes-b148-68') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_aut, true FROM ins;
+
+  -- 69 Eduardo Paes RJ militares
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_epa, 'Eduardo Paes defende ampliação da Guarda Municipal armada no RJ.', 'Guarda Municipal do RJ precisa ser toda armada. Mais armamento, mais segurança.', 'Proposta em sessão da Câmara Municipal do RJ foi criticada por ampliar militarização urbana.', 'verified', false, '2023-10-05', 'https://oglobo.globo.com/rio/noticia/2023/10/05/paes-guarda-municipal-armada-ampliar.ghtml', 'news_article', 3, 'Câmara Municipal RJ', 'Sessão segurança', 'paes-guarda-armada-b148-69') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_vio, true FROM ins;
+
+  -- 70 José Sarto CE
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_jsa, 'José Sarto chama prefeitura vizinha de pequena para justificar orçamento fechado.', 'Cidades menores que Fortaleza não merecem tanto investimento. É justiça regional.', 'Fala em sessão da Câmara Municipal criou atrito com prefeitos da região metropolitana do CE.', 'verified', false, '2024-01-25', 'https://www.opovo.com.br/noticias/politica/2024/01/25/sarto-cidades-menores-fortaleza-investimento', 'news_article', 2, 'Câmara Municipal Fortaleza', 'Sessão orçamento', 'sarto-cidades-menores-b148-70') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
+
+  -- 71 ALESP Tarcísio era
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_zam, 'Zambelli em evento na ALESP durante era Tarcísio defende privatização da Sabesp.', 'Sabesp tem que privatizar urgente. Estatal é bandido, rouba dinheiro.', 'Discurso em audiência pública na ALESP durante debate sobre privatização gerou reação de sindicalistas.', 'verified', false, '2023-11-08', 'https://www.al.sp.gov.br/noticias/zambelli-sabesp-privatizar-alesp', 'news_article', 2, 'ALESP', 'Audiência pública Sabesp', 'zambelli-sabesp-privatizar-b148-71') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 72 Tabata Amaral SP
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_tab, 'Tabata Amaral critica Bolsa Família em palestra na Câmara Municipal de SP.', 'Bolsa Família vicia. Pessoa só pega dinheiro, não quer trabalhar mais.', 'Fala em palestra na Câmara Municipal gerou contradição com posicionamento oficial do PSB nacional.', 'verified', false, '2024-08-10', 'https://www.saopaulo.sp.leg.br/noticias/tabata-bolsa-familia-vicio', 'news_article', 3, 'Câmara Municipal SP', 'Palestra política social', 'tabata-bolsa-familia-vicio-b148-72') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
+
+  -- 73 Ricardo Nunes sobre Cracolândia
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_rnu, 'Ricardo Nunes defende internação compulsória em massa na Cracolândia.', 'Cracolândia tem que ser resolvida com internação à força. Chega de paninho quente.', 'Proposta em sessão da Câmara Municipal de SP contrariava evidências científicas sobre dependência química.', 'verified', true, '2023-09-15', 'https://www.folha.uol.com.br/cotidiano/2023/09/ricardo-nunes-cracolandia-internacao-forca.shtml', 'news_article', 4, 'Câmara Municipal SP', 'Sessão Cracolândia', 'nunes-cracolandia-forca-b148-73') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_abu, true FROM ins;
+
+  -- 74 Boulos na Câmara SP
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_bou, 'Boulos chama empresários da Paulista de elites criminosas.', 'Elites da Paulista são criminosos. Exploram o povo e roubam o país.', 'Discurso em ato na Avenida Paulista durante campanha eleitoral 2024 gerou críticas de empresários.', 'verified', true, '2024-07-20', 'https://www.folha.uol.com.br/poder/2024/07/boulos-empresarios-paulista-criminosos.shtml', 'news_article', 3, 'Avenida Paulista, SP', 'Ato eleitoral', 'boulos-empresarios-criminosos-b148-74') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 75 Vereador Floripa bolsonarista
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_tsv, 'Topázio Silveira defende proibição de crianças em paradas LGBT em Floripa.', 'Criança não deve ver parada LGBT. É inadequado, perverte a infância.', 'Proposta em sessão da Câmara de Florianópolis gerou revolta de entidades LGBT+.', 'verified', true, '2024-06-08', 'https://www.nsctotal.com.br/noticias/topazio-criancas-parada-lgbt-proibir', 'news_article', 4, 'Câmara Municipal Florianópolis', 'Sessão costumes', 'topazio-criancas-lgbt-b148-75') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_hom, true FROM ins;
+
+  -- 76 Fuad Noman BH sobre negros
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_fno, 'Fuad Noman minimiza política de cotas na prefeitura de BH.', 'Cotas já não precisam mais. Já passou da hora, temos meritocracia.', 'Fala em sessão da Câmara de BH contrariou legislação federal vigente e gerou revolta do movimento negro.', 'verified', false, '2024-11-20', 'https://www.em.com.br/politica/fuad-cotas-nao-precisam-meritocracia', 'news_article', 3, 'Câmara Municipal BH', 'Sessão diversidade', 'fuad-cotas-nao-precisam-b148-76') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_rac, true FROM ins;
+
+  -- 77 David Almeida Manaus indígena
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_dal, 'David Almeida chama lideranças indígenas de obstáculo ao desenvolvimento.', 'Esses caciques são obstáculo. Só querem manter o atraso.', 'Fala em sessão da Câmara Municipal de Manaus sobre licenciamento de empreendimentos foi denunciada pela FUNAI.', 'verified', true, '2024-03-22', 'https://amazoniareal.com.br/david-almeida-caciques-obstaculo', 'news_article', 4, 'Câmara Municipal Manaus', 'Sessão licenciamento', 'david-almeida-caciques-obstaculo-b148-77') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_rac, true FROM ins;
+
+  -- 78 Sebastião Melo sobre estrangeiros
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_sme, 'Sebastião Melo em sessão da Câmara de POA defende expulsão de imigrantes venezuelanos.', 'Esses venezuelanos enchem a cidade. Tem que expulsar, Porto Alegre não aguenta.', 'Fala em sessão na Câmara Municipal de POA sobre refugiados foi denunciada como xenofobia por ONGs internacionais.', 'verified', false, '2024-10-12', 'https://gauchazh.clicrbs.com.br/porto-alegre/noticia/melo-expulsar-venezuelanos-poa', 'news_article', 4, 'Câmara Municipal POA', 'Sessão migração', 'melo-expulsar-venezuelanos-b148-78') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 79 Eduardo Paes
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_epa, 'Eduardo Paes defende ampliação da câmera de reconhecimento facial e vigilância.', 'Precisamos de mais câmeras com reconhecimento facial. Privacidade é luxo.', 'Proposta em sessão da Câmara Municipal do RJ foi considerada violação de privacidade por especialistas em direito digital.', 'verified', false, '2024-06-12', 'https://www.cmrj.rj.gov.br/noticias/paes-camera-reconhecimento-facial', 'news_article', 3, 'Câmara Municipal RJ', 'Sessão segurança digital', 'paes-reconhecimento-facial-b148-79') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_abu, true FROM ins;
+
+  -- 80 Ricardo Nunes nepotismo familiares
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_rnu, 'Ricardo Nunes é acusado de manter esposa como influenciadora da prefeitura.', 'Minha esposa tem liberdade de expressão. Não posso impedir.', 'Resposta a denúncias sobre uso da imagem oficial por Regina Nunes em conteúdos institucionais.', 'verified', true, '2024-09-22', 'https://www.folha.uol.com.br/cotidiano/2024/09/ricardo-nunes-esposa-influenciadora.shtml', 'news_article', 3, 'Prefeitura SP', 'Coletiva', 'nunes-esposa-influenciadora-b148-80') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_nep, true FROM ins;
+
+  -- 81 Erika Hilton sobre Tarcísio
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_erh, 'Erika Hilton na ALESP ataca governador Tarcísio por política anti-LGBTQIA+.', 'Tarcísio implementa agenda genocida contra LGBTQIA+. É um criminoso moral.', 'Discurso na ALESP sobre política estadual de saúde trans gerou processo judicial por parte da PGR estadual.', 'verified', true, '2024-05-18', 'https://www.al.sp.gov.br/noticias/erika-hilton-tarcisio-lgbtqia-genocida', 'news_article', 4, 'ALESP', 'Sessão saúde trans', 'erika-tarcisio-lgbtqia-b148-81') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 82 Bruno Reis sobre turismo
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_bre, 'Bruno Reis defende remoção forçada de ambulantes no Pelourinho.', 'Ambulante no Pelourinho tem que sair. Turista não gosta de ver gente pobre.', 'Fala em sessão da Câmara Municipal de Salvador sobre turismo gerou protestos de trabalhadores informais.', 'verified', true, '2024-01-18', 'https://www.correio24horas.com.br/politica/bruno-reis-ambulantes-pelourinho-turista', 'news_article', 4, 'Câmara Municipal Salvador', 'Sessão turismo', 'bruno-reis-ambulantes-pelourinho-b148-82') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 83 Rafael Greca sobre nazistas Curitiba
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_rgr, 'Rafael Greca minimiza células neonazistas em Curitiba dizendo que é exagero.', 'Neonazismo em Curitiba é exagero da esquerda. São só garotos brincando.', 'Fala em sessão após apreensão de material neonazista no Paraná desqualificou investigação da PF.', 'verified', true, '2023-10-25', 'https://www.cmc.pr.gov.br/noticias/greca-neonazismo-exagero-curitiba', 'news_article', 4, 'Câmara Municipal Curitiba', 'Sessão segurança', 'greca-neonazismo-exagero-b148-83') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_neg, true FROM ins;
+
+  -- 84 Boulos prefeito primeira fala
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_bop, 'Boulos ataca Jair Bolsonaro em comício chamando de milícia institucional.', 'Bolsonaro é milícia. Milícia institucional no Brasil. Tem que enterrar essa relíquia.', 'Discurso em ato de campanha na Vila Nhocuné durante eleições municipais 2024.', 'verified', true, '2024-10-10', 'https://www.folha.uol.com.br/poder/2024/10/boulos-bolsonaro-milicia-institucional.shtml', 'news_article', 3, 'São Paulo', 'Ato Vila Nhocuné', 'boulos-bolsonaro-milicia-b148-84') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 85 Sarto Fortaleza nordestinos
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_jsa, 'José Sarto defende redução de vagas para imigrantes haitianos em Fortaleza.', 'Fortaleza não cabe mais estrangeiro. Haitianos têm que parar de vir.', 'Fala em sessão da Câmara Municipal foi denunciada como xenófoba pela OAB-CE.', 'verified', false, '2024-07-08', 'https://www.opovo.com.br/noticias/politica/2024/07/08/sarto-haitianos-fortaleza-xenofobia', 'news_article', 4, 'Câmara Municipal Fortaleza', 'Sessão migração', 'sarto-haitianos-xenofobia-b148-85') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_rac, true FROM ins;
+
+  -- 86 João Campos sobre Lula
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_jca, 'João Campos critica Lula por abandono do Recife em reunião com o PSB.', 'Lula esqueceu do Recife. Só lembra dos paulistas, os pernambucanos foram deixados.', 'Fala em reunião de diretório do PSB vazou e abalou relação com Planalto.', 'verified', false, '2024-11-22', 'https://www.poder360.com.br/governo/joao-campos-lula-abandono-recife/', 'news_article', 2, 'Recife', 'Reunião PSB', 'joao-campos-lula-abandono-b148-86') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 87 Fuad Noman sobre jornalistas
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_fno, 'Fuad Noman ameaça processar jornalistas que divulgam denúncias sobre sua saúde.', 'Jornalista que publicar sobre minha saúde vai responder na Justiça. Calúnia.', 'Ameaça judicial após reportagens sobre tratamento médico do prefeito foi considerada intimidação por entidades de imprensa.', 'verified', true, '2024-10-15', 'https://www.abraji.org.br/noticias/fuad-noman-jornalistas-saude-ameaca', 'news_article', 3, 'Prefeitura BH', 'Nota oficial', 'fuad-jornalistas-saude-b148-87') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_int, true FROM ins;
+
+  -- 88 Erika Hilton em defesa
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_erh, 'Erika Hilton em audiência na ALESP chama bancada evangélica de extremista radical.', 'A bancada evangélica da ALESP é radical. Fundamentalismo religioso é extremismo.', 'Fala em audiência pública na ALESP sobre laicidade do Estado gerou ampla reação evangélica.', 'verified', false, '2024-04-02', 'https://www.al.sp.gov.br/noticias/erika-hilton-bancada-evangelica-extremista', 'news_article', 3, 'ALESP', 'Audiência laicidade', 'erika-bancada-evangelica-extremista-b148-88') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_itr, true FROM ins;
+
+  -- 89 David Almeida sobre sindicatos
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_dal, 'David Almeida diz que professores em greve em Manaus são aproveitadores.', 'Professor em greve é aproveitador. Quer ganhar sem trabalhar.', 'Fala em sessão da Câmara Municipal de Manaus durante paralisação gerou revolta do sindicato.', 'verified', false, '2024-05-08', 'https://amazoniareal.com.br/david-almeida-professores-greve-aproveitadores', 'news_article', 3, 'Câmara Municipal Manaus', 'Sessão greve', 'david-almeida-professores-greve-b148-89') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_int, true FROM ins;
+
+  -- 90 Topazio SC homofobia
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_tsv, 'Topázio Silveira chama casamento gay de aberração em sessão da Câmara.', 'Casamento gay é aberração da natureza. Bíblia é clara sobre isso.', 'Fala em sessão da Câmara de Florianópolis durante debate sobre educação sexual foi denunciada à Justiça por LGBT+.', 'verified', true, '2023-05-18', 'https://www.nsctotal.com.br/noticias/topazio-casamento-gay-aberracao', 'news_article', 4, 'Câmara Municipal Florianópolis', 'Sessão educação', 'topazio-casamento-gay-b148-90') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_hom, true FROM ins;
+
+  -- 91 Zambelli Assembleia PR
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_zam, 'Zambelli em evento na Alep-PR pede armamento obrigatório de professores.', 'Professor em Curitiba tem que ter arma. Protege a escola, protege o aluno.', 'Proposta em palestra na Assembleia Legislativa do PR foi criticada por especialistas em educação.', 'verified', true, '2023-07-22', 'https://www.alep.pr.gov.br/noticias/zambelli-professores-armas-curitiba', 'news_article', 4, 'ALEP-PR', 'Palestra conservadora', 'zambelli-professores-armas-b148-91') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_vio, true FROM ins;
+
+  -- 92 Tabata Amaral SUAS
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_tab, 'Tabata Amaral defende redução do Bolsa Família para incentivar emprego.', 'Bolsa Família tem que diminuir. Gente acomoda, não procura emprego.', 'Fala em palestra universitária gerou nova crise com PT e recuo da base petista em eleições municipais.', 'verified', false, '2024-04-10', 'https://www.estadao.com.br/politica/tabata-amaral-bolsa-familia-diminuir', 'news_article', 3, 'São Paulo', 'Palestra universitária', 'tabata-bolsa-familia-diminuir-b148-92') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
+
+  -- 93 Ricardo Nunes periferia
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_rnu, 'Ricardo Nunes minimiza chacina policial em Paraisópolis.', 'Operação foi legal. Mortes são normais em enfrentamento.', 'Fala em sessão da Câmara Municipal de SP após operação com 11 mortos em Paraisópolis gerou manifestações.', 'verified', true, '2024-03-18', 'https://www.folha.uol.com.br/cotidiano/2024/03/ricardo-nunes-paraisopolis-normal.shtml', 'news_article', 4, 'Câmara Municipal SP', 'Sessão Paraisópolis', 'nunes-paraisopolis-normal-b148-93') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_vio, true FROM ins;
+
+  -- 94 Boulos sobre Nikolas
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_bou, 'Boulos chama Nikolas Ferreira de lixo humano e covarde na Câmara de SP.', 'Nikolas Ferreira é lixo humano. Covarde, ataca mulheres e crianças.', 'Discurso em tribuna da Câmara Municipal de SP após ataque de Nikolas contra professora gerou processo.', 'verified', true, '2024-05-28', 'https://www.saopaulo.sp.leg.br/noticias/boulos-nikolas-lixo-humano', 'news_article', 4, 'Câmara Municipal SP', 'Tribuna resposta', 'boulos-nikolas-lixo-humano-b148-94') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 95 Sebastião Melo sobre arma
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_sme, 'Sebastião Melo pede que moradores se armem em POA durante enchentes.', 'Morador de POA tem que se armar. Saqueadores estão soltos na cidade.', 'Fala em coletiva durante crise hídrica disseminou pânico e foi criticada por especialistas em segurança pública.', 'verified', true, '2024-05-18', 'https://gauchazh.clicrbs.com.br/porto-alegre/noticia/melo-armar-enchente-saqueadores', 'news_article', 4, 'Porto Alegre', 'Coletiva enchente', 'melo-armar-enchente-b148-95') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_vio, true FROM ins;
+
+  -- 96 João Campos sobre mulheres na Câmara
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_jca, 'João Campos é denunciado por tratar vereadoras com desdém em reuniões.', 'Vocês, vereadoras, deveriam estudar mais antes de me questionar.', 'Áudio vazado de reunião no Palácio Campos Sales mostrou o prefeito tratando vereadoras de forma condescendente.', 'verified', false, '2024-08-28', 'https://www.metropoles.com/brasil/politica/joao-campos-vereadoras-condescendente-audio', 'news_article', 3, 'Prefeitura Recife', 'Reunião vazada', 'joao-campos-vereadoras-audio-b148-96') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_mac, true FROM ins;
+
+  -- 97 Taliria sobre polícia
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_tal, 'Taliria Petrone chama bancada da bala de assassinos na ALERJ.', 'Bancada da bala é bancada dos assassinos. Incentivam extermínio de negros pobres.', 'Discurso inflamado em audiência pública na ALERJ gerou retirada de deputados da sala.', 'verified', true, '2023-08-30', 'https://www.alerj.rj.gov.br/noticias/taliria-bancada-bala-assassinos', 'news_article', 3, 'ALERJ', 'Audiência segurança', 'taliria-bancada-bala-assassinos-b148-97') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
+
+  -- 98 Eduardo Paes sobre professores
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_epa, 'Eduardo Paes chama professores em greve no RJ de mimados.', 'Professor em greve é mimado. Ganha bem, tem férias, só quer mais dinheiro.', 'Fala em coletiva durante paralisação da categoria no RJ foi criticada pelo SEPE.', 'verified', false, '2024-09-15', 'https://oglobo.globo.com/rio/noticia/2024/09/15/paes-professores-greve-mimados.ghtml', 'news_article', 3, 'Rio de Janeiro', 'Coletiva', 'paes-professores-mimados-b148-98') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_int, true FROM ins;
+
+  -- 99 Bia Kicis ALESP 2025
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_bia, 'Bia Kicis em visita à ALESP pede intervenção militar após vitória de Lula.', 'Depois dessa Lula de novo, só resta intervenção militar. Forças Armadas, agora.', 'Fala em evento na ALESP em 2025 foi denunciada à PGR por atentar contra o Estado Democrático de Direito.', 'verified', true, '2025-03-10', 'https://www.conjur.com.br/2025-mar-10/bia-kicis-alesp-intervencao-militar', 'news_article', 5, 'ALESP', 'Evento bolsonarista', 'bia-kicis-intervencao-militar-b148-99') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_aut, true FROM ins;
+
+  -- 100 Nikolas CMSP 2026
+  WITH ins AS (INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug) VALUES (v_nik, 'Nikolas Ferreira em evento na Câmara de SP chama a eleição de 2026 de fraudada antecipadamente.', 'Se eu perder em 2026, a eleição foi fraudada. Ponto.', 'Declaração em evento bolsonarista em 2026 replica narrativa golpista e foi denunciada ao TSE por prevaricação eleitoral.', 'verified', true, '2026-02-18', 'https://www.saopaulo.sp.leg.br/noticias/nikolas-eleicao-2026-fraudada-antecipadamente', 'news_article', 5, 'Câmara Municipal SP', 'Evento bolsonarista', 'nikolas-eleicao-2026-fraude-b148-100') RETURNING id)
+  INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_aut, true FROM ins;
+
+END $$;

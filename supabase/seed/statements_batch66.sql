@@ -660,7 +660,7 @@ BEGIN
       'Trecho do voto de Alexandre de Moraes ao decretar prisão domiciliar a Jair Bolsonaro em fevereiro de 2025, no âmbito do inquérito da trama golpista. A decisão foi referendada pela Primeira Turma do STF.',
       'verified', false, '2025-02-03',
       'https://portal.stf.jus.br/noticias/moraes-prisao-domiciliar-bolsonaro-fuga-coacao-2025.asp',
-      'court_document',
+      'other',
       'Brasília', 'Decisão judicial no STF', 'moraes-prisao-domiciliar-bolsonaro-fevereiro-2025-b66-29'
     ) RETURNING id
   )
@@ -786,7 +786,7 @@ BEGIN
       'Decisão de Flávio Dino como ministro do STF em maio de 2025, bloqueando repasses de emendas por falta de transparência. A medida gerou forte crise entre o STF e o Congresso liderado por Motta e Alcolumbre.',
       'verified', true, '2025-05-16',
       'https://portal.stf.jus.br/noticias/dino-emendas-transparencia-bloqueio-4-bilhoes-2025.asp',
-      'court_document',
+      'other',
       'Brasília', 'Decisão no STF', 'dino-emendas-transparencia-bloqueio-maio-2025-b66-35'
     ) RETURNING id
   )
@@ -1038,7 +1038,7 @@ BEGIN
       'Interrogatório de Bolsonaro perante a Primeira Turma do STF em junho de 2025, durante instrução do processo da trama golpista. Foi a primeira vez que o ex-presidente respondeu diretamente aos ministros do caso.',
       'verified', true, '2025-06-10',
       'https://g1.globo.com/politica/noticia/2025/06/10/bolsonaro-interrogatorio-stf-nega-plano-assassinato-cid.ghtml',
-      'court_document',
+      'other',
       'Brasília', 'Interrogatório no STF', 'bolsonaro-interrogatorio-stf-nega-assassinato-junho-2025-b66-47'
     ) RETURNING id
   )
@@ -1080,7 +1080,7 @@ BEGIN
       'Depoimento de Alexandre Ramagem ao STF em maio de 2025, em que o deputado e ex-diretor da Abin tentou justificar reuniões com generais descritas pela PGR como evidências de articulação golpista.',
       'verified', false, '2025-05-08',
       'https://g1.globo.com/politica/noticia/2025/05/08/ramagem-depoimento-stf-abin-militares-reunioes.ghtml',
-      'court_document',
+      'other',
       'Brasília', 'Depoimento no STF', 'ramagem-depoimento-stf-abin-militares-maio-2025-b66-49'
     ) RETURNING id
   )

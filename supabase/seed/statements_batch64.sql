@@ -218,7 +218,7 @@ BEGIN
       'Discurso de Arthur Lira apos ser reeleito presidente da Camara com 464 votos em 1 de fevereiro de 2023, com apoio tanto de bolsonaristas quanto do governo Lula. A declaracao sinalizou as cobrancas por recursos do Centrao.',
       'verified', false, '2023-02-01',
       'https://www.camara.leg.br/noticias/937282-arthur-lira-e-reeleito-presidente-da-camara-com-464-votos/',
-      'press_release',
+      'other',
       'Brasilia', 'Sessao de eleicao da presidencia da Camara', 'lira-reeleicao-camara-independencia-fevereiro-2023'
     ) RETURNING id
   )
@@ -302,7 +302,7 @@ BEGIN
       'Discurso de Nikolas Ferreira na tribuna da Camara dos Deputados em 2 de fevereiro de 2023, durante debate sobre as investigacoes dos atos golpistas de 8 de janeiro. O deputado foi um dos mais ativos na narrativa de "perseguicao" a direita.',
       'verified', false, '2023-02-02',
       'https://www.camara.leg.br/noticias/937500-nikolas-ferreira-discurso-ditador-stf-fevereiro-2023/',
-      'press_release',
+      'other',
       'Brasilia', 'Tribuna da Camara dos Deputados', 'nikolas-ditador-lula-stf-fevereiro-2023'
     ) RETURNING id
   )
@@ -323,7 +323,7 @@ BEGIN
       'Discurso de Rodrigo Pacheco em 1 de fevereiro de 2023, apos ser reeleito presidente do Senado com 49 votos. Pacheco fez acenos ao governo Lula e prometeu instalar a CPMI do 8 de Janeiro, que acabou ocorrendo em abril.',
       'verified', false, '2023-02-01',
       'https://www12.senado.leg.br/noticias/materias/2023/02/01/pacheco-reeleito-presidencia-senado',
-      'press_release',
+      'other',
       'Brasilia', 'Eleicao da presidencia do Senado', 'pacheco-reeleito-senado-responsabilizacao-fevereiro-2023'
     ) RETURNING id
   )
@@ -617,7 +617,7 @@ BEGIN
       'Discurso do ministro dos Direitos Humanos Silvio Almeida na abertura da Conferencia Nacional LGBTI+ em 15 de agosto de 2023. A conferencia nao acontecia desde 2016 e foi retomada como politica prioritaria do governo Lula.',
       'verified', false, '2023-08-15',
       'https://www.gov.br/mdh/pt-br/assuntos/noticias/2023/agosto/silvio-almeida-conferencia-lgbti-reconstrucao',
-      'press_release',
+      'other',
       'Brasilia', 'Abertura da Conferencia Nacional LGBTI+', 'silvio-almeida-conferencia-lgbti-reconstrucao-agosto-2023'
     ) RETURNING id
   )
@@ -638,7 +638,7 @@ BEGIN
       'Declaracao da ministra da Saude Nisia Trindade em 24 de janeiro de 2023 apos visitar comunidades Yanomami em Roraima. Foi declarada Emergencia de Saude Publica de Importancia Nacional, com forca-tarefa federal para atender indigenas.',
       'verified', false, '2023-01-24',
       'https://www.gov.br/saude/pt-br/assuntos/noticias/2023/janeiro/nisia-emergencia-yanomami-roraima',
-      'press_release',
+      'other',
       'Brasilia', 'Declaracao sobre emergencia Yanomami', 'nisia-emergencia-yanomami-roraima-janeiro-2023'
     ) RETURNING id
   )
@@ -701,7 +701,7 @@ BEGIN
       'Discurso de Flavio Dino na cerimonia de posse como ministro do STF em 22 de fevereiro de 2024, apos indicacao de Lula e confirmacao pelo Senado em dezembro de 2023. Dino assumiu a cadeira deixada pela aposentadoria de Rosa Weber.',
       'verified', false, '2023-12-13',
       'https://www12.senado.leg.br/noticias/materias/2023/12/13/senado-aprova-indicacao-de-flavio-dino-para-o-stf',
-      'press_release',
+      'other',
       'Brasilia', 'Sabatina no Senado e confirmacao para o STF', 'flavio-dino-sabatina-stf-aprovacao-dezembro-2023'
     ) RETURNING id
   )
@@ -722,7 +722,7 @@ BEGIN
       'Voto do ministro Luis Roberto Barroso, relator, no julgamento em que o STF rejeitou por 9x2 a tese do Marco Temporal em 21 de setembro de 2023. A decisao foi considerada vitoria historica do movimento indigena, porem o Congresso aprovou PL equivalente em seguida.',
       'verified', true, '2023-09-21',
       'https://portal.stf.jus.br/noticias/verNoticiaDetalhe.asp?idConteudo=marco-temporal-rejeitado-setembro-2023',
-      'press_release',
+      'other',
       'Brasilia', 'Julgamento do Marco Temporal no STF', 'barroso-marco-temporal-rejeitado-setembro-2023'
     ) RETURNING id
   )
@@ -743,7 +743,7 @@ BEGIN
       'Publicacoes de Andre Janones nas redes sociais em 30 de junho de 2023, minutos apos a decisao do TSE que tornou Bolsonaro inelegivel. O deputado tornou-se um dos principais provocadores digitais da base governista.',
       'verified', false, '2023-06-30',
       'https://www.metropoles.com/brasil/politica-brasil/janones-celebra-inelegibilidade-bolsonaro',
-      'social_media',
+      'social_media_post',
       'Brasilia', 'Publicacao em rede social', 'janones-celebra-inelegibilidade-bolsonaro-junho-2023'
     ) RETURNING id
   )
@@ -785,7 +785,7 @@ BEGIN
       'Discurso do ministro das Relacoes Exteriores Mauro Vieira na Assembleia Geral da ONU em 20 de outubro de 2023, apos os EUA vetarem proposta de cessar-fogo apresentada pela presidencia brasileira do Conselho de Seguranca.',
       'verified', false, '2023-10-20',
       'https://agenciabrasil.ebc.com.br/politica/noticia/2023-10/mauro-vieira-onu-gaza-veto-eua-reforma-conselho',
-      'press_release',
+      'other',
       'Nova York, EUA', 'Sede das Nacoes Unidas', 'mauro-vieira-onu-gaza-veto-eua-outubro-2023'
     ) RETURNING id
   )
@@ -932,7 +932,7 @@ BEGIN
       'Declaracao do ministro das Relacoes Institucionais Alexandre Padilha em 20 de marco de 2023, durante cerimonia de relancamento do Mais Medicos com 15 mil novas vagas. O programa havia sido extinto por Bolsonaro em 2019.',
       'verified', false, '2023-03-20',
       'https://www.gov.br/secretariageral/pt-br/noticias/2023/marco/padilha-mais-medicos-relancamento',
-      'press_release',
+      'other',
       'Brasilia', 'Relancamento do Mais Medicos', 'padilha-mais-medicos-bolsonaro-desmonte-marco-2023'
     ) RETURNING id
   )
@@ -974,7 +974,7 @@ BEGIN
       'Discurso de Nikolas Ferreira no plenario da Camara em 2 de maio de 2023 contra o PL 2630. O deputado foi um dos principais articuladores do lobby digital contra o projeto, que acabou sendo retirado de pauta por Arthur Lira.',
       'verified', false, '2023-05-02',
       'https://www.camara.leg.br/noticias/951420-nikolas-ferreira-discurso-pl-censura-2630/',
-      'press_release',
+      'other',
       'Brasilia', 'Plenario da Camara dos Deputados', 'nikolas-pl-censura-fake-news-maio-2023'
     ) RETURNING id
   )
@@ -995,7 +995,7 @@ BEGIN
       'Declaracao do ministro da Casa Civil Rui Costa em 11 de agosto de 2023, no lancamento do Novo PAC pelo governo Lula. O programa foi apresentado como principal estrategia de retomada da infraestrutura nacional no primeiro mandato.',
       'verified', false, '2023-08-11',
       'https://www.gov.br/casacivil/pt-br/assuntos/noticias/2023/agosto/novo-pac-lancamento-lula',
-      'press_release',
+      'other',
       'Rio de Janeiro', 'Lancamento do Novo PAC no Theatro Municipal', 'rui-costa-novo-pac-lancamento-agosto-2023'
     ) RETURNING id
   )
@@ -1079,7 +1079,7 @@ BEGIN
       'Declaracao de Rodrigo Pacheco em 18 de outubro de 2023, apos aprovacao do relatorio final da CPMI do 8 de Janeiro que pediu indiciamento de Bolsonaro e mais 60 pessoas por crimes contra o Estado democratico de direito.',
       'verified', false, '2023-10-18',
       'https://www12.senado.leg.br/noticias/materias/2023/10/18/cpmi-8-janeiro-relatorio-final-bolsonaro-indiciamento',
-      'press_release',
+      'other',
       'Brasilia', 'Aprovacao do relatorio final da CPMI', 'pacheco-cpmi-relatorio-final-bolsonaro-outubro-2023'
     ) RETURNING id
   )

@@ -80,7 +80,7 @@ BEGIN
       'Declaracao da ministra da Saude Nisia Trindade em 3 de fevereiro de 2024, durante coletiva para anunciar Emergencia de Saude Publica de Importancia Nacional (ESPIN) pela epidemia de dengue, que bateu recordes historicos naquele ano.',
       'verified', false, '2024-02-03',
       'https://www.gov.br/saude/pt-br/assuntos/noticias/2024/fevereiro/nisia-emergencia-dengue-espin',
-      'press_release',
+      'other',
       'Brasilia', 'Coletiva sobre emergencia da dengue', 'nisia-emergencia-dengue-espin-fevereiro-2024'
     ) RETURNING id
   )
@@ -164,7 +164,7 @@ BEGIN
       'Publicacao de Nikolas Ferreira nas redes sociais em 8 de abril de 2024, apos Elon Musk anunciar que reabriria contas bloqueadas pelo STF. A base bolsonarista passou a usar Musk como simbolo internacional na batalha contra Moraes.',
       'verified', false, '2024-04-08',
       'https://www.metropoles.com/brasil/politica-brasil/nikolas-ferreira-elon-musk-moraes-desobediencia',
-      'social_media',
+      'social_media_post',
       'Brasilia', 'Publicacao em rede social', 'nikolas-elon-musk-moraes-desobediencia-abril-2024'
     ) RETURNING id
   )
@@ -185,7 +185,7 @@ BEGIN
       'Pronunciamento do governador Eduardo Leite em 7 de maio de 2024, durante as enchentes historicas no Rio Grande do Sul causadas por chuvas extremas. O estado registrou 184 mortes e mais de 600 mil desalojados.',
       'verified', true, '2024-05-07',
       'https://estado.rs.gov.br/pronunciamento-governador-eduardo-leite-enchentes-historicas-maio-2024',
-      'press_release',
+      'other',
       'Porto Alegre, RS', 'Pronunciamento sobre as enchentes no RS', 'leite-enchentes-rs-maior-catastrofe-maio-2024'
     ) RETURNING id
   )
@@ -395,7 +395,7 @@ BEGIN
       'Discurso do presidente Lula na abertura da cupula do G20 no Rio de Janeiro em 18 de novembro de 2024. O Brasil presidiu o grupo em 2024 e Lula colocou combate a fome, taxacao de super-ricos e reforma da governanca global como prioridades.',
       'verified', true, '2024-11-18',
       'https://www.planalto.gov.br/presidente-lula-abertura-g20-rio-novembro-2024',
-      'press_release',
+      'other',
       'Rio de Janeiro', 'Cupula de Lideres do G20', 'lula-g20-rio-taxacao-super-ricos-novembro-2024'
     ) RETURNING id
   )
@@ -479,7 +479,7 @@ BEGIN
       'Discurso de Ricardo Lewandowski em 1 de fevereiro de 2024, dia em que assumiu o Ministerio da Justica e Seguranca Publica em substituicao a Flavio Dino, que foi para o STF. Lewandowski tinha sido ministro do STF de 2006 a 2022.',
       'verified', false, '2024-02-01',
       'https://www.gov.br/mj/pt-br/assuntos/noticias/2024/fevereiro/lewandowski-posse-ministerio-justica',
-      'press_release',
+      'other',
       'Brasilia', 'Posse no Ministerio da Justica', 'lewandowski-posse-ministerio-justica-fevereiro-2024'
     ) RETURNING id
   )
@@ -521,7 +521,7 @@ BEGIN
       'Declaracao de Rodrigo Pacheco em entrevista coletiva em 2 de setembro de 2024, dias apos a suspensao do X por Moraes. Pacheco tornou-se importante escudo institucional para o STF contra o bolsonarismo e o lobby de big techs.',
       'verified', false, '2024-09-02',
       'https://www12.senado.leg.br/noticias/2024/09/02/pacheco-defende-moraes-bloqueio-x-legitimo',
-      'press_release',
+      'other',
       'Brasilia', 'Entrevista coletiva no Senado', 'pacheco-defende-moraes-bloqueio-x-setembro-2024'
     ) RETURNING id
   )
@@ -542,7 +542,7 @@ BEGIN
       'Publicacao de Erika Hilton nas redes sociais em 6 de setembro de 2024, apos a demissao de Silvio Almeida do Ministerio dos Direitos Humanos por denuncias de assedio. A deputada foi uma das primeiras a pedir apuracao.',
       'verified', false, '2024-09-06',
       'https://www.uol.com.br/universa/noticias/2024/09/erika-hilton-silvio-almeida-investigacao-vitimas.htm',
-      'social_media',
+      'social_media_post',
       'Brasilia', 'Publicacao em rede social', 'erika-hilton-silvio-almeida-investigacao-setembro-2024'
     ) RETURNING id
   )
@@ -584,7 +584,7 @@ BEGIN
       'Declaracao de Luis Roberto Barroso, presidente do STF e do TSE, em 5 de agosto de 2024, durante cerimonia de abertura do calendario eleitoral. A preocupacao era evitar repeticao de ataques ao sistema de votacao do pleito de 2022.',
       'verified', false, '2024-08-05',
       'https://www.tse.jus.br/comunicacao/noticias/2024/Agosto/barroso-eleicoes-2024-integridade-desinformacao',
-      'press_release',
+      'other',
       'Brasilia', 'Cerimonia de abertura do calendario eleitoral', 'barroso-tse-eleicoes-2024-integridade-agosto-2024'
     ) RETURNING id
   )
@@ -647,7 +647,7 @@ BEGIN
       'Declaracao do governador do Para Helder Barbalho em 8 de maio de 2024, anunciando envio de ajuda ao RS. Helder ganhou destaque nacional por ter sido o anfitriao escolhido para a COP30 em Belem em 2025.',
       'verified', false, '2024-05-08',
       'https://agenciapara.com.br/noticia/helder-barbalho-ajuda-rio-grande-do-sul-enchentes-maio-2024/',
-      'press_release',
+      'other',
       'Belem, PA', 'Anuncio de ajuda humanitaria ao RS', 'helder-ajuda-humanitaria-rs-maio-2024'
     ) RETURNING id
   )
@@ -731,7 +731,7 @@ BEGIN
       'Declaracao da ministra Sonia Guajajara em Baku em 20 de novembro de 2024, durante a COP29, ao apresentar preparativos para a COP30 em Belem em 2025. Foi a primeira indigena ministra da historia do Brasil.',
       'verified', false, '2024-11-20',
       'https://agenciabrasil.ebc.com.br/politica/noticia/2024-11/sonia-guajajara-cop30-belem-protagonismo-indigena',
-      'press_release',
+      'other',
       'Baku, Azerbaijao', 'Conferencia da ONU COP29', 'sonia-cop30-protagonismo-indigena-novembro-2024'
     ) RETURNING id
   )
@@ -1067,7 +1067,7 @@ BEGIN
       'Decisao de Alexandre de Moraes no TSE em 5 de outubro de 2024, um dia apos Marcal publicar laudo falso sobre Boulos. Marcal continuou a receber multas por descumprimento e teve o direito de resposta aplicado no pleito.',
       'verified', false, '2024-10-05',
       'https://www.tse.jus.br/comunicacao/noticias/2024/Outubro/moraes-marcal-laudo-falso-boulos-retirada-multa',
-      'press_release',
+      'other',
       'Brasilia', 'Decisao do TSE em processo eleitoral', 'moraes-marcal-laudo-falso-retirada-outubro-2024'
     ) RETURNING id
   )
@@ -1109,7 +1109,7 @@ BEGIN
       'Pronunciamento de Lula em 20 de novembro de 2024, durante visita de Estado de Xi Jinping a Brasilia apos o G20 do Rio. Os dois paises assinaram 37 acordos bilaterais em comercio, tecnologia, ciencia e mudancas climaticas.',
       'verified', false, '2024-11-20',
       'https://www.planalto.gov.br/presidente-lula-xi-jinping-visita-estado-brasilia-novembro-2024',
-      'press_release',
+      'other',
       'Brasilia', 'Visita de Estado de Xi Jinping ao Brasil', 'lula-xi-jinping-parceria-estrategica-novembro-2024'
     ) RETURNING id
   )

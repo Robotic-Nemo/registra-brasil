@@ -310,7 +310,7 @@ BEGIN
       'Trecho do voto do ministro Alexandre de Moraes, relator do processo, no julgamento da trama golpista em 11 de setembro de 2025. A Primeira Turma condenou Bolsonaro e mais sete réus em decisão unânime.',
       'verified', true, '2025-09-11',
       'https://portal.stf.jus.br/noticias/moraes-voto-condenacao-bolsonaro-organizacao-criminosa-2025.asp',
-      'court_document',
+      'other',
       'Brasília', 'Julgamento da trama golpista no STF', 'moraes-voto-condenacao-bolsonaro-organizacao-setembro-2025-b67-12'
     ) RETURNING id
   )
@@ -394,7 +394,7 @@ BEGIN
       'Declaração do ministro Flávio Dino do STF em 15 de setembro de 2025, dias após a condenação de Bolsonaro, Ramagem e outros aliados. Dino ampliou medidas de bloqueio de emendas e recursos a políticos condenados.',
       'verified', true, '2025-09-15',
       'https://portal.stf.jus.br/noticias/dino-bloqueio-emendas-eduardo-ramagem-condenados-2025.asp',
-      'court_document',
+      'other',
       'Brasília', 'Decisão no STF', 'dino-bloqueio-emendas-eduardo-ramagem-setembro-2025-b67-16'
     ) RETURNING id
   )
@@ -730,7 +730,7 @@ BEGIN
       'Trecho do voto do então presidente do STF, Luís Roberto Barroso, no julgamento da Primeira Turma em 11 de setembro de 2025. Barroso acompanhou integralmente o voto do relator Alexandre de Moraes.',
       'verified', false, '2025-09-11',
       'https://portal.stf.jus.br/noticias/barroso-voto-condenacao-bolsonaro-marco-democracia-2025.asp',
-      'court_document',
+      'other',
       'Brasília', 'Julgamento da trama golpista', 'barroso-voto-condenacao-marco-democracia-setembro-2025-b67-32'
     ) RETURNING id
   )
@@ -751,7 +751,7 @@ BEGIN
       'Trecho do voto da ministra Cármen Lúcia no julgamento da trama golpista em 11 de setembro de 2025. A ministra integrou a unanimidade da Primeira Turma pela condenação de Bolsonaro e demais réus.',
       'verified', false, '2025-09-11',
       'https://portal.stf.jus.br/noticias/carmen-lucia-voto-condenacao-constituicao-traicao-2025.asp',
-      'court_document',
+      'other',
       'Brasília', 'Julgamento da trama golpista', 'carmen-lucia-constituicao-traicao-setembro-2025-b67-33'
     ) RETURNING id
   )
@@ -772,7 +772,7 @@ BEGIN
       'Trecho do voto do ministro Cristiano Zanin no julgamento da trama golpista em 11 de setembro de 2025. Zanin havia sido indicado ao STF pelo presidente Lula em 2023 e integrava a Primeira Turma.',
       'verified', false, '2025-09-11',
       'https://portal.stf.jus.br/noticias/zanin-voto-condenacao-provas-autoria-materialidade-2025.asp',
-      'court_document',
+      'other',
       'Brasília', 'Julgamento da trama golpista', 'zanin-voto-condenacao-autoria-materialidade-setembro-2025-b67-34'
     ) RETURNING id
   )

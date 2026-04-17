@@ -398,7 +398,7 @@ BEGIN
       'Pronunciamento do ministro da Saúde Alexandre Padilha em cadeia nacional no Planalto em fevereiro de 2026 ao lado do presidente Lula e da ministra Anielle Franco, em defesa da vigência das novas leis de combate à violência contra a mulher.',
       'verified', false, '2026-02-20',
       'https://www.gov.br/planalto/pt-br/acompanhe-o-planalto/pronunciamentos/2026/02/padilha-feminicidio',
-      'press_release',
+      'other',
       'Brasília', 'Pronunciamento — Palácio do Planalto', 'padilha-pronunciamento-feminicidio-fevereiro-2026'
     ) RETURNING id
   )
@@ -419,7 +419,7 @@ BEGIN
       'Balanço de gestão apresentado pelo presidente da Câmara dos Deputados, Hugo Motta (Republicanos-PB), em 5 de fevereiro de 2026. A fala reforçou o alinhamento da Mesa Diretora com pautas conservadoras e foi recebida com críticas pela base do governo.',
       'verified', false, '2026-02-05',
       'https://www.camara.leg.br/noticias/2026/02/motta-balanco-2025-pauta-conservadora',
-      'press_release',
+      'other',
       'Brasília', 'Balanço oficial da Presidência da Câmara', 'motta-balanco-2025-pauta-conservadora-fevereiro-2026'
     ) RETURNING id
   )
@@ -650,7 +650,7 @@ BEGIN
       'Pronunciamento do ministro da Fazenda, Fernando Haddad, em coletiva de imprensa no Ministério em 23 de janeiro de 2026, ao apresentar as projeções econômicas para o ano eleitoral. A fala antecipa a narrativa do governo para a disputa de 2026.',
       'verified', false, '2026-01-23',
       'https://www.gov.br/fazenda/pt-br/assuntos/noticias/2026/01/haddad-projecoes-2026',
-      'press_release',
+      'other',
       'Brasília', 'Coletiva de imprensa — Ministério da Fazenda', 'haddad-projecoes-economia-2026-janeiro'
     ) RETURNING id
   )
@@ -755,7 +755,7 @@ BEGIN
       'Pronunciamento do ministro da Saúde, Alexandre Padilha, em evento no Palácio do Planalto em 3 de março de 2026 ao anunciar o pacote de investimentos no SUS para 2026. A fala incluiu ataque direto à oposição em ano eleitoral.',
       'verified', false, '2026-03-03',
       'https://www.gov.br/saude/pt-br/assuntos/noticias/2026/03/padilha-pacote-sus',
-      'press_release',
+      'other',
       'Brasília', 'Anúncio no Palácio do Planalto', 'padilha-pacote-sus-marco-2026'
     ) RETURNING id
   )
@@ -860,7 +860,7 @@ BEGIN
       'Declaração do presidente da Câmara, Hugo Motta, em 1º de abril de 2026, ao pautar em regime de urgência a Proposta de Emenda à Constituição da Segurança Pública após nova operação policial com mortes no Rio de Janeiro.',
       'verified', false, '2026-04-01',
       'https://www.camara.leg.br/noticias/2026/04/motta-pec-seguranca-pauta',
-      'press_release',
+      'other',
       'Brasília', 'Decisão da Presidência da Câmara', 'motta-pec-seguranca-abril-2026'
     ) RETURNING id
   )
@@ -1049,7 +1049,7 @@ BEGIN
       'Pronunciamento do ministro da Saúde Alexandre Padilha em cerimônia nacional de lançamento da campanha de vacinação em 17 de março de 2026. A fala contém referência indireta ao tratamento da covid-19 durante o governo Bolsonaro.',
       'verified', false, '2026-03-17',
       'https://www.gov.br/saude/pt-br/assuntos/noticias/2026/03/padilha-campanha-vacinacao-2026',
-      'press_release',
+      'other',
       'Brasília', 'Lançamento nacional da campanha de vacinação', 'padilha-campanha-vacinacao-marco-2026'
     ) RETURNING id
   )
@@ -1091,7 +1091,7 @@ BEGIN
       'Pronunciamento em cadeia nacional do presidente Lula em 16 de abril de 2026, um dia após a soltura do ex-deputado Ramagem nos EUA. O pronunciamento rebateu declarações de Eduardo Bolsonaro pedindo sanções americanas contra o Brasil.',
       'verified', true, '2026-04-16',
       'https://www.gov.br/planalto/pt-br/acompanhe-o-planalto/pronunciamentos/2026/04/lula-ramagem-soberania',
-      'press_release',
+      'other',
       'Brasília', 'Pronunciamento em cadeia nacional', 'lula-pronunciamento-ramagem-soberania-abril-2026'
     ) RETURNING id
   )

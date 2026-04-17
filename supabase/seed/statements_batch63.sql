@@ -107,7 +107,7 @@ BEGIN
       'Pronunciamento do presidente da Câmara, Hugo Motta, em sessão de encerramento do ano legislativo em 22 de dezembro de 2025. A fala foi interpretada como resposta a atritos entre Congresso e STF ao longo do ano.',
       'verified', false, '2025-12-22',
       'https://www.camara.leg.br/noticias/2025/12/motta-balanco-2025-pacificacao',
-      'press_release',
+      'other',
       'Brasília', 'Sessão de encerramento do ano legislativo', 'motta-balanco-2025-pacificacao-dezembro'
     ) RETURNING id
   )
@@ -380,7 +380,7 @@ BEGIN
       'Discurso do deputado federal Guilherme Boulos em cerimônia de posse como ministro da Secretaria-Geral da Presidência em 20 de outubro de 2025. Boulos assumiu o cargo após derrota na eleição municipal de São Paulo em 2024.',
       'verified', false, '2025-10-20',
       'https://www.gov.br/planalto/pt-br/acompanhe-o-planalto/noticias/2025/10/boulos-secretaria-geral-posse',
-      'press_release',
+      'other',
       'Brasília', 'Cerimônia de posse no Palácio do Planalto', 'boulos-secretaria-geral-posse-outubro-2025'
     ) RETURNING id
   )
@@ -569,7 +569,7 @@ BEGIN
       'Declaração da ministra Gleisi Hoffmann em 11 de dezembro de 2025, após o STF anular a votação da Câmara e cassar o mandato de Zambelli. A fala foi publicada pela Secretaria de Comunicação da Presidência.',
       'verified', false, '2025-12-11',
       'https://www.gov.br/secom/pt-br/assuntos/noticias/2025/12/gleisi-cassacao-zambelli',
-      'press_release',
+      'other',
       'Brasília', 'Nota da Secom', 'gleisi-cassacao-zambelli-dezembro-2025'
     ) RETURNING id
   )
@@ -611,7 +611,7 @@ BEGIN
       'Declaração do ministro da Saúde Alexandre Padilha em 7 de novembro de 2025, representando o governo federal ao lamentar o alto número de mortes na megaoperação no Rio. A fala foi feita em coletiva após reunião ministerial.',
       'verified', false, '2025-11-07',
       'https://www.gov.br/saude/pt-br/assuntos/noticias/2025/11/padilha-rio-seguranca-inteligencia',
-      'press_release',
+      'other',
       'Brasília', 'Coletiva de imprensa', 'padilha-lamenta-operacao-rj-novembro-2025'
     ) RETURNING id
   )
@@ -758,7 +758,7 @@ BEGIN
       'Nota oficial do governador Tarcísio de Freitas em 25 de novembro de 2025, no dia em que Bolsonaro iniciou cumprimento de pena. O tom cuidadoso foi interpretado como tentativa de se preservar para disputa presidencial futura.',
       'verified', true, '2025-11-25',
       'https://www.estadao.com.br/politica/tarcisio-nota-prisao-bolsonaro-respeito-instituicoes-2025/',
-      'press_release',
+      'other',
       'São Paulo', 'Nota oficial do governo de São Paulo', 'tarcisio-nota-prisao-bolsonaro-novembro-2025'
     ) RETURNING id
   )
@@ -800,7 +800,7 @@ BEGIN
       'Declaração do presidente da Câmara, Hugo Motta, em 14 de dezembro de 2025, após o STF anular a votação da Câmara que havia mantido o mandato de Carla Zambelli. A fala reacendeu o debate sobre a separação de Poderes.',
       'verified', false, '2025-12-14',
       'https://www.camara.leg.br/noticias/2025/12/motta-critica-cassacao-zambelli-camara',
-      'press_release',
+      'other',
       'Brasília', 'Declaração no plenário da Câmara', 'motta-critica-cassacao-zambelli-dezembro-2025'
     ) RETURNING id
   )
@@ -884,7 +884,7 @@ BEGIN
       'Discurso da ministra Gleisi Hoffmann em reunião do diretório nacional do PT em 1º de novembro de 2025, encerrando oito anos à frente da presidência do partido. Edinho Silva, ex-prefeito de Araraquara, foi eleito seu sucessor.',
       'verified', false, '2025-11-01',
       'https://pt.org.br/gleisi-deixa-presidencia-pt-edinho-silva-2025/',
-      'press_release',
+      'other',
       'São Paulo', 'Diretório Nacional do PT', 'gleisi-deixa-presidencia-pt-novembro-2025'
     ) RETURNING id
   )
@@ -905,7 +905,7 @@ BEGIN
       'Discurso do ministro Fernando Haddad em cerimônia no Palácio do Planalto em 17 de dezembro de 2025, durante sanção das leis complementares da reforma tributária pelo presidente Lula. A regulamentação encerrou ciclo iniciado em 2023.',
       'verified', false, '2025-12-17',
       'https://www.gov.br/fazenda/pt-br/assuntos/noticias/2025/12/haddad-reforma-tributaria-completa',
-      'press_release',
+      'other',
       'Brasília', 'Cerimônia no Palácio do Planalto', 'haddad-reforma-tributaria-completa-dezembro-2025'
     ) RETURNING id
   )
@@ -947,7 +947,7 @@ BEGIN
       'Pronunciamento do ministro Alexandre Padilha em cerimônia no Palácio do Planalto em 28 de outubro de 2025 ao anunciar a expansão do programa Farmácia Popular. A fala conteve referências à gestão da pandemia no governo Bolsonaro.',
       'verified', false, '2025-10-28',
       'https://www.gov.br/saude/pt-br/assuntos/noticias/2025/10/padilha-expansao-farmacia-popular',
-      'press_release',
+      'other',
       'Brasília', 'Cerimônia no Palácio do Planalto', 'padilha-expansao-farmacia-popular-outubro-2025'
     ) RETURNING id
   )
@@ -1094,7 +1094,7 @@ BEGIN
       'Pronunciamento em cadeia nacional do presidente Lula em 31 de dezembro de 2025, mensagem de fim de ano. O tom foi de pré-campanha, antecipando o enfrentamento eleitoral de 2026.',
       'verified', true, '2025-12-31',
       'https://www.gov.br/planalto/pt-br/acompanhe-o-planalto/pronunciamentos/2025/12/lula-pronunciamento-fim-ano-2025',
-      'press_release',
+      'other',
       'Brasília', 'Pronunciamento em cadeia nacional', 'lula-pronunciamento-fim-ano-dezembro-2025'
     ) RETURNING id
   )
