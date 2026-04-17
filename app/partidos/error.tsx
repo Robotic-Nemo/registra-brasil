@@ -16,20 +16,21 @@ export default function PartidosError({
   }, [error])
 
   return (
-    <main className="max-w-lg mx-auto px-4 py-24 text-center">
-      <AlertTriangle className="w-10 h-10 text-amber-400 mx-auto mb-4" />
+    <main role="alert" aria-live="assertive" className="max-w-lg mx-auto px-4 py-24 text-center">
+      <AlertTriangle className="w-10 h-10 text-amber-400 mx-auto mb-4" aria-hidden="true" />
       <h1 className="text-lg font-bold text-gray-900 mb-2">Erro ao carregar partidos</h1>
       <p className="text-gray-500 text-sm mb-6">Tente novamente em alguns instantes.</p>
       <div className="flex items-center justify-center gap-3">
         <button
+          type="button"
           onClick={reset}
-          className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition-colors"
+          className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-blue-500"
         >
-          <RotateCcw className="w-4 h-4" />
+          <RotateCcw className="w-4 h-4" aria-hidden="true" />
           Tentar novamente
         </button>
-        <Link href="/" className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50 transition-colors">
-          <Home className="w-4 h-4" />
+        <Link href="/" className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-blue-500">
+          <Home className="w-4 h-4" aria-hidden="true" />
           Início
         </Link>
       </div>

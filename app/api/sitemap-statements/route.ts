@@ -1,10 +1,14 @@
 import { getSupabaseServiceClient } from '@/lib/supabase/server'
 import { NextRequest } from 'next/server'
+import { createLogger } from '@/lib/utils/logger'
 
 export const runtime = 'edge'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://registrabrasil.com.br'
 const PAGE_SIZE = 1000
+const MAX_PAGE = 1000
+
+const log = createLogger('api/sitemap-statements')
 
 function escapeXml(str: string): string {
   return str
@@ -17,7 +21,8 @@ function escapeXml(str: string): string {
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl
-  const page = Math.max(1, parseInt(searchParams.get('page') ?? '1', 10))
+  const rawPage = parseInt(searchParams.get('page') ?? '1', 10)
+  const page = Number.isFinite(rawPage) ? Math.min(Math.max(1, rawPage), MAX_PAGE) : 1
   const offset = (page - 1) * PAGE_SIZE
 
   try {
@@ -58,7 +63,7 @@ ${urls.join('\n')}
       },
     })
   } catch (err) {
-    console.error('[sitemap-statements] Error:', err)
+    log.error('sitemap query failed', { err: err instanceof Error ? err.message : String(err) })
     return new Response(
       `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>`,
       {

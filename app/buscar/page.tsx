@@ -40,7 +40,25 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
       description,
     },
     alternates: { canonical: '/buscar' },
+    // Block indexing of specific query results (keep the /buscar root indexed).
+    robots: q ? { index: false, follow: true } : undefined,
   }
+}
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://registrabrasil.com.br'
+
+const SEARCH_JSON_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Buscar — Registra Brasil',
+  url: `${SITE_URL}/buscar`,
+  inLanguage: 'pt-BR',
+  isPartOf: { '@type': 'WebSite', name: 'Registra Brasil', url: SITE_URL },
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: { '@type': 'EntryPoint', urlTemplate: `${SITE_URL}/buscar?q={search_term_string}` },
+    'query-input': 'required name=search_term_string',
+  },
 }
 
 export default async function BuscarPage({ searchParams }: PageProps) {
@@ -56,6 +74,10 @@ export default async function BuscarPage({ searchParams }: PageProps) {
 
   return (
     <main className="max-w-7xl mx-auto px-4 py-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(SEARCH_JSON_LD) }}
+      />
       <div className="mb-6 flex items-center gap-3">
         <Suspense fallback={<div className="h-10 flex-1 bg-gray-100 rounded-lg animate-pulse" />}>
           <SearchBar initialValue={params.q ?? ''} autoFocus />

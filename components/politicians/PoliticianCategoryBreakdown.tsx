@@ -1,5 +1,4 @@
-'use client'
-
+// Pure render — server component, ships no JS.
 import type { Category } from '@/types/database'
 
 interface CategoryCount {

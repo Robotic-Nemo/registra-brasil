@@ -1,5 +1,4 @@
-'use client'
-
+// Pure render — server component, ships no JS.
 interface PrintViewProps {
   summary: string
   fullQuote?: string | null

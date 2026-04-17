@@ -1,5 +1,4 @@
-'use client'
-
+// Pure render — server component, ships no JS.
 type ChartType = 'line' | 'bar' | 'area'
 
 interface MiniChartProps {

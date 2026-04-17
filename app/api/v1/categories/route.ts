@@ -26,7 +26,10 @@ export async function GET(request: NextRequest) {
     .order('sort_order')
 
   if (error) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json(
+      { error: { code: 'INTERNAL_ERROR', message: 'Internal server error' } },
+      { status: 500, headers: { 'X-Content-Type-Options': 'nosniff' } }
+    )
   }
 
   // Get counts per category (only verified statements)
@@ -57,6 +60,7 @@ export async function GET(request: NextRequest) {
       'Vary': 'Accept-Encoding',
       'X-RateLimit-Remaining': String(remaining),
       'X-API-Version': 'v1',
+      'X-Content-Type-Options': 'nosniff',
     },
   })
 }

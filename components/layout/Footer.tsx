@@ -61,6 +61,9 @@ export function Footer() {
               <li><Link href="/acessibilidade" className="hover:text-gray-900">Acessibilidade</Link></li>
               <li><Link href="/privacidade" className="hover:text-gray-900">Privacidade</Link></li>
               <li><Link href="/termos" className="hover:text-gray-900">Termos de Uso</Link></li>
+              <li><Link href="/equipe" className="hover:text-gray-900">Equipe</Link></li>
+              <li><Link href="/parceiros" className="hover:text-gray-900">Parceiros</Link></li>
+              <li><Link href="/financiamento" className="hover:text-gray-900">Financiamento</Link></li>
             </ul>
           </div>
         </nav>

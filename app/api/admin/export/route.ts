@@ -96,7 +96,8 @@ export async function GET(request: NextRequest) {
     ].map(csvEscape).join(',')
   })
 
-  const csv = [headers.join(','), ...rows].join('\n')
+  // Prepend BOM so Excel (Windows) detects UTF-8 correctly.
+  const csv = '\uFEFF' + [headers.join(','), ...rows].join('\r\n')
   const filename = `registra-brasil-${status}-${new Date().toISOString().slice(0, 10)}.csv`
 
   return new Response(csv, {

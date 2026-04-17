@@ -46,8 +46,24 @@ async function getRetractions(): Promise<RemovedRow[]> {
 export default async function RetratacoesPage() {
   const rows = await getRetractions()
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Retratações e correções — Registra Brasil',
+    description:
+      'Histórico público de declarações removidas ou corrigidas após revisão editorial.',
+    url: `${SITE_URL}/retratacoes`,
+    inLanguage: 'pt-BR',
+    numberOfItems: rows.length,
+    publisher: { '@type': 'Organization', name: 'Registra Brasil', url: SITE_URL },
+  }
+
   return (
     <main id="main-content" className="max-w-3xl mx-auto px-4 py-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Breadcrumbs items={[{ label: 'Retratações' }]} />
 
       <header className="mb-10">

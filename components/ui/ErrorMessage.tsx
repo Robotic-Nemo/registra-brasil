@@ -3,6 +3,14 @@ import type { ReactNode } from 'react'
 
 type Severity = 'error' | 'warning' | 'info'
 
+// Map severity to the right ARIA live region role. Errors are assertive;
+// warnings/info are polite so they don't interrupt the user.
+const SEVERITY_ROLE: Record<Severity, 'alert' | 'status'> = {
+  error: 'alert',
+  warning: 'status',
+  info: 'status',
+}
+
 interface Props {
   message: string
   details?: string
@@ -36,7 +44,8 @@ export function ErrorMessage({
 
   return (
     <div
-      role="alert"
+      role={SEVERITY_ROLE[severity]}
+      aria-live={severity === 'error' ? 'assertive' : 'polite'}
       className={`${styles.bg} ${styles.border} border rounded-lg p-4 ${className}`}
     >
       <div className="flex items-start gap-3">
@@ -49,8 +58,9 @@ export function ErrorMessage({
           {children}
           {onRetry && (
             <button
+              type="button"
               onClick={onRetry}
-              className={`mt-3 text-xs font-medium ${styles.text} underline underline-offset-2 hover:opacity-80 transition-opacity`}
+              className={`mt-3 text-xs font-medium ${styles.text} underline underline-offset-2 hover:opacity-80 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-current rounded`}
             >
               {retryLabel}
             </button>

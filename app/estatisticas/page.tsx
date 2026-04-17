@@ -37,8 +37,25 @@ export default async function EstatisticasPage() {
     getStatementsBySourceType(supabase),
   ])
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://registrabrasil.com.br'
+  const statsJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Dataset',
+    name: 'Estatísticas do Registra Brasil',
+    description: `Agregados públicos: ${stats.totalVerified} declarações verificadas, ${stats.totalPoliticians} políticos, ${stats.totalCategories} categorias.`,
+    url: `${siteUrl}/estatisticas`,
+    license: 'https://creativecommons.org/licenses/by/4.0/',
+    creator: { '@type': 'Organization', name: 'Registra Brasil', url: siteUrl },
+    inLanguage: 'pt-BR',
+    keywords: 'estatísticas, declarações, políticos, brasil, verificação de fatos',
+  }
+
   return (
     <main className="max-w-3xl mx-auto px-4 py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(statsJsonLd) }}
+      />
       <Breadcrumbs items={[{ label: 'Estatísticas' }]} />
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Estatísticas</h1>
 

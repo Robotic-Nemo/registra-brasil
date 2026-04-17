@@ -1,5 +1,4 @@
-'use client'
-
+// Pure render — no client interactivity needed. Ships zero JS.
 interface Props {
   data: { month: string; count: number }[]
   className?: string
@@ -21,7 +20,7 @@ export function PoliticianActivityChart({ data, className = '' }: Props) {
       <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
         Atividade recente
       </h3>
-      <div className="flex items-end gap-1 h-20">
+      <div className="flex items-end gap-1 h-20" role="img" aria-label={`Atividade por mês: ${data.map(d => `${d.month}: ${d.count}`).join(', ')}`}>
         {data.map((d) => {
           const pct = (d.count / max) * 100
           const monthKey = d.month.slice(5, 7)
@@ -29,7 +28,7 @@ export function PoliticianActivityChart({ data, className = '' }: Props) {
           return (
             <div key={d.month} className="flex-1 flex flex-col items-center gap-1">
               <div
-                className="w-full bg-blue-500 rounded-t transition-all hover:bg-blue-600"
+                className="w-full bg-blue-500 rounded-t hover:bg-blue-600 transition-colors"
                 style={{ height: `${Math.max(pct, 4)}%` }}
                 title={`${label}: ${d.count} declaração${d.count !== 1 ? 'ões' : ''}`}
               />

@@ -1,17 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSupabaseServerClient } from '@/lib/supabase/server'
 import { checkRateLimit, getRateLimitKey } from '@/lib/utils/rate-limit'
+import { createLogger } from '@/lib/utils/logger'
 
 export const dynamic = 'force-dynamic'
+
+const SLUG_PATTERN = /^[a-z0-9](?:[a-z0-9-]{0,98}[a-z0-9])?$/
+const log = createLogger('api/export')
 
 /**
  * GET /api/export?format=csv|json&politician=slug&category=slug&status=verified
  * Export statements data in CSV or JSON format
  */
 export async function GET(request: NextRequest) {
-  const { allowed } = checkRateLimit(getRateLimitKey(request, 'export'), { limit: 10, windowMs: 60_000 })
-  if (!allowed) {
-    return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 })
+  const rl = checkRateLimit(getRateLimitKey(request, 'export'), { limit: 10, windowMs: 60_000 })
+  if (!rl.allowed) {
+    return NextResponse.json(
+      { error: { code: 'RATE_LIMITED', message: 'Rate limit exceeded' } },
+      {
+        status: 429,
+        headers: { 'Retry-After': String(Math.ceil((rl.resetAt - Date.now()) / 1000)) },
+      }
+    )
   }
 
   const { searchParams } = request.nextUrl
@@ -27,6 +37,14 @@ export async function GET(request: NextRequest) {
 
   if (status && !['verified', 'unverified', 'disputed'].includes(status)) {
     return NextResponse.json({ error: 'Status inválido. Use verified, unverified ou disputed.' }, { status: 400 })
+  }
+
+  if (politicianSlug && !SLUG_PATTERN.test(politicianSlug)) {
+    return NextResponse.json({ error: 'Slug de político inválido.' }, { status: 400 })
+  }
+
+  if (categorySlug && !SLUG_PATTERN.test(categorySlug)) {
+    return NextResponse.json({ error: 'Slug de categoria inválido.' }, { status: 400 })
   }
 
   const supabase = await getSupabaseServerClient()
@@ -56,6 +74,7 @@ export async function GET(request: NextRequest) {
   const { data, error } = await query
 
   if (error) {
+    log.error('export query failed', { err: error.message })
     return NextResponse.json({ error: 'Erro ao buscar dados.' }, { status: 500 })
   }
 
@@ -104,13 +123,16 @@ export async function GET(request: NextRequest) {
       ].join(',')
     })
 
-    const csv = [headers.join(','), ...rows].join('\n')
+    // Prepend BOM so Excel (Windows) detects UTF-8 correctly. CRLF line endings.
+    const csv = '\uFEFF' + [headers.join(','), ...rows].join('\r\n')
 
     return new Response(csv, {
       headers: {
         'Content-Type': 'text/csv; charset=utf-8',
         'Content-Disposition': `attachment; filename="registra-brasil-export-${new Date().toISOString().slice(0, 10)}.csv"`,
         'Cache-Control': 'private, no-store',
+        'X-Content-Type-Options': 'nosniff',
+        'X-Robots-Tag': 'noindex',
       },
     })
   }
@@ -123,13 +145,23 @@ export async function GET(request: NextRequest) {
     headers: {
       'Content-Disposition': `attachment; filename="registra-brasil-export-${new Date().toISOString().slice(0, 10)}.json"`,
       'Cache-Control': 'private, no-store',
+      'X-Content-Type-Options': 'nosniff',
+      'X-Robots-Tag': 'noindex',
     },
   })
 }
 
+// CSV injection defense: prefix cells Excel/Sheets/Numbers would evaluate as
+// formulas with a single quote so they render as plain text. Handles CR too.
+const FORMULA_PREFIX = /^[=+\-@\t\r]/
 function csvEscape(value: string): string {
-  if (value.includes(',') || value.includes('"') || value.includes('\n')) {
-    return `"${value.replace(/"/g, '""')}"`
+  if (value == null) return ''
+  let str = String(value)
+  if (FORMULA_PREFIX.test(str)) {
+    str = `'${str}`
   }
-  return value
+  if (str.includes(',') || str.includes('"') || str.includes('\n') || str.includes('\r')) {
+    return `"${str.replace(/"/g, '""')}"`
+  }
+  return str
 }

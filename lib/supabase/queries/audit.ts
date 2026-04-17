@@ -1,6 +1,9 @@
 import type { AuditEntry, AuditLogFilters } from '@/types/audit'
+import { createLogger } from '@/lib/utils/logger'
 
+const log = createLogger('supabase/audit')
 const DEFAULT_PER_PAGE = 25
+const MAX_PER_PAGE = 200
 
 /**
  * Fetch paginated audit log entries with optional filters.
@@ -11,8 +14,11 @@ export async function getAuditLog(
   const { getSupabaseServiceClient } = await import('@/lib/supabase/server')
   const supabase = getSupabaseServiceClient()
 
-  const page = filters.page ?? 1
-  const perPage = filters.per_page ?? DEFAULT_PER_PAGE
+  const page = Math.max(1, Number.isFinite(filters.page as number) ? (filters.page as number) : 1)
+  const perPage = Math.min(
+    MAX_PER_PAGE,
+    Math.max(1, Number.isFinite(filters.per_page as number) ? (filters.per_page as number) : DEFAULT_PER_PAGE),
+  )
   const from = (page - 1) * perPage
   const to = from + perPage - 1
 
@@ -44,7 +50,7 @@ export async function getAuditLog(
   const { data, count, error } = await query
 
   if (error) {
-    console.error('[audit] Failed to fetch audit log:', error)
+    log.error('fetch audit log failed', { err: error.message })
     return { data: [], count: 0 }
   }
 
@@ -71,7 +77,7 @@ export async function getAuditLogByEntity(
     .limit(limit)
 
   if (error) {
-    console.error('[audit] Failed to fetch entity audit log:', error)
+    log.error('fetch entity audit log failed', { err: error.message, entityType, entityId })
     return []
   }
 

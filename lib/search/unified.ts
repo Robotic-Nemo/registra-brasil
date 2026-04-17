@@ -5,14 +5,12 @@ import { searchYouTube } from '@/lib/youtube/client'
 import { makeCacheKey, getCachedResults, setCachedResults } from '@/lib/youtube/cache'
 import { hasQuotaAvailable, logQuotaUsage, getQuotaRemaining } from '@/lib/youtube/quota'
 import { searchNews } from '@/lib/search/news'
+import { createLogger } from '@/lib/utils/logger'
 
+const log = createLogger('search/unified')
 const EMPTY_LIVE: LiveSearchResult = { youtube: [], news: [], quotaExhausted: false, quotaRemaining: 0 }
 
 export async function unifiedSearch(params: SearchParams): Promise<UnifiedSearchResponse> {
-  const isDev = process.env.NODE_ENV === 'development'
-  const timerLabel = `[unified] search "${params.q ?? ''}"`
-  if (isDev) console.time(timerLabel)
-
   const start = Date.now()
   const supabase = getSupabaseServiceClient()
   const fonte = params.fonte ?? 'todos'
@@ -21,28 +19,28 @@ export async function unifiedSearch(params: SearchParams): Promise<UnifiedSearch
   const [curatedResult, liveResult] = await Promise.all([
     fonte !== 'ao-vivo'
       ? searchStatements(supabase, params).catch((err) => {
-          console.error('[unified] Curated search failed:', err)
+          log.error('curated search failed', {
+            err: err instanceof Error ? err.message : String(err),
+          })
           return { results: [], total: 0, page: params.page ?? 1, hasMore: false }
         })
       : Promise.resolve({ results: [], total: 0, page: 1, hasMore: false }),
 
     fonte !== 'curado' && params.q
       ? fetchLiveResults(params.q).catch((err) => {
-          console.error('[unified] Live search failed:', err)
+          log.error('live search failed', {
+            err: err instanceof Error ? err.message : String(err),
+          })
           return EMPTY_LIVE
         })
       : Promise.resolve(EMPTY_LIVE),
   ])
 
-  const response: UnifiedSearchResponse = {
+  return {
     curated: curatedResult,
     live: liveResult,
     meta: { query: params.q ?? '', durationMs: Date.now() - start },
   }
-
-  if (isDev) console.timeEnd(timerLabel)
-
-  return response
 }
 
 async function fetchLiveResults(query: string): Promise<LiveSearchResult> {
@@ -75,10 +73,16 @@ async function fetchYouTubeWithCache(query: string) {
     void Promise.all([
       setCachedResults(cacheKey, query, results, quotaCost),
       logQuotaUsage('search.list', quotaCost, query),
-    ]).catch((err) => console.error('[unified] Cache/quota log failed:', err))
+    ]).catch((err) =>
+      log.warn('cache/quota log failed', {
+        err: err instanceof Error ? err.message : String(err),
+      }),
+    )
     return { results, exhausted: false }
   } catch (err) {
-    console.error('[unified] YouTube search failed:', err)
+    log.error('YouTube search failed', {
+      err: err instanceof Error ? err.message : String(err),
+    })
     return { results: [], exhausted: false }
   }
 }

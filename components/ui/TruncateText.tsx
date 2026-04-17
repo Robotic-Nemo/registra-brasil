@@ -23,8 +23,11 @@ export function TruncateText({ text, maxLength = 200, className = '' }: Props) {
     <p className={className}>
       {expanded ? text : `${display}…`}{' '}
       <button
+        type="button"
         onClick={() => setExpanded(!expanded)}
-        className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+        aria-expanded={expanded}
+        aria-label={expanded ? 'Mostrar menos texto' : 'Mostrar texto completo'}
+        className="text-blue-600 hover:text-blue-800 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-blue-500 rounded"
       >
         {expanded ? 'Menos' : 'Mais'}
       </button>

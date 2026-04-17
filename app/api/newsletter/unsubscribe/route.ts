@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { unsubscribeEmail, verifyUnsubscribeToken, isValidEmail } from '@/lib/utils/newsletter'
+import { checkRateLimit, getRateLimitKey } from '@/lib/utils/rate-limit'
 
 export const runtime = 'edge'
 
@@ -8,6 +9,19 @@ export const runtime = 'edge'
  * Requires email + token for security.
  */
 export async function POST(request: NextRequest) {
+  const rl = checkRateLimit(getRateLimitKey(request, 'newsletter-unsubscribe'), {
+    limit: 10,
+    windowMs: 60_000,
+  })
+  if (!rl.allowed) {
+    return NextResponse.json(
+      { error: { code: 'RATE_LIMITED', message: 'Too many requests' } },
+      {
+        status: 429,
+        headers: { 'Retry-After': String(Math.ceil((rl.resetAt - Date.now()) / 1000)) },
+      }
+    )
+  }
   try {
     const body = await request.json()
     const { email, token } = body as { email?: string; token?: string }
@@ -56,6 +70,17 @@ export async function POST(request: NextRequest) {
  * GET /api/newsletter/unsubscribe — One-click unsubscribe via link.
  */
 export async function GET(request: NextRequest) {
+  const rl = checkRateLimit(getRateLimitKey(request, 'newsletter-unsubscribe-get'), {
+    limit: 20,
+    windowMs: 60_000,
+  })
+  if (!rl.allowed) {
+    return new NextResponse('Too many requests.', {
+      status: 429,
+      headers: { 'Retry-After': String(Math.ceil((rl.resetAt - Date.now()) / 1000)) },
+    })
+  }
+
   const { searchParams } = new URL(request.url)
   const email = searchParams.get('email')
   const token = searchParams.get('token')

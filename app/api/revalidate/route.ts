@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { checkRateLimit, getRateLimitKey } from '@/lib/utils/rate-limit'
 
 export const runtime = 'nodejs'
 
 // Restrict slugs to prevent injection via revalidatePath.
 const SLUG_PATTERN = /^[a-z0-9](?:[a-z0-9-]{0,98}[a-z0-9])?$/
+// Tags follow the same safe-ascii pattern.
+const TAG_PATTERN = /^[a-z0-9][a-z0-9_:-]{0,62}$/i
 
 function timingSafeEqual(a: string, b: string): boolean {
   const len = Math.max(a.length, b.length)
@@ -42,7 +44,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid secret' }, { status: 401 })
   }
 
-  let body: { politician_slug?: string; statement_slug?: string } = {}
+  let body: {
+    politician_slug?: string
+    statement_slug?: string
+    tags?: string[]
+  } = {}
   try {
     const text = await req.text()
     if (text) body = JSON.parse(text)
@@ -72,9 +78,30 @@ export async function POST(req: NextRequest) {
   tryRevalidate('/politicos')
   tryRevalidate('/categorias')
 
-  const status = errors.length > 0 && revalidated.length === 0 ? 500 : 200
+  const revalidatedTags: string[] = []
+  if (Array.isArray(body.tags)) {
+    for (const tag of body.tags) {
+      if (typeof tag === 'string' && TAG_PATTERN.test(tag)) {
+        try {
+          // Next 16 requires a cache-life profile; 'default' is the generic bucket.
+          revalidateTag(tag, 'default')
+          revalidatedTags.push(tag)
+        } catch (err) {
+          errors.push(`tag:${tag}: ${err instanceof Error ? err.message : 'unknown error'}`)
+        }
+      }
+    }
+  }
+
+  const status =
+    errors.length > 0 && revalidated.length === 0 && revalidatedTags.length === 0 ? 500 : 200
   return NextResponse.json(
-    { revalidated: revalidated.length > 0, paths: revalidated, errors },
-    { status },
+    {
+      revalidated: revalidated.length > 0 || revalidatedTags.length > 0,
+      paths: revalidated,
+      tags: revalidatedTags,
+      errors,
+    },
+    { status, headers: { 'X-Content-Type-Options': 'nosniff' } },
   )
 }

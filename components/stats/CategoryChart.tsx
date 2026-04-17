@@ -1,5 +1,4 @@
-'use client'
-
+// Pure render — server component, ships no JS.
 import { textColorForBg } from '@/lib/utils/color'
 
 interface CategoryData {

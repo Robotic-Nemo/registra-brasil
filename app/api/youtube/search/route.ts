@@ -3,23 +3,41 @@ import { searchYouTube } from '@/lib/youtube/client'
 import { makeCacheKey, getCachedResults, setCachedResults } from '@/lib/youtube/cache'
 import { hasQuotaAvailable, logQuotaUsage, getQuotaRemaining } from '@/lib/youtube/quota'
 import { checkRateLimit, getRateLimitKey } from '@/lib/utils/rate-limit'
+import { createLogger } from '@/lib/utils/logger'
+
+const MAX_Q_LENGTH = 200
+const YOUTUBE_SEARCH_QUOTA_COST = 100
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
+const log = createLogger('api/youtube/search')
+
 export async function GET(req: NextRequest) {
-  const { allowed } = checkRateLimit(getRateLimitKey(req, 'youtube-search'), { limit: 20, windowMs: 60_000 })
-  if (!allowed) {
-    return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 })
+  const rl = checkRateLimit(getRateLimitKey(req, 'youtube-search'), { limit: 20, windowMs: 60_000 })
+  if (!rl.allowed) {
+    return NextResponse.json(
+      { error: { code: 'RATE_LIMITED', message: 'Rate limit exceeded' } },
+      {
+        status: 429,
+        headers: { 'Retry-After': String(Math.ceil((rl.resetAt - Date.now()) / 1000)) },
+      }
+    )
   }
 
-  const q = req.nextUrl.searchParams.get('q')
+  const q = req.nextUrl.searchParams.get('q')?.trim()
 
   if (!q) {
-    return NextResponse.json({ error: 'q is required' }, { status: 400 })
+    return NextResponse.json(
+      { error: { code: 'INVALID_INPUT', message: 'q is required' } },
+      { status: 400 }
+    )
   }
-  if (q.length > 200) {
-    return NextResponse.json({ error: 'q must be under 200 characters' }, { status: 400 })
+  if (q.length > MAX_Q_LENGTH) {
+    return NextResponse.json(
+      { error: { code: 'INVALID_INPUT', message: `q must be under ${MAX_Q_LENGTH} characters` } },
+      { status: 400 }
+    )
   }
 
   const cacheKey = makeCacheKey(q)
@@ -30,14 +48,19 @@ export async function GET(req: NextRequest) {
       results: cached,
       fromCache: true,
       quotaRemaining: await getQuotaRemaining(),
+    }, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=600, stale-while-revalidate=300',
+        'X-Content-Type-Options': 'nosniff',
+      },
     })
   }
 
-  const available = await hasQuotaAvailable(100)
+  const available = await hasQuotaAvailable(YOUTUBE_SEARCH_QUOTA_COST)
   if (!available) {
     return NextResponse.json(
       { results: [], quotaExhausted: true, quotaRemaining: 0 },
-      { status: 429 }
+      { status: 429, headers: { 'Retry-After': '3600' } }
     )
   }
 
@@ -52,9 +75,17 @@ export async function GET(req: NextRequest) {
       results,
       fromCache: false,
       quotaRemaining: await getQuotaRemaining(),
+    }, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=600, stale-while-revalidate=300',
+        'X-Content-Type-Options': 'nosniff',
+      },
     })
   } catch (err) {
-    console.error('YouTube search error:', err)
-    return NextResponse.json({ error: 'YouTube API error' }, { status: 502 })
+    log.error('YouTube search failed', { err: err instanceof Error ? err.message : String(err) })
+    return NextResponse.json(
+      { error: { code: 'YOUTUBE_UPSTREAM_ERROR', message: 'YouTube API error' } },
+      { status: 502, headers: { 'X-Content-Type-Options': 'nosniff' } }
+    )
   }
 }

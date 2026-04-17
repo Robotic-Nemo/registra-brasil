@@ -1,5 +1,4 @@
-'use client'
-
+// Pure render — server component, ships no JS.
 import type { StatementWithRelations } from '@/types/database'
 import { formatDatePtBR } from '@/lib/utils/date'
 

@@ -1,5 +1,4 @@
-'use client'
-
+// Pure render — server component, ships no JS.
 interface DiffField {
   label: string
   before: string

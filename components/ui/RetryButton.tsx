@@ -44,17 +44,22 @@ export function RetryButton({
 
   return (
     <button
+      type="button"
       onClick={handleClick}
       disabled={disabled}
       aria-disabled={disabled}
-      className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+      aria-label={disabled ? `${label} (aguarde ${remaining} segundos)` : label}
+      className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-blue-500 ${
         disabled
           ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
           : 'bg-blue-600 text-white hover:bg-blue-700'
       } ${className}`}
     >
-      <RotateCcw className={`w-4 h-4 ${disabled ? '' : 'group-hover:rotate-180 transition-transform'}`} />
-      {disabled ? `Aguarde ${remaining}s` : label}
+      <RotateCcw
+        aria-hidden="true"
+        className={`w-4 h-4 ${disabled ? '' : 'group-hover:rotate-180 transition-transform'}`}
+      />
+      <span aria-live="polite">{disabled ? `Aguarde ${remaining}s` : label}</span>
     </button>
   )
 }

@@ -90,9 +90,14 @@ export function t(key: string, locale = 'pt', params?: Record<string, string>): 
   let value = (strings as Record<string, string>)[key] ?? key
 
   if (params) {
-    Object.entries(params).forEach(([k, v]) => {
-      value = value.replace(`{${k}}`, v)
-    })
+    // Use replaceAll so placeholders that appear multiple times all get
+    // substituted; also avoid substring regex surprises from Object.entries order.
+    for (const [k, v] of Object.entries(params)) {
+      const placeholder = `{${k}}`
+      if (value.includes(placeholder)) {
+        value = value.split(placeholder).join(v ?? '')
+      }
+    }
   }
 
   return value

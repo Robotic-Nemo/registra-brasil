@@ -1,5 +1,4 @@
-'use client'
-
+// Pure render — server component, ships no JS.
 import { getPartyColor } from '@/lib/constants/party-colors'
 
 interface PartyData {

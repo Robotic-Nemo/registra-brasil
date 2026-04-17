@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import Link from 'next/link'
 import { CategoryTag } from './CategoryTag'
 import { VerificationBadge } from './VerificationBadge'
@@ -31,16 +31,19 @@ export function StatementTimeline({
     return <p className="text-gray-400 text-sm py-6 text-center">Nenhuma declaracao encontrada.</p>
   }
 
-  const visible = statements.slice(0, visibleCount)
   const hasMore = visibleCount < statements.length
 
-  // Group by year
-  const grouped = new Map<string, StatementWithRelations[]>()
-  for (const s of visible) {
-    const year = s.statement_date.slice(0, 4)
-    if (!grouped.has(year)) grouped.set(year, [])
-    grouped.get(year)!.push(s)
-  }
+  // Group visible slice by year — memoize so re-renders don't redo the scan.
+  const grouped = useMemo(() => {
+    const map = new Map<string, StatementWithRelations[]>()
+    for (let i = 0; i < Math.min(visibleCount, statements.length); i++) {
+      const s = statements[i]
+      const year = s.statement_date.slice(0, 4)
+      if (!map.has(year)) map.set(year, [])
+      map.get(year)!.push(s)
+    }
+    return map
+  }, [statements, visibleCount])
 
   return (
     <div className="relative">
@@ -91,8 +94,10 @@ export function StatementTimeline({
       {hasMore && (
         <div className="relative z-10 flex justify-center mt-4">
           <button
+            type="button"
             onClick={loadMore}
-            className="px-4 py-2 text-sm font-medium text-blue-700 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors border border-blue-200"
+            className="px-4 py-2 text-sm font-medium text-blue-700 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors border border-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-blue-500"
+            aria-label={`Carregar mais declarações (${statements.length - visibleCount} restantes)`}
           >
             Carregar mais ({statements.length - visibleCount} restantes)
           </button>

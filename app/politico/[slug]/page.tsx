@@ -10,7 +10,7 @@ import { PoliticianStatements } from '@/components/politicians/PoliticianStateme
 import { Pagination } from '@/components/ui/Pagination'
 import { RelatedPoliticians } from '@/components/politicians/RelatedPoliticians'
 import { PoliticianActivityChart } from '@/components/politicians/PoliticianActivityChart'
-import { breadcrumbListJsonLd, personJsonLd } from '@/lib/utils/structured-data'
+import { breadcrumbListJsonLd, personJsonLd, itemListJsonLd } from '@/lib/utils/structured-data'
 import type { Metadata } from 'next'
 
 export const revalidate = 3600
@@ -95,6 +95,18 @@ export default async function PoliticianPage({ params, searchParams }: PageProps
     { name: politician.common_name, url: `/politico/${politician.slug}` },
   ])
 
+  // ItemList of this politician's recent verified statements.
+  const statementsListLd =
+    statementsResult.results.length > 0
+      ? itemListJsonLd(
+          statementsResult.results.slice(0, 10).map((s) => ({
+            name: s.summary.slice(0, 100),
+            url: `/declaracao/${s.slug ?? s.id}`,
+          })),
+          `Declarações de ${politician.common_name}`,
+        )
+      : null
+
   return (
     <main className="max-w-5xl mx-auto px-4 py-8 flex flex-col gap-6">
       <script
@@ -105,6 +117,12 @@ export default async function PoliticianPage({ params, searchParams }: PageProps
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
+      {statementsListLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(statementsListLd) }}
+        />
+      )}
       <Breadcrumbs items={[
         { label: 'Políticos', href: '/politicos' },
         { label: politician.common_name },

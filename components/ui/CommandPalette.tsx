@@ -38,7 +38,7 @@ export function CommandPalette() {
     return commands.filter(cmd =>
       cmd.label.toLowerCase().includes(q) ||
       cmd.description?.toLowerCase().includes(q) ||
-      cmd.keywords?.some(k => k.includes(q))
+      cmd.keywords?.some(k => k.toLowerCase().includes(q))
     )
   }, [commands, query])
 
@@ -54,12 +54,16 @@ export function CommandPalette() {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [])
 
-  // Focus input when opened
+  // Focus input when opened; restore focus to prior element on close.
   useEffect(() => {
-    if (isOpen) {
-      setQuery('')
-      setSelectedIndex(0)
-      setTimeout(() => inputRef.current?.focus(), 50)
+    if (!isOpen) return
+    setQuery('')
+    setSelectedIndex(0)
+    const prev = typeof document !== 'undefined' ? (document.activeElement as HTMLElement | null) : null
+    const t = setTimeout(() => inputRef.current?.focus(), 50)
+    return () => {
+      clearTimeout(t)
+      prev?.focus?.()
     }
   }, [isOpen])
 
@@ -110,12 +114,15 @@ export function CommandPalette() {
           ) : (
             filtered.map((cmd, i) => (
               <button
+                type="button"
                 key={cmd.id}
                 className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left transition-colors ${
                   i === selectedIndex ? 'bg-blue-50 text-blue-700' : 'text-zinc-700 hover:bg-zinc-50'
                 }`}
                 onClick={() => { cmd.action(); setIsOpen(false) }}
                 onMouseEnter={() => setSelectedIndex(i)}
+                aria-selected={i === selectedIndex}
+                role="option"
               >
                 <span className="text-base" aria-hidden="true">{cmd.icon}</span>
                 <span className="font-medium">{cmd.label}</span>

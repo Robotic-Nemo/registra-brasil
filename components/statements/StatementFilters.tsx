@@ -16,17 +16,20 @@ export function StatementFilters({ statements, showSearch = true }: Props) {
   const [sortBy, setSortBy] = useState<'date' | 'relevance'>('date')
   const debouncedQuery = useDebounce(query, 300)
 
+  // Pre-compute lowercase haystacks once per statements change so repeated
+  // filter passes don't re-lowercase every card on every keystroke.
+  const haystacks = useMemo(() => {
+    return statements.map((s) =>
+      (`${s.summary}\n${s.full_quote ?? ''}\n${s.context ?? ''}`).toLowerCase(),
+    )
+  }, [statements])
+
   const filtered = useMemo(() => {
     let results = statements
 
     if (debouncedQuery.length >= 2) {
       const q = debouncedQuery.toLowerCase()
-      results = results.filter(
-        (s) =>
-          s.summary.toLowerCase().includes(q) ||
-          s.full_quote?.toLowerCase().includes(q) ||
-          s.context?.toLowerCase().includes(q)
-      )
+      results = results.filter((_, i) => haystacks[i].includes(q))
     }
 
     if (sortBy === 'date') {
@@ -34,7 +37,7 @@ export function StatementFilters({ statements, showSearch = true }: Props) {
     }
 
     return results
-  }, [statements, debouncedQuery, sortBy])
+  }, [statements, haystacks, debouncedQuery, sortBy])
 
   return (
     <div>
