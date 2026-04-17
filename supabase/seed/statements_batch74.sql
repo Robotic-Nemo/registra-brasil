@@ -78,7 +78,7 @@ BEGIN
   SELECT id INTO v_wbarbosa   FROM politicians WHERE slug = 'wanderlei-barbosa';
   SELECT id INTO v_jorginho   FROM politicians WHERE slug = 'jorginho-mello';
   SELECT id INTO v_fonteles   FROM politicians WHERE slug = 'rafael-fonteles';
-  SELECT id INTO v_lewan      FROM politicians WHERE slug = 'lewandowski';
+  SELECT id INTO v_lewan      FROM politicians WHERE slug = 'ricardo-lewandowski';
   SELECT id INTO v_mucio      FROM politicians WHERE slug = 'jose-mucio';
   SELECT id INTO v_lula       FROM politicians WHERE slug = 'lula';
   SELECT id INTO v_motta      FROM politicians WHERE slug = 'hugo-motta';
@@ -114,7 +114,7 @@ BEGIN
       'https://oglobo.globo.com/rio/noticia/2023/02/castro-defende-operacao-alemao.ghtml', 'news_article',
       5,
       'Rio de Janeiro', 'Operação Complexo do Alemão', 'governor-security-b74-1'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_1;
@@ -132,7 +132,7 @@ BEGIN
       'https://extra.globo.com/casos-de-policia/castro-rebate-criticos-operacao.html', 'news_article',
       4,
       'Palácio Guanabara', 'Coletiva de imprensa', 'governor-security-b74-2'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odio, true FROM ins_2;
@@ -150,7 +150,7 @@ BEGIN
       'https://www1.folha.uol.com.br/cotidiano/2023/08/tarcisio-defende-operacao-escudo-baixada-santista.shtml', 'news_article',
       5,
       'São Paulo', 'Operação Escudo Baixada Santista', 'governor-security-b74-3'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_3;
@@ -168,7 +168,7 @@ BEGIN
       'https://www1.folha.uol.com.br/cotidiano/2023/08/tarcisio-recusa-cpi-operacao-escudo.shtml', 'news_article',
       4,
       'Palácio dos Bandeirantes', 'Entrevista', 'governor-security-b74-4'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abuso, true FROM ins_4;
@@ -186,7 +186,7 @@ BEGIN
       'https://www.correiobraziliense.com.br/politica/2023/04/caiado-bandido-tem-que-morrer.html', 'news_article',
       5,
       'Goiânia', 'Entrevista coletiva', 'governor-security-b74-5'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_5;
@@ -204,7 +204,7 @@ BEGIN
       'https://www.gazetadopovo.com.br/republica/caiado-direitos-humanos-advogados-bandido/', 'news_article',
       4,
       'Goiânia', 'Evento PM-GO', 'governor-security-b74-6'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odio, true FROM ins_6;
@@ -222,7 +222,7 @@ BEGIN
       'https://amazonasatual.com.br/wilson-lima-defende-operacao-policia/', 'news_article',
       4,
       'Manaus', 'Operação Manaus', 'governor-security-b74-7'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abuso, true FROM ins_7;
@@ -240,7 +240,7 @@ BEGIN
       'https://amazonasatual.com.br/wilson-lima-crise-yanomami-federal/', 'news_article',
       3,
       'Manaus', 'Coletiva', 'governor-security-b74-8'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irresp, true FROM ins_8;
@@ -258,7 +258,7 @@ BEGIN
       'https://www.correiobraziliense.com.br/politica/2023/03/ibaneis-defende-forca-protestos.html', 'news_article',
       3,
       'Brasília', 'Coletiva GDF', 'governor-security-b74-9'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_autorit, true FROM ins_9;
@@ -276,7 +276,7 @@ BEGIN
       'https://www.opovo.com.br/noticias/ceara/2023/04/elmano-pede-forca-nacional.html', 'news_article',
       2,
       'Fortaleza', 'Coletiva Palácio da Abolição', 'governor-security-b74-10'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irresp, true FROM ins_10;
@@ -294,7 +294,7 @@ BEGIN
       'https://www.correio24horas.com.br/salvador/jeronimo-defende-pm-chacina-itapua-0723', 'news_article',
       4,
       'Salvador', 'Coletiva Palácio de Ondina', 'governor-security-b74-11'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_11;
@@ -312,7 +312,7 @@ BEGIN
       'https://www.correio24horas.com.br/salvador/jeronimo-letalidade-pm-ba-0723', 'news_article',
       3,
       'Salvador', 'Entrevista', 'governor-security-b74-12'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irresp, true FROM ins_12;
@@ -330,7 +330,7 @@ BEGIN
       'https://oglobo.globo.com/brasil/noticia/2023/05/helder-defende-pm-para.ghtml', 'news_article',
       3,
       'Belém', 'Coletiva', 'governor-security-b74-13'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_13;
@@ -348,7 +348,7 @@ BEGIN
       'https://jc.ne10.uol.com.br/pernambuco/2023/09/raquel-lyra-defende-operacao.html', 'news_article',
       4,
       'Recife', 'Coletiva Palácio do Campo das Princesas', 'governor-security-b74-14'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_14;
@@ -366,7 +366,7 @@ BEGIN
       'https://www.em.com.br/app/noticia/politica/2023/02/zema-porte-armas-cidadao-bem.shtml', 'news_article',
       3,
       'Belo Horizonte', 'Evento partidário', 'governor-security-b74-15'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_autorit, true FROM ins_15;
@@ -384,7 +384,7 @@ BEGIN
       'https://www.em.com.br/app/noticia/politica/2023/04/zema-mst-organizacao-criminosa.shtml', 'news_article',
       4,
       'Belo Horizonte', 'Coletiva', 'governor-security-b74-16'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odio, true FROM ins_16;
@@ -402,7 +402,7 @@ BEGIN
       'https://www.gazetadopovo.com.br/parana/ratinho-operacao-horus-fronteira/', 'news_article',
       2,
       'Foz do Iguaçu', 'Lançamento da operação', 'governor-security-b74-17'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_17;
@@ -420,7 +420,7 @@ BEGIN
       'https://ndmais.com.br/politica/jorginho-mello-defende-letalidade-pm-sc/', 'news_article',
       4,
       'Florianópolis', 'Coletiva', 'governor-security-b74-18'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_18;
@@ -438,7 +438,7 @@ BEGIN
       'https://oglobo.globo.com/politica/noticia/2023/02/castro-defende-bolsonaro-ato.ghtml', 'news_article',
       4,
       'Rio de Janeiro', 'Ato em Copacabana', 'governor-security-b74-19'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ameaca, true FROM ins_19;
@@ -456,7 +456,7 @@ BEGIN
       'https://www1.folha.uol.com.br/cotidiano/2023/09/tarcisio-cameras-corporais-escudo.shtml', 'news_article',
       4,
       'São Paulo', 'Coletiva', 'governor-security-b74-20'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_desinform, true FROM ins_20;
@@ -474,7 +474,7 @@ BEGIN
       'https://www.correiobraziliense.com.br/politica/2023/06/caiado-cpmi-perseguicao.html', 'news_article',
       4,
       'Goiânia', 'Entrevista', 'governor-security-b74-21'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ameaca, true FROM ins_21;
@@ -492,7 +492,7 @@ BEGIN
       'https://amazonasatual.com.br/wilson-lima-efetivo-pm/', 'news_article',
       2,
       'Manaus', 'Lançamento de concurso', 'governor-security-b74-22'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_autorit, true FROM ins_22;
@@ -510,7 +510,7 @@ BEGIN
       'https://www.correiobraziliense.com.br/politica/2023/01/ibaneis-afastado-8-janeiro.html', 'news_article',
       3,
       'Brasília', 'Nota oficial', 'governor-security-b74-23'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irresp, true FROM ins_23;
@@ -528,7 +528,7 @@ BEGIN
       'https://www.opovo.com.br/noticias/ceara/2023/05/elmano-exercito-faccoes.html', 'news_article',
       2,
       'Fortaleza', 'Coletiva', 'governor-security-b74-24'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_24;
@@ -546,7 +546,7 @@ BEGIN
       'https://jc.ne10.uol.com.br/pernambuco/2023/03/raquel-juntos-seguranca.html', 'news_article',
       1,
       'Recife', 'Lançamento do programa', 'governor-security-b74-25'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irresp, true FROM ins_25;
@@ -564,7 +564,7 @@ BEGIN
       'https://www.em.com.br/app/noticia/politica/2023/04/zema-exercito-propriedades.shtml', 'news_article',
       4,
       'Belo Horizonte', 'Entrevista', 'governor-security-b74-26'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_autorit, true FROM ins_26;
@@ -582,7 +582,7 @@ BEGIN
       'https://www.gazetadopovo.com.br/parana/ratinho-colegios-civico-militares/', 'news_article',
       3,
       'Curitiba', 'Anúncio de programa', 'governor-security-b74-27'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_autorit, true FROM ins_27;
@@ -600,7 +600,7 @@ BEGIN
       'https://gauchazh.clicrbs.com.br/seguranca/noticia/2023/05/leite-defende-brigada.html', 'news_article',
       3,
       'Porto Alegre', 'Coletiva', 'governor-security-b74-28'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abuso, true FROM ins_28;
@@ -618,7 +618,7 @@ BEGIN
       'https://www.folhavitoria.com.br/politica/casagrande-operacao-serra/', 'news_article',
       3,
       'Vitória', 'Coletiva Palácio Anchieta', 'governor-security-b74-29'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_29;
@@ -636,7 +636,7 @@ BEGIN
       'https://www.tnh1.com.br/noticia/nid/paulo-dantas-reforco-maceio-0823/', 'news_article',
       2,
       'Maceió', 'Coletiva', 'governor-security-b74-30'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_30;
@@ -654,7 +654,7 @@ BEGIN
       'https://www.f5news.com.br/politica/mitidieri-pm-sergipe/', 'news_article',
       3,
       'Aracaju', 'Coletiva', 'governor-security-b74-31'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_31;
@@ -672,7 +672,7 @@ BEGIN
       'https://www.rdnews.com.br/politica/mauro-mendes-repressao-mt/', 'news_article',
       3,
       'Cuiabá', 'Entrega de viaturas', 'governor-security-b74-32'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_32;
@@ -690,7 +690,7 @@ BEGIN
       'https://www.campograndenews.com.br/politica/riedel-pm-aldeia', 'news_article',
       5,
       'Campo Grande', 'Coletiva', 'governor-security-b74-33'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_racismo, true FROM ins_33;
@@ -708,7 +708,7 @@ BEGIN
       'https://www.tribunadonorte.com.br/fatima-bezerra-ataques-natal/', 'news_article',
       1,
       'Natal', 'Coletiva', 'governor-security-b74-34'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irresp, true FROM ins_34;
@@ -726,7 +726,7 @@ BEGIN
       'https://imirante.com/oestadoma/brandao-pm-maranhao/', 'news_article',
       3,
       'São Luís', 'Coletiva', 'governor-security-b74-35'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_35;
@@ -744,7 +744,7 @@ BEGIN
       'https://www.acritica.net/politica/gladson-cameli-pm-acre/', 'news_article',
       3,
       'Rio Branco', 'Coletiva', 'governor-security-b74-36'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abuso, true FROM ins_36;
@@ -762,7 +762,7 @@ BEGIN
       'https://folhabv.com.br/noticia/POLITICA/Denarium-yanomami-federal/', 'news_article',
       4,
       'Boa Vista', 'Coletiva', 'governor-security-b74-37'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ameaca, true FROM ins_37;
@@ -780,7 +780,7 @@ BEGIN
       'https://selesnafes.com/2023/04/clecio-seguranca-amapa/', 'news_article',
       1,
       'Macapá', 'Lançamento', 'governor-security-b74-38'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irresp, true FROM ins_38;
@@ -798,7 +798,7 @@ BEGIN
       'https://www.conexaoto.com.br/politica/wanderlei-pm-tocantins/', 'news_article',
       4,
       'Palmas', 'Coletiva', 'governor-security-b74-39'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abuso, true FROM ins_39;
@@ -816,7 +816,7 @@ BEGIN
       'https://cidadeverde.com/noticias/fonteles-operacao-piaui-0823', 'news_article',
       3,
       'Teresina', 'Coletiva', 'governor-security-b74-40'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_40;
@@ -834,7 +834,7 @@ BEGIN
       'https://oglobo.globo.com/rio/noticia/2023/11/castro-nao-recuo-mare.ghtml', 'news_article',
       5,
       'Rio de Janeiro', 'Coletiva', 'governor-security-b74-41'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_41;
@@ -852,7 +852,7 @@ BEGIN
       'https://www1.folha.uol.com.br/cotidiano/2023/10/tarcisio-defende-rota.shtml', 'news_article',
       4,
       'São Paulo', 'Evento PM-SP', 'governor-security-b74-42'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_42;
@@ -870,7 +870,7 @@ BEGIN
       'https://www.correiobraziliense.com.br/politica/2023/05/caiado-armamento-gcm.html', 'news_article',
       3,
       'Goiânia', 'Entrevista', 'governor-security-b74-43'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_autorit, true FROM ins_43;
@@ -888,7 +888,7 @@ BEGIN
       'https://amazonasatual.com.br/wilson-lima-ribeirinhos-pm/', 'news_article',
       4,
       'Manaus', 'Entrevista', 'governor-security-b74-44'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_racismo, true FROM ins_44;
@@ -906,7 +906,7 @@ BEGIN
       'https://www.em.com.br/app/noticia/politica/2023/07/zema-pf-perseguicao.shtml', 'news_article',
       4,
       'Belo Horizonte', 'Coletiva', 'governor-security-b74-45'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ameaca, true FROM ins_45;
@@ -924,7 +924,7 @@ BEGIN
       'https://oglobo.globo.com/rio/noticia/2024/02/castro-pacote-armamento-alerj.ghtml', 'news_article',
       3,
       'Rio de Janeiro', 'ALERJ', 'governor-security-b74-46'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_46;
@@ -942,7 +942,7 @@ BEGIN
       'https://www1.folha.uol.com.br/cotidiano/2024/01/tarcisio-video-paraisopolis.shtml', 'news_article',
       4,
       'São Paulo', 'Coletiva', 'governor-security-b74-47'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abuso, true FROM ins_47;
@@ -960,7 +960,7 @@ BEGIN
       'https://www.correiobraziliense.com.br/politica/2023/11/caiado-dino-direitos-humanos.html', 'news_article',
       4,
       'Goiânia', 'Entrevista', 'governor-security-b74-48'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odio, true FROM ins_48;
@@ -978,7 +978,7 @@ BEGIN
       'https://www.correio24horas.com.br/salvador/jeronimo-letalidade-2024/', 'news_article',
       4,
       'Salvador', 'Coletiva', 'governor-security-b74-49'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irresp, true FROM ins_49;
@@ -996,7 +996,7 @@ BEGIN
       'https://jc.ne10.uol.com.br/pernambuco/2024/02/raquel-lyra-operacao-15-mortes.html', 'news_article',
       5,
       'Recife', 'Coletiva', 'governor-security-b74-50'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_50;
@@ -1014,7 +1014,7 @@ BEGIN
       'https://www.em.com.br/app/noticia/politica/2024/03/zema-ocupacao-bh.shtml', 'news_article',
       4,
       'Belo Horizonte', 'Coletiva', 'governor-security-b74-51'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_autorit, true FROM ins_51;
@@ -1032,7 +1032,7 @@ BEGIN
       'https://extra.globo.com/casos-de-policia/castro-caveirao-continua.html', 'news_article',
       5,
       'Rio de Janeiro', 'Entrevista', 'governor-security-b74-52'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_52;
@@ -1050,7 +1050,7 @@ BEGIN
       'https://www1.folha.uol.com.br/cotidiano/2024/02/tarcisio-mantem-coronel.shtml', 'news_article',
       3,
       'São Paulo', 'Coletiva', 'governor-security-b74-53'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_confint, true FROM ins_53;
@@ -1068,7 +1068,7 @@ BEGIN
       'https://www.correiobraziliense.com.br/politica/2024/04/caiado-pec-seguranca-publica.html', 'news_article',
       2,
       'Brasília', 'Reunião de governadores', 'governor-security-b74-54'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ameaca, true FROM ins_54;
@@ -1086,7 +1086,7 @@ BEGIN
       'https://amazonasatual.com.br/wilson-lima-drones-armados/', 'news_article',
       4,
       'Manaus', 'Apresentação de tecnologia', 'governor-security-b74-55'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_55;
@@ -1104,7 +1104,7 @@ BEGIN
       'https://www.correiobraziliense.com.br/cidades-df/2024/01/ibaneis-ambulantes.html', 'news_article',
       3,
       'Brasília', 'Coletiva', 'governor-security-b74-56'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abuso, true FROM ins_56;
@@ -1122,7 +1122,7 @@ BEGIN
       'https://www.opovo.com.br/noticias/ceara/2024/02/elmano-crise-seguranca.html', 'news_article',
       1,
       'Fortaleza', 'Balanço de governo', 'governor-security-b74-57'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irresp, true FROM ins_57;
@@ -1140,7 +1140,7 @@ BEGIN
       'https://www.correio24horas.com.br/salvador/jeronimo-resposta-mais-dura/', 'news_article',
       4,
       'Salvador', 'Coletiva', 'governor-security-b74-58'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_58;
@@ -1158,7 +1158,7 @@ BEGIN
       'https://oglobo.globo.com/brasil/noticia/2024/03/helder-garimpo-ilegal.ghtml', 'news_article',
       1,
       'Belém', 'Coletiva', 'governor-security-b74-59'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_59;
@@ -1176,7 +1176,7 @@ BEGIN
       'https://jc.ne10.uol.com.br/pernambuco/2024/04/raquel-pec-seguranca-autonomia.html', 'news_article',
       2,
       'Recife', 'Consórcio Nordeste', 'governor-security-b74-60'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ameaca, true FROM ins_60;
@@ -1194,7 +1194,7 @@ BEGIN
       'https://www.em.com.br/app/noticia/politica/2024/02/zema-prisao-mst.shtml', 'news_article',
       4,
       'Belo Horizonte', 'Coletiva', 'governor-security-b74-61'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_autorit, true FROM ins_61;
@@ -1212,7 +1212,7 @@ BEGIN
       'https://www.gazetadopovo.com.br/parana/ratinho-pec-seguranca-intervencao/', 'news_article',
       3,
       'Curitiba', 'Reunião sul-brasileira', 'governor-security-b74-62'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ameaca, true FROM ins_62;
@@ -1230,7 +1230,7 @@ BEGIN
       'https://ndmais.com.br/politica/jorginho-mello-bope-morte-jovem/', 'news_article',
       5,
       'Florianópolis', 'Coletiva', 'governor-security-b74-63'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_63;
@@ -1248,7 +1248,7 @@ BEGIN
       'https://gauchazh.clicrbs.com.br/politica/noticia/2024/02/leite-brigada-porto-alegre.html', 'news_article',
       2,
       'Porto Alegre', 'Coletiva', 'governor-security-b74-64'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abuso, true FROM ins_64;
@@ -1266,7 +1266,7 @@ BEGIN
       'https://www.folhavitoria.com.br/politica/casagrande-antifaccao/', 'news_article',
       2,
       'Vitória', 'Lançamento de programa', 'governor-security-b74-65'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_65;
@@ -1284,7 +1284,7 @@ BEGIN
       'https://www.rdnews.com.br/politica/mauro-invasao-terras/', 'news_article',
       3,
       'Cuiabá', 'Coletiva', 'governor-security-b74-66'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_autorit, true FROM ins_66;
@@ -1302,7 +1302,7 @@ BEGIN
       'https://www.campograndenews.com.br/politica/riedel-pm-indigena-2024', 'news_article',
       4,
       'Campo Grande', 'Coletiva', 'governor-security-b74-67'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_racismo, true FROM ins_67;
@@ -1320,7 +1320,7 @@ BEGIN
       'https://www.tribunadonorte.com.br/fatima-bezerra-morte-jovem/', 'news_article',
       1,
       'Natal', 'Coletiva', 'governor-security-b74-68'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_68;
@@ -1338,7 +1338,7 @@ BEGIN
       'https://www.f5news.com.br/politica/mitidieri-pm-se-homicidios/', 'news_article',
       1,
       'Aracaju', 'Balanço', 'governor-security-b74-69'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irresp, true FROM ins_69;
@@ -1356,7 +1356,7 @@ BEGIN
       'https://oglobo.globo.com/politica/noticia/2024/04/castro-pec-autonomia.ghtml', 'news_article',
       3,
       'Brasília', 'Reunião de governadores', 'governor-security-b74-70'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ameaca, true FROM ins_70;
@@ -1374,7 +1374,7 @@ BEGIN
       'https://www1.folha.uol.com.br/cotidiano/2024/03/tarcisio-camara-investiga-pm.shtml', 'news_article',
       3,
       'São Paulo', 'Coletiva', 'governor-security-b74-71'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ameaca, true FROM ins_71;
@@ -1392,7 +1392,7 @@ BEGIN
       'https://www.correiobraziliense.com.br/politica/2024/03/caiado-policia-atira-primeiro.html', 'news_article',
       5,
       'Goiânia', 'Formatura PM-GO', 'governor-security-b74-72'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_72;
@@ -1410,7 +1410,7 @@ BEGIN
       'https://amazonasatual.com.br/wilson-lima-marina-yanomami/', 'news_article',
       3,
       'Manaus', 'Entrevista', 'governor-security-b74-73'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ameaca, true FROM ins_73;
@@ -1428,7 +1428,7 @@ BEGIN
       'https://www.em.com.br/app/noticia/politica/2024/09/zema-moraes-x.shtml', 'news_article',
       5,
       'Belo Horizonte', 'Coletiva', 'governor-security-b74-74'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ameaca, true FROM ins_74;
@@ -1446,7 +1446,7 @@ BEGIN
       'https://oglobo.globo.com/rio/noticia/2024/05/castro-chacina-penha-vitoria.ghtml', 'news_article',
       5,
       'Rio de Janeiro', 'Coletiva', 'governor-security-b74-75'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_75;
@@ -1464,7 +1464,7 @@ BEGIN
       'https://www1.folha.uol.com.br/cotidiano/2024/06/tarcisio-operacao-verao-execucoes.shtml', 'news_article',
       5,
       'São Paulo', 'Coletiva', 'governor-security-b74-76'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_desinform, true FROM ins_76;
@@ -1482,7 +1482,7 @@ BEGIN
       'https://www.correiobraziliense.com.br/politica/2024/05/caiado-excludente-ilicitude.html', 'news_article',
       4,
       'Goiânia', 'Evento PM-GO', 'governor-security-b74-77'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abuso, true FROM ins_77;
@@ -1500,7 +1500,7 @@ BEGIN
       'https://amazonasatual.com.br/wilson-lima-catrimani-yanomami/', 'news_article',
       3,
       'Manaus', 'Coletiva', 'governor-security-b74-78'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irresp, true FROM ins_78;
@@ -1518,7 +1518,7 @@ BEGIN
       'https://www.correiobraziliense.com.br/cidades-df/2024/03/ibaneis-ocupacao-sol-nascente.html', 'news_article',
       3,
       'Brasília', 'Coletiva', 'governor-security-b74-79'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_79;
@@ -1536,7 +1536,7 @@ BEGIN
       'https://www.correio24horas.com.br/salvador/jeronimo-anuario-seguranca/', 'news_article',
       3,
       'Salvador', 'Coletiva', 'governor-security-b74-80'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_desinform, true FROM ins_80;
@@ -1554,7 +1554,7 @@ BEGIN
       'https://oliberal.com/para/helder-operacao-belem-letal/', 'news_article',
       4,
       'Belém', 'Coletiva', 'governor-security-b74-81'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_81;
@@ -1572,7 +1572,7 @@ BEGIN
       'https://jc.ne10.uol.com.br/pernambuco/2024/06/raquel-lyra-delegacia-garanhuns.html', 'news_article',
       3,
       'Garanhuns', 'Coletiva', 'governor-security-b74-82'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_82;
@@ -1590,7 +1590,7 @@ BEGIN
       'https://www.em.com.br/app/noticia/politica/2024/07/zema-lula-protege-bandido.shtml', 'news_article',
       4,
       'Belo Horizonte', 'Entrevista', 'governor-security-b74-83'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_desinform, true FROM ins_83;
@@ -1608,7 +1608,7 @@ BEGIN
       'https://oglobo.globo.com/rio/noticia/2024/08/castro-ato-alerj-pm.ghtml', 'news_article',
       3,
       'Rio de Janeiro', 'Alerj', 'governor-security-b74-84'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odio, true FROM ins_84;
@@ -1626,7 +1626,7 @@ BEGIN
       'https://www1.folha.uol.com.br/cotidiano/2024/08/tarcisio-adolescente-osasco.shtml', 'news_article',
       5,
       'São Paulo', 'Coletiva', 'governor-security-b74-85'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_85;
@@ -1644,7 +1644,7 @@ BEGIN
       'https://www.correiobraziliense.com.br/politica/2024/09/caiado-maioridade-penal.html', 'news_article',
       4,
       'Brasília', 'Debate', 'governor-security-b74-86'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_autorit, true FROM ins_86;
@@ -1662,7 +1662,7 @@ BEGIN
       'https://amazonasatual.com.br/wilson-lima-balanco-85-mortos/', 'news_article',
       5,
       'Manaus', 'Balanço anual', 'governor-security-b74-87'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_87;
@@ -1680,7 +1680,7 @@ BEGIN
       'https://www.opovo.com.br/noticias/ceara/2024/09/elmano-ataques-onibus.html', 'news_article',
       2,
       'Fortaleza', 'Coletiva', 'governor-security-b74-88'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_88;
@@ -1698,7 +1698,7 @@ BEGIN
       'https://www.correio24horas.com.br/salvador/jeronimo-operacao-suburbio-12/', 'news_article',
       5,
       'Salvador', 'Coletiva', 'governor-security-b74-89'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_89;
@@ -1716,7 +1716,7 @@ BEGIN
       'https://oliberal.com/para/helder-quilombo-denuncia/', 'news_article',
       4,
       'Belém', 'Coletiva', 'governor-security-b74-90'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_racismo, true FROM ins_90;
@@ -1734,7 +1734,7 @@ BEGIN
       'https://jc.ne10.uol.com.br/pernambuco/2024/10/raquel-lyra-caveirao-pe.html', 'news_article',
       4,
       'Recife', 'Coletiva', 'governor-security-b74-91'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_91;
@@ -1752,7 +1752,7 @@ BEGIN
       'https://www.em.com.br/app/noticia/politica/2024/09/zema-tolerancia-zero.shtml', 'news_article',
       4,
       'Belo Horizonte', 'Lançamento de programa', 'governor-security-b74-92'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_autorit, true FROM ins_92;
@@ -1770,7 +1770,7 @@ BEGIN
       'https://www.gazetadopovo.com.br/parana/ratinho-balanco-seguranca/', 'news_article',
       2,
       'Curitiba', 'Balanço', 'governor-security-b74-93'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_93;
@@ -1788,7 +1788,7 @@ BEGIN
       'https://ndmais.com.br/politica/jorginho-ongs-direitos-humanos/', 'news_article',
       4,
       'Florianópolis', 'Entrevista', 'governor-security-b74-94'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odio, true FROM ins_94;
@@ -1806,7 +1806,7 @@ BEGIN
       'https://gauchazh.clicrbs.com.br/politica/noticia/2024/10/leite-pec-seguranca.html', 'news_article',
       2,
       'Porto Alegre', 'Reunião', 'governor-security-b74-95'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ameaca, true FROM ins_95;
@@ -1824,7 +1824,7 @@ BEGIN
       'https://www.folhavitoria.com.br/politica/casagrande-operacao-facciones/', 'news_article',
       2,
       'Vitória', 'Lançamento', 'governor-security-b74-96'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_96;
@@ -1842,7 +1842,7 @@ BEGIN
       'https://www.rdnews.com.br/politica/mauro-invasao-pm/', 'news_article',
       3,
       'Cuiabá', 'Evento ruralista', 'governor-security-b74-97'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_autorit, true FROM ins_97;
@@ -1860,7 +1860,7 @@ BEGIN
       'https://www.campograndenews.com.br/politica/riedel-pm-dourados', 'news_article',
       5,
       'Campo Grande', 'Coletiva', 'governor-security-b74-98'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_racismo, true FROM ins_98;
@@ -1878,7 +1878,7 @@ BEGIN
       'https://cidadeverde.com/noticias/fonteles-operacao-parnaiba', 'news_article',
       4,
       'Teresina', 'Coletiva', 'governor-security-b74-99'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_violencia, true FROM ins_99;
@@ -1896,7 +1896,7 @@ BEGIN
       'https://oglobo.globo.com/rio/noticia/2024/08/castro-stf-adpf-favelas.ghtml', 'news_article',
       4,
       'Rio de Janeiro', 'Coletiva', 'governor-security-b74-100'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ameaca, true FROM ins_100;

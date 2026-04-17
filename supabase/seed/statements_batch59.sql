@@ -74,9 +74,9 @@ BEGIN
       'Discurso de posse de Dilma Rousseff em 1º de janeiro de 2011 no Congresso Nacional. A fala marcou a eleição da primeira mulher à presidência no Brasil e estabeleceu o combate à corrupção como pilar central, promessa posteriormente questionada por adversários.',
       'verified', true, '2011-01-01',
       'https://www1.folha.uol.com.br/poder/2011/01/855698-dilma-discurso-posse-mulher.shtml',
-      'official_document',
+      'diario_oficial',
       'Brasília', 'Posse no Congresso Nacional', 'dilma-discurso-posse-mulher-janeiro-2011'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -97,7 +97,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2015/10/dilma-fala-em-estocar-vento.html',
       'news_article',
       'Maracanaú', 'Evento energia eólica no Ceará', 'dilma-estocar-vento-mandioca-mamifero-outubro-2015'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -118,7 +118,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2016/04/1761898-dilma-classifica-impeachment-como-golpe.shtml',
       'news_article',
       'Brasília', 'Pronunciamento no Palácio do Planalto', 'dilma-pedaladas-golpe-abril-2016'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -139,7 +139,7 @@ BEGIN
       'https://g1.globo.com/politica/eleicoes/2014/noticia/2014/10/dilma-e-reeleita-presidente.html',
       'news_article',
       'Brasília', 'Pronunciamento de vitória', 'dilma-reeleita-dialogo-outubro-2014'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -158,9 +158,9 @@ BEGIN
       'Lançamento do documento Uma Ponte para o Futuro pela Fundação Ulysses Guimarães do PMDB em outubro de 2015, quando Temer ainda era vice-presidente de Dilma. Críticos viram o texto como plataforma para um governo pós-impeachment.',
       'verified', true, '2015-10-29',
       'https://www1.folha.uol.com.br/poder/2015/10/1698167-temer-pmdb-ponte-para-o-futuro.shtml',
-      'official_document',
+      'diario_oficial',
       'Brasília', 'Lançamento pela Fundação Ulysses Guimarães', 'temer-ponte-futuro-outubro-2015'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -179,9 +179,9 @@ BEGIN
       'Áudio gravado em conversa entre o presidente Michel Temer e o empresário Joesley Batista da JBS no Palácio do Jaburu em 7 de março de 2017, divulgada pelo Globo em 17 de maio de 2017. O escândalo levou a denúncia do PGR Janot contra Temer por corrupção passiva.',
       'verified', true, '2017-03-07',
       'https://oglobo.globo.com/politica/dono-da-jbs-grava-temer-dando-aval-para-compra-do-silencio-de-cunha-21353935',
-      'video',
+      'youtube_video',
       'Brasília', 'Palácio do Jaburu', 'temer-audio-joesley-jbs-cunha-marco-2017'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -202,7 +202,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/eu-nao-renunciarei-repito-eu-nao-renunciarei-diz-temer.ghtml',
       'news_article',
       'Brasília', 'Pronunciamento em rede nacional', 'temer-nao-renunciarei-maio-2017'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -223,7 +223,7 @@ BEGIN
       'https://politica.estadao.com.br/noticias/geral,moro-defende-metodos-lava-jato,1647890',
       'news_article',
       'Curitiba', 'Entrevista ao Estadão', 'moro-defende-metodos-lava-jato-marco-2015'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, false FROM ins;
@@ -242,9 +242,9 @@ BEGIN
       'Decisão assinada por Sérgio Moro em 4 de março de 2016, que determinou a condução coercitiva de Lula para depor na Operação Aletheia, 24ª fase da Lava Jato. A operação foi questionada pelo STF em 2018, que proibiu conduções coercitivas sem intimação prévia.',
       'verified', true, '2016-03-04',
       'https://g1.globo.com/pr/parana/noticia/2016/03/lula-e-levado-coercitivamente-depor-em-sao-paulo.html',
-      'official_document',
+      'diario_oficial',
       'Curitiba', 'Decisão judicial — 13ª Vara Federal', 'moro-conducao-coercitiva-lula-marco-2016'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -265,7 +265,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2018/11/01/moro-aceita-convite-de-bolsonaro-para-ministerio-da-justica.ghtml',
       'news_article',
       'Curitiba', 'Coletiva em Curitiba', 'moro-aceita-ministerio-bolsonaro-novembro-2018'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_con, true FROM ins;
@@ -284,9 +284,9 @@ BEGIN
       'Sentença proferida por Sérgio Moro em 12 de julho de 2017 na Ação Penal 5046512-94.2016, condenando Lula no chamado caso triplex do Guarujá. A condenação foi mantida em segunda instância pelo TRF-4, levando Lula à prisão em abril de 2018.',
       'verified', true, '2017-07-12',
       'https://g1.globo.com/politica/operacao-lava-jato/noticia/moro-condena-lula-a-9-anos-e-6-meses-de-prisao-no-caso-do-triplex.ghtml',
-      'official_document',
+      'diario_oficial',
       'Curitiba', 'Sentença na 13ª Vara Federal', 'moro-condena-lula-triplex-julho-2017'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -307,7 +307,7 @@ BEGIN
       'https://g1.globo.com/sp/sao-paulo/noticia/lula-discursa-no-abc-antes-de-se-entregar.ghtml',
       'news_article',
       'São Bernardo do Campo', 'Sindicato dos Metalúrgicos do ABC', 'lula-discurso-antes-prisao-abril-2018'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -326,9 +326,9 @@ BEGIN
       'Anúncio de Eduardo Cunha, presidente da Câmara dos Deputados, em 2 de dezembro de 2015, abrindo o processo de impeachment contra Dilma Rousseff. A decisão veio horas depois de a bancada do PT anunciar que votaria pela cassação de Cunha no Conselho de Ética.',
       'verified', true, '2015-12-02',
       'https://g1.globo.com/politica/noticia/2015/12/cunha-aceita-abre-processo-impeachment-dilma.html',
-      'official_document',
+      'diario_oficial',
       'Brasília', 'Câmara dos Deputados', 'cunha-abre-impeachment-dilma-dezembro-2015'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -349,7 +349,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2015/03/1604379-cunha-nega-ter-contas-na-suica.shtml',
       'news_article',
       'Brasília', 'CPI da Petrobras — Câmara dos Deputados', 'cunha-nega-contas-suica-marco-2015'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -368,9 +368,9 @@ BEGIN
       'Voto de Jair Bolsonaro na votação do impeachment de Dilma Rousseff na Câmara dos Deputados em 17 de abril de 2016. O deputado federal dedicou seu voto ao torturador Ustra, reconhecido judicialmente por torturar Dilma durante a ditadura. A fala gerou ampla repercussão internacional.',
       'verified', true, '2016-04-17',
       'https://www1.folha.uol.com.br/poder/2016/04/1761828-bolsonaro-dedica-voto-a-coronel-ustra.shtml',
-      'parliamentary_speech',
+      'transcript_pdf',
       'Brasília', 'Plenário da Câmara dos Deputados — votação do impeachment', 'bolsonaro-dedica-voto-ustra-abril-2016'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_vio, true FROM ins;
@@ -391,7 +391,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2014/11/1543867-aecio-pede-auditoria-votos.shtml',
       'news_article',
       'Brasília', 'Sede do PSDB', 'aecio-pede-auditoria-urnas-novembro-2014'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_amb, true FROM ins;
@@ -410,9 +410,9 @@ BEGIN
       'Áudio gravado por Joesley Batista da JBS em conversa com Aécio Neves em março de 2017, divulgado em maio do mesmo ano. O senador pedia dois milhões de reais ao empresário, o que levou ao seu afastamento do mandato, posteriormente revertido pelo STF.',
       'verified', true, '2017-03-24',
       'https://g1.globo.com/politica/noticia/aecio-neves-e-gravado-por-joesley-batista-pedindo-r-2-milhoes.ghtml',
-      'video',
+      'youtube_video',
       'Brasília', 'Conversa gravada por Joesley Batista', 'aecio-audio-joesley-dois-milhoes-marco-2017'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -433,7 +433,7 @@ BEGIN
       'https://www.gazetadopovo.com.br/politica/republica/eduardo-bolsonaro-pt-organizacao-criminosa-2017/',
       'news_article',
       'Brasília', 'Entrevista ao Jornal da Cidade Online', 'eduardo-bolsonaro-banir-pt-agosto-2017'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, false FROM ins;
@@ -454,7 +454,7 @@ BEGIN
       'https://oglobo.globo.com/politica/flavio-bolsonaro-defende-queiroz-2018-23290472',
       'news_article',
       'Rio de Janeiro', 'Coletiva de imprensa', 'flavio-queiroz-defesa-inicial-dezembro-2018'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -475,7 +475,7 @@ BEGIN
       'https://www1.folha.uol.com.br/cotidiano/2014/09/1516567-haddad-defende-ciclovias-sp.shtml',
       'news_article',
       'São Paulo', 'Coletiva na Prefeitura de São Paulo', 'haddad-defende-ciclovias-setembro-2014'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -496,7 +496,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2018/10/haddad-denuncia-disparos-whatsapp.shtml',
       'news_article',
       'São Paulo', 'Coletiva de imprensa', 'haddad-denuncia-whatsapp-fake-news-outubro-2018'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -517,7 +517,7 @@ BEGIN
       'https://g1.globo.com/politica/eleicoes/2018/noticia/2018/10/15/ciro-critica-pt-segundo-turno.ghtml',
       'news_article',
       'Paris', 'Entrevista à imprensa', 'ciro-ataca-pt-segundo-turno-outubro-2018'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -538,7 +538,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2018/04/gleisi-lula-perseguicao-moro.shtml',
       'news_article',
       'São Bernardo do Campo', 'Sindicato dos Metalúrgicos do ABC', 'gleisi-lula-perseguicao-moro-abril-2018'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, false FROM ins;
@@ -559,7 +559,7 @@ BEGIN
       'https://g1.globo.com/sao-paulo/noticia/doria-lanca-operacao-cidade-linda-pichacao.ghtml',
       'news_article',
       'São Paulo', 'Coletiva na Prefeitura de SP', 'doria-cidade-linda-pichacao-janeiro-2017'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, false FROM ins;
@@ -580,7 +580,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2018/09/doria-lula-ladrao-campanha.shtml',
       'news_article',
       'São Paulo', 'Comício da campanha ao governo de SP', 'doria-lula-ladrao-setembro-2018'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, false FROM ins;
@@ -601,7 +601,7 @@ BEGIN
       'https://g1.globo.com/politica/eleicoes/2018/noticia/2018/09/20/alckmin-debate-centro-politico.ghtml',
       'news_article',
       'São Paulo', 'Debate presidencial — Band', 'alckmin-centro-politico-debate-setembro-2018'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -622,7 +622,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/renan-nao-abre-mao-presidencia-senado.ghtml',
       'news_article',
       'Brasília', 'Pronunciamento no Senado Federal', 'renan-resiste-afastamento-stf-dezembro-2016'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_amb, false FROM ins;
@@ -641,9 +641,9 @@ BEGIN
       'Pronunciamento de Jair Bolsonaro em 28 de outubro de 2018, noite da vitória no segundo turno presidencial sobre Fernando Haddad. Bolsonaro foi eleito com 55% dos votos válidos, assumindo a presidência em janeiro de 2019.',
       'verified', true, '2018-10-28',
       'https://g1.globo.com/politica/eleicoes/2018/noticia/2018/10/28/bolsonaro-pronunciamento-eleito.ghtml',
-      'video',
+      'youtube_video',
       'Rio de Janeiro', 'Pronunciamento após vitória', 'bolsonaro-eleito-pronunciamento-outubro-2018'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -664,7 +664,7 @@ BEGIN
       'https://www1.folha.uol.com.br/mercado/2018/11/paulo-guedes-choque-liberal.shtml',
       'news_article',
       'Rio de Janeiro', 'Entrevista à Folha', 'guedes-choque-liberal-novembro-2018'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -685,7 +685,7 @@ BEGIN
       'https://g1.globo.com/politica/eleicoes/2018/noticia/2018/09/10/bolsonaro-atentado-juiz-de-fora.ghtml',
       'news_article',
       'Juiz de Fora', 'Pronunciamento hospital', 'bolsonaro-atentado-juiz-fora-setembro-2018'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -704,9 +704,9 @@ BEGIN
       'Depoimento de Lula a Sérgio Moro em 10 de maio de 2017, no caso Guarujá. O ex-presidente confrontou o juiz durante horas em depoimento que durou mais de cinco horas e foi transmitido pela internet, mobilizando multidões em Curitiba.',
       'verified', true, '2017-05-10',
       'https://g1.globo.com/pr/parana/noticia/lula-depoimento-moro-curitiba-2017.ghtml',
-      'video',
+      'youtube_video',
       'Curitiba', '13ª Vara Federal de Curitiba', 'lula-depoimento-moro-farsante-maio-2017'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -727,7 +727,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2016/04/1761937-dilma-reage-bolsonaro-ustra.shtml',
       'news_article',
       'Brasília', 'Coletiva no Palácio do Planalto', 'dilma-reage-bolsonaro-ustra-abril-2016'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, true FROM ins;
@@ -748,7 +748,7 @@ BEGIN
       'https://www1.folha.uol.com.br/fsp/opiniao/fz1803201607.htm',
       'news_article',
       'São Paulo', 'Artigo na Folha de S. Paulo', 'fhc-apoia-impeachment-marco-2016'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -769,7 +769,7 @@ BEGIN
       'https://g1.globo.com/politica/operacao-lava-jato/noticia/2016/10/cunha-e-preso-em-brasilia.html',
       'news_article',
       'Brasília', 'Residência em Brasília', 'cunha-preso-outubro-2016'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -790,7 +790,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2017/07/bolsonaro-declaracao-deficiente.shtml',
       'news_article',
       'Rio de Janeiro', 'Entrevista à imprensa', 'bolsonaro-pcd-deficiente-cota-julho-2017'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, false FROM ins;
@@ -811,7 +811,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/temer-sanciona-reforma-trabalhista.ghtml',
       'news_article',
       'Brasília', 'Sanção no Palácio do Planalto', 'temer-sanciona-reforma-trabalhista-julho-2017'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -832,7 +832,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2018/05/jefferson-ptb-bolsonaro-apoio.shtml',
       'news_article',
       'Brasília', 'Entrevista à Folha de S. Paulo', 'jefferson-reconstrucao-bolsonaro-maio-2018'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -853,7 +853,7 @@ BEGIN
       'https://g1.globo.com/politica/processo-de-impeachment-de-dilma/noticia/2016/08/dilma-discurso-pos-impeachment.html',
       'news_article',
       'Brasília', 'Pronunciamento no Palácio da Alvorada', 'dilma-discurso-pos-impeachment-agosto-2016'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -872,9 +872,9 @@ BEGIN
       'Voto de Silas Câmara na sessão do impeachment de Dilma Rousseff na Câmara dos Deputados em 17 de abril de 2016. A bancada evangélica foi determinante para aprovar o impeachment, e Silas Câmara é uma das vozes mais ativas dessa articulação no Congresso.',
       'verified', false, '2016-04-17',
       'https://www.camara.leg.br/noticias/483841-camara-autoriza-instauracao-de-processo-de-impeachment-de-dilma-com-367-votos-a-favor-e-137-contra/',
-      'parliamentary_speech',
+      'transcript_pdf',
       'Brasília', 'Plenário da Câmara dos Deputados — votação do impeachment', 'silas-camara-voto-impeachment-abril-2016'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -895,7 +895,7 @@ BEGIN
       'https://www12.senado.leg.br/noticias/materias/2015/11/10/romario-cpi-futebol-denuncias',
       'news_article',
       'Brasília', 'CPI do Futebol — Senado Federal', 'romario-cpi-futebol-cbf-novembro-2015'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, false FROM ins;
@@ -914,9 +914,9 @@ BEGIN
       'Carta pública de Marta Suplicy ao deixar o PT em 31 de março de 2015, após 30 anos no partido que ajudou a fundar. A senadora se filiaria ao PMDB e votaria pelo impeachment de Dilma em 2016, movimento criticado pela antiga base petista.',
       'verified', false, '2015-03-31',
       'https://www1.folha.uol.com.br/poder/2015/03/1608877-marta-suplicy-deixa-pt.shtml',
-      'official_document',
+      'diario_oficial',
       'Brasília', 'Carta pública de desfiliação', 'marta-suplicy-deixa-pt-marco-2015'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -937,7 +937,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2017/08/lula-discurso-abc-candidato.shtml',
       'news_article',
       'São Bernardo do Campo', 'Sindicato dos Metalúrgicos do ABC', 'lula-discurso-abc-candidato-agosto-2017'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -956,9 +956,9 @@ BEGIN
       'Declaração de Jair Bolsonaro em entrevista em dezembro de 2018, antes de assumir a presidência. As falas contra demarcações indígenas foram recorrentes ao longo de sua carreira e se materializariam em políticas do Ministério do Meio Ambiente sob Ricardo Salles.',
       'verified', true, '2018-12-03',
       'https://g1.globo.com/politica/noticia/2018/12/03/bolsonaro-demarcacao-indigena.ghtml',
-      'video',
+      'youtube_video',
       'Rio de Janeiro', 'Entrevista coletiva', 'bolsonaro-contra-demarcacao-indigena-dezembro-2018'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_rac, true FROM ins;
@@ -979,7 +979,7 @@ BEGIN
       'https://g1.globo.com/sp/sao-paulo/noticia/2018/10/eduardo-bolsonaro-deputado-mais-votado.ghtml',
       'news_article',
       'São Paulo', 'Coletiva pós-eleição', 'eduardo-bolsonaro-mais-votado-outubro-2018'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -1000,7 +1000,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2017/04/serra-denuncia-odebrecht.shtml',
       'news_article',
       'São Paulo', 'Coletiva de imprensa', 'serra-nega-propina-odebrecht-abril-2017'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, false FROM ins;
@@ -1021,7 +1021,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2016/04/wagner-articulacao-golpista-temer.shtml',
       'news_article',
       'Brasília', 'Entrevista coletiva no Palácio do Planalto', 'wagner-articulacao-golpista-temer-abril-2016'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, false FROM ins;
@@ -1040,9 +1040,9 @@ BEGIN
       'Declaração de Jair Bolsonaro em comício em agosto de 2018, durante a campanha presidencial. O candidato distorceu o conteúdo do programa "Escola Sem Homofobia", rebatizado como "kit gay" pelo próprio Bolsonaro, e transformou fake news em pauta de campanha.',
       'verified', true, '2018-08-25',
       'https://www1.folha.uol.com.br/poder/2018/08/bolsonaro-kit-gay-escola-sem-partido.shtml',
-      'video',
+      'youtube_video',
       'São Paulo', 'Comício da campanha presidencial', 'bolsonaro-kit-gay-escola-sem-partido-agosto-2018'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -1063,7 +1063,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2016/07/cunha-renuncia-presidencia-camara.html',
       'news_article',
       'Brasília', 'Pronunciamento na Câmara dos Deputados', 'cunha-renuncia-presidencia-camara-julho-2016'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, false FROM ins;
@@ -1084,7 +1084,7 @@ BEGIN
       'https://valor.globo.com/politica/noticia/2016/12/18/sarney-apoia-temer-reformas.ghtml',
       'news_article',
       'Brasília', 'Entrevista ao Valor Econômico', 'sarney-apoia-temer-reformas-dezembro-2016'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -1105,7 +1105,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/paulo-maluf-e-preso-em-sao-paulo.ghtml',
       'news_article',
       'São Paulo', 'Prisão — residência em São Paulo', 'maluf-preso-dezembro-2017'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;

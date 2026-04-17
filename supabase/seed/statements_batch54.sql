@@ -77,9 +77,9 @@ BEGIN
       'Declaração de Randolfe Rodrigues, então líder do governo no Congresso, em abril de 2023, ao defender a instalação da CPMI do 8 de Janeiro. O senador do Amapá foi um dos principais articuladores da comissão.',
       'verified', true, '2023-04-26',
       'https://www12.senado.leg.br/noticias/materias/2023/04/26/randolfe-defende-cpmi-8-janeiro',
-      'official_statement',
+      'other',
       'Brasília', 'Plenário do Senado', 'randolfe-defesa-cpmi-8-janeiro-abril-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -100,7 +100,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2023/03/jaques-wagner-lider-governo-senado-reconstrucao.shtml',
       'news_article',
       'Brasília', 'Plenário do Senado', 'jaques-wagner-lider-governo-reconstrucao-marco-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -119,9 +119,9 @@ BEGIN
       'Fala de Humberto Costa, senador do PT-PE e ex-ministro da Saúde, em sessão do Senado em maio de 2023, durante debate sobre o orçamento da saúde. O senador tem histórico de defesa do SUS desde o governo Lula 1.',
       'verified', false, '2023-05-17',
       'https://www12.senado.leg.br/noticias/materias/2023/05/17/humberto-costa-sus-cortes-orcamento',
-      'official_statement',
+      'other',
       'Brasília', 'Plenário do Senado', 'humberto-costa-defesa-sus-cortes-maio-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -142,7 +142,7 @@ BEGIN
       'https://www.gazetadopovo.com.br/republica/senadora-soraya-thronicke-pl-fake-news-censura/',
       'news_article',
       'Brasília', 'Plenário do Senado', 'soraya-thronicke-pl-fake-news-censura-maio-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -163,7 +163,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/rogerio-marinho-lula-pior-governo-historia/',
       'news_article',
       'Brasília', 'Plenário do Senado', 'rogerio-marinho-lula-pior-governo-junho-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -184,7 +184,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2023/07/omar-aziz-cpi-covid-bolsonaro-responsabilizacao.shtml',
       'news_article',
       'Brasília', 'Entrevista à Folha', 'omar-aziz-cpi-covid-responsabilizacao-julho-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -203,9 +203,9 @@ BEGIN
       'Fala de Otto Alencar (PSD-BA), médico e ex-governador da Bahia, em sessão da CPI da Covid em 2023. O senador é um dos mais ativos críticos do negacionismo sanitário no Congresso.',
       'verified', false, '2023-08-02',
       'https://www12.senado.leg.br/noticias/materias/2023/08/02/otto-alencar-negacionismo-saude-publica',
-      'official_statement',
+      'other',
       'Brasília', 'Plenário do Senado', 'otto-alencar-negacionismo-saude-agosto-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_neg, true FROM ins;
@@ -226,7 +226,7 @@ BEGIN
       'https://www.estadao.com.br/politica/efraim-filho-uniao-brasil-independente-governo-lula/',
       'news_article',
       'Brasília', 'Entrevista ao Estadão', 'efraim-filho-uniao-brasil-independente-agosto-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cin, true FROM ins;
@@ -247,7 +247,7 @@ BEGIN
       'https://oglobo.globo.com/politica/noticia/2023/09/marcos-pontes-corte-ciencia-lula-atraso.ghtml',
       'news_article',
       'Brasília', 'Plenário do Senado', 'marcos-pontes-corte-ciencia-lula-setembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -266,9 +266,9 @@ BEGIN
       'Fala de Esperidião Amin (PP-SC), veterano senador catarinense, em outubro de 2023, em debate sobre PEC que limita decisões monocráticas no STF. Amin é um dos mais antigos parlamentares em atividade.',
       'verified', false, '2023-10-04',
       'https://www12.senado.leg.br/noticias/materias/2023/10/04/esperidiao-amin-stf-decisoes-monocraticas',
-      'official_statement',
+      'other',
       'Brasília', 'Plenário do Senado', 'esperidiao-amin-stf-decisoes-monocraticas-outubro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -289,7 +289,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/cid-gomes-bolsonarismo-fascismo-tropical/',
       'news_article',
       'Fortaleza', 'Entrevista à CNN Brasil', 'cid-gomes-bolsonarismo-fascismo-tropical-novembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -308,9 +308,9 @@ BEGIN
       'Discurso de Contarato (PT-ES) no plenário do Senado em dezembro de 2023, denunciando episódio de discurso homofóbico por senador da oposição. Contarato, ex-delegado, é um dos poucos parlamentares LGBTQIA+ assumidos no Congresso.',
       'verified', true, '2023-12-06',
       'https://www12.senado.leg.br/noticias/materias/2023/12/06/contarato-lgbtfobia-senado',
-      'official_statement',
+      'other',
       'Brasília', 'Plenário do Senado', 'contarato-lgbtfobia-senado-dezembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -331,7 +331,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2024/02/pacheco-ataques-stf-constituicao-senado.ghtml',
       'news_article',
       'Brasília', 'Coletiva de imprensa', 'pacheco-defesa-stf-constituicao-fevereiro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -352,7 +352,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2024/03/renan-calheiros-lira-chantagem-governo.shtml',
       'news_article',
       'Maceió', 'Entrevista à Folha', 'renan-calheiros-lira-chantagem-governo-marco-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -373,7 +373,7 @@ BEGIN
       'https://www.poder360.com.br/congresso/moro-cpmi-cortina-fumaca-governo-lula/',
       'news_article',
       'Brasília', 'CPMI do 8 de Janeiro', 'moro-cpmi-cortina-fumaca-junho-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -394,7 +394,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2023/10/17/eliziane-gama-relatorio-cpmi-8-janeiro-bolsonaro.ghtml',
       'news_article',
       'Brasília', 'CPMI do 8 de Janeiro', 'eliziane-gama-relatorio-cpmi-outubro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -413,9 +413,9 @@ BEGIN
       'Discurso de Alessandro Vieira (MDB-SE), ex-delegado, em abril de 2024. O senador sergipano tem atuação focada em transparência e combate à corrupção.',
       'verified', false, '2024-04-10',
       'https://www12.senado.leg.br/noticias/materias/2024/04/10/alessandro-vieira-mp-pgr-independencia',
-      'official_statement',
+      'other',
       'Brasília', 'Plenário do Senado', 'alessandro-vieira-mp-pgr-independencia-abril-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, true FROM ins;
@@ -436,7 +436,7 @@ BEGIN
       'https://oglobo.globo.com/politica/noticia/2023/02/plinio-valerio-garimpo-yanomami-perseguicao.ghtml',
       'news_article',
       'Brasília', 'Plenário do Senado', 'plinio-valerio-garimpo-yanomami-fevereiro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -457,7 +457,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/mecias-jesus-marco-temporal-seguranca-juridica/',
       'news_article',
       'Brasília', 'Plenário do Senado', 'mecias-jesus-marco-temporal-setembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -478,7 +478,7 @@ BEGIN
       'https://www.estadao.com.br/politica/izalci-emendas-chantagem-governo-lula/',
       'news_article',
       'Brasília', 'Plenário do Senado', 'izalci-emendas-chantagem-governo-maio-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -499,7 +499,7 @@ BEGIN
       'https://www.poder360.com.br/congresso/carlos-viana-impeachment-moraes-senado/',
       'news_article',
       'Brasília', 'Plenário do Senado', 'carlos-viana-impeachment-moraes-junho-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -520,7 +520,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2023/02/03/marcos-do-val-bolsonaro-moraes-gravacao.ghtml',
       'news_article',
       'Brasília', 'Entrevista à imprensa', 'marcos-do-val-bolsonaro-moraes-gravacao-fevereiro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -539,9 +539,9 @@ BEGIN
       'Discurso de Romário (PL-RJ), ex-jogador e senador, em setembro de 2023, em sessão da CPI das Apostas. Romário preside a comissão.',
       'verified', false, '2023-09-19',
       'https://www12.senado.leg.br/noticias/materias/2023/09/19/romario-cbf-cartolas-corruptos',
-      'official_statement',
+      'other',
       'Brasília', 'CPI das Apostas Esportivas', 'romario-cbf-cartolas-corruptos-setembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -562,7 +562,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/tereza-cristina-marina-silva-agro-ideologia/',
       'news_article',
       'Campo Grande', 'Entrevista à CNN Brasil', 'tereza-cristina-marina-silva-agro-novembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -583,7 +583,7 @@ BEGIN
       'https://www.folha.uol.com.br/cotidiano/2024/09/damares-stf-aborto-assassinas-bebes.shtml',
       'news_article',
       'Brasília', 'Plenário do Senado', 'damares-stf-aborto-assassinas-setembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, true FROM ins;
@@ -604,7 +604,7 @@ BEGIN
       'https://oglobo.globo.com/politica/noticia/2023/12/magno-malta-ideologia-genero-diabo.ghtml',
       'news_article',
       'Vila Velha', 'Culto evangélico', 'magno-malta-ideologia-genero-diabo-dezembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, true FROM ins;
@@ -625,7 +625,7 @@ BEGIN
       'https://www.estadao.com.br/politica/mourao-militares-indiciamento-golpe-caca-bruxas/',
       'news_article',
       'Brasília', 'Entrevista ao Estadão', 'mourao-militares-indiciamento-caca-bruxas-dezembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -646,7 +646,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/01/flavio-bolsonaro-moraes-juiz-tirano-senado.shtml',
       'news_article',
       'Brasília', 'Plenário do Senado', 'flavio-bolsonaro-moraes-tirano-senado-janeiro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -667,7 +667,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2024/04/18/randolfe-rodrigues-filiacao-pt-rede.ghtml',
       'news_article',
       'Brasília', 'Coletiva de imprensa', 'randolfe-filiacao-pt-rede-abril-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cin, true FROM ins;
@@ -688,7 +688,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/wellington-fagundes-uniao-europeia-agro-neocolonialismo/',
       'news_article',
       'Brasília', 'Plenário do Senado', 'wellington-fagundes-ue-neocolonialismo-julho-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -709,7 +709,7 @@ BEGIN
       'https://oglobo.globo.com/economia/noticia/2025/01/angelo-coronel-pix-receita-big-brother.ghtml',
       'news_article',
       'Brasília', 'Plenário do Senado', 'angelo-coronel-pix-receita-big-brother-janeiro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -728,9 +728,9 @@ BEGIN
       'Declaração de Humberto Costa (PT-PE) em novembro de 2024, reagindo a ataques da oposição após queda doméstica de Lula e hospitalização.',
       'verified', false, '2024-11-19',
       'https://www12.senado.leg.br/noticias/materias/2024/11/19/humberto-costa-ataques-saude-lula-fake-news',
-      'official_statement',
+      'other',
       'Brasília', 'Plenário do Senado', 'humberto-costa-ataques-saude-lula-novembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -751,7 +751,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2023/12/15/jaques-wagner-reforma-tributaria-vitoria-legislativa.ghtml',
       'news_article',
       'Brasília', 'Plenário do Senado', 'jaques-wagner-reforma-tributaria-vitoria-dezembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -772,7 +772,7 @@ BEGIN
       'https://www.poder360.com.br/congresso/soraya-thronicke-forcas-armadas-8-janeiro/',
       'news_article',
       'Brasília', 'CPMI do 8 de Janeiro', 'soraya-thronicke-forcas-armadas-8-janeiro-agosto-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -793,7 +793,7 @@ BEGIN
       'https://www.estadao.com.br/politica/rogerio-marinho-lula-politica-externa-venezuela-russia/',
       'news_article',
       'Brasília', 'Plenário do Senado', 'rogerio-marinho-politica-externa-venezuela-agosto-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -812,9 +812,9 @@ BEGIN
       'Declaração de Omar Aziz (PSD-AM) em agosto de 2024, em debate sobre regulamentação de redes sociais.',
       'verified', false, '2024-08-20',
       'https://www12.senado.leg.br/noticias/materias/2024/08/20/omar-aziz-regulamentacao-redes-algoritmos',
-      'official_statement',
+      'other',
       'Brasília', 'Plenário do Senado', 'omar-aziz-regulamentacao-redes-algoritmos-agosto-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -835,7 +835,7 @@ BEGIN
       'https://oglobo.globo.com/saude/noticia/2024/03/otto-alencar-antivacina-coveiros-saude.ghtml',
       'news_article',
       'Brasília', 'Plenário do Senado', 'otto-alencar-antivacina-coveiros-marco-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_neg, true FROM ins;
@@ -856,7 +856,7 @@ BEGIN
       'https://valor.globo.com/politica/noticia/2024/10/08/efraim-filho-arcabouco-fiscal-gastos-lula.ghtml',
       'news_article',
       'Brasília', 'Plenário do Senado', 'efraim-filho-arcabouco-fiscal-lula-outubro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -877,7 +877,7 @@ BEGIN
       'https://telesintese.com.br/marcos-pontes-5g-anatel-governo-lula/',
       'news_article',
       'Brasília', 'Plenário do Senado', 'marcos-pontes-5g-anatel-governo-fevereiro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -898,7 +898,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/esperidiao-amin-cpi-ongs-amazonia-soberania/',
       'news_article',
       'Brasília', 'Plenário do Senado', 'esperidiao-amin-cpi-ongs-amazonia-maio-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -919,7 +919,7 @@ BEGIN
       'https://diariodonordeste.verdesmares.com.br/politica/cid-gomes-ciro-psb-pt-ceara-2024',
       'news_article',
       'Fortaleza', 'Entrevista regional', 'cid-gomes-ciro-psb-pt-ceara-junho-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cin, true FROM ins;
@@ -938,9 +938,9 @@ BEGIN
       'Discurso de Contarato (PT-ES), ex-delegado, em março de 2024, em sessão sobre segurança pública.',
       'verified', false, '2024-03-26',
       'https://www12.senado.leg.br/noticias/materias/2024/03/26/contarato-reforma-policias-letalidade',
-      'official_statement',
+      'other',
       'Brasília', 'Plenário do Senado', 'contarato-reforma-policias-letalidade-marco-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -961,7 +961,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2024/08/30/pacheco-arquiva-impeachment-moraes-senado.ghtml',
       'news_article',
       'Brasília', 'Presidência do Senado', 'pacheco-arquiva-impeachment-moraes-agosto-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -982,7 +982,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2024/09/renan-calheiros-governo-lula-articulacao-congresso.shtml',
       'news_article',
       'Maceió', 'Entrevista à Folha', 'renan-calheiros-governo-lula-articulacao-setembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -1003,7 +1003,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2023/11/23/sergio-moro-absolvido-tse-caixa-2-mandato.ghtml',
       'news_article',
       'Curitiba', 'Declaração pós-julgamento', 'moro-absolvicao-tse-caixa-2-novembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -1022,9 +1022,9 @@ BEGIN
       'Discurso de Alessandro Vieira (MDB-SE) em julho de 2024 contra projetos de anistia para os golpistas do 8 de Janeiro.',
       'verified', false, '2024-07-23',
       'https://www12.senado.leg.br/noticias/materias/2024/07/23/alessandro-vieira-anistia-8-janeiro-lesa-patria',
-      'official_statement',
+      'other',
       'Brasília', 'Plenário do Senado', 'alessandro-vieira-anistia-8-janeiro-julho-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -1045,7 +1045,7 @@ BEGIN
       'https://oglobo.globo.com/politica/noticia/2025/01/mourao-bolsonaro-prisao-domiciliar-exagero-respeito.ghtml',
       'news_article',
       'Brasília', 'Entrevista à imprensa', 'mourao-bolsonaro-prisao-domiciliar-janeiro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1066,7 +1066,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2026/03/eliziane-gama-eleicao-2026-plebiscito-democracia.shtml',
       'news_article',
       'São Luís', 'Evento pré-eleitoral', 'eliziane-gama-eleicao-2026-plebiscito-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -1087,7 +1087,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2026/02/randolfe-lula-unico-nome-derrotar-bolsonarismo.ghtml',
       'news_article',
       'Brasília', 'Coletiva de imprensa', 'randolfe-lula-unico-nome-2026-fevereiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -1108,7 +1108,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2026/04/jaques-wagner-balanco-governo-lula-reeleicao-2026.shtml',
       'news_article',
       'Salvador', 'Evento do PT', 'jaques-wagner-balanco-lula-reeleicao-abril-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;

@@ -90,7 +90,7 @@ BEGIN
       'https://www1.folha.uol.com.br/educacao/2023/08/tabata-amaral-ensino-medio-tempo-integral-pl.shtml',
       'news_article',
       'Brasília', 'Plenário da Câmara', 'tabata-amaral-ensino-medio-pl-agosto-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -111,7 +111,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2023/10/18/erika-hilton-janones-transfobia-plenario-camara.ghtml',
       'news_article',
       'Brasília', 'Plenário da Câmara', 'erika-hilton-janones-transfobia-plenario-outubro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -132,7 +132,7 @@ BEGIN
       'https://www.folha.uol.com.br/cotidiano/2024/06/samia-bomfim-pl-gravidez-infantil-estupro.shtml',
       'news_article',
       'Brasília', 'Plenário da Câmara', 'samia-bomfim-pl-gravidez-infantil-junho-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mis, true FROM ins;
@@ -153,7 +153,7 @@ BEGIN
       'https://www.poder360.com.br/congresso/fernanda-melchionna-psol-pacote-fiscal-haddad/',
       'news_article',
       'Brasília', 'Coletiva de imprensa', 'fernanda-melchionna-pacote-fiscal-novembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cin, true FROM ins;
@@ -174,7 +174,7 @@ BEGIN
       'https://oglobo.globo.com/politica/noticia/2024/02/marcel-van-hattem-lula-pobreza-bolsa-familia.ghtml',
       'news_article',
       'Brasília', 'Plenário da Câmara', 'marcel-van-hattem-lula-pobreza-fevereiro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -195,7 +195,7 @@ BEGIN
       'https://www.estadao.com.br/politica/kim-kataguiri-conselho-etica-funcionarios-fantasma/',
       'news_article',
       'Brasília', 'Resposta à imprensa', 'kim-kataguiri-conselho-etica-marco-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -216,7 +216,7 @@ BEGIN
       'https://ge.globo.com/politica-esportiva/noticia/2023/06/14/felipe-carreras-lei-geral-esporte-aprovacao.ghtml',
       'news_article',
       'Brasília', 'Plenário da Câmara', 'felipe-carreras-lei-geral-esporte-junho-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -237,7 +237,7 @@ BEGIN
       'https://valor.globo.com/politica/noticia/2023/07/06/aguinaldo-ribeiro-reforma-tributaria-relator-iva.ghtml',
       'news_article',
       'Brasília', 'Plenário da Câmara', 'aguinaldo-ribeiro-reforma-tributaria-relator-julho-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -258,7 +258,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2024/04/elmar-nascimento-uniao-governo-lula-pressao.shtml',
       'news_article',
       'Brasília', 'Coletiva de imprensa', 'elmar-nascimento-uniao-governo-lula-abril-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cin, true FROM ins;
@@ -279,7 +279,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2024/09/12/lindbergh-farias-anistia-8-janeiro-pt-camara.ghtml',
       'news_article',
       'Brasília', 'Plenário da Câmara', 'lindbergh-farias-anistia-8-janeiro-setembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -300,7 +300,7 @@ BEGIN
       'https://oglobo.globo.com/rio/noticia/2024/03/taliria-petrone-ameacas-milicias-marielle.ghtml',
       'news_article',
       'Rio de Janeiro', 'Ato 6 anos de Marielle', 'taliria-petrone-ameacas-milicias-marco-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_vio, true FROM ins;
@@ -321,7 +321,7 @@ BEGIN
       'https://www.infomoney.com.br/politica/adriana-ventura-novo-pequeno-empreendedor-tributacao/',
       'news_article',
       'Brasília', 'Plenário da Câmara', 'adriana-ventura-pequeno-empreendedor-maio-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -340,9 +340,9 @@ BEGIN
       'Discurso de Duarte Jr. (PSB-MA), jovem deputado advogado popular, em agosto de 2024.',
       'verified', false, '2024-08-15',
       'https://www.camara.leg.br/noticias/1089-duarte-jr-juventude-negra-viva-genocidio-agosto-2024',
-      'official_statement',
+      'other',
       'Brasília', 'Plenário da Câmara', 'duarte-jr-juventude-negra-viva-agosto-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -363,7 +363,7 @@ BEGIN
       'https://teletime.com.br/orlando-silva-marco-civil-ia-deepfake-eleicao/',
       'news_article',
       'Brasília', 'Plenário da Câmara', 'orlando-silva-marco-civil-ia-abril-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -382,9 +382,9 @@ BEGIN
       'Declaração de Chico Alencar (PSOL-RJ) em dezembro de 2023, em audiência no Conselho de Ética.',
       'verified', false, '2023-12-14',
       'https://www.camara.leg.br/noticias/1001-chico-alencar-conselho-etica-apologia-golpe-2023',
-      'official_statement',
+      'other',
       'Brasília', 'Conselho de Ética', 'chico-alencar-apologia-golpe-dezembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -405,7 +405,7 @@ BEGIN
       'https://www1.folha.uol.com.br/cotidiano/2024/03/jandira-feghali-saida-temporaria-seguranca.shtml',
       'news_article',
       'Brasília', 'Plenário da Câmara', 'jandira-feghali-saida-temporaria-marco-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -426,7 +426,7 @@ BEGIN
       'https://valor.globo.com/politica/noticia/2024/11/19/jose-guimaraes-pacote-fiscal-camara-apoio-majoritario.ghtml',
       'news_article',
       'Brasília', 'Coletiva de imprensa', 'jose-guimaraes-pacote-fiscal-camara-novembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -447,7 +447,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2023/04/26/zeca-dirceu-anulacao-condenacao-pai-lava-jato-reparacao.ghtml',
       'news_article',
       'Brasília', 'Entrevista à imprensa', 'zeca-dirceu-anulacao-condenacao-pai-abril-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cin, true FROM ins;
@@ -468,7 +468,7 @@ BEGIN
       'https://www.correio24horas.com.br/politica/afonso-florence-fundao-inclusao-racial-novembro-2023',
       'news_article',
       'Brasília', 'Plenário da Câmara', 'afonso-florence-fundao-inclusao-racial-novembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -489,7 +489,7 @@ BEGIN
       'https://www.folha.uol.com.br/turismo/2023/10/marcelo-freixo-embratur-reconstruir-imagem-brasil.shtml',
       'news_article',
       'Brasília', 'Entrevista à Folha', 'marcelo-freixo-embratur-reconstruir-imagem-outubro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -510,7 +510,7 @@ BEGIN
       'https://www.poder360.com.br/congresso/general-girao-indiciamento-militares-stf-perseguicao/',
       'news_article',
       'Brasília', 'Plenário da Câmara', 'general-girao-indiciamento-militares-dezembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -531,7 +531,7 @@ BEGIN
       'https://www.gazetadopovo.com.br/republica/julia-zanatta-ideologia-genero-escola-sem-partido/',
       'news_article',
       'Brasília', 'Plenário da Câmara', 'julia-zanatta-ideologia-genero-escola-fevereiro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, true FROM ins;
@@ -552,7 +552,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/sanderson-prisao-perpetua-estupro-homicidio/',
       'news_article',
       'Brasília', 'Plenário da Câmara', 'sanderson-prisao-perpetua-estupro-setembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -573,7 +573,7 @@ BEGIN
       'https://oglobo.globo.com/politica/noticia/2024/05/filipe-barros-moraes-ditador-cpi-judiciario.ghtml',
       'news_article',
       'Brasília', 'Plenário da Câmara', 'filipe-barros-moraes-ditador-cpi-maio-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -594,7 +594,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/cabo-gilberto-mst-organizacao-terrorista-cpi/',
       'news_article',
       'Brasília', 'CPI do MST', 'cabo-gilberto-mst-terrorista-maio-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, true FROM ins;
@@ -615,7 +615,7 @@ BEGIN
       'https://www.metropoles.com/brasil/guiga-peixoto-venezuelanos-roraima-fronteira-2025',
       'news_article',
       'Brasília', 'Plenário da Câmara', 'guiga-peixoto-venezuelanos-fronteira-fevereiro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_xen, true FROM ins;
@@ -636,7 +636,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2023/03/08/nikolas-ferreira-peruca-dia-mulher-deputadas.ghtml',
       'news_article',
       'Brasília', 'Plenário da Câmara', 'nikolas-ferreira-peruca-dia-mulher-marco-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mis, true FROM ins;
@@ -657,7 +657,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2023/10/janones-erika-hilton-transfobia-redes-sociais.shtml',
       'news_article',
       'Uberlândia', 'Redes sociais', 'janones-erika-hilton-transfobia-outubro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -678,7 +678,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/06/04/carla-zambelli-fuga-italia-asilo-politico.ghtml',
       'news_article',
       'Roma', 'Entrevista internacional', 'carla-zambelli-fuga-italia-asilo-junho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, true FROM ins;
@@ -699,7 +699,7 @@ BEGIN
       'https://oglobo.globo.com/politica/noticia/2024/03/alexandre-ramagem-abin-paralela-nega.ghtml',
       'news_article',
       'Rio de Janeiro', 'Coletiva de imprensa', 'ramagem-abin-paralela-nega-marco-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -720,7 +720,7 @@ BEGIN
       'https://oglobo.globo.com/politica/noticia/2024/06/bia-kicis-aborto-homicidio-estupro-pl-1904.ghtml',
       'news_article',
       'Brasília', 'Plenário da Câmara', 'bia-kicis-aborto-homicidio-estupro-junho-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mis, true FROM ins;
@@ -741,7 +741,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2024/03/17/marco-feliciano-maconaria-umbanda-stf-cristaos.ghtml',
       'news_article',
       'São Paulo', 'Culto evangélico', 'marco-feliciano-maconaria-umbanda-stf-marco-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_int, true FROM ins;
@@ -762,7 +762,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/03/eduardo-bolsonaro-licenca-camara-eua-moraes.shtml',
       'news_article',
       'Washington D.C.', 'Anúncio oficial', 'eduardo-bolsonaro-licenca-eua-marco-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -783,7 +783,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/02/01/hugo-motta-posse-camara-anistia-equilibrio.ghtml',
       'news_article',
       'Brasília', 'Posse da Câmara', 'hugo-motta-posse-camara-fevereiro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -804,7 +804,7 @@ BEGIN
       'https://valor.globo.com/politica/noticia/2025/02/20/gleisi-hoffmann-ministra-articulacao-centrao.ghtml',
       'news_article',
       'Brasília', 'Coletiva de imprensa', 'gleisi-ministra-articulacao-centrao-fevereiro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -825,7 +825,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2024/10/guilherme-boulos-derrota-sao-paulo-marcal.shtml',
       'news_article',
       'São Paulo', 'Discurso de derrota', 'boulos-derrota-sp-marcal-outubro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -846,7 +846,7 @@ BEGIN
       'https://www1.folha.uol.com.br/educacao/2024/05/tabata-amaral-pl-letramento-digital-ia-escolas.shtml',
       'news_article',
       'Brasília', 'Coletiva de imprensa', 'tabata-amaral-letramento-digital-ia-maio-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -865,9 +865,9 @@ BEGIN
       'Apresentação de PL por Erika Hilton (PSOL-SP) em março de 2024.',
       'verified', false, '2024-03-08',
       'https://www12.senado.leg.br/noticias/materias/2024/03/08/erika-hilton-pl-violencia-politica-genero',
-      'official_statement',
+      'other',
       'Brasília', 'Plenário da Câmara', 'erika-hilton-pl-violencia-politica-genero-marco-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -888,7 +888,7 @@ BEGIN
       'https://www.gazetadopovo.com.br/republica/marcel-van-hattem-stf-comite-politico-flavio-dino/',
       'news_article',
       'Brasília', 'Plenário da Câmara', 'marcel-van-hattem-stf-comite-politico-dezembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -909,7 +909,7 @@ BEGIN
       'https://www.estadao.com.br/politica/kim-kataguiri-derrota-pl-fake-news-liberdade/',
       'news_article',
       'Brasília', 'Plenário da Câmara', 'kim-kataguiri-derrota-pl-fake-news-abril-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -930,7 +930,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2023/05/orlando-silva-big-techs-pl-fake-news-lobby.shtml',
       'news_article',
       'Brasília', 'Coletiva de imprensa', 'orlando-silva-big-techs-pl-fake-news-maio-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -951,7 +951,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/04/10/lindbergh-farias-eduardo-bolsonaro-traicao-patria-eua.ghtml',
       'news_article',
       'Brasília', 'Coletiva de imprensa', 'lindbergh-eduardo-bolsonaro-traicao-abril-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -972,7 +972,7 @@ BEGIN
       'https://oglobo.globo.com/politica/noticia/2026/03/nikolas-ferreira-candidato-presidencia-camara-2027.ghtml',
       'news_article',
       'Brasília', 'Anúncio nas redes', 'nikolas-ferreira-candidato-presidencia-camara-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -993,7 +993,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2024/05/chico-alencar-bolsonarismo-camara-espetaculo-grosseiro.shtml',
       'news_article',
       'Brasília', 'Plenário da Câmara', 'chico-alencar-bolsonarismo-camara-espetaculo-maio-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -1012,9 +1012,9 @@ BEGIN
       'Fala de Jandira Feghali (PCdoB-RJ) em junho de 2024, relatora do PL de saúde mental.',
       'verified', false, '2024-06-18',
       'https://www12.senado.leg.br/noticias/materias/2024/06/18/jandira-feghali-saude-mental-caps-comunidades-terapeuticas',
-      'official_statement',
+      'other',
       'Brasília', 'Plenário da Câmara', 'jandira-feghali-saude-mental-caps-junho-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -1035,7 +1035,7 @@ BEGIN
       'https://valor.globo.com/politica/noticia/2025/03/18/jose-guimaraes-reforma-ir-super-ricos-classe-media.ghtml',
       'news_article',
       'Brasília', 'Coletiva de imprensa', 'jose-guimaraes-reforma-ir-super-ricos-marco-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -1056,7 +1056,7 @@ BEGIN
       'https://oglobo.globo.com/brasil/noticia/2024/10/samia-bomfim-pl-feminicidio-pena-40-anos.ghtml',
       'news_article',
       'Brasília', 'Plenário da Câmara', 'samia-bomfim-pl-feminicidio-outubro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -1077,7 +1077,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/04/22/hugo-motta-anistia-pauta-stf-pacificar.ghtml',
       'news_article',
       'Brasília', 'Entrevista à imprensa', 'hugo-motta-anistia-pauta-abril-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;
@@ -1098,7 +1098,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2026/03/tabata-amaral-terceira-via-renovada-2026.shtml',
       'news_article',
       'São Paulo', 'Evento do PSB', 'tabata-amaral-terceira-via-renovada-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cin, true FROM ins;
@@ -1119,7 +1119,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2026/04/12/guilherme-boulos-psol-apoio-lula-2026.ghtml',
       'news_article',
       'São Paulo', 'Reunião do PSOL', 'boulos-psol-apoio-lula-2026-abril-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ami, true FROM ins;

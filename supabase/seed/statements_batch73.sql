@@ -401,7 +401,7 @@ BEGIN
   SELECT id INTO v_c FROM categories WHERE slug = 'antidemocratico';
   WITH ins AS (
     INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug)
-    VALUES (v_p, 'Cármen Lúcia defende voto eletrônico em 2026', 'A urna é tecnológica, segura e brasileira. Seguirá em 2026.', 'Fala em abertura de ano judiciário do TSE.', 'verified', false, '2025-02-10', 'https://www.tse.jus.br/imprensa/noticias-tse/2025/carmen-voto-eletronico', 'official_statement', 2, 'Brasília', 'TSE', 'carmen-voto-eletronico-b73-29')
+    VALUES (v_p, 'Cármen Lúcia defende voto eletrônico em 2026', 'A urna é tecnológica, segura e brasileira. Seguirá em 2026.', 'Fala em abertura de ano judiciário do TSE.', 'verified', false, '2025-02-10', 'https://www.tse.jus.br/imprensa/noticias-tse/2025/carmen-voto-eletronico', 'other', 2, 'Brasília', 'TSE', 'carmen-voto-eletronico-b73-29')
     RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, v_c, true FROM ins;
@@ -625,7 +625,7 @@ BEGIN
   SELECT id INTO v_c FROM categories WHERE slug = 'antidemocratico';
   WITH ins AS (
     INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug)
-    VALUES (v_p, 'Moraes ataca negacionismo eleitoral no TSE', 'Não se tolera mais a indústria de mentiras sobre as urnas.', 'Fala em sessão do TSE.', 'verified', false, '2024-10-04', 'https://www.tse.jus.br/imprensa/noticias-tse/2024/moraes-negacionismo-eleitoral', 'official_statement', 2, 'Brasília', 'TSE', 'moraes-negacionismo-tse-b73-45')
+    VALUES (v_p, 'Moraes ataca negacionismo eleitoral no TSE', 'Não se tolera mais a indústria de mentiras sobre as urnas.', 'Fala em sessão do TSE.', 'verified', false, '2024-10-04', 'https://www.tse.jus.br/imprensa/noticias-tse/2024/moraes-negacionismo-eleitoral', 'other', 2, 'Brasília', 'TSE', 'moraes-negacionismo-tse-b73-45')
     RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, v_c, true FROM ins;
@@ -933,7 +933,7 @@ BEGIN
   SELECT id INTO v_c FROM categories WHERE slug = 'antidemocratico';
   WITH ins AS (
     INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug)
-    VALUES (v_p, 'Moraes encerra presidência do TSE destacando eleições sem ataques', 'Concluímos um ciclo eleitoral sem ataques contra as urnas.', 'Despedida da presidência do TSE.', 'verified', false, '2024-06-02', 'https://www.jota.info/tse/moraes-encerra-presidencia', 'official_statement', 2, 'Brasília', 'TSE', 'moraes-encerra-tse-b73-67')
+    VALUES (v_p, 'Moraes encerra presidência do TSE destacando eleições sem ataques', 'Concluímos um ciclo eleitoral sem ataques contra as urnas.', 'Despedida da presidência do TSE.', 'verified', false, '2024-06-02', 'https://www.jota.info/tse/moraes-encerra-presidencia', 'other', 2, 'Brasília', 'TSE', 'moraes-encerra-tse-b73-67')
     RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, v_c, true FROM ins;
@@ -1227,7 +1227,7 @@ BEGIN
   SELECT id INTO v_c FROM categories WHERE slug = 'antidemocratico';
   WITH ins AS (
     INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug)
-    VALUES (v_p, 'Cármen Lúcia encerra presidência do TSE', 'Seguimos defendendo o voto livre, seguro e auditável.', 'Cerimônia de passagem da presidência.', 'verified', false, '2025-06-02', 'https://www.tse.jus.br/imprensa/noticias-tse/2025/carmen-encerra-tse', 'official_statement', 2, 'Brasília', 'TSE', 'carmen-encerra-tse-b73-88')
+    VALUES (v_p, 'Cármen Lúcia encerra presidência do TSE', 'Seguimos defendendo o voto livre, seguro e auditável.', 'Cerimônia de passagem da presidência.', 'verified', false, '2025-06-02', 'https://www.tse.jus.br/imprensa/noticias-tse/2025/carmen-encerra-tse', 'other', 2, 'Brasília', 'TSE', 'carmen-encerra-tse-b73-88')
     RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, v_c, true FROM ins;

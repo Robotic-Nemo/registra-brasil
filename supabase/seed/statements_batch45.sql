@@ -51,7 +51,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/02/damares-eleita-presidente-cdh-senado-valores-cristaos.shtml',
       'news_article',
       'Brasília', 'Comissão de Direitos Humanos do Senado', 'damares-presidente-cdh-senado-fevereiro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_int, true FROM ins;
@@ -72,7 +72,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/02/damares-pauta-feminina-prioridade-cdh-bisenio.ghtml',
       'news_article',
       'Brasília', 'Coletiva de imprensa no Senado', 'damares-pauta-feminina-prioridade-fevereiro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mac, true FROM ins;
@@ -93,7 +93,7 @@ BEGIN
       'https://www.estadao.com.br/politica/damares-igrejas-investigadas-cpmi-inss-polemica/',
       'news_article',
       'Brasília', 'Vídeo nas redes sociais', 'damares-igrejas-investigadas-cpmi-inss-marco-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -114,7 +114,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/damares-dados-igrejas-publicos-transparencia/',
       'news_article',
       'Brasília', 'Entrevista à CNN Brasil', 'damares-dados-igrejas-publicos-marco-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -135,7 +135,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/04/damares-revisao-estatuto-idoso-abuso-digital.shtml',
       'news_article',
       'Brasília', 'Audiência pública na CDH', 'damares-revisao-estatuto-idoso-abril-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -156,7 +156,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/01/feliciano-bolsonaro-unica-opcao-2026-direita.ghtml',
       'news_article',
       'São Paulo', 'Culto evangélico', 'feliciano-bolsonaro-unica-opcao-2026-janeiro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_aut, true FROM ins;
@@ -177,7 +177,7 @@ BEGIN
       'https://www.uol.com.br/noticias/politica/2025/02/feliciano-amadureceu-evita-polemicas-16-anos.htm',
       'news_article',
       'São Paulo', 'Entrevista ao UOL', 'feliciano-amadureceu-evita-polemicas-fevereiro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -198,7 +198,7 @@ BEGIN
       'https://www.poder360.com.br/congresso/feliciano-ideologia-genero-escolas-doutrinacao/',
       'news_article',
       'Brasília', 'Plenário da Câmara dos Deputados', 'feliciano-ideologia-genero-escolas-abril-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -219,7 +219,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2026/03/nikolas-ferreira-lei-anti-misoginia-aberracao.shtml',
       'news_article',
       'Belo Horizonte', 'Vídeo nas redes sociais', 'nikolas-lei-anti-misoginia-aberracao-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mac, true FROM ins;
@@ -240,7 +240,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/01/nikolas-ferreira-video-pix-monitoramento-viraliza.ghtml',
       'news_article',
       'Belo Horizonte', 'Vídeo nas redes sociais', 'nikolas-pix-monitoramento-video-viral-janeiro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -261,7 +261,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/nikolas-cristaos-perseguidos-brasil-criminalizacao-fe/',
       'news_article',
       'Belo Horizonte', 'Congresso evangélico', 'nikolas-cristaos-perseguidos-criminalizacao-marco-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_int, true FROM ins;
@@ -282,7 +282,7 @@ BEGIN
       'https://www.estadao.com.br/politica/nikolas-contra-casamento-homoafetivo-codigo-civil/',
       'news_article',
       'Brasília', 'Plenário da Câmara dos Deputados', 'nikolas-contra-casamento-homoafetivo-maio-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -303,7 +303,7 @@ BEGIN
       'https://www.uol.com.br/noticias/politica/2025/04/feliciano-igrejas-cpmi-inss-perseguicao-religiosa.htm',
       'news_article',
       'Brasília', 'CPMI do INSS', 'feliciano-igrejas-cpmi-inss-perseguicao-abril-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_int, true FROM ins;
@@ -324,7 +324,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/04/damares-critica-evangelicos-protecao-igrejas-fraude-inss.shtml',
       'news_article',
       'Brasília', 'Entrevista à Folha de S.Paulo', 'damares-critica-evangelicos-igrejas-fraude-abril-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -345,7 +345,7 @@ BEGIN
       'https://g1.globo.com/df/distrito-federal/noticia/2026/02/bia-kicis-chapa-pura-pl-michelle-senado-df.ghtml',
       'news_article',
       'Brasília', 'Evento do PL-DF', 'bia-kicis-chapa-pura-michelle-senado-df-fevereiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_aut, true FROM ins;
@@ -366,7 +366,7 @@ BEGIN
       'https://www.poder360.com.br/eleicoes/michelle-bolsonaro-pre-candidata-senado-df-valores-cristaos/',
       'news_article',
       'Brasília', 'Evento do PL', 'michelle-pre-candidata-senado-df-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_aut, true FROM ins;
@@ -387,7 +387,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2026/03/michelle-ataca-politicas-genero-governo-lula.shtml',
       'news_article',
       'Brasília', 'Congresso de mulheres evangélicas', 'michelle-ataca-politicas-genero-lula-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -408,7 +408,7 @@ BEGIN
       'https://www.estadao.com.br/politica/damares-cdh-aborto-descriminalizacao-barrar/',
       'news_article',
       'Brasília', 'Audiência pública na CDH', 'damares-cdh-barrar-aborto-maio-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_aut, true FROM ins;
@@ -429,7 +429,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/feliciano-contra-adocao-casais-homoafetivos/',
       'news_article',
       'Brasília', 'Plenário da Câmara dos Deputados', 'feliciano-contra-adocao-homoafetiva-junho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -450,7 +450,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/07/nikolas-ataca-direitos-lgbtq-destruicao-familiar.ghtml',
       'news_article',
       'Belo Horizonte', 'Vídeo nas redes sociais', 'nikolas-ataca-direitos-lgbtq-julho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -471,7 +471,7 @@ BEGIN
       'https://www.uol.com.br/noticias/politica/2025/08/janones-insultos-homofobicos-nikolas-ferreira.htm',
       'news_article',
       'Brasília', 'Publicação no X', 'janones-insultos-homofobicos-nikolas-agosto-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -492,7 +492,7 @@ BEGIN
       'https://www.poder360.com.br/congresso/janones-dobra-aposta-ataques-nikolas-desculpas/',
       'news_article',
       'Brasília', 'Vídeo nas redes sociais', 'janones-dobra-aposta-nikolas-agosto-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -513,7 +513,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2026/01/marcal-presidente-biblia-governar-evangelico.shtml',
       'news_article',
       'São Paulo', 'Mega-evento evangélico', 'marcal-presidente-biblia-governar-janeiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_int, true FROM ins;
@@ -534,7 +534,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2026/02/marcal-diversidade-agenda-globalista.ghtml',
       'news_article',
       'São Paulo', 'Vídeo nas redes sociais', 'marcal-diversidade-agenda-globalista-fevereiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, true FROM ins;
@@ -555,7 +555,7 @@ BEGIN
       'https://www.estadao.com.br/politica/damares-liberdade-religiosa-leis-antidiscriminacao/',
       'news_article',
       'Brasília', 'Audiência pública no Senado', 'damares-liberdade-religiosa-antidiscriminacao-junho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -576,7 +576,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/feliciano-sodoma-gomorra-brasil-direitos-lgbtq/',
       'news_article',
       'Campinas', 'Culto evangélico', 'feliciano-sodoma-gomorra-brasil-setembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -597,7 +597,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/01/nikolas-recuo-governo-pix-comemora-vitoria.shtml',
       'news_article',
       'Belo Horizonte', 'Vídeo nas redes sociais', 'nikolas-recuo-governo-pix-comemora-janeiro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -618,7 +618,7 @@ BEGIN
       'https://www.uol.com.br/noticias/politica/2025/03/bia-kicis-ensino-religioso-obrigatorio-escolas.htm',
       'news_article',
       'Brasília', 'Plenário da Câmara dos Deputados', 'bia-kicis-ensino-religioso-obrigatorio-marco-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_int, true FROM ins;
@@ -639,7 +639,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2026/04/michelle-mulher-crista-politica-defensora-familia.ghtml',
       'news_article',
       'Brasília', 'Encontro de mulheres evangélicas', 'michelle-mulher-crista-politica-abril-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mac, true FROM ins;
@@ -660,7 +660,7 @@ BEGIN
       'https://www.poder360.com.br/congresso/damares-educacao-sexual-erotizacao-infantil/',
       'news_article',
       'Brasília', 'Vídeo nas redes sociais', 'damares-educacao-sexual-erotizacao-infantil-julho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -681,7 +681,7 @@ BEGIN
       'https://www.estadao.com.br/politica/feliciano-valores-familiares-sociedade-desmorona/',
       'news_article',
       'São Paulo', 'Congresso da família cristã', 'feliciano-valores-familiares-desmorona-agosto-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -702,7 +702,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/nikolas-trans-esportes-femininos-injustica/',
       'news_article',
       'Belo Horizonte', 'Vídeo nas redes sociais', 'nikolas-trans-esportes-femininos-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -723,7 +723,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/08/damares-violencia-mulheres-comunidades-religiosas.shtml',
       'news_article',
       'Brasília', 'Audiência pública na CDH', 'damares-violencia-mulheres-religiosas-agosto-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mac, true FROM ins;
@@ -744,7 +744,7 @@ BEGIN
       'https://g1.globo.com/df/distrito-federal/noticia/2025/05/bia-kicis-drag-queens-bibliotecas-abuso.ghtml',
       'news_article',
       'Brasília', 'Publicação nas redes sociais', 'bia-kicis-drag-queens-bibliotecas-maio-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -765,7 +765,7 @@ BEGIN
       'https://www.uol.com.br/noticias/politica/2025/07/feliciano-terapia-conversao-liberdade-religiosa.htm',
       'news_article',
       'São Paulo', 'Entrevista a portal evangélico', 'feliciano-terapia-conversao-liberdade-julho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -786,7 +786,7 @@ BEGIN
       'https://www.poder360.com.br/congresso/nikolas-cpi-ongs-lgbtq-repasses-governo/',
       'news_article',
       'Brasília', 'Câmara dos Deputados', 'nikolas-cpi-ongs-lgbtq-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -807,7 +807,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2026/04/michelle-protecao-infancia-erotizacao-governo-lula.shtml',
       'news_article',
       'Brasília', 'Evento pré-eleitoral', 'michelle-protecao-infancia-erotizacao-abril-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -828,7 +828,7 @@ BEGIN
       'https://www.estadao.com.br/politica/damares-dobrar-penas-crimes-idosos-estatuto/',
       'news_article',
       'Brasília', 'Senado Federal', 'damares-dobrar-penas-crimes-idosos-setembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -849,7 +849,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/06/bolsonaro-elogia-bancada-evangelica-guardia-moral.ghtml',
       'news_article',
       'Brasília', 'Congresso evangélico', 'bolsonaro-bancada-evangelica-guardia-moral-junho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_int, true FROM ins;
@@ -870,7 +870,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/nikolas-pregacao-biblica-homossexualidade-liberdade/',
       'news_article',
       'Belo Horizonte', 'Culto evangélico', 'nikolas-pregacao-biblica-liberdade-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -891,7 +891,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/11/dino-liberdade-religiosa-nao-licenca-discriminar.shtml',
       'news_article',
       'Brasília', 'Sessão do STF', 'dino-liberdade-religiosa-discriminar-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_int, true FROM ins;
@@ -912,7 +912,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/10/damares-protocolo-protecao-infantil-igrejas.ghtml',
       'news_article',
       'Brasília', 'Senado Federal', 'damares-protocolo-protecao-infantil-igrejas-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -933,7 +933,7 @@ BEGIN
       'https://www.uol.com.br/noticias/politica/2026/03/marcal-prosperidade-deus-politica-empreendedor.htm',
       'news_article',
       'São Paulo', 'Evento empresarial cristão', 'marcal-prosperidade-deus-politica-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -954,7 +954,7 @@ BEGIN
       'https://www.poder360.com.br/congresso/boulos-religiao-arma-politica-direitos-humanos/',
       'news_article',
       'São Paulo', 'Evento da esquerda cristã', 'boulos-religiao-arma-politica-setembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_int, true FROM ins;
@@ -975,7 +975,7 @@ BEGIN
       'https://www.estadao.com.br/politica/bia-kicis-criminalizacao-blasfemia-protecao-religiosa/',
       'news_article',
       'Brasília', 'Câmara dos Deputados', 'bia-kicis-criminalizacao-blasfemia-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_int, true FROM ins;
@@ -996,7 +996,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/feliciano-voto-evangelico-eleicao-2026-orienta-fieis/',
       'news_article',
       'São Paulo', 'Culto evangélico', 'feliciano-voto-evangelico-eleicao-2026-janeiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -1017,7 +1017,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/05/damares-racha-bancada-evangelica-cpmi-inss-uniao.shtml',
       'news_article',
       'Brasília', 'Reunião da bancada evangélica', 'damares-racha-bancada-evangelica-cpmi-maio-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -1038,7 +1038,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2026/02/nikolas-esquerda-minorias-escudo-politico.ghtml',
       'news_article',
       'Belo Horizonte', 'Vídeo nas redes sociais', 'nikolas-esquerda-minorias-escudo-fevereiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, true FROM ins;
@@ -1059,7 +1059,7 @@ BEGIN
       'https://www.uol.com.br/noticias/politica/2026/04/eduardo-valores-cristaos-eua-brasil-perseguicao.htm',
       'news_article',
       'Miami', 'Vídeo nas redes sociais', 'eduardo-valores-cristaos-eua-brasil-abril-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_int, true FROM ins;
@@ -1080,7 +1080,7 @@ BEGIN
       'https://www.poder360.com.br/governo/lula-estado-laico-nao-governar-biblia-bancada-evangelica/',
       'news_article',
       'Brasília', 'Entrevista coletiva no Planalto', 'lula-estado-laico-nao-governar-biblia-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_int, true FROM ins;

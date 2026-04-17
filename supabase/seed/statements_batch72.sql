@@ -121,7 +121,7 @@ BEGIN
   SELECT id INTO v_c FROM categories WHERE slug = 'ameaca-instituicoes';
   WITH ins AS (
     INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug)
-    VALUES (v_p, 'Cármen Lúcia na posse do TSE defende democracia', 'Quem ameaça a democracia ameaça o Brasil. O voto é sagrado e a urna é inviolável.', 'Discurso de posse na presidência do TSE.', 'verified', true, '2024-06-03', 'https://www.tse.jus.br/imprensa/noticias-tse/2024/Junho/carmen-lucia-toma-posse-tse/', 'official_statement', 2, 'Brasília', 'Posse TSE', 'carmen-posse-tse-democracia-b72-9')
+    VALUES (v_p, 'Cármen Lúcia na posse do TSE defende democracia', 'Quem ameaça a democracia ameaça o Brasil. O voto é sagrado e a urna é inviolável.', 'Discurso de posse na presidência do TSE.', 'verified', true, '2024-06-03', 'https://www.tse.jus.br/imprensa/noticias-tse/2024/Junho/carmen-lucia-toma-posse-tse/', 'other', 2, 'Brasília', 'Posse TSE', 'carmen-posse-tse-democracia-b72-9')
     RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, v_c, true FROM ins;
@@ -191,7 +191,7 @@ BEGIN
   SELECT id INTO v_c FROM categories WHERE slug = 'conflito-interesses';
   WITH ins AS (
     INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug)
-    VALUES (v_p, 'Zanin toma posse no STF após indicação de Lula', 'Atuarei com independência, imparcialidade e total compromisso com a Constituição.', 'Posse gerou controvérsia por ter sido advogado de Lula.', 'verified', true, '2023-08-03', 'https://www.conjur.com.br/2023-ago-03/zanin-toma-posse-stf/', 'official_statement', 2, 'Brasília', 'Posse STF', 'zanin-posse-stf-b72-14')
+    VALUES (v_p, 'Zanin toma posse no STF após indicação de Lula', 'Atuarei com independência, imparcialidade e total compromisso com a Constituição.', 'Posse gerou controvérsia por ter sido advogado de Lula.', 'verified', true, '2023-08-03', 'https://www.conjur.com.br/2023-ago-03/zanin-toma-posse-stf/', 'other', 2, 'Brasília', 'Posse STF', 'zanin-posse-stf-b72-14')
     RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, v_c, true FROM ins;
@@ -513,7 +513,7 @@ BEGIN
   SELECT id INTO v_c FROM categories WHERE slug = 'antidemocratico';
   WITH ins AS (
     INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug)
-    VALUES (v_p, 'Dino toma posse no STF após indicação de Lula', 'Defenderei a Constituição acima de qualquer interesse partidário.', 'Ex-ministro da Justiça assumiu cadeira na Suprema Corte.', 'verified', true, '2024-02-22', 'https://www.jota.info/stf/dino-toma-posse-stf', 'official_statement', 2, 'Brasília', 'Posse STF', 'dino-posse-stf-b72-37')
+    VALUES (v_p, 'Dino toma posse no STF após indicação de Lula', 'Defenderei a Constituição acima de qualquer interesse partidário.', 'Ex-ministro da Justiça assumiu cadeira na Suprema Corte.', 'verified', true, '2024-02-22', 'https://www.jota.info/stf/dino-toma-posse-stf', 'other', 2, 'Brasília', 'Posse STF', 'dino-posse-stf-b72-37')
     RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, v_c, true FROM ins;
@@ -719,7 +719,7 @@ END $$;
 DO $$
 DECLARE v_p UUID; v_c UUID;
 BEGIN
-  SELECT id INTO v_p FROM politicians WHERE slug = 'lewandowski';
+  SELECT id INTO v_p FROM politicians WHERE slug = 'ricardo-lewandowski';
   SELECT id INTO v_c FROM categories WHERE slug = 'conflito-interesses';
   WITH ins AS (
     INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug)
@@ -751,7 +751,7 @@ BEGIN
   SELECT id INTO v_c FROM categories WHERE slug = 'antidemocratico';
   WITH ins AS (
     INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug)
-    VALUES (v_p, 'Barroso assume presidência do STF', 'O Supremo não se curvará a pressões, venham de onde vierem.', 'Discurso de posse como presidente da Corte.', 'verified', true, '2023-09-28', 'https://www.conjur.com.br/2023-set-28/barroso-posse-presidencia-stf/', 'official_statement', 2, 'Brasília', 'Posse STF', 'barroso-posse-presidencia-b72-54')
+    VALUES (v_p, 'Barroso assume presidência do STF', 'O Supremo não se curvará a pressões, venham de onde vierem.', 'Discurso de posse como presidente da Corte.', 'verified', true, '2023-09-28', 'https://www.conjur.com.br/2023-set-28/barroso-posse-presidencia-stf/', 'other', 2, 'Brasília', 'Posse STF', 'barroso-posse-presidencia-b72-54')
     RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, v_c, true FROM ins;
@@ -975,7 +975,7 @@ BEGIN
   SELECT id INTO v_c FROM categories WHERE slug = 'antidemocratico';
   WITH ins AS (
     INSERT INTO statements (politician_id, summary, full_quote, context, verification_status, is_featured, statement_date, primary_source_url, primary_source_type, severity_score, venue, event_name, slug)
-    VALUES (v_p, 'Cármen Lúcia diplomatiza Lula no TSE', 'A vontade popular foi expressa nas urnas de maneira inequívoca.', 'Fala em cerimônia de diplomação.', 'verified', false, '2023-01-12', 'https://www.tse.jus.br/imprensa/noticias-tse/2023/carmen-diplomatiza-lula', 'official_statement', 1, 'Brasília', 'TSE', 'carmen-diplomatiza-lula-b72-70')
+    VALUES (v_p, 'Cármen Lúcia diplomatiza Lula no TSE', 'A vontade popular foi expressa nas urnas de maneira inequívoca.', 'Fala em cerimônia de diplomação.', 'verified', false, '2023-01-12', 'https://www.tse.jus.br/imprensa/noticias-tse/2023/carmen-diplomatiza-lula', 'other', 1, 'Brasília', 'TSE', 'carmen-diplomatiza-lula-b72-70')
     RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, v_c, true FROM ins;

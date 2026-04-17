@@ -76,7 +76,7 @@ BEGIN
       'https://www1.folha.uol.com.br/folha/treinamento/hotsites/ditadura/galeria/plano-collor.shtml',
       'news_article',
       'Brasília', 'Pronunciamento em rede nacional', 'collor-bloqueio-poupanca-plano-collor-marco-1990'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -97,7 +97,7 @@ BEGIN
       'https://acervo.folha.com.br/leitor.do?numero=11729&anchor=4369141',
       'news_article',
       'Brasília', 'Entrevista coletiva no Palácio do Planalto', 'collor-nega-ligacao-pc-farias-maio-1992'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -118,7 +118,7 @@ BEGIN
       'https://memoriaglobo.globo.com/jornalismo/coberturas/impeachment-de-collor/',
       'news_article',
       'Brasília', 'Pronunciamento em cadeia de rádio e TV', 'collor-convoca-verde-amarelo-impeachment-agosto-1992'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -137,9 +137,9 @@ BEGIN
       'Carta de renúncia apresentada pelo advogado José Moura Rocha ao Senado em 29 de dezembro de 1992, poucas horas após o início da sessão de julgamento do impeachment. O Senado prosseguiu com o processo e cassou seus direitos políticos por oito anos.',
       'verified', false, '1992-12-29',
       'https://www12.senado.leg.br/noticias/materias/2017/08/02/ha-25-anos-camara-aprovava-impeachment-de-collor',
-      'official_document',
+      'diario_oficial',
       'Brasília', 'Sessão do Senado Federal — julgamento do impeachment', 'collor-renuncia-senado-dezembro-1992'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -160,7 +160,7 @@ BEGIN
       'https://www1.folha.uol.com.br/fsp/1993/12/15/brasil/fhc-defende-privatizacao.html',
       'news_article',
       'Brasília', 'Entrevista à Folha de S. Paulo', 'fhc-estatais-privatizacao-dezembro-1993'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -181,7 +181,7 @@ BEGIN
       'https://www1.folha.uol.com.br/folha/brasil/ult96u13000.shtml',
       'news_article',
       'São Paulo', 'Encontro com empresários', 'fhc-esquecam-tudo-que-escrevi-setembro-1995'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -202,7 +202,7 @@ BEGIN
       'https://www1.folha.uol.com.br/fsp/1997/5/01/brasil/30.html',
       'news_article',
       'Brasília', 'Pronunciamento em rede nacional', 'fhc-defende-privatizacao-vale-maio-1997'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, false FROM ins;
@@ -223,7 +223,7 @@ BEGIN
       'https://www1.folha.uol.com.br/fsp/1997/5/14/brasil/3.html',
       'news_article',
       'Brasília', 'Entrevista coletiva', 'fhc-defende-emenda-reeleicao-janeiro-1997'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, false FROM ins;
@@ -243,9 +243,9 @@ BEGIN
       'Documento público lançado por Lula em junho de 2002, durante a campanha presidencial, para acalmar o mercado financeiro em meio ao medo do "Risco Lula" que elevou o dólar. A carta marcou a guinada moderada do PT e foi duramente criticada pela esquerda do partido.',
       'verified', true, '2002-06-22',
       'https://www1.folha.uol.com.br/folha/brasil/ult96u33908.shtml',
-      'official_document',
+      'diario_oficial',
       'São Paulo', 'Carta ao Povo Brasileiro', 'lula-carta-povo-brasileiro-junho-2002'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -266,7 +266,7 @@ BEGIN
       'https://g1.globo.com/Noticias/Politica/0,,MUL1268193-5601,00.html',
       'news_article',
       'Brasília', 'Cerimônia oficial no Palácio do Planalto', 'lula-nunca-antes-na-historia-agosto-2009'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -287,7 +287,7 @@ BEGIN
       'https://g1.globo.com/Noticias/Politica/0,,MUL1340987-5601,00-LULA+VOLTA+A+ATACAR+IMPRENSA.html',
       'news_article',
       'Brasília', 'Encontro com militantes do PT', 'lula-ataca-imprensa-outubro-2009'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_int, false FROM ins;
@@ -308,7 +308,7 @@ BEGIN
       'https://www1.folha.uol.com.br/fsp/brasil/fc1208200502.htm',
       'news_article',
       'Brasília', 'Pronunciamento em rede nacional', 'lula-nega-mensalao-traido-agosto-2005'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -330,7 +330,7 @@ BEGIN
       'https://www1.folha.uol.com.br/fsp/brasil/fc2005200303.htm',
       'news_article',
       'Brasília', 'Cerimônia oficial no Palácio do Planalto', 'lula-heranca-maldita-fhc-maio-2003'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -351,7 +351,7 @@ BEGIN
       'https://www1.folha.uol.com.br/fsp/brasil/fc1008200502.htm',
       'news_article',
       'Brasília', 'Encontro com parlamentares do PT', 'lula-defende-dirceu-mensalao-agosto-2005'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, false FROM ins;
@@ -372,7 +372,7 @@ BEGIN
       'https://www1.folha.uol.com.br/fsp/cotidian/ff1006200301.htm',
       'news_article',
       'São Paulo', 'Coletiva na Prefeitura de São Paulo', 'marta-defende-bilhete-unico-junho-2003'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, false FROM ins;
@@ -393,7 +393,7 @@ BEGIN
       'https://www1.folha.uol.com.br/fsp/cotidian/ff2007199901.htm',
       'news_article',
       'Brasília', 'Coletiva no Ministério da Saúde', 'serra-defende-genericos-julho-1999'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, false FROM ins;
@@ -414,7 +414,7 @@ BEGIN
       'https://www1.folha.uol.com.br/fsp/brasil/fc2809200208.htm',
       'news_article',
       'Rio de Janeiro', 'Comício da campanha presidencial', 'serra-ataca-lula-radicalismo-setembro-2002'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -435,7 +435,7 @@ BEGIN
       'https://veja.abril.com.br/politica/aecio-neves-choque-gestao-2005/',
       'news_article',
       'Belo Horizonte', 'Entrevista à revista Veja', 'aecio-choque-gestao-minas-abril-2005'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -456,7 +456,7 @@ BEGIN
       'https://www12.senado.leg.br/noticias/materias/2005/08/25/aecio-discurso-mensalao',
       'news_article',
       'Brasília', 'Pronunciamento na Câmara dos Deputados', 'aecio-critica-mensalao-agosto-2005'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, false FROM ins;
@@ -477,7 +477,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/931272-bolsonaro-diz-preferir-filho-morto-a-homossexual.shtml',
       'news_article',
       'Rio de Janeiro', 'Entrevista ao Jornal Preto no Branco', 'bolsonaro-homofobico-com-orgulho-marco-2011'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -496,9 +496,9 @@ BEGIN
       'Fala de Jair Bolsonaro em plenário da Câmara dos Deputados em 9 de dezembro de 2003, dirigida à deputada Maria do Rosário (PT-RS). A declaração foi repetida em 2014 em entrevista e rendeu a Bolsonaro condenação por injúria, com pena em 2019.',
       'verified', true, '2003-12-09',
       'https://www1.folha.uol.com.br/poder/2014/12/1560377-deputada-reitera-denuncia-contra-bolsonaro-por-apologia-a-estupro.shtml',
-      'parliamentary_speech',
+      'transcript_pdf',
       'Brasília', 'Plenário da Câmara dos Deputados', 'bolsonaro-maria-rosario-nao-merece-estuprar-dezembro-2003'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mis, true FROM ins;
@@ -517,9 +517,9 @@ BEGIN
       'Entrevista de Jair Bolsonaro ao programa Câmara Aberta da TV Câmara em 1999, quando já era deputado federal pelo Rio de Janeiro. A declaração foi usada décadas depois como evidência do histórico autoritário do futuro presidente.',
       'verified', true, '1999-05-23',
       'https://www1.folha.uol.com.br/poder/2018/09/o-antilula-como-o-discurso-de-bolsonaro-virou-pauta-eleitoral.shtml',
-      'video',
+      'youtube_video',
       'Brasília', 'Programa Câmara Aberta — TV Câmara', 'bolsonaro-favoravel-tortura-30-mil-maio-1999'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_vio, true FROM ins;
@@ -540,7 +540,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2017/04/1872764-em-palestra-na-hebraica-bolsonaro-fala-em-quilombolas-refugiados-e-armas.shtml',
       'news_article',
       'Rio de Janeiro', 'Palestra no Clube Hebraica', 'bolsonaro-quilombolas-arrobas-abril-2017'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_rac, true FROM ins;
@@ -561,7 +561,7 @@ BEGIN
       'https://www1.folha.uol.com.br/fsp/1994/7/15/brasil/9.html',
       'news_article',
       'São Paulo', 'Comício da campanha ao governo de SP', 'maluf-rouba-mas-faz-julho-1994'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, false FROM ins;
@@ -582,7 +582,7 @@ BEGIN
       'https://www12.senado.leg.br/noticias/materias/2009/07/15/sarney-atos-secretos',
       'news_article',
       'Brasília', 'Entrevista coletiva no Senado Federal', 'sarney-defende-senado-atos-secretos-julho-2009'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_nep, false FROM ins;
@@ -601,9 +601,9 @@ BEGIN
       'Discurso de Eduardo Cunha em plenário da Câmara dos Deputados em 2010, durante debate sobre o Estatuto da Diversidade Sexual. Cunha construiu sua base evangélica no Congresso com a pauta contra direitos LGBT, estratégia que o levaria à presidência da Câmara.',
       'verified', false, '2010-09-15',
       'https://www1.folha.uol.com.br/fsp/poder/po1509201003.htm',
-      'parliamentary_speech',
+      'transcript_pdf',
       'Brasília', 'Plenário da Câmara dos Deputados', 'cunha-contra-uniao-homoafetiva-setembro-2010'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, false FROM ins;
@@ -624,7 +624,7 @@ BEGIN
       'https://www1.folha.uol.com.br/fsp/cotidian/ff1805200502.htm',
       'news_article',
       'São Paulo', 'Coletiva no Palácio dos Bandeirantes', 'alckmin-defende-pm-sao-paulo-maio-2005'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_vio, false FROM ins;
@@ -643,9 +643,9 @@ BEGIN
       'Declaração de Renan Calheiros em pronunciamento no Senado em 2007, após denúncia da Veja de que um lobista da Mendes Júnior teria pago pensão para a filha extraconjugal do então presidente do Senado. Renan acabou renunciando à presidência em dezembro do mesmo ano.',
       'verified', false, '2007-06-08',
       'https://www1.folha.uol.com.br/folha/brasil/ult96u295857.shtml',
-      'parliamentary_speech',
+      'transcript_pdf',
       'Brasília', 'Pronunciamento no Senado Federal', 'renan-nega-pensao-lobista-junho-2007'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, false FROM ins;
@@ -666,7 +666,7 @@ BEGIN
       'https://www1.folha.uol.com.br/fsp/brasil/fc0606200502.htm',
       'news_article',
       'Brasília', 'Entrevista à Folha de S. Paulo', 'jefferson-denuncia-mensalao-junho-2005'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -687,7 +687,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2010/11/gleisi-hoffmann-senadora.shtml',
       'news_article',
       'Curitiba', 'Coletiva de imprensa', 'gleisi-eleita-senadora-novembro-2010'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -708,7 +708,7 @@ BEGIN
       'https://valor.globo.com/politica/noticia/2010/04/12/temer-pmdb-vice-dilma-aliancas.ghtml',
       'news_article',
       'Brasília', 'Entrevista ao Valor Econômico', 'temer-defende-alianca-dilma-abril-2010'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -729,7 +729,7 @@ BEGIN
       'https://www1.folha.uol.com.br/fsp/brasil/fc2201200802.htm',
       'news_article',
       'Brasília', 'Balanço do PAC — Palácio do Planalto', 'dilma-defende-pac-janeiro-2008'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -750,7 +750,7 @@ BEGIN
       'https://www1.folha.uol.com.br/fsp/brasil/fc1807200205.htm',
       'news_article',
       'Fortaleza', 'Entrevista à Folha de S. Paulo', 'ciro-gomes-polemica-patricia-julho-2002'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mac, false FROM ins;
@@ -771,7 +771,7 @@ BEGIN
       'https://www1.folha.uol.com.br/fsp/cotidian/ff1006200804.htm',
       'news_article',
       'Brasília', 'Coletiva no Ministério da Educação', 'haddad-defende-cotas-raciais-junho-2008'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -792,7 +792,7 @@ BEGIN
       'https://www1.folha.uol.com.br/fsp/1999/5/10/brasil/30.html',
       'news_article',
       'Brasília', 'Entrevista ao Correio Braziliense', 'bolsonaro-fuzilar-fhc-maio-1999'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_vio, false FROM ins;
@@ -811,9 +811,9 @@ BEGIN
       'Pronunciamento de Silas Câmara em plenário da Câmara dos Deputados em 2009, durante debate sobre o 3º Plano Nacional de Direitos Humanos. A bancada evangélica se organizou contra o documento, forçando recuos do governo Lula.',
       'verified', false, '2009-12-10',
       'https://www.camara.leg.br/internet/sitaqweb/TextoHTML.asp?etapa=5&nuSessao=307.3.53.O',
-      'parliamentary_speech',
+      'transcript_pdf',
       'Brasília', 'Plenário da Câmara dos Deputados', 'silas-camara-aborto-dezembro-2009'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -834,7 +834,7 @@ BEGIN
       'https://oglobo.globo.com/politica/romario-eleito-fiscalizar-copa-2010-2808394',
       'news_article',
       'Rio de Janeiro', 'Entrevista coletiva', 'romario-fiscalizar-copa-novembro-2010'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -855,7 +855,7 @@ BEGIN
       'https://www1.folha.uol.com.br/fsp/1996/3/18/dinheiro/2.html',
       'news_article',
       'Brasília', 'Pronunciamento no Palácio do Planalto', 'fhc-defende-proer-marco-1996'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_con, false FROM ins;
@@ -876,7 +876,7 @@ BEGIN
       'https://www1.folha.uol.com.br/fsp/brasil/fc1506200105.htm',
       'news_article',
       'São Paulo', 'Ato político do PT', 'lula-ataca-fhc-apagao-junho-2001'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -897,7 +897,7 @@ BEGIN
       'https://www1.folha.uol.com.br/fsp/brasil/fc2009200603.htm',
       'news_article',
       'Recife', 'Comício da campanha à reeleição', 'lula-elite-branca-burra-setembro-2006'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, false FROM ins;
@@ -918,7 +918,7 @@ BEGIN
       'https://g1.globo.com/Noticias/Eleicoes/0,,AA1332842-6293,00.html',
       'news_article',
       'Rio de Janeiro', 'Debate presidencial — Rede Globo', 'alckmin-ataca-lula-debate-outubro-2006'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, false FROM ins;
@@ -937,9 +937,9 @@ BEGIN
       'Declaração de Jair Bolsonaro em entrevista ao programa Câmara Aberta em 2008, ocasião em que o deputado federal elogiou repetidamente o coronel Ustra, reconhecido pela Justiça como torturador. A defesa de Ustra foi reeditada em 2016 durante o voto do impeachment.',
       'verified', false, '2008-05-12',
       'https://www1.folha.uol.com.br/poder/2016/04/1760803-em-tributo-a-filha-de-bolsonaro-ustra-homenageou-coronel-da-ditadura.shtml',
-      'video',
+      'youtube_video',
       'Brasília', 'Programa Câmara Aberta — TV Câmara', 'bolsonaro-ustra-heroi-nacional-maio-2008'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_vio, false FROM ins;
@@ -960,7 +960,7 @@ BEGIN
       'https://g1.globo.com/bahia/noticia/2010/02/wagner-pm-greve-bahia.html',
       'news_article',
       'Salvador', 'Coletiva no Palácio de Ondina', 'wagner-greve-pm-bahia-fevereiro-2010'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, false FROM ins;
@@ -981,7 +981,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2017/04/1872764-em-palestra-na-hebraica-bolsonaro-fala-em-quilombolas-refugiados-e-armas.shtml',
       'news_article',
       'Rio de Janeiro', 'Palestra no Clube Hebraica', 'bolsonaro-fraquejada-filha-mulher-abril-2017'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mac, true FROM ins;
@@ -1002,7 +1002,7 @@ BEGIN
       'https://www12.senado.leg.br/noticias/materias/2009/06/20/sarney-defende-familiares',
       'news_article',
       'Brasília', 'Pronunciamento no Senado Federal', 'sarney-defende-familiares-nepotismo-junho-2009'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_nep, false FROM ins;
@@ -1023,7 +1023,7 @@ BEGIN
       'https://www1.folha.uol.com.br/folha/brasil/ult96u296712.shtml',
       'news_article',
       'São Paulo', 'Coletiva de imprensa', 'maluf-nega-interpol-junho-2007'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, false FROM ins;
@@ -1044,7 +1044,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2010/03/707944-dilma-rousseff-pre-candidata.shtml',
       'news_article',
       'Brasília', 'Convenção Nacional do PT', 'dilma-pre-candidata-marco-2010'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;
@@ -1063,9 +1063,9 @@ BEGIN
       'Declaração de Flávio Bolsonaro, então deputado estadual pelo Rio de Janeiro, em plenário da Alerj em 2008. O filho mais velho do então deputado federal Jair Bolsonaro já construía uma carreira alinhada ao tom autoritário do pai.',
       'verified', false, '2008-10-14',
       'https://oglobo.globo.com/politica/flavio-bolsonaro-alerj-policia-2008-3624518',
-      'parliamentary_speech',
+      'transcript_pdf',
       'Rio de Janeiro', 'Plenário da Alerj', 'flavio-bolsonaro-atirar-primeiro-outubro-2008'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_vio, false FROM ins;
@@ -1086,7 +1086,7 @@ BEGIN
       'https://www1.folha.uol.com.br/fsp/mercado/me1805201005.htm',
       'news_article',
       'Brasília', 'Discurso no Palácio do Planalto', 'lula-defende-bndes-empreiteiras-maio-2010'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_con, false FROM ins;
@@ -1107,7 +1107,7 @@ BEGIN
       'https://www1.folha.uol.com.br/fsp/opiniao/fz2208201008.htm',
       'news_article',
       'São Paulo', 'Artigo na Folha de S. Paulo', 'fhc-artigo-populismo-lula-agosto-2010'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, false FROM ins;

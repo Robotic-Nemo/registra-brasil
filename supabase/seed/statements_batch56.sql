@@ -49,7 +49,7 @@ BEGIN
       'https://www1.folha.uol.com.br/mercado/2023/03/haddad-apresenta-arcabouco-fiscal-substituto-teto-gastos.shtml',
       'news_article',
       'Brasília', 'Apresentação à imprensa — Ministério da Fazenda', 'haddad-arcabouco-fiscal-apresentacao-marco-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -64,7 +64,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2023/02/02/lula-critica-taxa-de-juros-e-campos-neto-vergonha.ghtml',
       'news_article',
       'São Paulo', 'Entrevista à Rede TV', 'lula-ataca-campos-neto-juros-vergonha-fevereiro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_abu, true FROM ins;
 
@@ -79,7 +79,7 @@ BEGIN
       'https://www.poder360.com.br/economia/campos-neto-rebate-lula-fulano-politica-monetaria/',
       'news_article',
       'São Paulo', 'Evento Santander', 'campos-neto-fulano-politica-monetaria-fevereiro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_con, true FROM ins;
 
@@ -94,7 +94,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/economia/noticia/2024-02/haddad-defende-taxacao-super-ricos-g20',
       'news_article',
       'São Paulo', 'Reunião do G20 Finanças', 'haddad-taxacao-super-ricos-g20-fevereiro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -109,7 +109,7 @@ BEGIN
       'https://valor.globo.com/politica/noticia/2024/04/15/tebet-defende-meta-fiscal-palavra-dada.ghtml',
       'news_article',
       'Brasília', 'Entrevista ao Valor Econômico', 'tebet-meta-fiscal-palavra-dada-abril-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -124,7 +124,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/economia/prates-defende-reter-dividendos-petrobras-caixa-eletronica/',
       'news_article',
       'Rio de Janeiro', 'Entrevista à CNN Brasil', 'prates-petrobras-caixa-eletronica-dividendos-marco-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_con, true FROM ins;
 
@@ -139,7 +139,7 @@ BEGIN
       'https://www1.folha.uol.com.br/mercado/2024/05/lula-confirma-demissao-prates-petrobras-sintonia-governo.shtml',
       'news_article',
       'Brasília', 'Entrevista coletiva no Planalto', 'lula-demite-prates-sintonia-governo-maio-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_abu, true FROM ins;
 
@@ -154,7 +154,7 @@ BEGIN
       'https://oglobo.globo.com/economia/noticia/2024/05/chambriard-petrobras-vai-perfurar-margem-equatorial.ghtml',
       'news_article',
       'Rio de Janeiro', 'Cerimônia de posse — sede Petrobras', 'chambriard-margem-equatorial-vai-perfurar-maio-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_neg, true FROM ins;
 
@@ -169,7 +169,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2024/06/05/marina-silva-ibama-margem-equatorial-nao-carimba.ghtml',
       'news_article',
       'Brasília', 'Entrevista à GloboNews', 'marina-ibama-nao-carimba-margem-equatorial-junho-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -184,7 +184,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/economia/noticia/2023-11/mercadante-bndes-100-bilhoes-credito-verde',
       'news_article',
       'São Paulo', 'Evento Febraban', 'mercadante-bndes-credito-verde-novembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -199,7 +199,7 @@ BEGIN
       'https://www.poder360.com.br/economia/haddad-celebra-reforma-tributaria-marca-historica/',
       'news_article',
       'Brasília', 'Cerimônia de promulgação — Congresso Nacional', 'haddad-reforma-tributaria-marca-historica-dezembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -214,7 +214,7 @@ BEGIN
       'https://valor.globo.com/financas/noticia/2023/09/14/campos-neto-vou-resistir-interferencia-politica-bc.ghtml',
       'news_article',
       'São Paulo', 'Brazil Investment Forum', 'campos-neto-resistir-interferencia-bc-setembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_con, true FROM ins;
 
@@ -229,7 +229,7 @@ BEGIN
       'https://www1.folha.uol.com.br/mercado/2025/01/galipolo-posse-bc-independencia-tecnica.shtml',
       'news_article',
       'Brasília', 'Posse — sede do Banco Central', 'galipolo-posse-bc-independencia-janeiro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -244,7 +244,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/02/11/lula-galipolo-bc-olhar-para-o-povo.ghtml',
       'news_article',
       'Belém', 'Entrevista à Rádio Clube do Pará', 'lula-galipolo-olhar-povo-juros-fevereiro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_abu, true FROM ins;
 
@@ -259,7 +259,7 @@ BEGIN
       'https://www.band.uol.com.br/canal-livre/paulo-guedes-critica-arcabouco-fiscal-lula',
       'news_article',
       'São Paulo', 'Canal Livre — Band', 'guedes-arcabouco-catastrofe-outubro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
@@ -274,7 +274,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/economia/haddad-bets-cassino-digital-sem-regra-regulacao/',
       'news_article',
       'Brasília', 'Coletiva — Ministério da Fazenda', 'haddad-bets-cassino-digital-abril-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -289,7 +289,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/politica/noticia/2024-11/lula-anuncia-isencao-ir-5-mil-super-ricos',
       'news_article',
       'Brasília', 'Pronunciamento em cadeia nacional', 'lula-isencao-ir-5-mil-super-ricos-novembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -304,7 +304,7 @@ BEGIN
       'https://www.folha.uol.com.br/mercado/2024/05/haddad-desoneracao-folha-jabuti-fiscal-congresso.shtml',
       'news_article',
       'Brasília', 'Audiência na Câmara dos Deputados', 'haddad-desoneracao-jabuti-fiscal-maio-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -319,7 +319,7 @@ BEGIN
       'https://valor.globo.com/politica/noticia/2024/07/22/haddad-taxacao-big-techs-brasil.ghtml',
       'news_article',
       'Brasília', 'Entrevista — Valor Econômico', 'haddad-taxacao-big-techs-julho-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -334,7 +334,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/economia/noticia/2023-08/tebet-apresenta-ppa-2024-2027-transicao-ecologica',
       'news_article',
       'Brasília', 'Cerimônia de envio do PPA ao Congresso', 'tebet-ppa-2024-2027-transicao-ecologica-agosto-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -349,7 +349,7 @@ BEGIN
       'https://oglobo.globo.com/economia/noticia/2023/04/silveira-petrobras-nao-e-da-faria-lima.ghtml',
       'news_article',
       'Brasília', 'Entrevista à CBN', 'silveira-petrobras-faria-lima-abril-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_abu, true FROM ins;
 
@@ -364,7 +364,7 @@ BEGIN
       'https://www.correiobraziliense.com.br/politica/2023/09/dweck-servico-publico-desidratado-reajuste.html',
       'news_article',
       'Brasília', 'Coletiva — Ministério da Gestão', 'dweck-servico-publico-desidratado-setembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -379,7 +379,7 @@ BEGIN
       'https://www1.folha.uol.com.br/mundo/2024/09/lula-onu-bilionario-obscenidade-professor.shtml',
       'news_article',
       'Nova York', 'Abertura da Assembleia Geral da ONU', 'lula-onu-bilionario-obscenidade-setembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -394,7 +394,7 @@ BEGIN
       'https://valor.globo.com/empresas/noticia/2024/11/21/chambriard-petrobras-111-bilhoes-protagonismo.ghtml',
       'news_article',
       'Rio de Janeiro', 'Petrobras Day — apresentação do plano estratégico', 'chambriard-petrobras-111-bilhoes-novembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -409,7 +409,7 @@ BEGIN
       'https://www.cartacapital.com.br/politica/lula-selic-irracional-especuladores-2025/',
       'news_article',
       'São Paulo', 'Evento da CUT', 'lula-selic-irracional-especuladores-marco-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_abu, true FROM ins;
 
@@ -424,7 +424,7 @@ BEGIN
       'https://g1.globo.com/economia/noticia/2024/11/28/haddad-pacote-corte-gastos-ajuste-fiscal.ghtml',
       'news_article',
       'Brasília', 'Pronunciamento em cadeia nacional', 'haddad-pacote-corte-gastos-novembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -439,7 +439,7 @@ BEGIN
       'https://valor.globo.com/financas/noticia/2025/03/10/galipolo-bc-nao-vai-dar-desconto-inflacao.ghtml',
       'news_article',
       'São Paulo', 'Febraban Tech', 'galipolo-bc-nao-da-desconto-marco-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -454,7 +454,7 @@ BEGIN
       'https://www.poder360.com.br/economia/campos-neto-discurso-despedida-risco-fiscal/',
       'news_article',
       'Brasília', 'Despedida — sede do Banco Central', 'campos-neto-despedida-risco-fiscal-dezembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
@@ -469,7 +469,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/economia/noticia/2024-01/alckmin-lanca-nova-industria-brasil-300-bilhoes',
       'news_article',
       'Brasília', 'Lançamento Nova Indústria Brasil — Planalto', 'alckmin-nova-industria-brasil-janeiro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -484,7 +484,7 @@ BEGIN
       'https://www.estadao.com.br/politica/tebet-erro-comunicacao-pacote-fiscal-2024/',
       'news_article',
       'São Paulo', 'Entrevista Roda Viva — TV Cultura', 'tebet-erro-comunicacao-pacote-dezembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -499,7 +499,7 @@ BEGIN
       'https://noticias.uol.com.br/politica/ultimas-noticias/2024/06/18/prates-demissao-petrobras-pressao-dividendos.htm',
       'news_article',
       'Rio de Janeiro', 'Entrevista ao UOL', 'prates-demissao-pressao-dividendos-junho-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_con, true FROM ins;
 
@@ -514,7 +514,7 @@ BEGIN
       'https://www.cartacapital.com.br/economia/mercadante-politica-industrial-ativa-marte/',
       'news_article',
       'São Paulo', 'Entrevista à Carta Capital', 'mercadante-politica-industrial-ativa-maio-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -529,7 +529,7 @@ BEGIN
       'https://g1.globo.com/economia/noticia/2024/05/16/silveira-nega-interferencia-petrobras-autonomia.ghtml',
       'news_article',
       'Brasília', 'Entrevista à GloboNews', 'silveira-nega-interferencia-petrobras-maio-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
@@ -544,7 +544,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2023/06/fhc-lula-ataca-bc-autonomia-conquista-democratica.shtml',
       'news_article',
       'São Paulo', 'Entrevista à Folha de S.Paulo', 'fhc-lula-ataca-bc-autonomia-junho-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
@@ -559,7 +559,7 @@ BEGIN
       'https://jovempan.com.br/programas/panico/marcos-pontes-governo-lula-quebrou-pais-haddad.html',
       'news_article',
       'São Paulo', 'Pânico — Jovem Pan', 'pontes-lula-quebrou-pais-haddad-janeiro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
@@ -574,7 +574,7 @@ BEGIN
       'https://www.oantagonista.com.br/brasil/bolsonaro-ataca-haddad-dolar-pt-quebra-brasil-2024/',
       'news_article',
       'Brasília', 'Live nas redes sociais', 'bolsonaro-ataca-haddad-dolar-pt-dezembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
@@ -589,7 +589,7 @@ BEGIN
       'https://valor.globo.com/politica/noticia/2024/12/18/haddad-especulacao-real-aposta-politica.ghtml',
       'news_article',
       'Brasília', 'Coletiva — Ministério da Fazenda', 'haddad-especulacao-aposta-politica-dezembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
@@ -604,7 +604,7 @@ BEGIN
       'https://oglobo.globo.com/economia/noticia/2025/03/chambriard-petrobras-dividendos-robustos-2025.ghtml',
       'news_article',
       'Rio de Janeiro', 'Teleconferência de resultados — Petrobras', 'chambriard-dividendos-robustos-marco-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -619,7 +619,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/politica/noticia/2024-10/lula-bets-comendo-bolsa-familia-jogo',
       'news_article',
       'Manaus', 'Entrevista a rádios — Amazônia', 'lula-bets-bolsa-familia-jogo-outubro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -634,7 +634,7 @@ BEGIN
       'https://www1.folha.uol.com.br/mercado/2023/10/campos-neto-dominancia-fiscal-politica-monetaria.shtml',
       'news_article',
       'São Paulo', 'Fórum Credit Suisse', 'campos-neto-dominancia-fiscal-outubro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_con, true FROM ins;
 
@@ -649,7 +649,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/economia/noticia/2024-06/favaro-plano-safra-recorde-400-bilhoes',
       'news_article',
       'Brasília', 'Lançamento Plano Safra 2024/2025 — Planalto', 'favaro-plano-safra-400-bilhoes-junho-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -664,7 +664,7 @@ BEGIN
       'https://www.estadao.com.br/economia/tebet-ajuste-fiscal-nao-cortar-pobres-2024/',
       'news_article',
       'Brasília', 'Entrevista ao Estadão', 'tebet-ajuste-nao-cortar-pobres-agosto-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -679,7 +679,7 @@ BEGIN
       'https://noticias.uol.com.br/politica/ultimas-noticias/2025/05/07/lula-decepcionado-galipolo-bc-mercado-financeiro.htm',
       'news_article',
       'Brasília', 'Entrevista ao UOL', 'lula-decepcionado-galipolo-mercado-maio-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_abu, true FROM ins;
 
@@ -694,7 +694,7 @@ BEGIN
       'https://g1.globo.com/economia/agronegocios/noticia/2025/11/08/mercadante-bndes-bioeconomia-10-bilhoes-amazonia.ghtml',
       'news_article',
       'Belém', 'Cerimônia pré-COP30 — BNDES', 'mercadante-bndes-bioeconomia-10-bilhoes-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -709,7 +709,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/politica/noticia/2026-02/haddad-brasil-sai-melhor-lula-3-continuidade',
       'news_article',
       'Brasília', 'Bom Dia Ministro — EBC', 'haddad-brasil-sai-melhor-lula3-fevereiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
@@ -724,7 +724,7 @@ BEGIN
       'https://valor.globo.com/financas/noticia/2025/06/12/galipolo-bc-nao-subordina-declaracoes-politicas.ghtml',
       'news_article',
       'São Paulo', 'Anbima Summit', 'galipolo-nao-subordina-declaracoes-junho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -739,7 +739,7 @@ BEGIN
       'https://oglobo.globo.com/economia/noticia/2024/08/chambriard-petrobras-retoma-refinarias-abandonadas.ghtml',
       'news_article',
       'Ipojuca', 'Visita — Refinaria Abreu e Lima', 'chambriard-refinarias-retomada-agosto-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -754,7 +754,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/politica/noticia/2024-03/dweck-concurso-nacional-unificado-8-mil-vagas',
       'news_article',
       'Brasília', 'Lançamento CPNU — Palácio do Planalto', 'dweck-concurso-nacional-unificado-marco-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -769,7 +769,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/silveira-defende-leilao-margem-equatorial-tiro-no-pe/',
       'news_article',
       'Brasília', 'Comissão de Minas e Energia — Câmara', 'silveira-leilao-margem-equatorial-tiro-no-pe-setembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_neg, true FROM ins;
 
@@ -784,7 +784,7 @@ BEGIN
       'https://www.cartacapital.com.br/politica/haddad-ataca-teto-gastos-oposicao-2026/',
       'news_article',
       'São Paulo', 'Ato PT — São Paulo', 'haddad-ataca-teto-gastos-oposicao-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 

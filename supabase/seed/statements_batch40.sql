@@ -38,7 +38,7 @@ BEGIN
       'https://www.poder360.com.br/governo/lula-chama-gleisi-de-mulher-bonita-ao-anuncia-la-ministra/',
       'news_article',
       'Brasília', 'Cerimônia de posse — Secretaria-Geral', 'lula-gleisi-mulher-bonita-ministra-marco-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mac, true FROM ins;
@@ -59,7 +59,7 @@ BEGIN
       'https://www.folha.uol.com.br/mercado/2025/04/lula-chama-diretora-do-fmi-de-mulherzinha-e-gera-reacao-internacional.shtml',
       'news_article',
       'Brasília', 'Evento no Palácio do Planalto', 'lula-mulherzinha-fmi-kristalina-abril-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mis, true FROM ins;
@@ -80,7 +80,7 @@ BEGIN
       'https://noticias.uol.com.br/politica/2026/02/lula-confunde-janja-marisa-leticia-evento-maua.htm',
       'news_article',
       'Mauá (SP)', 'Evento de entrega de moradias', 'lula-confunde-janja-marisa-leticia-maua-fevereiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -101,7 +101,7 @@ BEGIN
       'https://noticias.uol.com.br/politica/2026/02/lula-confunde-dilma-irma-passoni-entrevista.htm',
       'news_article',
       'São Paulo', 'Entrevista ao UOL', 'lula-confunde-dilma-irma-passoni-fevereiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -122,7 +122,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2026/03/lula-gafe-crime-organizado-assinatura-projeto-lei.ghtml',
       'news_article',
       'Brasília', 'Assinatura do PL antifacções', 'lula-gafe-brasil-respeitado-crime-organizado-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -143,7 +143,7 @@ BEGIN
       'https://www.estadao.com.br/politica/lula-discurso-confuso-inauguracao-ita-fortaleza-2026/',
       'news_article',
       'Fortaleza (CE)', 'Inauguração campus ITA Fortaleza', 'lula-discurso-confuso-ita-fortaleza-abril-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -164,7 +164,7 @@ BEGIN
       'https://www.poder360.com.br/governo/lula-2026-ano-verdade-reuniao-ministerial-dezembro-2025/',
       'news_article',
       'Brasília', 'Reunião ministerial de encerramento', 'lula-2026-ano-verdade-reuniao-ministerial-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_aut, true FROM ins;
@@ -185,7 +185,7 @@ BEGIN
       'https://www.bbc.com/portuguese/articles/lula-brics-fmi-banco-mundial-financiam-ricos-2025',
       'news_article',
       'Johannesburg', 'Cúpula BRICS 2025', 'lula-fmi-banco-mundial-financiam-ricos-brics-julho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -206,7 +206,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2026/03/lula-alguem-invade-brasil-defesa-africa-do-sul.shtml',
       'news_article',
       'Pretória', 'Reunião bilateral Brasil-África do Sul', 'lula-alguem-invade-brasil-defesa-africa-sul-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -227,7 +227,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/politica/noticia/2026-03/lula-tolerancia-zero-violencia-mulher-dia-internacional',
       'news_article',
       'Brasília', 'Evento Dia Internacional da Mulher', 'lula-nao-conformar-feminicidio-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mac, true FROM ins;
@@ -248,7 +248,7 @@ BEGIN
       'https://www.infomoney.com.br/politica/lula-promete-solucao-familias-endividadas-sem-detalhar/',
       'news_article',
       'Brasília', 'Evento no Planalto', 'lula-promete-solucao-familias-endividadas-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -269,7 +269,7 @@ BEGIN
       'https://www.poder360.com.br/economia/lula-culpa-intermediarios-preco-combustiveis-maio-2025/',
       'news_article',
       'Recife (PE)', 'Entrevista a rádios do Nordeste', 'lula-culpa-intermediarios-preco-combustiveis-maio-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -290,7 +290,7 @@ BEGIN
       'https://www.folha.uol.com.br/mercado/2025/06/lula-culpa-especuladores-dolar-alto.shtml',
       'news_article',
       'Brasília', 'Café da manhã com jornalistas', 'lula-culpa-especuladores-dolar-alto-junho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -311,7 +311,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/economia/lula-inflacao-supermercados-cpi-agosto-2025/',
       'news_article',
       'Brasília', 'Evento no Palácio do Planalto', 'lula-inflacao-culpa-supermercados-agosto-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -332,7 +332,7 @@ BEGIN
       'https://www.poder360.com.br/eleicoes/lula-sinaliza-reeleicao-2026-tv-brasil-setembro/',
       'news_article',
       'Brasília', 'Entrevista à TV Brasil', 'lula-reeleicao-2026-povo-quer-continuidade-setembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -353,7 +353,7 @@ BEGIN
       'https://aosfatos.org/noticias/lula-nunca-mentiu-checagem-promessas-outubro-2025/',
       'news_article',
       'São Bernardo do Campo (SP)', 'Comício no ABC paulista', 'lula-nunca-mentiu-povo-brasileiro-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -374,7 +374,7 @@ BEGIN
       'https://www.estadao.com.br/politica/lula-opositores-fascistas-congresso-cut-abril-2025/',
       'news_article',
       'São Paulo', 'Congresso da CUT', 'lula-opositores-fascistas-congresso-cut-abril-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -395,7 +395,7 @@ BEGIN
       'https://www.infomoney.com.br/politica/lula-banco-central-trabalha-derrubar-governo-maio-2025/',
       'news_article',
       'Brasília', 'Evento no BNDES', 'lula-banco-central-trabalha-derrubar-governo-maio-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_aut, true FROM ins;
@@ -416,7 +416,7 @@ BEGIN
       'https://noticias.uol.com.br/saude/2025/06/lula-piada-cerveja-evento-alcoolismo.htm',
       'news_article',
       'Brasília', 'Evento de combate ao alcoolismo — Min. Saúde', 'lula-piada-cerveja-evento-alcoolismo-junho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -437,7 +437,7 @@ BEGIN
       'https://www.abraji.org.br/noticias/lula-imprensa-pior-do-mundo-abraji-repudia-2025',
       'news_article',
       'Brasília', 'Entrevista a blogueiros aliados', 'lula-imprensa-pior-do-mundo-julho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_aut, true FROM ins;
@@ -458,7 +458,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/08/lula-bolsonaro-deveria-estar-preso-domiciliar.shtml',
       'news_article',
       'Brasília', 'Entrevista à Folha de S.Paulo', 'lula-bolsonaro-deveria-preso-agosto-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -479,7 +479,7 @@ BEGIN
       'https://www.band.uol.com.br/noticias/lula-nao-existe-crise-sabatina-band-setembro-2025',
       'news_article',
       'São Paulo', 'Sabatina na Band', 'lula-nao-existe-crise-sabatina-band-setembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_neg, true FROM ins;
@@ -500,7 +500,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/10/lula-elogia-cuba-saude-educacao-evento-mst.ghtml',
       'news_article',
       'Brasília', 'Evento nacional do MST', 'lula-elogia-cuba-saude-educacao-mst-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_aut, true FROM ins;
@@ -521,7 +521,7 @@ BEGIN
       'https://www.estadao.com.br/economia/lula-empresarios-deveriam-agradecer-pt-novembro-2025/',
       'news_article',
       'São Paulo', 'Jantar com empresários — FIESP', 'lula-empresarios-agradecer-pt-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -542,7 +542,7 @@ BEGIN
       'https://noticias.uol.com.br/politica/2025/11/lula-nordestinos-sao-paulo-capital-nordeste.htm',
       'news_article',
       'São Paulo', 'Evento com comunidade nordestina', 'lula-nordestinos-sao-paulo-capital-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -563,7 +563,7 @@ BEGIN
       'https://www.poder360.com.br/governo/lula-se-compara-getulio-vargas-dia-trabalhador-2025/',
       'news_article',
       'São Paulo', 'Evento do Dia do Trabalhador', 'lula-compara-getulio-vargas-dia-trabalhador-maio-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_aut, true FROM ins;
@@ -584,7 +584,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/lula-governo-decreto-congresso-entrevista-radio-tupi/',
       'news_article',
       'Brasília', 'Entrevista à Rádio Tupi', 'lula-governo-decreto-congresso-junho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_aut, true FROM ins;
@@ -605,7 +605,7 @@ BEGIN
       'https://www.folha.uol.com.br/mercado/2025/07/lula-critica-haddad-cortes-orcamento-publicamente.shtml',
       'news_article',
       'Brasília', 'Evento com prefeitos no Planalto', 'lula-critica-haddad-cortes-orcamento-julho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -626,7 +626,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/08/lula-pobre-precisa-dinheiro-bolsa-familia.ghtml',
       'news_article',
       'Brasília', 'Evento de ampliação do Bolsa Família', 'lula-pobre-precisa-dinheiro-nao-conselho-agosto-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -647,7 +647,7 @@ BEGIN
       'https://www.poder360.com.br/governo/lula-inimigos-dentro-governo-limpeza-setembro-2025/',
       'news_article',
       'Brasília', 'Reunião com liderança do PT', 'lula-inimigos-dentro-governo-limpeza-setembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_aut, true FROM ins;
@@ -668,7 +668,7 @@ BEGIN
       'https://www.aosfatos.org/noticias/lula-erra-taxa-desemprego-4-por-cento-outubro-2025/',
       'news_article',
       'Brasília', 'Evento do PAC', 'lula-erra-dados-desemprego-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -689,7 +689,7 @@ BEGIN
       'https://www.estadao.com.br/politica/lula-tarcisio-cria-meu-governo-dnit-novembro-2025/',
       'news_article',
       'São Paulo', 'Evento com prefeitos paulistas', 'lula-tarcisio-cria-meu-governo-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -710,7 +710,7 @@ BEGIN
       'https://noticias.uol.com.br/politica/2025/12/lula-promete-picanha-cerveja-novamente-recife.htm',
       'news_article',
       'Recife (PE)', 'Evento do governo federal', 'lula-promete-picanha-cerveja-recife-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -731,7 +731,7 @@ BEGIN
       'https://www.bbc.com/portuguese/articles/lula-defende-venezuela-democracia-maduro-janeiro-2026',
       'news_article',
       'Brasília', 'Entrevista à AFP', 'lula-defende-venezuela-democracia-maduro-janeiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_aut, true FROM ins;
@@ -752,7 +752,7 @@ BEGIN
       'https://www.conjur.com.br/2026-jan-22/lula-critica-salarios-juizes-trabalham-pouco/',
       'news_article',
       'Brasília', 'Evento de valorização da educação', 'lula-juizes-ganham-demais-nao-trabalham-janeiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -773,7 +773,7 @@ BEGIN
       'https://g1.globo.com/ce/ceara/noticia/2026/02/lula-minimiza-seca-nordeste-midia-exagera.ghtml',
       'news_article',
       'Fortaleza (CE)', 'Visita a obras federais no Ceará', 'lula-minimiza-seca-nordeste-midia-exagera-fevereiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_neg, true FROM ins;
@@ -794,7 +794,7 @@ BEGIN
       'https://www.poder360.com.br/meio-ambiente/lula-amazonia-brasil-ninguem-pitaco-cupula-marco-2026/',
       'news_article',
       'Belém (PA)', 'Cúpula amazônica', 'lula-amazonia-brasil-ninguem-pitaco-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -815,7 +815,7 @@ BEGIN
       'https://www.estadao.com.br/internacional/lula-elogia-xi-jinping-china-modelo-desenvolvimento-2025/',
       'news_article',
       'Pequim', 'Encontro bilateral Brasil-China', 'lula-elogia-xi-jinping-china-modelo-abril-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_aut, true FROM ins;
@@ -836,7 +836,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/lula-criticos-bolsa-familia-alma-escravocrata-dezembro-2025/',
       'news_article',
       'Brasília', 'Evento de reajuste do Bolsa Família', 'lula-criticos-bolsa-familia-alma-escravocrata-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -857,7 +857,7 @@ BEGIN
       'https://noticias.uol.com.br/politica/2026/01/lula-le-instrucao-teleprompter-sorriso-camera.htm',
       'news_article',
       'Brasília', 'Evento do PAC', 'lula-le-instrucao-teleprompter-sorriso-janeiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -878,7 +878,7 @@ BEGIN
       'https://www.sbt.com.br/noticias/politica/lula-heranca-maldita-bolsonaro-entrevista-marco-2026',
       'news_article',
       'Brasília', 'Entrevista ao SBT', 'lula-heranca-maldita-bolsonaro-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -899,7 +899,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/07/lula-chama-senadores-covardes-pautas-governo.shtml',
       'news_article',
       'Brasília', 'Café da manhã com jornalistas', 'lula-senadores-covardes-pautas-governo-julho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -920,7 +920,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/08/lula-erra-numero-ministerios-entrevista-globonews.ghtml',
       'news_article',
       'Brasília', 'Entrevista à GloboNews', 'lula-erra-numero-ministerios-globonews-agosto-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -941,7 +941,7 @@ BEGIN
       'https://www.poder360.com.br/governo/lula-quem-nao-gosta-procure-outro-pais-setembro-2025/',
       'news_article',
       'São Luís (MA)', 'Comício no Maranhão', 'lula-quem-nao-gosta-procure-outro-pais-setembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_aut, true FROM ins;
@@ -962,7 +962,7 @@ BEGIN
       'https://noticias.uol.com.br/politica/2025/09/lula-confunde-datas-independencia-7-setembro.htm',
       'news_article',
       'Brasília', 'Cerimônia do 7 de Setembro', 'lula-confunde-datas-independencia-setembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -983,7 +983,7 @@ BEGIN
       'https://www.estadao.com.br/educacao/lula-professores-ganhar-mais-juizes-outubro-2025/',
       'news_article',
       'Brasília', 'Evento do Dia do Professor', 'lula-professores-ganhar-mais-juizes-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -1004,7 +1004,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/11/lula-discurso-confuso-manaus-zona-franca.shtml',
       'news_article',
       'Manaus (AM)', 'Evento na Zona Franca de Manaus', 'lula-discurso-confuso-manaus-zona-franca-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -1025,7 +1025,7 @@ BEGIN
       'https://www.poder360.com.br/partidos/lula-pt-maior-partido-historia-democracia-fevereiro-2026/',
       'news_article',
       'São Paulo', 'Encontro Nacional do PT', 'lula-pt-maior-partido-historia-democracia-fevereiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1046,7 +1046,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/lula-nao-precisa-pesquisa-sente-povo-marco-2026/',
       'news_article',
       'Brasília', 'Reunião ministerial', 'lula-nao-precisa-pesquisa-sente-povo-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_aut, true FROM ins;
@@ -1067,7 +1067,7 @@ BEGIN
       'https://www.metropoles.com/brasil/lula-157-polemicas-pouco-governa-brasil-abril-2026',
       'news_article',
       'Brasília', 'Entrevista ao Metrópoles', 'lula-157-polemicas-pouco-governa-brasil-abril-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;

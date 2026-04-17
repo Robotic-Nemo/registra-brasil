@@ -67,7 +67,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/12/lulinha-cpmi-inss-nota-defesa.shtml',
       'news_article',
       'São Paulo', 'Nota oficial divulgada pela defesa', 'lulinha-nota-cpmi-inss-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -88,7 +88,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/12/flavio-bolsonaro-candidatura-irreversivel-2026.ghtml',
       'news_article',
       'Brasília', 'Anúncio oficial em evento do PL', 'flavio-bolsonaro-candidatura-irreversivel-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -109,7 +109,7 @@ BEGIN
       'https://www.camara.leg.br/noticias/2025/12/motta-balanco-2025-pacificacao',
       'other',
       'Brasília', 'Sessão de encerramento do ano legislativo', 'motta-balanco-2025-pacificacao-dezembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -130,7 +130,7 @@ BEGIN
       'https://portal.stf.jus.br/noticias/verNoticiaDetalhe.asp?idConteudo=2025-12-moraes-cassa-zambelli',
       'news_article',
       'Brasília', 'Sessão do STF', 'moraes-cassa-zambelli-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -151,7 +151,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/12/ramagem-cassado-mandato-denuncia.shtml',
       'news_article',
       'Orlando, Flórida', 'Comunicado em redes sociais', 'ramagem-cassado-denuncia-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -172,7 +172,7 @@ BEGIN
       'https://www.conjur.com.br/2025/12/dino-extradicao-ramagem-eua.htm',
       'news_article',
       'Brasília', 'Declaração pública', 'dino-defende-extradicao-ramagem-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -193,7 +193,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/12/bolsonaro-condenado-em-vida-pena-2052.ghtml',
       'news_article',
       'Brasília', 'Carta manuscrita divulgada pela defesa', 'bolsonaro-pena-2052-condenado-vida-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -214,7 +214,7 @@ BEGIN
       'https://portal.stf.jus.br/noticias/verNoticiaDetalhe.asp?idConteudo=2025-11-moraes-condenacao-unanime-bolsonaro',
       'news_article',
       'Brasília', 'Sessão da Primeira Turma do STF', 'moraes-mantem-condenacao-unanime-bolsonaro-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -235,7 +235,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/11/bolsonaro-entra-superintendencia-pf-pronunciamento.shtml',
       'news_article',
       'Brasília', 'Pronunciamento na Superintendência da PF', 'bolsonaro-entra-superintendencia-pf-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -256,7 +256,7 @@ BEGIN
       'https://portal.stf.jus.br/noticias/verNoticiaDetalhe.asp?idConteudo=2025-11-moraes-inelegibilidade-2060',
       'news_article',
       'Brasília', 'Decisão no STF', 'moraes-inelegibilidade-bolsonaro-2060-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -277,7 +277,7 @@ BEGIN
       'https://www.conjur.com.br/2025/11/dino-bloqueia-emendas-eduardo-ramagem.htm',
       'news_article',
       'Brasília', 'Decisão monocrática no STF', 'dino-bloqueia-emendas-eduardo-ramagem-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -298,7 +298,7 @@ BEGIN
       'https://www.folha.uol.com.br/cotidiano/2025/11/claudio-castro-defende-megaoperacao-alemao-penha.shtml',
       'news_article',
       'Rio de Janeiro', 'Entrevista coletiva no Palácio Guanabara', 'castro-defende-megaoperacao-alemao-penha-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_vio, true FROM ins;
@@ -319,7 +319,7 @@ BEGIN
       'https://www.estadao.com.br/politica/ricardo-nunes-reeleito-sao-paulo-derrota-boulos/',
       'news_article',
       'São Paulo', 'Discurso de vitória eleitoral', 'ricardo-nunes-reeleito-derrota-boulos-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, true FROM ins;
@@ -340,7 +340,7 @@ BEGIN
       'https://cultura.uol.com.br/programas/roda-viva/2025/11/tarcisio-reeleicao-sp-nao-presidente.html',
       'news_article',
       'São Paulo', 'Programa Roda Viva — TV Cultura', 'tarcisio-reeleicao-sp-nao-presidente-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -361,7 +361,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/10/ciro-gomes-filia-se-psdb-pdt-puxadinho-pt.ghtml',
       'news_article',
       'São Paulo', 'Cerimônia de filiação ao PSDB', 'ciro-filia-psdb-pdt-puxadinho-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, true FROM ins;
@@ -382,7 +382,7 @@ BEGIN
       'https://www.gov.br/planalto/pt-br/acompanhe-o-planalto/noticias/2025/10/boulos-secretaria-geral-posse',
       'other',
       'Brasília', 'Cerimônia de posse no Palácio do Planalto', 'boulos-secretaria-geral-posse-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -403,7 +403,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/10/ciro-gomes-lula-velho-autoritario-psdb.shtml',
       'news_article',
       'São Paulo', 'Entrevista à Folha de S. Paulo', 'ciro-gomes-lula-velho-autoritario-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, true FROM ins;
@@ -424,7 +424,7 @@ BEGIN
       'https://portal.stf.jus.br/noticias/verNoticiaDetalhe.asp?idConteudo=2025-12-moraes-nega-recurso-bolsonaro',
       'news_article',
       'Brasília', 'Sessão do STF', 'moraes-nega-recurso-bolsonaro-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -445,7 +445,7 @@ BEGIN
       'https://www.estadao.com.br/politica/eduardo-bolsonaro-heritage-brasil-nao-democracia-2025/',
       'news_article',
       'Washington D.C.', 'Heritage Foundation', 'eduardo-heritage-brasil-nao-democracia-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -466,7 +466,7 @@ BEGIN
       'https://www.metropoles.com/brasil/politica-brasil/nikolas-defende-megaoperacao-rio-homenagens',
       'news_article',
       'Brasília', 'Publicação em redes sociais', 'nikolas-defende-megaoperacao-homenagens-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_vio, true FROM ins;
@@ -487,7 +487,7 @@ BEGIN
       'https://www.folha.uol.com.br/mercado/2025/12/haddad-defende-ressarcimento-inss.shtml',
       'news_article',
       'Brasília', 'Entrevista coletiva', 'haddad-defende-ressarcimento-inss-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -508,7 +508,7 @@ BEGIN
       'https://www12.senado.leg.br/noticias/materias/2025/12/15/damares-cpmi-igrejas-caca-bruxas',
       'news_article',
       'Brasília', 'Sessão da CPMI do INSS', 'damares-cpmi-igrejas-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -529,7 +529,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/11/lula-condenacao-bolsonaro-democracia-vitoriosa.ghtml',
       'news_article',
       'Brasília', 'Entrevista coletiva', 'lula-condenacao-bolsonaro-democracia-vitoriosa-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -550,7 +550,7 @@ BEGIN
       'https://www.uol.com.br/noticias/politica/2025/11/janones-deboche-prisao-bolsonaro-boas-ferias.htm',
       'news_article',
       'Brasil', 'Vídeo em redes sociais', 'janones-boas-ferias-bolsonaro-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, true FROM ins;
@@ -571,7 +571,7 @@ BEGIN
       'https://www.gov.br/secom/pt-br/assuntos/noticias/2025/12/gleisi-cassacao-zambelli',
       'other',
       'Brasília', 'Nota da Secom', 'gleisi-cassacao-zambelli-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -592,7 +592,7 @@ BEGIN
       'https://jovempan.uol.com.br/noticias/politica/claudio-castro-oposicao-aliada-trafico-2025.html',
       'news_article',
       'Rio de Janeiro', 'Entrevista à Jovem Pan', 'castro-oposicao-aliada-trafico-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, true FROM ins;
@@ -613,7 +613,7 @@ BEGIN
       'https://www.gov.br/saude/pt-br/assuntos/noticias/2025/11/padilha-rio-seguranca-inteligencia',
       'other',
       'Brasília', 'Coletiva de imprensa', 'padilha-lamenta-operacao-rj-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -634,7 +634,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/11/ramagem-fuga-video-foragido-vivo.ghtml',
       'news_article',
       'Brasil', 'Vídeo em redes sociais', 'ramagem-fuga-foragido-vivo-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -655,7 +655,7 @@ BEGIN
       'https://www12.senado.leg.br/noticias/materias/2025/11/28/magno-malta-visita-bolsonaro-vergonha',
       'news_article',
       'Brasília', 'Declaração após visita na PF', 'magno-malta-visita-bolsonaro-vergonha-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -676,7 +676,7 @@ BEGIN
       'https://www.folha.uol.com.br/cotidiano/2025/11/lula-cobra-investigacao-operacao-rio-intervencao.shtml',
       'news_article',
       'Brasília', 'Entrevista coletiva', 'lula-cobra-investigacao-operacao-rio-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -697,7 +697,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/flavio-bolsonaro-chora-pai-martir-direita-2025/',
       'news_article',
       'Brasília', 'Entrevista à CNN Brasil', 'flavio-bolsonaro-pai-martir-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -718,7 +718,7 @@ BEGIN
       'https://www.metropoles.com/brasil/politica-brasil/bia-kicis-convoca-ato-nacional-stf-novembro-2025',
       'news_article',
       'Brasília', 'Publicação em redes sociais', 'bia-kicis-convoca-ato-stf-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -739,7 +739,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/12/nikolas-2026-julgamento-popular-lula-moraes.shtml',
       'news_article',
       'Belo Horizonte', 'Evento com apoiadores', 'nikolas-2026-julgamento-popular-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, true FROM ins;
@@ -760,7 +760,7 @@ BEGIN
       'https://www.estadao.com.br/politica/tarcisio-nota-prisao-bolsonaro-respeito-instituicoes-2025/',
       'other',
       'São Paulo', 'Nota oficial do governo de São Paulo', 'tarcisio-nota-prisao-bolsonaro-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -781,7 +781,7 @@ BEGIN
       'https://www.folha.uol.com.br/cotidiano/2025/12/ricardo-nunes-anuncia-corte-programas-sociais-sp.shtml',
       'news_article',
       'São Paulo', 'Anúncio na Prefeitura de São Paulo', 'ricardo-nunes-corte-programas-sociais-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -802,7 +802,7 @@ BEGIN
       'https://www.camara.leg.br/noticias/2025/12/motta-critica-cassacao-zambelli-camara',
       'other',
       'Brasília', 'Declaração no plenário da Câmara', 'motta-critica-cassacao-zambelli-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -823,7 +823,7 @@ BEGIN
       'https://www.uol.com.br/entretenimento/noticias/2025/10/ciro-gomes-haddad-guido-mantega-descalabro-fiscal.htm',
       'news_article',
       'Fortaleza', 'Entrevista ao UOL', 'ciro-gomes-haddad-mantega-descalabro-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -844,7 +844,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/10/eduardo-bolsonaro-nao-volta-brasil-perseguicao.ghtml',
       'news_article',
       'Washington D.C.', 'Entrevista à imprensa', 'eduardo-bolsonaro-nao-volta-brasil-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -865,7 +865,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/11/bolsonaro-inelegibilidade-2060-medieval.shtml',
       'news_article',
       'Brasília', 'Nota divulgada pela defesa', 'bolsonaro-inelegibilidade-medieval-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -886,7 +886,7 @@ BEGIN
       'https://pt.org.br/gleisi-deixa-presidencia-pt-edinho-silva-2025/',
       'other',
       'São Paulo', 'Diretório Nacional do PT', 'gleisi-deixa-presidencia-pt-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -907,7 +907,7 @@ BEGIN
       'https://www.gov.br/fazenda/pt-br/assuntos/noticias/2025/12/haddad-reforma-tributaria-completa',
       'other',
       'Brasília', 'Cerimônia no Palácio do Planalto', 'haddad-reforma-tributaria-completa-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -928,7 +928,7 @@ BEGIN
       'https://portal.stf.jus.br/noticias/verNoticiaDetalhe.asp?idConteudo=2025-12-dino-cassacao-ramagem',
       'news_article',
       'Brasília', 'Sessão do STF', 'dino-voto-cassacao-ramagem-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -949,7 +949,7 @@ BEGIN
       'https://www.gov.br/saude/pt-br/assuntos/noticias/2025/10/padilha-expansao-farmacia-popular',
       'other',
       'Brasília', 'Cerimônia no Palácio do Planalto', 'padilha-expansao-farmacia-popular-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -970,7 +970,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/10/lula-80-anos-disposicao-reeleicao-2026.ghtml',
       'news_article',
       'São Paulo', 'Evento de aniversário em São Paulo', 'lula-80-anos-disposicao-reeleicao-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -991,7 +991,7 @@ BEGIN
       'https://www.folha.uol.com.br/cotidiano/2025/11/claudio-castro-ataca-moraes-adpf-favelas.shtml',
       'news_article',
       'Rio de Janeiro', 'Entrevista coletiva', 'castro-ataca-moraes-adpf-favelas-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -1012,7 +1012,7 @@ BEGIN
       'https://www.metropoles.com/brasil/politica-brasil/nikolas-boulos-invasor-ministro',
       'news_article',
       'Brasília', 'Publicação em redes sociais', 'nikolas-boulos-invasor-ministro-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, true FROM ins;
@@ -1033,7 +1033,7 @@ BEGIN
       'https://www.uol.com.br/noticias/politica/2025/10/boulos-responde-nikolas-moradia-honra.htm',
       'news_article',
       'Brasília', 'Entrevista coletiva', 'boulos-responde-nikolas-moradia-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1054,7 +1054,7 @@ BEGIN
       'https://www.conjur.com.br/2025/10/dino-determina-auditoria-emendas-pix.htm',
       'news_article',
       'Brasília', 'Decisão monocrática no STF', 'dino-auditoria-emendas-pix-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -1075,7 +1075,7 @@ BEGIN
       'https://www12.senado.leg.br/noticias/materias/2025/10/24/magno-malta-dino-impeachment-devassa',
       'news_article',
       'Brasília', 'Entrevista no Senado', 'magno-malta-dino-impeachment-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -1096,7 +1096,7 @@ BEGIN
       'https://www.gov.br/planalto/pt-br/acompanhe-o-planalto/pronunciamentos/2025/12/lula-pronunciamento-fim-ano-2025',
       'other',
       'Brasília', 'Pronunciamento em cadeia nacional', 'lula-pronunciamento-fim-ano-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;

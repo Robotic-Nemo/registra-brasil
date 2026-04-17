@@ -80,9 +80,9 @@ BEGIN
       'Anúncio em janeiro de 2024 do primeiro Concurso Público Nacional Unificado, que ofertou mais de 6 mil vagas em 21 órgãos federais com aplicação em 228 cidades. Dweck é ministra da Gestão.',
       'verified', true, '2024-01-11',
       'https://www.gov.br/gestao/pt-br/assuntos/noticias/concurso-publico-nacional-unificado-lancamento',
-      'government_document',
+      'diario_oficial',
       'Brasília', 'Lançamento do Concurso Nacional Unificado', 'esther-dweck-concurso-nacional-unificado-janeiro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -103,7 +103,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/politica/noticia/2023-04/dweck-reajuste-servidores-federais',
       'news_article',
       'Brasília', 'Anúncio do reajuste do funcionalismo', 'dweck-reajuste-servidores-abril-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -122,9 +122,9 @@ BEGIN
       'Coletiva em março de 2023, apresentando o Bolsa Família recriado após ser extinto no governo Bolsonaro. Wellington Dias, ex-governador do Piauí, assumiu o Ministério do Desenvolvimento Social.',
       'verified', true, '2023-03-02',
       'https://www.gov.br/mds/pt-br/assuntos/noticias/wellington-dias-bolsa-familia-recriacao',
-      'government_document',
+      'diario_oficial',
       'Brasília', 'Anúncio do novo Bolsa Família', 'wellington-dias-bolsa-familia-marco-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -145,7 +145,7 @@ BEGIN
       'https://www1.folha.uol.com.br/mercado/2025/07/brasil-sai-mapa-fome-fao-wellington-dias.shtml',
       'news_article',
       'Brasília', 'Divulgação do Relatório da FAO', 'wellington-dias-mapa-fome-fao-julho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -166,7 +166,7 @@ BEGIN
       'https://valor.globo.com/politica/noticia/2024/03/14/jorge-messias-agu-lava-jato-recuperacao.ghtml',
       'news_article',
       'Brasília', 'Entrevista ao Valor Econômico', 'jorge-messias-agu-lava-jato-marco-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -187,7 +187,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2024/10/25/jorge-messias-pgr-stf-especulacoes.ghtml',
       'news_article',
       'Brasília', 'Nota pública à imprensa', 'jorge-messias-stf-pgr-outubro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -206,9 +206,9 @@ BEGIN
       'Coletiva em março de 2024, apresentando o Pacto Nacional. Cida Gonçalves foi a primeira ministra efetiva do Ministério das Mulheres recriado no governo Lula em 2023.',
       'verified', true, '2024-03-08',
       'https://www.gov.br/mulheres/pt-br/assuntos/noticias/cida-goncalves-pacto-nacional-feminicidio',
-      'government_document',
+      'diario_oficial',
       'Brasília', 'Dia Internacional da Mulher', 'cida-goncalves-pacto-feminicidio-marco-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mis, true FROM ins;
@@ -229,7 +229,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/direitos-humanos/noticia/2023-07/cida-goncalves-lei-igualdade-salarial',
       'news_article',
       'Brasília', 'Sanção da Lei de Igualdade Salarial', 'cida-goncalves-igualdade-salarial-julho-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mis, true FROM ins;
@@ -248,9 +248,9 @@ BEGIN
       'Coletiva em maio de 2024, durante enchentes no RS que atingiram mais de 460 municípios e deixaram mais de 180 mortos. Waldez Góes era ministro da Integração e Desenvolvimento Regional.',
       'verified', true, '2024-05-08',
       'https://www.gov.br/mdr/pt-br/assuntos/noticias/waldez-goes-rs-reconstrucao-plano',
-      'government_document',
+      'diario_oficial',
       'Porto Alegre', 'Coletiva sobre as enchentes do RS', 'waldez-goes-rs-reconstrucao-maio-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -271,7 +271,7 @@ BEGIN
       'https://g1.globo.com/rs/rio-grande-do-sul/noticia/2024/05/14/waldez-goes-fake-news-enchentes-rs.ghtml',
       'news_article',
       'Porto Alegre', 'Coletiva sobre desinformação nas enchentes', 'waldez-goes-fake-news-rs-maio-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -292,7 +292,7 @@ BEGIN
       'https://www.brasildefato.com.br/2023/04/28/paulo-teixeira-mst-reforma-agraria',
       'news_article',
       'Brasília', 'Entrevista ao Brasil de Fato', 'paulo-teixeira-mst-reforma-agraria-abril-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -311,9 +311,9 @@ BEGIN
       'Anúncio em julho de 2023 do programa Terra da Gente, relançamento da política de reforma agrária paralisada no governo Bolsonaro. A meta incluía assentamentos e regularizações.',
       'verified', false, '2023-07-12',
       'https://www.gov.br/mda/pt-br/assuntos/noticias/paulo-teixeira-terra-da-gente-reforma-agraria',
-      'government_document',
+      'diario_oficial',
       'Brasília', 'Lançamento do Programa Terra da Gente', 'paulo-teixeira-terra-da-gente-julho-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -334,7 +334,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/economia/noticia/2023-07/andre-de-paula-pesca-artesanal',
       'news_article',
       'Brasília', 'Entrevista sobre política pesqueira', 'andre-de-paula-pesca-artesanal-julho-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -353,9 +353,9 @@ BEGIN
       'Discurso na Marcha da Cultura em Brasília em abril de 2023, celebrando os 100 dias de governo. Margareth Menezes é cantora baiana e foi nomeada ministra da Cultura reconstruída após ser extinta por Bolsonaro.',
       'verified', false, '2023-04-11',
       'https://www.gov.br/cultura/pt-br/assuntos/noticias/margareth-menezes-marcha-cultura-lei-rouanet',
-      'government_document',
+      'diario_oficial',
       'Brasília', 'Marcha da Cultura', 'margareth-menezes-lei-rouanet-abril-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -376,7 +376,7 @@ BEGIN
       'https://oglobo.globo.com/cultura/noticia/2023/12/margareth-menezes-censura-artistas-bolsonaristas.ghtml',
       'news_article',
       'Rio de Janeiro', 'Entrevista ao O Globo', 'margareth-menezes-censura-artistas-dezembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -397,7 +397,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/politica/noticia/2023-12/marcio-macedo-secretaria-geral-conferencias',
       'news_article',
       'Brasília', 'Entrevista à Rádio EBC', 'marcio-macedo-secretaria-geral-dezembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -418,7 +418,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/educacao/noticia/2023-07/luciana-santos-sbpc-ciencia-orcamento',
       'news_article',
       'Curitiba', 'Reunião anual da SBPC', 'luciana-santos-sbpc-ciencia-julho-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_neg, true FROM ins;
@@ -437,9 +437,9 @@ BEGIN
       'Lançamento do PBIA em Brasília em julho de 2024, ao lado do presidente Lula. O plano visava posicionar o Brasil entre os líderes regionais em inteligência artificial.',
       'verified', true, '2024-07-30',
       'https://www.gov.br/mcti/pt-br/acompanhe-o-mcti/noticias/2024/07/luciana-santos-plano-brasileiro-inteligencia-artificial',
-      'government_document',
+      'diario_oficial',
       'Brasília', 'Lançamento do Plano Brasileiro de IA', 'luciana-santos-pbia-julho-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -460,7 +460,7 @@ BEGIN
       'https://www1.folha.uol.com.br/mercado/2023/03/carlos-lupi-fila-inss-pericia.shtml',
       'news_article',
       'Brasília', 'Coletiva sobre metas do INSS', 'carlos-lupi-fila-inss-marco-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -481,7 +481,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/04/25/lupi-inss-fraudes-associacoes.ghtml',
       'news_article',
       'Brasília', 'Nota oficial à imprensa', 'carlos-lupi-inss-fraudes-abril-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -502,7 +502,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2025/03/gleisi-hoffmann-posse-relacoes-institucionais.shtml',
       'news_article',
       'Brasília', 'Posse no Ministério das Relações Institucionais', 'gleisi-hoffmann-posse-institucional-marco-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -523,7 +523,7 @@ BEGIN
       'https://g1.globo.com/globonews/noticia/2025/04/03/gleisi-emendas-pix-chantagem-congresso.ghtml',
       'news_article',
       'Brasília', 'Entrevista à GloboNews', 'gleisi-emendas-pix-chantagem-abril-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -544,7 +544,7 @@ BEGIN
       'https://www.espn.com.br/esportes-olimpicos/artigo/_/id/13589234/andre-fufuca-bolsa-atleta-olimpiadas',
       'news_article',
       'Brasília', 'Entrevista à ESPN Brasil', 'andre-fufuca-bolsa-atleta-outubro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -565,7 +565,7 @@ BEGIN
       'https://www1.folha.uol.com.br/cotidiano/2025/04/padilha-sus-aborto-legal-estupro.shtml',
       'news_article',
       'Brasília', 'Entrevista à Folha de S.Paulo', 'padilha-sus-aborto-legal-abril-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -584,9 +584,9 @@ BEGIN
       'Declaração em setembro de 2023, em cerimônia de reativação do Fundo Amazônia que havia sido paralisado desde 2019 por decisões do governo Bolsonaro. A Noruega é o maior doador histórico.',
       'verified', false, '2023-09-08',
       'https://www.gov.br/mma/pt-br/assuntos/noticias/marina-silva-fundo-amazonia-doadores',
-      'government_document',
+      'diario_oficial',
       'Brasília', 'Reativação do Fundo Amazônia', 'marina-silva-fundo-amazonia-setembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -607,7 +607,7 @@ BEGIN
       'https://cbn.globoradio.globo.com/politica/2023/05/marina-silva-foz-amazonas-petrobras.htm',
       'news_article',
       'São Paulo', 'Entrevista à rádio CBN', 'marina-silva-foz-amazonas-petrobras-maio-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -628,7 +628,7 @@ BEGIN
       'https://valor.globo.com/politica/noticia/2025/01/01/haddad-posse-galipolo-banco-central.ghtml',
       'news_article',
       'Brasília', 'Posse de Gabriel Galípolo no Banco Central', 'haddad-posse-galipolo-janeiro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -649,7 +649,7 @@ BEGIN
       'https://www.uol.com.br/tvfolha/ultimas-noticias/2024/10/28/simone-tebet-roda-viva-lula-economia.htm',
       'news_article',
       'São Paulo', 'Entrevista ao Roda Viva', 'tebet-roda-viva-lula-outubro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -670,7 +670,7 @@ BEGIN
       'https://www1.folha.uol.com.br/mundo/2023/04/mauro-vieira-ucrania-clube-da-paz-mediacao.shtml',
       'news_article',
       'Brasília', 'Entrevista à imprensa sobre Ucrânia', 'mauro-vieira-ucrania-clube-paz-abril-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -691,7 +691,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2024/01/08/rui-costa-8-janeiro-terrorismo-golpista.ghtml',
       'news_article',
       'Brasília', 'Cerimônia de 1 ano do 8 de janeiro', 'rui-costa-8-janeiro-terrorismo-janeiro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -712,7 +712,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/direitos-humanos/noticia/2024-01/sonia-guajajara-davos-povos-indigenas',
       'news_article',
       'Davos', 'Fórum Econômico Mundial 2024', 'sonia-guajajara-davos-janeiro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -731,9 +731,9 @@ BEGIN
       'Lançamento do Pé-de-Meia em março de 2024 no Palácio do Planalto com Lula. O programa atende cerca de 4 milhões de estudantes de baixa renda matriculados no ensino médio público.',
       'verified', true, '2024-03-26',
       'https://www.gov.br/mec/pt-br/assuntos/noticias/2024/marco/camilo-santana-pe-de-meia-lancamento',
-      'government_document',
+      'diario_oficial',
       'Brasília', 'Lançamento do Programa Pé-de-Meia', 'camilo-santana-pe-de-meia-marco-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -754,7 +754,7 @@ BEGIN
       'https://g1.globo.com/economia/noticia/2025/01/29/marinho-caged-empregos-formais-2024.ghtml',
       'news_article',
       'Brasília', 'Divulgação do Caged 2024', 'marinho-caged-empregos-formais-janeiro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -775,7 +775,7 @@ BEGIN
       'https://www1.folha.uol.com.br/cotidiano/2025/10/lewandowski-lei-antifaccao-crime-organizado.shtml',
       'news_article',
       'Brasília', 'Apresentação da Lei Antifacção', 'lewandowski-lei-antifaccao-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_vio, true FROM ins;
@@ -796,7 +796,7 @@ BEGIN
       'https://www.estadao.com.br/politica/jose-mucio-militares-engajamento-politico/',
       'news_article',
       'Brasília', 'Entrevista ao Estadão', 'jose-mucio-militares-engajamento-agosto-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_aut, true FROM ins;
@@ -815,9 +815,9 @@ BEGIN
       'Lançamento da nova edição do Mais Médicos em março de 2023 no Palácio do Planalto. A meta era substituir integralmente o Médicos pelo Brasil criado na era Bolsonaro.',
       'verified', false, '2023-03-20',
       'https://www.gov.br/saude/pt-br/assuntos/noticias/2023/marco/mais-medicos-relancamento-nisia',
-      'government_document',
+      'diario_oficial',
       'Brasília', 'Relançamento do Mais Médicos', 'nisia-mais-medicos-relancamento-marco-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -838,7 +838,7 @@ BEGIN
       'https://valor.globo.com/politica/noticia/2024/11/27/haddad-pacote-fiscal-ir-super-ricos.ghtml',
       'news_article',
       'Brasília', 'Pronunciamento em rede nacional', 'haddad-pacote-fiscal-ir-novembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -859,7 +859,7 @@ BEGIN
       'https://g1.globo.com/ba/bahia/carnaval/2024/noticia/2024/02/12/margareth-menezes-carnaval-economia-criativa.ghtml',
       'news_article',
       'Salvador', 'Carnaval de Salvador 2024', 'margareth-menezes-carnaval-salvador-fevereiro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -880,7 +880,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2024/09/jorge-messias-ataques-stf-bolsonaristas.shtml',
       'news_article',
       'Brasília', 'Coletiva de imprensa da AGU', 'jorge-messias-stf-ataques-setembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -901,7 +901,7 @@ BEGIN
       'https://valor.globo.com/empresas/noticia/2024/03/28/silveira-leilao-transmissao-recorde.ghtml',
       'news_article',
       'Brasília', 'Coletiva após leilão de transmissão', 'silveira-leilao-transmissao-marco-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -922,7 +922,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/01/22/mauro-vieira-trump-pragmatismo-diplomacia.ghtml',
       'news_article',
       'Brasília', 'Entrevista à imprensa', 'mauro-vieira-trump-pragmatismo-janeiro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -943,7 +943,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/direitos-humanos/noticia/2024-01/sonia-guajajara-yanomami-garimpeiros-retorno',
       'news_article',
       'Brasília', 'Balanço de 1 ano da crise Yanomami', 'sonia-guajajara-yanomami-garimpo-janeiro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_vio, true FROM ins;
@@ -964,7 +964,7 @@ BEGIN
       'https://www.uol.com.br/universa/noticias/redacao/2024/06/18/cida-goncalves-damares-ministerio-mulheres.htm',
       'news_article',
       'Brasília', 'Entrevista ao Universa/UOL', 'cida-goncalves-damares-mulheres-junho-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mis, true FROM ins;
@@ -985,7 +985,7 @@ BEGIN
       'https://www.uol.com.br/tvfolha/ultimas-noticias/2024/03/25/padilha-roda-viva-emendas-reforma-tributaria.htm',
       'news_article',
       'São Paulo', 'Entrevista ao Roda Viva', 'padilha-roda-viva-emendas-marco-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -1006,7 +1006,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2024/12/18/luciana-santos-corte-ciencia-emendas.ghtml',
       'news_article',
       'Brasília', 'Declaração à imprensa', 'luciana-santos-corte-ciencia-dezembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -1027,7 +1027,7 @@ BEGIN
       'https://valor.globo.com/politica/noticia/2024/12/06/favaro-mercosul-uniao-europeia-acordo.ghtml',
       'news_article',
       'Montevidéu', 'Cúpula do Mercosul', 'favaro-mercosul-ue-dezembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -1048,7 +1048,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/politica/noticia/2024-05/paulo-teixeira-titulos-terra-reforma-agraria',
       'news_article',
       'Brasília', 'Marcha das Margaridas 2024', 'paulo-teixeira-titulos-terra-maio-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -1069,7 +1069,7 @@ BEGIN
       'https://g1.globo.com/globonews/noticia/2025/09/15/gleisi-hoffmann-lula-2026-reeleicao.ghtml',
       'news_article',
       'Brasília', 'Entrevista à GloboNews', 'gleisi-lula-2026-reeleicao-setembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -1090,7 +1090,7 @@ BEGIN
       'https://www1.folha.uol.com.br/ambiente/2025/11/marina-silva-cop30-belem-encerramento.shtml',
       'news_article',
       'Belém', 'Encerramento da COP30', 'marina-silva-cop30-encerramento-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -1111,7 +1111,7 @@ BEGIN
       'https://www.bloomberg.com.br/politica/haddad-economia-2026-lula-reeleicao/',
       'news_article',
       'Brasília', 'Entrevista à Bloomberg', 'haddad-economia-2026-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;

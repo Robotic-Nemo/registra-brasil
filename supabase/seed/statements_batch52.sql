@@ -63,7 +63,7 @@ BEGIN
       'Declaração do governador após operação da Polícia Civil no Complexo do Jacarezinho em maio de 2023, alvo de investigação do MP e críticas de entidades de direitos humanos.',
       'verified', true, '2023-05-10',
       'https://g1.globo.com/rj/rio-de-janeiro/noticia/2023/05/10/claudio-castro-defende-operacao-jacarezinho.ghtml',
-      'news_article', 'Rio de Janeiro', 'Coletiva após operação', 'castro-defende-operacao-jacarezinho-maio-2023') RETURNING id)
+      'news_article', 'Rio de Janeiro', 'Coletiva após operação', 'castro-defende-operacao-jacarezinho-maio-2023') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_vio, true FROM ins;
 
   -- 2. Castro megaoperação Alemão/Penha
@@ -75,7 +75,7 @@ BEGIN
       'Após megaoperação nos Complexos do Alemão e da Penha em outubro de 2025, a mais letal da história do Rio, com mais de 120 mortos. A ação foi criticada pela ONU e entidades internacionais.',
       'verified', true, '2025-10-29',
       'https://www.folha.uol.com.br/cotidiano/2025/10/castro-defende-megaoperacao-alemao-penha.shtml',
-      'news_article', 'Rio de Janeiro', 'Coletiva de imprensa', 'castro-megaoperacao-alemao-penha-outubro-2025') RETURNING id)
+      'news_article', 'Rio de Janeiro', 'Coletiva de imprensa', 'castro-megaoperacao-alemao-penha-outubro-2025') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_vio, true FROM ins;
 
   -- 3. Castro culpa governo federal
@@ -87,7 +87,7 @@ BEGIN
       'Entrevista em novembro de 2025 após atritos com o Ministério da Justiça sobre uso da Força Nacional e investigações federais das operações policiais no estado.',
       'verified', false, '2025-11-05',
       'https://www.cnnbrasil.com.br/politica/castro-acusa-lula-abandonar-rio.html',
-      'news_article', 'Rio de Janeiro', 'Entrevista CNN Brasil', 'castro-acusa-lula-abandonar-rio-novembro-2025') RETURNING id)
+      'news_article', 'Rio de Janeiro', 'Entrevista CNN Brasil', 'castro-acusa-lula-abandonar-rio-novembro-2025') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 4. Castro tragédia Petrópolis
@@ -99,7 +99,7 @@ BEGIN
       'Declaração após nova tragédia em Petrópolis em março de 2023. Defensoria e MPF apontaram ausência de obras de contenção e sistemas de alerta desde a tragédia de 2022.',
       'verified', false, '2023-03-25',
       'https://oglobo.globo.com/rio/noticia/2023/03/castro-petropolis-tragedia-natureza.ghtml',
-      'news_article', 'Petrópolis', 'Visita a áreas atingidas', 'castro-petropolis-tragedia-natureza-marco-2023') RETURNING id)
+      'news_article', 'Petrópolis', 'Visita a áreas atingidas', 'castro-petropolis-tragedia-natureza-marco-2023') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
   -- 5. Castro ataca Moraes ADPF Favelas
@@ -111,7 +111,7 @@ BEGIN
       'Após decisão do STF na ADPF das Favelas em agosto de 2024, que estabeleceu protocolos para operações policiais em comunidades do Rio de Janeiro.',
       'verified', false, '2024-08-20',
       'https://www.metropoles.com/brasil/castro-critica-stf-operacoes-policiais',
-      'news_article', 'Rio de Janeiro', 'Coletiva no Palácio Guanabara', 'castro-critica-stf-adpf-favelas-agosto-2024') RETURNING id)
+      'news_article', 'Rio de Janeiro', 'Coletiva no Palácio Guanabara', 'castro-critica-stf-adpf-favelas-agosto-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_ame, true FROM ins;
 
   -- 6. Wilson Lima Yanomami
@@ -123,7 +123,7 @@ BEGIN
       'Entrevista em janeiro de 2023 após declaração de emergência sanitária pelo Ministério da Saúde sobre desnutrição e doenças entre os Yanomami.',
       'verified', false, '2023-01-25',
       'https://g1.globo.com/am/amazonas/noticia/2023/01/wilson-lima-crise-yanomami-responsabilidade.ghtml',
-      'news_article', 'Manaus', 'Coletiva de imprensa', 'wilson-lima-yanomami-responsabilidade-janeiro-2023') RETURNING id)
+      'news_article', 'Manaus', 'Coletiva de imprensa', 'wilson-lima-yanomami-responsabilidade-janeiro-2023') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
   -- 7. Wilson Lima queimadas minimiza
@@ -135,7 +135,7 @@ BEGIN
       'Em outubro de 2023, durante crise de fumaça que cobriu Manaus por semanas e elevou Amazonas ao pior IQAr do mundo. Relatórios apontaram queimadas ilegais e desmatamento criminoso.',
       'verified', false, '2023-10-18',
       'https://g1.globo.com/am/amazonas/noticia/2023/10/wilson-lima-queimadas-el-nino.ghtml',
-      'news_article', 'Manaus', 'Entrevista à TV Amazonas', 'wilson-lima-queimadas-el-nino-outubro-2023') RETURNING id)
+      'news_article', 'Manaus', 'Entrevista à TV Amazonas', 'wilson-lima-queimadas-el-nino-outubro-2023') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_neg, true FROM ins;
 
   -- 8. Wilson Lima denúncias contratos respirador
@@ -147,7 +147,7 @@ BEGIN
       'Após novas denúncias em 2024 sobre contratos emergenciais da pandemia investigados pela CPI dos Respiradores e pelo TCE/AM.',
       'verified', false, '2024-04-12',
       'https://www.metropoles.com/brasil/politica-brasil/wilson-lima-contratos-pandemia-defesa',
-      'news_article', 'Manaus', 'Entrevista à imprensa', 'wilson-lima-contratos-pandemia-abril-2024') RETURNING id)
+      'news_article', 'Manaus', 'Entrevista à imprensa', 'wilson-lima-contratos-pandemia-abril-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_cor, true FROM ins;
 
   -- 9. Ibaneis Rocha 8 de janeiro
@@ -159,7 +159,7 @@ BEGIN
       'Entrevista em janeiro de 2023 após ser afastado do cargo por decisão de Alexandre de Moraes devido às falhas de segurança que permitiram a invasão ao Planalto, STF e Congresso.',
       'verified', true, '2023-01-10',
       'https://g1.globo.com/df/distrito-federal/noticia/2023/01/ibaneis-afastamento-8-janeiro-traicao.ghtml',
-      'news_article', 'Brasília', 'Entrevista após afastamento', 'ibaneis-traicao-8-janeiro-2023') RETURNING id)
+      'news_article', 'Brasília', 'Entrevista após afastamento', 'ibaneis-traicao-8-janeiro-2023') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_ant, true FROM ins;
 
   -- 10. Ibaneis sobre acampamento QG Exército
@@ -171,7 +171,7 @@ BEGIN
       'Declaração em janeiro de 2023 defendendo a manutenção do acampamento bolsonarista em frente ao QG do Exército antes dos atos golpistas do dia 8 de janeiro.',
       'verified', false, '2023-01-07',
       'https://www.folha.uol.com.br/poder/2023/01/ibaneis-acampamento-qg-democratico.shtml',
-      'news_article', 'Brasília', 'Coletiva de imprensa', 'ibaneis-acampamento-qg-democratico-janeiro-2023') RETURNING id)
+      'news_article', 'Brasília', 'Coletiva de imprensa', 'ibaneis-acampamento-qg-democratico-janeiro-2023') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_ant, true FROM ins;
 
   -- 11. Ibaneis retorno ao cargo
@@ -183,7 +183,7 @@ BEGIN
       'Em março de 2023, ao retornar ao governo do DF após o STF aceitar sua volta com restrições, três meses após o afastamento decretado por Alexandre de Moraes.',
       'verified', false, '2023-03-15',
       'https://g1.globo.com/df/distrito-federal/noticia/2023/03/ibaneis-volta-governo-df.ghtml',
-      'news_article', 'Brasília', 'Posse de reassunção', 'ibaneis-volta-governo-df-marco-2023') RETURNING id)
+      'news_article', 'Brasília', 'Posse de reassunção', 'ibaneis-volta-governo-df-marco-2023') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 12. Tarcísio Baixada Santista
@@ -195,7 +195,7 @@ BEGIN
       'Em agosto de 2023, durante a Operação Escudo na Baixada Santista, que terminou com 28 mortos após assassinato de um PM. Defensoria Pública e MP apontaram indícios de execuções e tortura.',
       'verified', true, '2023-08-15',
       'https://g1.globo.com/sp/santos-regiao/noticia/2023/08/tarcisio-operacao-escudo-baixada.ghtml',
-      'news_article', 'São Paulo', 'Coletiva de imprensa', 'tarcisio-operacao-escudo-baixada-agosto-2023') RETURNING id)
+      'news_article', 'São Paulo', 'Coletiva de imprensa', 'tarcisio-operacao-escudo-baixada-agosto-2023') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_vio, true FROM ins;
 
   -- 13. Tarcísio câmeras corporais
@@ -207,7 +207,7 @@ BEGIN
       'Em 2024, defendendo flexibilização do uso de câmeras corporais na Polícia Militar de São Paulo, equipamento introduzido na gestão anterior e apontado por estudos como redutor de letalidade policial.',
       'verified', false, '2024-03-10',
       'https://www.folha.uol.com.br/cotidiano/2024/03/tarcisio-cameras-corporais-policia.shtml',
-      'news_article', 'São Paulo', 'Entrevista Jornal da Record', 'tarcisio-cameras-corporais-policia-marco-2024') RETURNING id)
+      'news_article', 'São Paulo', 'Entrevista Jornal da Record', 'tarcisio-cameras-corporais-policia-marco-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
   -- 14. Tarcísio Sabesp privatização
@@ -219,7 +219,7 @@ BEGIN
       'Em 2024, durante tramitação do projeto de privatização da Companhia de Saneamento Básico do Estado de São Paulo, uma das maiores do mundo, contra oposição de sindicatos e parte da sociedade.',
       'verified', false, '2024-02-20',
       'https://valor.globo.com/politica/noticia/2024/02/tarcisio-privatizacao-sabesp.ghtml',
-      'news_article', 'São Paulo', 'Evento empresarial', 'tarcisio-privatizacao-sabesp-fevereiro-2024') RETURNING id)
+      'news_article', 'São Paulo', 'Evento empresarial', 'tarcisio-privatizacao-sabesp-fevereiro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 15. Tarcísio escolas cívico-militares
@@ -231,7 +231,7 @@ BEGIN
       'Ao anunciar expansão do modelo cívico-militar em São Paulo em 2023, mesmo após o governo federal extinguir o programa em âmbito nacional.',
       'verified', false, '2023-11-08',
       'https://g1.globo.com/sp/sao-paulo/noticia/2023/11/tarcisio-escolas-civico-militares.ghtml',
-      'news_article', 'São Paulo', 'Cerimônia em escola', 'tarcisio-escolas-civico-militares-novembro-2023') RETURNING id)
+      'news_article', 'São Paulo', 'Cerimônia em escola', 'tarcisio-escolas-civico-militares-novembro-2023') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_aut, true FROM ins;
 
   -- 16. Tarcísio 2026 candidato
@@ -243,7 +243,7 @@ BEGIN
       'Em 2025, após a prisão domiciliar de Bolsonaro e com a proibição de sua candidatura, Tarcísio passou a ser considerado o principal nome da direita para a eleição de 2026.',
       'verified', true, '2025-09-12',
       'https://www.folha.uol.com.br/poder/2025/09/tarcisio-2026-herdeiro-bolsonaro.shtml',
-      'news_article', 'São Paulo', 'Evento do PL', 'tarcisio-herdeiro-bolsonaro-setembro-2025') RETURNING id)
+      'news_article', 'São Paulo', 'Evento do PL', 'tarcisio-herdeiro-bolsonaro-setembro-2025') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_ant, true FROM ins;
 
   -- 17. Zema ataque povos indígenas
@@ -255,7 +255,7 @@ BEGIN
       'Em fevereiro de 2024, em evento do agronegócio em Uberlândia, ao criticar processos de demarcação em Minas Gerais e defender flexibilização do marco temporal.',
       'verified', false, '2024-02-15',
       'https://oglobo.globo.com/brasil/noticia/2024/02/zema-indigenas-agronegocio-minas.ghtml',
-      'news_article', 'Uberlândia', 'Feira do Agronegócio', 'zema-indigenas-agronegocio-fevereiro-2024') RETURNING id)
+      'news_article', 'Uberlândia', 'Feira do Agronegócio', 'zema-indigenas-agronegocio-fevereiro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
 
   -- 18. Zema RRF dívida
@@ -267,7 +267,7 @@ BEGIN
       'Em julho de 2024, durante disputa sobre adesão de Minas Gerais ao Regime de Recuperação Fiscal e discussão da renegociação da dívida estadual com a União.',
       'verified', false, '2024-07-18',
       'https://www.cnnbrasil.com.br/politica/zema-divida-minas-gerais-lula.html',
-      'news_article', 'Belo Horizonte', 'Coletiva no Palácio Tiradentes', 'zema-divida-minas-gerais-julho-2024') RETURNING id)
+      'news_article', 'Belo Horizonte', 'Coletiva no Palácio Tiradentes', 'zema-divida-minas-gerais-julho-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_ame, true FROM ins;
 
   -- 19. Zema pré-candidato 2026
@@ -279,7 +279,7 @@ BEGIN
       'Em evento do Novo em São Paulo em março de 2025, quando Zema formalizou pré-candidatura em meio ao vácuo deixado pela inelegibilidade de Bolsonaro.',
       'verified', true, '2025-03-22',
       'https://www.folha.uol.com.br/poder/2025/03/zema-pre-candidato-2026.shtml',
-      'news_article', 'São Paulo', 'Convenção do Novo', 'zema-pre-candidato-2026-marco-2025') RETURNING id)
+      'news_article', 'São Paulo', 'Convenção do Novo', 'zema-pre-candidato-2026-marco-2025') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 20. Caiado PEC Segurança
@@ -291,7 +291,7 @@ BEGIN
       'Em novembro de 2024, ao ser apresentada a Proposta de Emenda Constitucional do governo federal que alterava competências na área de segurança pública.',
       'verified', false, '2024-11-10',
       'https://www.cnnbrasil.com.br/politica/caiado-critica-pec-seguranca-lula.html',
-      'news_article', 'Goiânia', 'Encontro de governadores', 'caiado-critica-pec-seguranca-novembro-2024') RETURNING id)
+      'news_article', 'Goiânia', 'Encontro de governadores', 'caiado-critica-pec-seguranca-novembro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
 
   -- 21. Caiado defende atirador
@@ -303,7 +303,7 @@ BEGIN
       'Em fevereiro de 2024, após caso de cidadão que matou suspeito em tentativa de assalto em Goiânia. Caiado é defensor do armamento civil e usa a fala como bandeira política.',
       'verified', false, '2024-02-05',
       'https://g1.globo.com/go/goias/noticia/2024/02/caiado-cidadao-atirou-bandido.ghtml',
-      'news_article', 'Goiânia', 'Entrevista à Band', 'caiado-cidadao-atirou-bandido-fevereiro-2024') RETURNING id)
+      'news_article', 'Goiânia', 'Entrevista à Band', 'caiado-cidadao-atirou-bandido-fevereiro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_vio, true FROM ins;
 
   -- 22. Caiado pré-candidato 2026
@@ -315,7 +315,7 @@ BEGIN
       'Em março de 2025, em convenção do União Brasil, Caiado formalizou pré-candidatura tentando se diferenciar tanto de Lula quanto de Bolsonaro.',
       'verified', true, '2025-03-15',
       'https://oglobo.globo.com/politica/noticia/2025/03/caiado-pre-candidato-2026-uniao.ghtml',
-      'news_article', 'Brasília', 'Convenção do União Brasil', 'caiado-pre-candidato-2026-marco-2025') RETURNING id)
+      'news_article', 'Brasília', 'Convenção do União Brasil', 'caiado-pre-candidato-2026-marco-2025') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 23. Ratinho Jr educação
@@ -327,7 +327,7 @@ BEGIN
       'Em setembro de 2023, ao expandir o programa de escolas cívico-militares no Paraná, mesmo após extinção federal do programa.',
       'verified', false, '2023-09-20',
       'https://g1.globo.com/pr/parana/noticia/2023/09/ratinho-escolas-civico-militares.ghtml',
-      'news_article', 'Curitiba', 'Inauguração de escola', 'ratinho-escolas-civico-militares-setembro-2023') RETURNING id)
+      'news_article', 'Curitiba', 'Inauguração de escola', 'ratinho-escolas-civico-militares-setembro-2023') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_aut, true FROM ins;
 
   -- 24. Ratinho Jr 2026
@@ -339,7 +339,7 @@ BEGIN
       'Em evento nacional do PSD em fevereiro de 2025, Ratinho Júnior posicionou-se como potencial candidato a presidente pela terceira via.',
       'verified', false, '2025-02-18',
       'https://valor.globo.com/politica/noticia/2025/02/ratinho-terceira-via-2026.ghtml',
-      'news_article', 'Brasília', 'Evento do PSD', 'ratinho-terceira-via-2026-fevereiro-2025') RETURNING id)
+      'news_article', 'Brasília', 'Evento do PSD', 'ratinho-terceira-via-2026-fevereiro-2025') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 25. Elmano críticas
@@ -351,7 +351,7 @@ BEGIN
       'Em março de 2024, após aumento de homicídios no Ceará que levou o estado ao topo do ranking nacional, com críticas da oposição estadual.',
       'verified', false, '2024-03-28',
       'https://g1.globo.com/ce/ceara/noticia/2024/03/elmano-violencia-heranca.ghtml',
-      'news_article', 'Fortaleza', 'Entrevista à imprensa', 'elmano-violencia-heranca-marco-2024') RETURNING id)
+      'news_article', 'Fortaleza', 'Entrevista à imprensa', 'elmano-violencia-heranca-marco-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
   -- 26. Elmano operações policiais
@@ -363,7 +363,7 @@ BEGIN
       'Em 2024, ao solicitar o envio da Força Nacional de Segurança para atuar em municípios do Ceará após escalada de violência.',
       'verified', false, '2024-07-05',
       'https://www.cnnbrasil.com.br/politica/elmano-forca-nacional-ceara.html',
-      'news_article', 'Fortaleza', 'Coletiva de imprensa', 'elmano-forca-nacional-ceara-julho-2024') RETURNING id)
+      'news_article', 'Fortaleza', 'Coletiva de imprensa', 'elmano-forca-nacional-ceara-julho-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
   -- 27. Jerônimo Rodrigues chacina policiais
@@ -375,7 +375,7 @@ BEGIN
       'Em agosto de 2023, após morte de policiais em emboscada em Salvador, em meio a crise de segurança e críticas à gestão estadual.',
       'verified', false, '2023-08-22',
       'https://www.correio24horas.com.br/noticia/jeronimo-rodrigues-chacina-policiais',
-      'news_article', 'Salvador', 'Coletiva de imprensa', 'jeronimo-chacina-policiais-agosto-2023') RETURNING id)
+      'news_article', 'Salvador', 'Coletiva de imprensa', 'jeronimo-chacina-policiais-agosto-2023') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 28. Jerônimo Bahia operações letais
@@ -387,7 +387,7 @@ BEGIN
       'Em 2024, após Anuário de Segurança Pública apontar a Bahia como o estado com maior número absoluto de mortes por intervenção policial no Brasil.',
       'verified', false, '2024-07-20',
       'https://www.metropoles.com/brasil/jeronimo-letalidade-policial-bahia',
-      'news_article', 'Salvador', 'Entrevista à TV Bahia', 'jeronimo-letalidade-policial-julho-2024') RETURNING id)
+      'news_article', 'Salvador', 'Entrevista à TV Bahia', 'jeronimo-letalidade-policial-julho-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_vio, true FROM ins;
 
   -- 29. Helder Barbalho COP30
@@ -399,7 +399,7 @@ BEGIN
       'Em 2025, em resposta a denúncias de atropelos ambientais e urbanísticos nas obras para a COP30, incluindo desmatamento para construção de vias e remoções de comunidades.',
       'verified', false, '2025-06-10',
       'https://g1.globo.com/pa/para/noticia/2025/06/helder-cop30-obras-ritmo.ghtml',
-      'news_article', 'Belém', 'Visita a obras da COP30', 'helder-cop30-obras-ritmo-junho-2025') RETURNING id)
+      'news_article', 'Belém', 'Visita a obras da COP30', 'helder-cop30-obras-ritmo-junho-2025') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
   -- 30. Helder desmatamento
@@ -411,7 +411,7 @@ BEGIN
       'Em novembro de 2024, durante a COP de Baku, rebatendo críticas de ONGs sobre focos de desmatamento ilegal no Pará mesmo com queda em dados oficiais.',
       'verified', false, '2024-11-15',
       'https://valor.globo.com/politica/noticia/2024/11/helder-desmatamento-cop29.ghtml',
-      'news_article', 'Baku', 'COP29', 'helder-desmatamento-cop29-novembro-2024') RETURNING id)
+      'news_article', 'Baku', 'COP29', 'helder-desmatamento-cop29-novembro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 31. Helder 2026
@@ -423,7 +423,7 @@ BEGIN
       'Em janeiro de 2026, com a aproximação da eleição presidencial, surgiram especulações sobre Helder como vice de Lula, representando o MDB em aliança.',
       'verified', false, '2026-01-25',
       'https://www.folha.uol.com.br/poder/2026/01/helder-vice-lula-2026.shtml',
-      'news_article', 'Belém', 'Entrevista à Folha', 'helder-vice-lula-2026-janeiro-2026') RETURNING id)
+      'news_article', 'Belém', 'Entrevista à Folha', 'helder-vice-lula-2026-janeiro-2026') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 32. Raquel Lyra ruptura PSDB
@@ -435,7 +435,7 @@ BEGIN
       'Em 2023, ao anunciar o fim do programa Pacto pela Vida, criado por Eduardo Campos, e substituí-lo por nova estratégia de segurança em meio a alta de homicídios em Pernambuco.',
       'verified', false, '2023-06-15',
       'https://www.folhape.com.br/politica/raquel-lyra-pacto-pela-vida',
-      'news_article', 'Recife', 'Coletiva no Palácio do Campo das Princesas', 'raquel-pacto-pela-vida-junho-2023') RETURNING id)
+      'news_article', 'Recife', 'Coletiva no Palácio do Campo das Princesas', 'raquel-pacto-pela-vida-junho-2023') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 33. Raquel enchentes PE 2025
@@ -447,7 +447,7 @@ BEGIN
       'Em junho de 2025, após enchentes no interior de Pernambuco, Raquel cobrou publicamente recursos federais e acusou o governo Lula de demora no atendimento.',
       'verified', false, '2025-06-22',
       'https://g1.globo.com/pe/pernambuco/noticia/2025/06/raquel-enchentes-federal.ghtml',
-      'news_article', 'Recife', 'Visita a áreas atingidas', 'raquel-enchentes-federal-junho-2025') RETURNING id)
+      'news_article', 'Recife', 'Visita a áreas atingidas', 'raquel-enchentes-federal-junho-2025') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 34. Casagrande educação
@@ -459,7 +459,7 @@ BEGIN
       'Em 2024, após críticas de entidades de educação sobre transparência de dados da rede estadual do Espírito Santo, frequentemente apresentada como modelo nacional.',
       'verified', false, '2024-09-12',
       'https://www.folha.uol.com.br/educacao/2024/09/casagrande-educacao-es-vitrine.shtml',
-      'news_article', 'Vitória', 'Evento de educação', 'casagrande-educacao-es-setembro-2024') RETURNING id)
+      'news_article', 'Vitória', 'Evento de educação', 'casagrande-educacao-es-setembro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 35. João Azevêdo seca
@@ -471,7 +471,7 @@ BEGIN
       'Em outubro de 2024, durante pior seca em décadas na Paraíba, contrastando com volume de recursos federais destinados ao Rio Grande do Sul após enchentes de maio daquele ano.',
       'verified', false, '2024-10-10',
       'https://g1.globo.com/pb/paraiba/noticia/2024/10/joao-azevedo-seca-sul.ghtml',
-      'news_article', 'João Pessoa', 'Evento sobre clima', 'joao-azevedo-seca-sul-outubro-2024') RETURNING id)
+      'news_article', 'João Pessoa', 'Evento sobre clima', 'joao-azevedo-seca-sul-outubro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 36. Fátima Bezerra violência
@@ -483,7 +483,7 @@ BEGIN
       'Em março de 2023, após rebeliões e ataques de facções no Rio Grande do Norte que levaram à mobilização da Força Nacional de Segurança.',
       'verified', false, '2023-03-18',
       'https://www.tribunadonorte.com.br/noticia/fatima-bezerra-crise-presidios',
-      'news_article', 'Natal', 'Coletiva no Palácio de Despachos', 'fatima-crise-presidios-marco-2023') RETURNING id)
+      'news_article', 'Natal', 'Coletiva no Palácio de Despachos', 'fatima-crise-presidios-marco-2023') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
   -- 37. Eduardo Leite RS enchentes 2024
@@ -495,7 +495,7 @@ BEGIN
       'Em maio de 2024, durante as enchentes históricas que devastaram o Rio Grande do Sul, com mais de 180 mortes e 2 milhões de afetados.',
       'verified', true, '2024-05-08',
       'https://g1.globo.com/rs/rio-grande-do-sul/noticia/2024/05/eduardo-leite-enchentes-tragedia.ghtml',
-      'news_article', 'Porto Alegre', 'Coletiva no centro de crise', 'eduardo-leite-enchentes-tragedia-maio-2024') RETURNING id)
+      'news_article', 'Porto Alegre', 'Coletiva no centro de crise', 'eduardo-leite-enchentes-tragedia-maio-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
   -- 38. Eduardo Leite falhas prevenção
@@ -507,7 +507,7 @@ BEGIN
       'Em junho de 2024, após denúncias jornalísticas mostrarem corte de mais de 80% no orçamento de prevenção e recuperação de barragens no RS entre 2019 e 2023.',
       'verified', true, '2024-06-14',
       'https://www.folha.uol.com.br/cotidiano/2024/06/leite-corte-verba-prevencao-enchentes.shtml',
-      'news_article', 'Porto Alegre', 'Entrevista coletiva', 'leite-corte-verba-prevencao-junho-2024') RETURNING id)
+      'news_article', 'Porto Alegre', 'Entrevista coletiva', 'leite-corte-verba-prevencao-junho-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
   -- 39. Eduardo Leite 2026
@@ -519,7 +519,7 @@ BEGIN
       'Em janeiro de 2026, após recuperação parcial de popularidade no RS, Leite voltou a sinalizar pré-candidatura presidencial pelo PSDB.',
       'verified', false, '2026-01-30',
       'https://valor.globo.com/politica/noticia/2026/01/leite-psdb-pre-candidato.ghtml',
-      'news_article', 'Porto Alegre', 'Entrevista ao Valor', 'leite-psdb-pre-candidato-janeiro-2026') RETURNING id)
+      'news_article', 'Porto Alegre', 'Entrevista ao Valor', 'leite-psdb-pre-candidato-janeiro-2026') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 40. Riedel MS agro
@@ -531,7 +531,7 @@ BEGIN
       'Em 2024, em evento do agronegócio em Campo Grande, defendendo simplificação de licenciamento ambiental em Mato Grosso do Sul em meio a denúncias de desmatamento no Pantanal.',
       'verified', false, '2024-10-22',
       'https://g1.globo.com/ms/mato-grosso-do-sul/noticia/2024/10/riedel-agro-ambiental.ghtml',
-      'news_article', 'Campo Grande', 'Feira do agronegócio', 'riedel-agro-ambiental-outubro-2024') RETURNING id)
+      'news_article', 'Campo Grande', 'Feira do agronegócio', 'riedel-agro-ambiental-outubro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
 
   -- 41. Mauro Mendes Pantanal
@@ -543,7 +543,7 @@ BEGIN
       'Em setembro de 2024, durante crise de incêndios no Pantanal em Mato Grosso, Mauro Mendes atacou ONGs ambientalistas sem apresentar provas.',
       'verified', false, '2024-09-18',
       'https://www.metropoles.com/brasil/mauro-mendes-pantanal-ongs',
-      'news_article', 'Cuiabá', 'Entrevista à Rádio CBN', 'mauro-mendes-pantanal-ongs-setembro-2024') RETURNING id)
+      'news_article', 'Cuiabá', 'Entrevista à Rádio CBN', 'mauro-mendes-pantanal-ongs-setembro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 42. Paulo Dantas AL tragédia Braskem
@@ -555,7 +555,7 @@ BEGIN
       'Em 2023, defendendo o acordo de indenizações com a Braskem após o afundamento de bairros de Maceió, tragédia socioambiental que desalojou mais de 60 mil pessoas.',
       'verified', false, '2023-12-15',
       'https://www.cnnbrasil.com.br/politica/paulo-dantas-braskem-maceio.html',
-      'news_article', 'Maceió', 'Coletiva de imprensa', 'paulo-dantas-braskem-maceio-dezembro-2023') RETURNING id)
+      'news_article', 'Maceió', 'Coletiva de imprensa', 'paulo-dantas-braskem-maceio-dezembro-2023') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
   -- 43. Carlos Brandão MA
@@ -567,7 +567,7 @@ BEGIN
       'Em 2024, após série de ataques de facções no Maranhão que levaram à mobilização de reforços federais.',
       'verified', false, '2024-08-02',
       'https://g1.globo.com/ma/maranhao/noticia/2024/08/carlos-brandao-violencia-ma.ghtml',
-      'news_article', 'São Luís', 'Entrevista à TV Mirante', 'carlos-brandao-violencia-ma-agosto-2024') RETURNING id)
+      'news_article', 'São Luís', 'Entrevista à TV Mirante', 'carlos-brandao-violencia-ma-agosto-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 44. Fábio Mitidieri SE
@@ -579,7 +579,7 @@ BEGIN
       'Em 2024, após denúncias do MP de contratações de parentes do governador em cargos comissionados no governo de Sergipe.',
       'verified', false, '2024-05-10',
       'https://infonet.com.br/noticias/politica/mitidieri-nepotismo-denuncia',
-      'news_article', 'Aracaju', 'Entrevista à imprensa local', 'mitidieri-nepotismo-maio-2024') RETURNING id)
+      'news_article', 'Aracaju', 'Entrevista à imprensa local', 'mitidieri-nepotismo-maio-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_cor, true FROM ins;
 
   -- 45. Gladson Cameli AC
@@ -591,7 +591,7 @@ BEGIN
       'Em 2024, em evento com produtores rurais em Rio Branco, atacando organizações ambientalistas que criticavam flexibilizações de licenciamento no Acre.',
       'verified', false, '2024-06-05',
       'https://g1.globo.com/ac/acre/noticia/2024/06/gladson-ambientalistas-acre.ghtml',
-      'news_article', 'Rio Branco', 'Evento do agronegócio', 'gladson-ambientalistas-acre-junho-2024') RETURNING id)
+      'news_article', 'Rio Branco', 'Evento do agronegócio', 'gladson-ambientalistas-acre-junho-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
 
   -- 46. Antônio Denarium RR garimpo
@@ -603,7 +603,7 @@ BEGIN
       'Em fevereiro de 2023, durante operação federal de desintrusão de garimpeiros da Terra Yanomami em Roraima, Denarium manifestou-se contra a ação.',
       'verified', true, '2023-02-12',
       'https://g1.globo.com/rr/roraima/noticia/2023/02/denarium-garimpo-yanomami.ghtml',
-      'news_article', 'Boa Vista', 'Entrevista à imprensa', 'denarium-garimpo-yanomami-fevereiro-2023') RETURNING id)
+      'news_article', 'Boa Vista', 'Entrevista à imprensa', 'denarium-garimpo-yanomami-fevereiro-2023') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_vio, true FROM ins;
 
   -- 47. Clécio Luís AP
@@ -615,7 +615,7 @@ BEGIN
       'Em 2024, defendendo o projeto da Petrobras de explorar petróleo na Foz do Amazonas, contra pareceres técnicos do Ibama que negaram licenciamento.',
       'verified', false, '2024-04-20',
       'https://valor.globo.com/politica/noticia/2024/04/clecio-petroleo-foz-amazonas.ghtml',
-      'news_article', 'Macapá', 'Evento sobre energia', 'clecio-petroleo-foz-amazonas-abril-2024') RETURNING id)
+      'news_article', 'Macapá', 'Evento sobre energia', 'clecio-petroleo-foz-amazonas-abril-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 48. Wanderlei Barbosa TO
@@ -627,7 +627,7 @@ BEGIN
       'Em 2024, após operação da Polícia Federal no Palácio Araguaia investigar suposta organização criminosa no governo do Tocantins.',
       'verified', false, '2024-11-08',
       'https://g1.globo.com/to/tocantins/noticia/2024/11/wanderlei-pf-operacao-defesa.ghtml',
-      'news_article', 'Palmas', 'Coletiva no Palácio Araguaia', 'wanderlei-pf-operacao-novembro-2024') RETURNING id)
+      'news_article', 'Palmas', 'Coletiva no Palácio Araguaia', 'wanderlei-pf-operacao-novembro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_cor, true FROM ins;
 
   -- 49. Jorginho Mello SC
@@ -639,7 +639,7 @@ BEGIN
       'Em 2023, criticando o decreto do governo federal que endureceu regras para Colecionadores, Atiradores e Caçadores (CACs) após flexibilizações da era Bolsonaro.',
       'verified', false, '2023-07-22',
       'https://g1.globo.com/sc/santa-catarina/noticia/2023/07/jorginho-mello-armamento-cac.ghtml',
-      'news_article', 'Florianópolis', 'Evento com CACs', 'jorginho-armamento-cac-julho-2023') RETURNING id)
+      'news_article', 'Florianópolis', 'Evento com CACs', 'jorginho-armamento-cac-julho-2023') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_vio, true FROM ins;
 
   -- 50. Wilson Lima enchentes AM
@@ -651,7 +651,7 @@ BEGIN
       'Em outubro de 2024, ao rebater críticas sobre a gestão da seca severa na Amazônia em 2023 e 2024, que deixou comunidades ribeirinhas isoladas por meses.',
       'verified', false, '2024-10-05',
       'https://g1.globo.com/am/amazonas/noticia/2024/10/wilson-lima-seca-amazonia.ghtml',
-      'news_article', 'Manaus', 'Entrevista à TV Amazonas', 'wilson-lima-seca-amazonia-outubro-2024') RETURNING id)
+      'news_article', 'Manaus', 'Entrevista à TV Amazonas', 'wilson-lima-seca-amazonia-outubro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
 END $$;

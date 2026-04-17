@@ -72,7 +72,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2019/01/01/leia-a-integra-do-discurso-de-posse-de-jair-bolsonaro-no-congresso.ghtml',
       'news_article',
       'Brasília', 'Posse presidencial no Congresso Nacional', '2019-bolsonaro-posse-ideologia-genero-janeiro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -93,7 +93,7 @@ BEGIN
       'https://www1.folha.uol.com.br/cotidiano/2019/01/nova-era-no-brasil-menino-veste-azul-e-menina-veste-rosa-diz-damares.shtml',
       'news_article',
       'Brasília', 'Vídeo divulgado em redes sociais', '2019-damares-menino-azul-menina-rosa-janeiro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -114,7 +114,7 @@ BEGIN
       'https://www1.folha.uol.com.br/mundo/2019/04/apos-visita-a-museu-do-holocausto-bolsonaro-diz-que-nazismo-era-de-esquerda.shtml',
       'news_article',
       'Jerusalém', 'Visita ao Museu do Holocausto Yad Vashem', '2019-bolsonaro-nazismo-esquerda-israel-abril'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -135,7 +135,7 @@ BEGIN
       'https://g1.globo.com/educacao/noticia/2019/05/15/bolsonaro-defende-corte-nas-universidades-e-diz-que-faz-balburdia.ghtml',
       'news_article',
       'Brasília', 'Live nas redes sociais', '2019-bolsonaro-universidades-bagunca-maio'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_aut, true FROM ins;
@@ -156,7 +156,7 @@ BEGIN
       'https://www1.folha.uol.com.br/mercado/2019/08/eu-privatizo-tudo-privatizo-ja-diz-paulo-guedes.shtml',
       'news_article',
       'Brasília', 'Audiência pública no Senado', '2019-guedes-privatizo-tudo-agosto'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -177,7 +177,7 @@ BEGIN
       'https://www1.folha.uol.com.br/mercado/2020/02/empregada-domestica-indo-para-a-disneylandia-era-uma-festa-danada-diz-guedes.shtml',
       'news_article',
       'São Paulo', 'Evento da Associação Brasileira de Bancos', '2020-guedes-empregada-disney-fevereiro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, true FROM ins;
@@ -198,7 +198,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2020/03/24/bolsonaro-diz-que-no-caso-dele-o-coronavirus-nao-pegaria-seria-apenas-uma-gripezinha.ghtml',
       'news_article',
       'Brasília', 'Pronunciamento em cadeia nacional', '2020-bolsonaro-gripezinha-pronunciamento-marco'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_neg, true FROM ins;
@@ -219,7 +219,7 @@ BEGIN
       'https://www.bbc.com/portuguese/brasil-52451466',
       'news_article',
       'Brasília', 'Entrevista no Palácio da Alvorada', '2020-bolsonaro-e-dai-mortes-covid-abril'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -240,7 +240,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2020/11/10/acabou-com-o-pais-de-maricas-diz-bolsonaro-ao-criticar-cobertura-da-pandemia.ghtml',
       'news_article',
       'Porto Seguro', 'Evento com apoiadores', '2020-bolsonaro-pais-maricas-novembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -261,7 +261,7 @@ BEGIN
       'https://noticias.uol.com.br/saude/ultimas-noticias/redacao/2020/03/30/bolsonaro-exercito-cloroquina-coronavirus.htm',
       'news_article',
       'Brasília', 'Entrevista coletiva', '2020-bolsonaro-cloroquina-exercito-producao-marco'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_neg, true FROM ins;
@@ -282,7 +282,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2020/05/22/salles-defende-passar-a-boiada-e-mudar-regramento-em-meio-a-crise-da-covid-19.ghtml',
       'news_article',
       'Brasília', 'Reunião ministerial no Palácio do Planalto', '2020-salles-passar-boiada-reuniao-ministerial-abril'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -303,7 +303,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2020/05/leia-a-integra-do-video-da-reuniao-ministerial-de-bolsonaro.shtml',
       'news_article',
       'Brasília', 'Reunião ministerial no Palácio do Planalto', '2020-bolsonaro-armar-povo-reuniao-ministerial-abril'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -324,7 +324,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2020/04/24/moro-anuncia-sua-saida-do-ministerio-da-justica.ghtml',
       'news_article',
       'Brasília', 'Pronunciamento no Ministério da Justiça', '2020-moro-demissao-interferencia-pf-abril'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, true FROM ins;
@@ -345,7 +345,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2020/04/24/bolsonaro-rebate-moro-nao-ha-ingerencia-politica-na-pf.ghtml',
       'news_article',
       'Brasília', 'Pronunciamento no Palácio do Planalto', '2020-bolsonaro-rebate-moro-pf-abril'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -366,7 +366,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2020/04/16/bolsonaro-demite-mandetta-do-ministerio-da-saude.ghtml',
       'news_article',
       'Brasília', 'Pronunciamento no Palácio do Planalto', '2020-bolsonaro-demite-mandetta-saude-abril'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -387,7 +387,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2020/10/23/bolsonaro-sobre-pazuello-um-manda-o-outro-obedece.ghtml',
       'news_article',
       'Brasília', 'Evento com ministros', '2020-bolsonaro-pazuello-um-manda-outro-obedece-outubro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -408,7 +408,7 @@ BEGIN
       'https://www1.folha.uol.com.br/equilibrioesaude/2020/12/se-voce-virar-um-jacare-e-problema-seu-diz-bolsonaro-sobre-efeito-de-vacina-da-pfizer.shtml',
       'news_article',
       'Brasília', 'Live semanal nas redes sociais', '2020-bolsonaro-vacina-jacare-pfizer-dezembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_neg, true FROM ins;
@@ -429,7 +429,7 @@ BEGIN
       'https://www.camara.leg.br/noticias/725853-lira-eleito-presidente-da-camara-destaca-harmonia-entre-poderes',
       'news_article',
       'Brasília', 'Discurso de posse na Câmara dos Deputados', '2021-lira-posse-camara-harmonia-fevereiro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -450,7 +450,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2021/08/29/so-deus-me-tira-daquela-cadeira-diz-bolsonaro-em-evento-com-pastores.ghtml',
       'news_article',
       'São Paulo', 'Evento com pastores evangélicos', '2021-bolsonaro-so-deus-me-tira-pastores-agosto'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -471,7 +471,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2021/09/07/nao-mais-cumprirei-qualquer-decisao-do-ministro-alexandre-de-moraes-afirma-bolsonaro.ghtml',
       'news_article',
       'São Paulo', 'Ato da Avenida Paulista — 7 de Setembro', '2021-bolsonaro-nao-cumpro-moraes-7-setembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ama, true FROM ins;
@@ -492,7 +492,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2021/09/leia-a-integra-da-declaracao-de-bolsonaro-sobre-crise-com-stf.shtml',
       'news_article',
       'Brasília', 'Nota oficial à Nação', '2021-bolsonaro-carta-temer-recuo-setembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -513,7 +513,7 @@ BEGIN
       'https://g1.globo.com/politica/cpi-da-covid/noticia/2021/10/20/relatorio-final-da-cpi-da-covid-pede-indiciamento-de-bolsonaro.ghtml',
       'news_article',
       'Brasília', 'Apresentação do relatório final da CPI da Covid', '2021-renan-relatorio-cpi-covid-bolsonaro-genocidio-outubro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -534,7 +534,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2021/02/17/deputado-daniel-silveira-e-preso-apos-divulgar-video-com-ataques-a-ministros-do-stf.ghtml',
       'news_article',
       'Brasília', 'Vídeo publicado no YouTube', '2021-daniel-silveira-ai2-ataque-stf-fevereiro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ama, true FROM ins;
@@ -555,7 +555,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2021/01/28/flavio-bolsonaro-nega-rachadinha-e-fala-em-perseguicao-politica.ghtml',
       'news_article',
       'Brasília', 'Entrevista ao Jornal Nacional', '2021-flavio-rachadinha-perseguicao-janeiro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -576,7 +576,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2019/10/31/resposta-do-governo-pode-ser-via-um-novo-ai-5-diz-eduardo-bolsonaro-sobre-radicalizacao-da-esquerda.ghtml',
       'news_article',
       'Brasília', 'Entrevista ao canal Leda Nagle', '2019-eduardo-ai5-esquerda-radical-outubro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -597,7 +597,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2020/08/bolsonaro-diz-a-reporter-da-folha-que-tem-vontade-de-encher-sua-boca-com-porrada.shtml',
       'news_article',
       'Brasília', 'Entrevista coletiva no Alvorada', '2020-bolsonaro-reporter-folha-porrada-agosto'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, true FROM ins;
@@ -618,7 +618,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2021/10/24/bolsonaro-relaciona-vacina-contra-covid-e-aids-live-e-removida-das-redes-sociais.ghtml',
       'news_article',
       'Brasília', 'Live semanal do presidente', '2021-bolsonaro-vacina-aids-live-outubro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -639,7 +639,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2021/07/08/bolsonaro-diz-que-vai-fazer-live-para-apresentar-provas-de-fraude-na-eleicao-de-2018.ghtml',
       'news_article',
       'Brasília', 'Entrevista na saída do Palácio da Alvorada', '2021-bolsonaro-live-bomba-urnas-julho'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -660,7 +660,7 @@ BEGIN
       'https://www.camara.leg.br/noticias/806231-zambelli-pede-impeachment-de-moraes-e-chama-de-ditador-de-toga/',
       'news_article',
       'Brasília', 'Sessão plenária da Câmara', '2021-zambelli-moraes-ditador-toga-setembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ama, true FROM ins;
@@ -681,7 +681,7 @@ BEGIN
       'https://www.bbc.com/portuguese/brasil-51304388',
       'news_article',
       'São Paulo', 'Entrevista ao programa Pânico', '2020-damares-marajo-meninas-10-anos-janeiro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -702,7 +702,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2021/03/10/leia-a-integra-do-discurso-de-lula-apos-decisao-que-anulou-condenacoes.ghtml',
       'news_article',
       'São Bernardo do Campo', 'Discurso no Sindicato dos Metalúrgicos', '2021-lula-fachin-elegivel-discurso-marco'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -723,7 +723,7 @@ BEGIN
       'https://noticias.uol.com.br/politica/ultimas-noticias/2019/06/05/bolsonaro-fraquejei-e-veio-uma-mulher.htm',
       'news_article',
       'Brasília', 'Entrevista coletiva no Alvorada', '2019-bolsonaro-fraquejei-filha-mulher-junho'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mis, true FROM ins;
@@ -744,7 +744,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2019/08/21/bolsonaro-diz-que-ongs-podem-estar-por-tras-de-queimadas-na-amazonia.ghtml',
       'news_article',
       'Brasília', 'Entrevista na saída do Palácio da Alvorada', '2019-bolsonaro-ongs-queimadas-amazonia-agosto'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -765,7 +765,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2018/08/cultura-brasileira-e-indolente-por-heranca-do-negro-e-do-indigena-diz-mourao.shtml',
       'news_article',
       'Brasília', 'Entrevista a estudantes', '2019-mourao-cultura-indigena-africana-vagabundagem'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_rac, true FROM ins;
@@ -786,7 +786,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2021/03/18/bolsonaro-ataca-governadores-e-diz-que-lockdown-e-crime.ghtml',
       'news_article',
       'Brasília', 'Entrevista na saída do Alvorada', '2021-bolsonaro-ataca-governadores-lockdown-marco'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -807,7 +807,7 @@ BEGIN
       'https://www.cartacapital.com.br/politica/bolsonaro-e-um-genocida-diz-gleisi-hoffmann-apos-cpi-da-covid/',
       'news_article',
       'Brasília', 'Coletiva após relatório da CPI da Covid', '2021-gleisi-bolsonaro-genocida-cpi-outubro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -828,7 +828,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2021/05/30/ciro-chama-pt-de-quadrilha-e-diz-que-lula-precisa-pedir-perdao-ao-brasil.ghtml',
       'news_article',
       'Fortaleza', 'Entrevista coletiva', '2021-ciro-pt-quadrilha-lula-pedir-perdao-maio'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, true FROM ins;
@@ -849,7 +849,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2020/05/carlos-bolsonaro-sugere-mudanca-no-brasil-fora-da-via-convencional-da-constituicao.shtml',
       'news_article',
       'Rio de Janeiro', 'Publicação no Twitter', '2020-carlos-bolsonaro-fora-constituicao-tweet-maio'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -870,7 +870,7 @@ BEGIN
       'https://www.camara.leg.br/noticias/792186-kicis-apresenta-parecer-favoravel-ao-voto-impresso/',
       'news_article',
       'Brasília', 'Comissão Especial do Voto Impresso', '2021-kicis-voto-impresso-caixa-preta-julho'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -891,7 +891,7 @@ BEGIN
       'https://oglobo.globo.com/brasil/abin-preparou-contrainformacao-para-defender-flavio-bolsonaro-em-caso-ligado-marielle-24439527',
       'news_article',
       'Brasília', 'Depoimento à Polícia Federal', '2020-ramagem-abin-flavio-marielle-contrainformacao-maio'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -912,7 +912,7 @@ BEGIN
       'https://noticias.uol.com.br/politica/ultimas-noticias/2021/06/15/bolsonaro-teria-consultado-militares-sobre-fechar-stf.htm',
       'news_article',
       'Brasília', 'Reunião com alto-comando militar', '2021-bolsonaro-consultou-fechar-stf-militares-junho'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -933,7 +933,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2021/03/felipe-neto-e-intimado-a-depor-na-pf-apos-chamar-bolsonaro-de-genocida.shtml',
       'news_article',
       'Brasília', 'Entrevista coletiva', '2021-bolsonaro-lsn-felipe-neto-genocida-marco'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -954,7 +954,7 @@ BEGIN
       'https://www12.senado.leg.br/noticias/materias/2021/02/01/pacheco-e-eleito-presidente-do-senado',
       'news_article',
       'Brasília', 'Discurso de posse no Senado Federal', '2021-pacheco-posse-senado-mediador-fevereiro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -975,7 +975,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2021/08/eu-dei-uma-chance-para-ela-diz-bolsonaro-sobre-michelle-em-entrevista-ao-flow.shtml',
       'news_article',
       'São Paulo', 'Entrevista ao Flow Podcast', '2021-bolsonaro-dei-chance-michelle-flow-agosto'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mac, true FROM ins;
@@ -996,7 +996,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2021/06/23/ricardo-salles-deixa-o-ministerio-do-meio-ambiente.ghtml',
       'news_article',
       'Brasília', 'Anúncio de demissão do Ministério do Meio Ambiente', '2021-salles-demissao-pf-madeira-junho'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -1017,7 +1017,7 @@ BEGIN
       'https://www.camara.leg.br/noticias/781324-feliciano-classifica-cpi-como-palco-de-linchamento-politico/',
       'news_article',
       'Brasília', 'Sessão da CPI da Covid no Senado', '2021-feliciano-cpi-palco-linchamento-junho'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1038,7 +1038,7 @@ BEGIN
       'https://g1.globo.com/politica/cpi-da-covid/noticia/2021/06/25/bolsonaro-nega-ter-sido-alertado-sobre-irregularidades-na-compra-da-covaxin.ghtml',
       'news_article',
       'Brasília', 'Entrevista coletiva', '2021-bolsonaro-covaxin-nega-miranda-junho'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -1059,7 +1059,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2021/01/deputado-andre-janones-e-alvo-de-checagem-por-fake-news-sobre-auxilio.shtml',
       'news_article',
       'Ituiutaba', 'Vídeo no Instagram', '2021-janones-auxilio-emergencial-fake-news-janeiro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1080,7 +1080,7 @@ BEGIN
       'https://www1.folha.uol.com.br/colunas/fernandohaddad/2021/09/o-engodo-do-posto-ipiranga.shtml',
       'news_article',
       'São Paulo', 'Artigo na Folha de S. Paulo', '2021-haddad-engodo-posto-ipiranga-guedes-setembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1101,7 +1101,7 @@ BEGIN
       'https://brasil.elpais.com/brasil/2021-06-18/dilma-rousseff-bolsonaro-tem-que-ser-julgado-em-haia-por-genocidio.html',
       'news_article',
       'São Paulo', 'Entrevista ao jornal El País', '2021-dilma-bolsonaro-haia-genocida-junho'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;

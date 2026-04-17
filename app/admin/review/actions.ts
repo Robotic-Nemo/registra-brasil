@@ -17,27 +17,47 @@ async function assertAuthenticated() {
   if (!timingSafeEqual(token, expectedToken)) throw new Error('Unauthorized')
 }
 
-export async function verifyStatement(id: string) {
-  await assertAuthenticated()
-  const supabase = getSupabaseServiceClient()
-  await updateStatementStatus(supabase, id, 'verified')
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+function assertUuid(id: unknown): string {
+  if (typeof id !== 'string' || !UUID_PATTERN.test(id)) {
+    throw new Error('Invalid statement id')
+  }
+  return id
+}
+
+function revalidateAfterStatusChange() {
+  // Pages that surface verified-count or status indicators.
   revalidatePath('/admin')
   revalidatePath('/')
   revalidatePath('/buscar')
+  revalidatePath('/declaracoes-recentes')
+  revalidatePath('/estatisticas')
+  revalidatePath('/retratacoes')
+}
+
+export async function verifyStatement(id: string) {
+  await assertAuthenticated()
+  const safeId = assertUuid(id)
+  const supabase = getSupabaseServiceClient()
+  await updateStatementStatus(supabase, safeId, 'verified')
+  revalidateAfterStatusChange()
 }
 
 export async function disputeStatement(id: string) {
   await assertAuthenticated()
+  const safeId = assertUuid(id)
   const supabase = getSupabaseServiceClient()
-  await updateStatementStatus(supabase, id, 'disputed')
-  revalidatePath('/admin')
+  await updateStatementStatus(supabase, safeId, 'disputed')
+  revalidateAfterStatusChange()
 }
 
 export async function removeStatement(id: string) {
   await assertAuthenticated()
+  const safeId = assertUuid(id)
   const supabase = getSupabaseServiceClient()
-  await updateStatementStatus(supabase, id, 'removed')
-  revalidatePath('/admin')
+  await updateStatementStatus(supabase, safeId, 'removed')
+  revalidateAfterStatusChange()
 }
 
 export async function triggerScan(dryRun: boolean): Promise<{

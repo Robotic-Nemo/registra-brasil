@@ -58,7 +58,7 @@ BEGIN
       'https://www.camara.leg.br/noticias/hugo-motta-eleito-presidente-camara-444-votos-fevereiro-2025',
       'news_article',
       'Brasília', 'Sessão de eleição — Câmara dos Deputados', 'hugo-motta-eleito-presidente-camara-nojo-ditadura-fevereiro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -79,7 +79,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/hugo-motta-camara-independente-nao-reparticao-planalto-2025/',
       'news_article',
       'Brasília', 'Entrevista à CNN Brasil', 'hugo-motta-camara-independente-planalto-marco-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -100,7 +100,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/04/dino-suspende-emendas-comissao-congresso-transparencia.shtml',
       'news_article',
       'Brasília', 'Decisão monocrática — STF', 'dino-suspende-emendas-comissao-congresso-abril-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -121,7 +121,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/05/dino-bloqueia-emendas-eduardo-bolsonaro-ramagem.ghtml',
       'news_article',
       'Brasília', 'Decisão monocrática — STF', 'dino-bloqueia-emendas-eduardo-ramagem-maio-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -142,7 +142,7 @@ BEGIN
       'https://www.poder360.com.br/congresso/eduardo-bolsonaro-acusa-dino-perseguicao-emendas-maio-2025/',
       'news_article',
       'Brasília', 'Vídeo nas redes sociais', 'eduardo-acusa-dino-perseguicao-emendas-maio-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -163,7 +163,7 @@ BEGIN
       'https://www.estadao.com.br/politica/dino-bloqueia-emendas-crimes-ambientais-junho-2025/',
       'news_article',
       'Brasília', 'Decisão monocrática — STF', 'dino-bloqueia-emendas-crimes-ambientais-junho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -184,7 +184,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/07/janones-suspenso-3-meses-insultos-homofobicos-nikolas.shtml',
       'news_article',
       'Brasília', 'Live nas redes sociais', 'janones-suspenso-insultos-homofobicos-nikolas-julho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -205,7 +205,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/09/nikolas-critica-alcolumbre-7-setembro-voce-nao-povo-supremo.ghtml',
       'news_article',
       'Belo Horizonte (MG)', 'Manifestação do 7 de Setembro', 'nikolas-critica-alcolumbre-7-setembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -226,7 +226,7 @@ BEGIN
       'https://www.senado.leg.br/noticias/cpmi-inss-instalada-carlos-viana-presidente-agosto-2025',
       'news_article',
       'Brasília', 'Sessão de instalação — CPMI do INSS', 'cpmi-inss-instalada-carlos-viana-presidente-agosto-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -247,7 +247,7 @@ BEGIN
       'https://www.poder360.com.br/congresso/damares-revela-igrejas-investigadas-cpmi-inss-setembro-2025/',
       'news_article',
       'Brasília', 'Sessão da CPMI do INSS', 'damares-revela-igrejas-investigadas-cpmi-inss-setembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -268,7 +268,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2026/03/cpmi-inss-relatorio-216-indiciamentos-lulinha.shtml',
       'news_article',
       'Brasília', 'Sessão da CPMI do INSS — relatório final', 'cpmi-inss-relatorio-216-indiciamentos-lulinha-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -289,7 +289,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2026/03/cpmi-inss-encerra-rejeicao-relatorio-19-12.ghtml',
       'news_article',
       'Brasília', 'Sessão de votação — CPMI do INSS', 'cpmi-inss-encerra-rejeicao-relatorio-19-12-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, true FROM ins;
@@ -310,7 +310,7 @@ BEGIN
       'https://www.estadao.com.br/politica/feliciano-cpmi-inss-decisao-politica-proteger-governo-2026/',
       'news_article',
       'Brasília', 'Plenário da Câmara dos Deputados', 'feliciano-cpmi-inss-decisao-politica-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, true FROM ins;
@@ -331,7 +331,7 @@ BEGIN
       'https://www.conjur.com.br/2025-out-08/dino-anula-quebras-sigilo-cpmi-inss/',
       'news_article',
       'Brasília', 'Decisão monocrática — STF', 'dino-anula-quebras-sigilo-cpmi-inss-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, true FROM ins;
@@ -352,7 +352,7 @@ BEGIN
       'https://www.poder360.com.br/congresso/flavio-bolsonaro-dino-sabota-cpmi-inss-outubro-2025/',
       'news_article',
       'Brasília', 'Sessão do Senado Federal', 'flavio-bolsonaro-dino-sabota-cpmi-inss-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -373,7 +373,7 @@ BEGIN
       'https://noticias.uol.com.br/politica/2026/03/gleisi-cpmi-inss-palanque-oposicao.htm',
       'news_article',
       'Brasília', 'Entrevista à TV Senado', 'gleisi-cpmi-inss-palanque-oposicao-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, true FROM ins;
@@ -394,7 +394,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/04/lira-acusa-dino-governar-orcamento-congresso.shtml',
       'news_article',
       'Brasília', 'Plenário da Câmara dos Deputados', 'lira-acusa-dino-governar-orcamento-congresso-abril-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -415,7 +415,7 @@ BEGIN
       'https://www.estadao.com.br/politica/bia-kicis-impeachment-dino-abuso-poder-maio-2025/',
       'news_article',
       'Brasília', 'Coletiva na Câmara dos Deputados', 'bia-kicis-impeachment-dino-abuso-poder-maio-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -436,7 +436,7 @@ BEGIN
       'https://www.estadao.com.br/politica/moro-pec-limitar-decisoes-monocraticas-stf-junho-2025/',
       'news_article',
       'Brasília', 'Entrevista ao Estadão', 'moro-pec-limitar-monocraticas-stf-junho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -457,7 +457,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2026/03/nikolas-acusa-governo-comprar-votos-cpmi-inss.ghtml',
       'news_article',
       'Belo Horizonte (MG)', 'Vídeo nas redes sociais', 'nikolas-governo-comprou-votos-cpmi-inss-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -478,7 +478,7 @@ BEGIN
       'https://www.poder360.com.br/congresso/alcolumbre-rebate-nikolas-senado-nao-curva-pressao-rua/',
       'news_article',
       'Brasília', 'Nota oficial — Presidência do Senado', 'alcolumbre-rebate-nikolas-senado-pressao-rua-setembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_aut, true FROM ins;
@@ -499,7 +499,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/07/renan-calheiros-dino-judicializacao-politica-orcamentaria.shtml',
       'news_article',
       'Brasília', 'Entrevista à Folha de S.Paulo', 'renan-calheiros-dino-judicializacao-orcamento-julho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -520,7 +520,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/motta-negocia-stf-emendas-saida-honrosa-agosto-2025/',
       'news_article',
       'Brasília', 'Coletiva de imprensa', 'motta-negocia-stf-emendas-saida-honrosa-agosto-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_con, true FROM ins;
@@ -541,7 +541,7 @@ BEGIN
       'https://noticias.uol.com.br/politica/2025/05/ramagem-acusa-dino-perseguicao-emendas-oposicao.htm',
       'news_article',
       'Brasília', 'Plenário da Câmara dos Deputados', 'ramagem-acusa-dino-perseguicao-emendas-maio-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -562,7 +562,7 @@ BEGIN
       'https://www.estadao.com.br/politica/romario-sigilo-eterno-emendas-transparencia-junho-2025/',
       'news_article',
       'Brasília', 'Sessão do Senado Federal', 'romario-sigilo-eterno-emendas-transparencia-junho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -583,7 +583,7 @@ BEGIN
       'https://www.poder360.com.br/congresso/janones-defende-suspensao-conselho-etica-parcial-julho-2025/',
       'news_article',
       'Brasília', 'Live nas redes sociais', 'janones-defende-suspensao-conselho-etica-parcial-julho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -604,7 +604,7 @@ BEGIN
       'https://noticias.uol.com.br/politica/2025/11/lula-cpmi-inss-circo-politico-familia.htm',
       'news_article',
       'Brasília', 'Entrevista ao UOL', 'lula-cpmi-inss-circo-politico-familia-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, true FROM ins;
@@ -625,7 +625,7 @@ BEGIN
       'https://veja.abril.com.br/politica/damares-defende-investigacao-igrejas-cpmi-inss-ameacas-outubro-2025/',
       'news_article',
       'Brasília', 'Entrevista à Veja', 'damares-defende-investigacao-igrejas-cpmi-ameacas-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_int, true FROM ins;
@@ -646,7 +646,7 @@ BEGIN
       'https://www.folha.uol.com.br/mercado/2026/01/flavio-bolsonaro-cpi-banco-master-governo.shtml',
       'news_article',
       'Brasília', 'Plenário do Senado Federal', 'flavio-bolsonaro-cpi-banco-master-janeiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -667,7 +667,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/motta-multiplicacao-cpis-paralisa-congresso-fevereiro-2026/',
       'news_article',
       'Brasília', 'Reunião de líderes na Câmara', 'motta-multiplicacao-cpis-paralisa-congresso-fevereiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -688,7 +688,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/08/nikolas-pec-proibir-monocraticas-orcamento-stf.ghtml',
       'news_article',
       'Brasília', 'Plenário da Câmara dos Deputados', 'nikolas-pec-proibir-monocraticas-orcamento-agosto-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -709,7 +709,7 @@ BEGIN
       'https://www.conjur.com.br/2025-ago-18/dino-stf-nao-intimida-pecs-congresso/',
       'news_article',
       'Brasília', 'Evento na OAB', 'dino-stf-nao-intimida-pecs-congresso-agosto-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_aut, true FROM ins;
@@ -730,7 +730,7 @@ BEGIN
       'https://www.poder360.com.br/congresso/viana-cobra-depoimento-presidente-inss-cpmi-setembro-2025/',
       'news_article',
       'Brasília', 'Sessão da CPMI do INSS', 'viana-cobra-depoimento-presidente-inss-setembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, true FROM ins;
@@ -751,7 +751,7 @@ BEGIN
       'https://www.oantagonista.com.br/brasil/moro-farra-emendas-transparencia-fachada-outubro-2025/',
       'news_article',
       'Brasília', 'Entrevista ao Antagonista', 'moro-farra-emendas-transparencia-fachada-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -772,7 +772,7 @@ BEGIN
       'https://www.estadao.com.br/politica/feliciano-dino-ativismo-judicial-combate-corrupcao-novembro-2025/',
       'news_article',
       'Brasília', 'Plenário da Câmara dos Deputados', 'feliciano-dino-ativismo-judicial-corrupcao-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -793,7 +793,7 @@ BEGIN
       'https://noticias.uol.com.br/politica/2026/03/gleisi-oposicao-cpmi-inss-destruir-reputacoes.htm',
       'news_article',
       'Brasília', 'Plenário do Senado Federal', 'gleisi-oposicao-cpmi-inss-destruir-reputacoes-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, true FROM ins;
@@ -814,7 +814,7 @@ BEGIN
       'https://www.poder360.com.br/congresso/nikolas-recall-popular-ministros-stf-dezembro-2025/',
       'news_article',
       'São Paulo', 'Evento conservador', 'nikolas-recall-popular-ministros-stf-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -835,7 +835,7 @@ BEGIN
       'https://valor.globo.com/politica/alcolumbre-engaveta-impeachment-ministros-stf-janeiro-2026/',
       'news_article',
       'Brasília', 'Entrevista ao Valor Econômico', 'alcolumbre-engaveta-impeachment-stf-janeiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, true FROM ins;
@@ -856,7 +856,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2026/01/bia-kicis-alcolumbre-cumplice-stf-impeachment.ghtml',
       'news_article',
       'Brasília', 'Plenário da Câmara dos Deputados', 'bia-kicis-alcolumbre-cumplice-stf-impeachment-janeiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -877,7 +877,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/10/motta-pacto-nao-agressao-camara-stf-outubro-2025.shtml',
       'news_article',
       'Brasília', 'Reunião entre Poderes', 'motta-pacto-nao-agressao-camara-stf-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_con, true FROM ins;
@@ -898,7 +898,7 @@ BEGIN
       'https://www.poder360.com.br/governo/bolsonaro-critica-cpmi-inss-nao-longe-suficiente-novembro-2025/',
       'news_article',
       'Brasília', 'Nota divulgada por aliados', 'bolsonaro-critica-cpmi-inss-nao-longe-suficiente-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -919,7 +919,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/10/damares-inss-maquina-roubar-velho-cpmi.ghtml',
       'news_article',
       'Brasília', 'Sessão da CPMI do INSS', 'damares-inss-maquina-roubar-velho-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -940,7 +940,7 @@ BEGIN
       'https://www.estadao.com.br/politica/flavio-bolsonaro-governo-stf-escudo-juridico-dezembro-2025/',
       'news_article',
       'Brasília', 'Sessão do Senado Federal', 'flavio-bolsonaro-stf-escudo-juridico-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -961,7 +961,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2026/02/motta-balanco-primeiro-ano-camara-independencia.shtml',
       'news_article',
       'Brasília', 'Entrevista à Folha de S.Paulo', 'motta-balanco-primeiro-ano-camara-independencia-fevereiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -982,7 +982,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/nikolas-chama-dino-ditador-togado-camara-abril-2025/',
       'news_article',
       'Brasília', 'Plenário da Câmara dos Deputados', 'nikolas-dino-ditador-togado-camara-abril-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -1003,7 +1003,7 @@ BEGIN
       'https://noticias.uol.com.br/politica/2025/10/janones-volta-mandato-suspensao-nao-calar.htm',
       'news_article',
       'Brasília', 'Live nas redes sociais', 'janones-volta-mandato-suspensao-nao-calar-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -1024,7 +1024,7 @@ BEGIN
       'https://www.conjur.com.br/2025-nov-22/dino-stf-guardiao-orcamento-publico-emendas/',
       'news_article',
       'Brasília', 'Palestra na UnB', 'dino-stf-guardiao-orcamento-publico-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -1045,7 +1045,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2026/03/viana-cpmi-inss-lembrada-farsa-politica.ghtml',
       'news_article',
       'Brasília', 'Entrevista à GloboNews', 'viana-cpmi-inss-lembrada-farsa-politica-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, true FROM ins;
@@ -1066,7 +1066,7 @@ BEGIN
       'https://www.folha.uol.com.br/mercado/2026/02/renan-calheiros-propoe-cpi-banco-master-senado.shtml',
       'news_article',
       'Brasília', 'Plenário do Senado Federal', 'renan-calheiros-propoe-cpi-banco-master-fevereiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -1087,7 +1087,7 @@ BEGIN
       'https://www.estadao.com.br/politica/motta-medidas-extremas-stf-orcamento-abril-2026/',
       'news_article',
       'Brasília', 'Reunião de líderes na Câmara', 'motta-medidas-extremas-stf-orcamento-abril-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;

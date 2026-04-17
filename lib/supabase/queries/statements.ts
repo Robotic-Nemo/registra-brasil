@@ -15,8 +15,8 @@ export async function searchStatements(
   supabase: SupabaseClient,
   params: SearchParams
 ): Promise<CuratedSearchResult> {
-  const page = params.page ?? 1
-  const limit = Math.min(params.limit ?? 20, 50)
+  const page = Math.max(1, params.page ?? 1)
+  const limit = Math.max(1, Math.min(params.limit ?? 20, 50))
   const offset = (page - 1) * limit
 
   let query = supabase
@@ -45,8 +45,14 @@ export async function searchStatements(
       .from('politicians')
       .select('id')
       .eq('slug', params.politico)
-      .single()
-    if (politician) query = query.eq('politician_id', politician.id)
+      .maybeSingle()
+    if (politician) {
+      query = query.eq('politician_id', (politician as { id: string }).id)
+    } else {
+      // Requested politician doesn't exist — return empty set instead of
+      // silently leaking all statements.
+      return { results: [], total: 0, page, hasMore: false }
+    }
   }
 
   // Validate date range

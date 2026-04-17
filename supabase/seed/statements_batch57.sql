@@ -43,7 +43,7 @@ BEGIN
       'https://www1.folha.uol.com.br/mundo/2023/04/lula-ucrania-tao-culpada-quanto-russia-guerra.shtml',
       'news_article',
       'Abu Dhabi', 'Entrevista coletiva — escala em Abu Dhabi', 'lula-ucrania-tao-culpada-quanto-russia-abril-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
@@ -58,7 +58,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2023/05/22/lula-zelensky-nao-pode-querer-tudo-guerra-mao-de-obra.ghtml',
       'news_article',
       'Brasília', 'Entrevista à GloboNews', 'lula-zelensky-mao-de-obra-maio-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
@@ -73,7 +73,7 @@ BEGIN
       'https://www1.folha.uol.com.br/mundo/2024/02/lula-compara-gaza-holocausto-genocidio-hitler.shtml',
       'news_article',
       'Adis Abeba', 'Cúpula da União Africana', 'lula-gaza-holocausto-hitler-genocidio-fevereiro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
@@ -88,7 +88,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/politica/noticia/2024-02/mauro-vieira-israel-persona-non-grata-inaceitavel',
       'news_article',
       'Brasília', 'Declaração oficial — Itamaraty', 'mauro-vieira-israel-inaceitavel-fevereiro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -103,7 +103,7 @@ BEGIN
       'https://g1.globo.com/mundo/noticia/2023/09/09/lula-putin-nao-preso-brasil-g20-tpi.ghtml',
       'news_article',
       'Nova Délhi', 'Entrevista à CNN durante G20 Índia', 'lula-putin-nao-preso-g20-tpi-setembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_ant, true FROM ins;
 
@@ -118,7 +118,7 @@ BEGIN
       'https://www1.folha.uol.com.br/mundo/2023/08/lula-brics-superar-g7-peso-economico-joanesburgo.shtml',
       'news_article',
       'Joanesburgo', 'Cúpula do BRICS 2023', 'lula-brics-superar-g7-joanesburgo-agosto-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -133,7 +133,7 @@ BEGIN
       'https://oglobo.globo.com/mundo/noticia/2024/07/lula-maduro-banho-de-sangue-voto-venezuela.ghtml',
       'news_article',
       'Brasília', 'Entrevista a TVs — Planalto', 'lula-maduro-banho-de-sangue-julho-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -148,7 +148,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/politica/noticia/2024-08/brasil-exige-atas-venezuela-mauro-vieira',
       'news_article',
       'Brasília', 'Nota conjunta — Brasil, Colômbia e México', 'mauro-vieira-atas-venezuela-agosto-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -163,7 +163,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/internacional/lula-milei-desculpas-ofensas-comunista/',
       'news_article',
       'Brasília', 'Entrevista coletiva — Planalto', 'lula-milei-desculpas-ofensas-dezembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -178,7 +178,7 @@ BEGIN
       'https://valor.globo.com/politica/noticia/2024/12/06/alckmin-mercosul-ue-maior-acordo-historia-brasil.ghtml',
       'news_article',
       'Montevidéu', 'Cúpula Mercosul — assinatura Mercosul-UE', 'alckmin-mercosul-ue-maior-acordo-historia-dezembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -193,7 +193,7 @@ BEGIN
       'https://www.gazetadopovo.com.br/republica/bolsonaro-cpac-brasil-politica-externa-lula-vergonha/',
       'news_article',
       'Balneário Camboriú', 'CPAC Brasil 2023', 'bolsonaro-cpac-politica-externa-vergonha-julho-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
@@ -208,7 +208,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/eduardo-bolsonaro-trump-sancoes-moraes-stf-lei-magnitsky/',
       'news_article',
       'Washington D.C.', 'Evento conservador — Heritage Foundation', 'eduardo-bolsonaro-trump-sancoes-stf-marco-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_ant, true FROM ins;
 
@@ -223,7 +223,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/politica/noticia/2025-02/lula-reage-tarifa-trump-reciprocidade-imediata',
       'news_article',
       'Brasília', 'Pronunciamento — Palácio do Planalto', 'lula-reage-tarifa-trump-reciprocidade-fevereiro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -238,7 +238,7 @@ BEGIN
       'https://www1.folha.uol.com.br/mundo/2024/04/mauro-vieira-palestina-onu-veto-eua-erro-historico.shtml',
       'news_article',
       'Nova York', 'Conselho de Segurança da ONU', 'mauro-vieira-palestina-onu-abril-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -253,7 +253,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/politica/noticia/2024-11/lula-xi-jinping-nova-era-parceria-estrategica',
       'news_article',
       'Brasília', 'Visita de Estado — Xi Jinping no Planalto', 'lula-xi-jinping-nova-era-novembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -268,7 +268,7 @@ BEGIN
       'https://oglobo.globo.com/politica/noticia/2024/11/lula-encerra-g20-rio-aliança-global-fome.ghtml',
       'news_article',
       'Rio de Janeiro', 'Cúpula do G20 Rio 2024', 'lula-g20-rio-alianca-fome-divisor-aguas-novembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -283,7 +283,7 @@ BEGIN
       'https://www.cartacapital.com.br/mundo/lula-embargo-cuba-crime-humanidade-havana/',
       'news_article',
       'Havana', 'Cúpula do G77+China', 'lula-embargo-cuba-crime-humanidade-setembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -298,7 +298,7 @@ BEGIN
       'https://g1.globo.com/mundo/noticia/2024/12/08/lula-ironiza-milei-motosserra-argentina.ghtml',
       'news_article',
       'Brasília', 'Entrevista coletiva', 'lula-ironiza-milei-motosserra-dezembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
@@ -313,7 +313,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/meio-ambiente/noticia/2023-12/marina-silva-cop28-combustiveis-fosseis',
       'news_article',
       'Dubai', 'COP28', 'marina-cop28-combustiveis-fosseis-dezembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -328,7 +328,7 @@ BEGIN
       'https://www1.folha.uol.com.br/mercado/2023/08/lula-moeda-brics-dolar-dependencia-joanesburgo.shtml',
       'news_article',
       'Joanesburgo', 'Cúpula do BRICS 2023', 'lula-moeda-brics-dolar-agosto-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -343,7 +343,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/politica/noticia/2023-08/lula-pede-perdao-africa-escravidao-reparacao',
       'news_article',
       'São Tomé', 'Discurso em São Tomé e Príncipe', 'lula-pede-perdao-africa-escravidao-agosto-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -358,7 +358,7 @@ BEGIN
       'https://g1.globo.com/mundo/noticia/2023/10/27/mauro-vieira-onu-israel-cessar-fogo-direito-internacional.ghtml',
       'news_article',
       'Nova York', 'Assembleia Geral da ONU', 'mauro-vieira-onu-cessar-fogo-outubro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -373,7 +373,7 @@ BEGIN
       'https://valor.globo.com/financas/noticia/2023/11/24/dilma-novo-banco-brics-moedas-locais.ghtml',
       'news_article',
       'Xangai', 'Sede do NDB — entrevista', 'dilma-ndb-moedas-locais-novembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -388,7 +388,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/economia/alckmin-retaliacao-trump-tarifas-aco-lista/',
       'news_article',
       'Brasília', 'Coletiva — Mdic', 'alckmin-retaliacao-trump-tarifas-aco-marco-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -403,7 +403,7 @@ BEGIN
       'https://www1.folha.uol.com.br/ambiente/2025/11/marina-silva-cop30-belem-ultima-chance-1-5-graus.shtml',
       'news_article',
       'Belém', 'Abertura oficial da COP30', 'marina-cop30-ultima-chance-belem-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -418,7 +418,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/11/12/lula-cop30-belem-petroleo-margem-equatorial-transicao.ghtml',
       'news_article',
       'Belém', 'Plenário da COP30', 'lula-cop30-petroleo-margem-equatorial-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
@@ -433,7 +433,7 @@ BEGIN
       'https://www.gazetadopovo.com.br/republica/bolsonaro-lula-abraca-ditadores-politica-externa/',
       'news_article',
       'Brasília', 'Executiva Nacional do PL', 'bolsonaro-lula-abraca-ditadores-novembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
@@ -448,7 +448,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/politica/noticia/2024-06/lula-eleva-representacao-palestina-embaixador-israel',
       'news_article',
       'Brasília', 'Pronunciamento — Planalto', 'lula-eleva-representacao-palestina-junho-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -463,7 +463,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/politica/noticia/2024-05/lula-pena-itaipu-tarifa-novo-acordo',
       'news_article',
       'Foz do Iguaçu', 'Usina de Itaipu — cerimônia', 'lula-pena-itaipu-novo-acordo-maio-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -478,7 +478,7 @@ BEGIN
       'https://www.cartacapital.com.br/mundo/lula-torce-derrota-milei-argentina-2026/',
       'news_article',
       'Buenos Aires', 'Entrevista a jornal argentino', 'lula-torce-derrota-milei-marco-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -493,7 +493,7 @@ BEGIN
       'https://www.estadao.com.br/politica/temer-politica-externa-lula-despreza-aliados-tradicionais/',
       'news_article',
       'São Paulo', 'Entrevista ao Estadão', 'temer-politica-externa-despreza-aliados-setembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
@@ -508,7 +508,7 @@ BEGIN
       'https://www1.folha.uol.com.br/mundo/2023/05/fhc-critica-lula-ucrania-terceiro-mundismo.shtml',
       'news_article',
       'São Paulo', 'Entrevista à Folha de S.Paulo', 'fhc-critica-lula-ucrania-terceiro-mundismo-maio-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
@@ -523,7 +523,7 @@ BEGIN
       'https://oglobo.globo.com/politica/noticia/2025/11/mauro-vieira-paises-ricos-trapaceando-financiamento-climatico.ghtml',
       'news_article',
       'Brasília', 'Coletiva pré-COP30 — Itamaraty', 'mauro-vieira-paises-ricos-trapaceando-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -538,7 +538,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2026/02/lula-gafe-ita-seguranca-publica-nao-e-problema-presidente.shtml',
       'news_article',
       'São José dos Campos', 'Discurso no ITA', 'lula-ita-seguranca-nao-e-problema-presidente-fevereiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -553,7 +553,7 @@ BEGIN
       'https://valor.globo.com/empresas/noticia/2025/04/08/alckmin-china-fabrica-semicondutores-brasil.ghtml',
       'news_article',
       'Campinas', 'Coletiva — Unicamp', 'alckmin-china-fabrica-semicondutores-abril-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -568,7 +568,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2024/06/10/lula-nao-enviar-suica-ucrania-russia-presente.ghtml',
       'news_article',
       'Brasília', 'Entrevista coletiva', 'lula-nao-envia-suica-ucrania-russia-junho-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
@@ -583,7 +583,7 @@ BEGIN
       'https://www.poder360.com.br/politica/eduardo-bolsonaro-pode-pedir-asilo-eua-stf-perseguicao/',
       'news_article',
       'Washington D.C.', 'Entrevista à imprensa brasileira', 'eduardo-bolsonaro-asilo-eua-stf-abril-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_ant, true FROM ins;
 
@@ -598,7 +598,7 @@ BEGIN
       'https://www1.folha.uol.com.br/mundo/2024/09/mauro-vieira-venezuela-atas-apuracao-opaca.shtml',
       'news_article',
       'Brasília', 'Coletiva — Itamaraty', 'mauro-vieira-venezuela-apuracao-opaca-setembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -613,7 +613,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/economia/noticia/2024-07/haddad-g20-taxacao-super-ricos-passo-civilizatorio',
       'news_article',
       'Rio de Janeiro', 'G20 Finanças — coletiva', 'haddad-g20-super-ricos-civilizatorio-julho-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -628,7 +628,7 @@ BEGIN
       'https://www.gazetadopovo.com.br/republica/bolsonaro-celebra-trump-mundo-livre-socialismo-lula/',
       'news_article',
       'Brasília', 'Transmissão ao vivo', 'bolsonaro-celebra-trump-mundo-livre-novembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
@@ -643,7 +643,7 @@ BEGIN
       'https://g1.globo.com/mundo/noticia/2025/01/15/lula-trump-perigoso-extrema-direita-ameaca-democracia.ghtml',
       'news_article',
       'Brasília', 'Entrevista à BBC', 'lula-trump-perigoso-extrema-direita-janeiro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -658,7 +658,7 @@ BEGIN
       'https://valor.globo.com/financas/noticia/2024/06/20/mercadante-bndes-ndb-brics-cooperacao-clima.ghtml',
       'news_article',
       'Xangai', 'Sede do NDB', 'mercadante-bndes-ndb-brics-cooperacao-junho-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -673,7 +673,7 @@ BEGIN
       'https://oglobo.globo.com/mundo/noticia/2024/03/lula-evita-criticar-ortega-nicaragua-julgar.ghtml',
       'news_article',
       'Brasília', 'Entrevista coletiva', 'lula-evita-criticar-ortega-nicaragua-marco-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
@@ -688,7 +688,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/economia/noticia/2024-05/alckmin-japao-hidrogenio-verde-semicondutores',
       'news_article',
       'Tóquio', 'Cerimônia em Tóquio', 'alckmin-japao-hidrogenio-verde-maio-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -703,7 +703,7 @@ BEGIN
       'https://www1.folha.uol.com.br/mundo/2023/10/lula-maduro-nao-pode-ser-tratado-como-monstro-fabricada.shtml',
       'news_article',
       'Brasília', 'Entrevista coletiva', 'lula-maduro-nao-e-monstro-outubro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
@@ -718,7 +718,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/politica/noticia/2025-07/mauro-vieira-brics-rio-saude-ia-clima',
       'news_article',
       'Rio de Janeiro', 'Cúpula do BRICS 2025', 'mauro-vieira-brics-rio-saude-ia-clima-julho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -733,7 +733,7 @@ BEGIN
       'https://g1.globo.com/mundo/noticia/2023/12/07/lula-venezuela-guiana-essequibo-nao-queremos-guerra.ghtml',
       'news_article',
       'Brasília', 'Coletiva — Planalto', 'lula-essequibo-nao-queremos-guerra-dezembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -748,7 +748,7 @@ BEGIN
       'https://valor.globo.com/politica/noticia/2024/12/02/haddad-trump-dolar-nao-aceita-chantagem-brics.ghtml',
       'news_article',
       'Brasília', 'Coletiva — Ministério da Fazenda', 'haddad-trump-dolar-nao-aceita-chantagem-dezembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -763,7 +763,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/politica/noticia/2026-01/lula-propoe-cupula-africa-america-sul-gana',
       'news_article',
       'Acra', 'Visita de Estado a Gana', 'lula-cupula-africa-america-sul-gana-janeiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
@@ -778,7 +778,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2026/04/mauro-vieira-eduardo-bolsonaro-interferencia-ilegal-eua-eleicao-2026.shtml',
       'news_article',
       'Brasília', 'Coletiva — Itamaraty', 'mauro-vieira-denuncia-eduardo-eua-eleicao-abril-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_ant, true FROM ins;
 

@@ -58,7 +58,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/09/bolsonaro-condenado-stf-27-anos-golpe.shtml',
       'news_article',
       'Brasília', 'Julgamento STF — condenação golpe', 'bolsonaro-condenacao-27-anos-ditadura-togada-set-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -79,7 +79,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/09/bolsonaro-nega-golpe-provas-fabricadas-wassef.ghtml',
       'news_article',
       'Brasília', 'Coletiva Frederick Wassef', 'bolsonaro-nega-golpe-provas-fabricadas-set-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -100,7 +100,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/bolsonaro-compara-condenacao-venezuela-nicaragua/',
       'news_article',
       'Brasília', 'Áudio vazado a aliados', 'bolsonaro-compara-venezuela-nicaragua-set-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -121,7 +121,7 @@ BEGIN
       'https://www.poder360.com.br/justica/wassef-anuncia-recurso-corte-interamericana-bolsonaro/',
       'news_article',
       'Brasília', 'Coletiva de imprensa — defesa Bolsonaro', 'wassef-recurso-corte-interamericana-set-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, true FROM ins;
@@ -142,7 +142,7 @@ BEGIN
       'https://www.uol.com.br/noticias/politica/2025/09/ramagem-condenado-16-anos-stf-golpe.htm',
       'news_article',
       'Brasília', 'Julgamento STF — condenação Ramagem', 'ramagem-condenado-16-anos-lealdade-set-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -163,7 +163,7 @@ BEGIN
       'https://www.estadao.com.br/politica/eduardo-bolsonaro-mandato-remoto-eua-perseguicao/',
       'news_article',
       'Washington D.C.', 'Requerimento à Câmara dos Deputados', 'eduardo-mandato-remoto-eua-perseguicao-set-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -184,7 +184,7 @@ BEGIN
       'https://www.cartacapital.com.br/politica/eduardo-bolsonaro-show-midiatico-condenacao-pai/',
       'social_media_post',
       'Redes sociais', 'Post em redes sociais', 'eduardo-show-midiatico-condenacao-set-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -205,7 +205,7 @@ BEGIN
       'https://jovempan.uol.com.br/noticias/politica/flavio-bolsonaro-promete-reverter-condenacao-pai.html',
       'news_article',
       'São Paulo', 'Jovem Pan — entrevista', 'flavio-reverter-condenacao-pai-set-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -226,7 +226,7 @@ BEGIN
       'https://www.uol.com.br/noticias/politica/2025/09/carlos-bolsonaro-lawfare-stf-familia.htm',
       'social_media_post',
       'Redes sociais', 'Post no X', 'carlos-bolsonaro-lawfare-stf-familia-set-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -247,7 +247,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/09/michelle-bolsonaro-video-preso-politico-oracoes.shtml',
       'social_media_post',
       'Redes sociais', 'Vídeo no Instagram', 'michelle-video-preso-politico-oracoes-set-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -268,7 +268,7 @@ BEGIN
       'https://www.poder360.com.br/congresso/nikolas-ferreira-erro-judiciario-bolsonaro-condenacao/',
       'news_article',
       'Brasília', 'Tribuna da Câmara dos Deputados', 'nikolas-erro-judiciario-bolsonaro-set-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -289,7 +289,7 @@ BEGIN
       'https://www.gospelprime.com.br/damares-bolsonaro-martir-liberdade-culto/',
       'news_article',
       'Brasília', 'Culto evangélico', 'damares-bolsonaro-martir-liberdade-set-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -310,7 +310,7 @@ BEGIN
       'https://www.metropoles.com/brasil/bia-kicis-convoca-manifestacoes-stf-bolsonaro',
       'social_media_post',
       'Redes sociais', 'Vídeo convocatório', 'bia-kicis-convoca-manifestacoes-stf-set-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -331,7 +331,7 @@ BEGIN
       'https://www.uol.com.br/noticias/politica/2025/09/feliciano-deus-julgara-ministros-stf-bolsonaro.htm',
       'news_article',
       'São Paulo', 'Culto evangélico', 'feliciano-deus-julgara-ministros-stf-set-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_int, true FROM ins;
@@ -352,7 +352,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/09/mourao-condenacao-bolsonaro-desproporcional-instituicoes.ghtml',
       'news_article',
       'Brasília', 'GloboNews — entrevista', 'mourao-condenacao-desproporcional-instituicoes-set-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -373,7 +373,7 @@ BEGIN
       'https://www.pt.org.br/gleisi-condenacao-bolsonaro-democracia-venceu/',
       'news_article',
       'Brasília', 'Nota oficial do PT', 'gleisi-democracia-venceu-condenacao-set-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -394,7 +394,7 @@ BEGIN
       'https://www.conjur.com.br/2025-set-11/flavio-dino-voto-condenacao-bolsonaro-golpe/',
       'news_article',
       'Brasília', 'Julgamento STF — plenário', 'dino-voto-condenacao-bolsonaro-golpe-set-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -415,7 +415,7 @@ BEGIN
       'https://agenciabrasil.ebc.com.br/politica/noticia/2025-09/lula-condenacao-bolsonaro-ninguem-acima-lei',
       'news_article',
       'Brasília', 'Palácio do Planalto — coletiva', 'lula-ninguem-acima-lei-condenacao-set-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -436,7 +436,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/11/bolsonaro-chega-pf-cumprimento-pena-preso-politico.shtml',
       'news_article',
       'Brasília', 'Sede da Polícia Federal', 'bolsonaro-chega-pf-preso-politico-heroi-nov-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -457,7 +457,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/bolsonaro-reclama-condicoes-pf-tratamento-desumano/',
       'news_article',
       'Brasília', 'Sede da Polícia Federal — visita advogados', 'bolsonaro-condicoes-pf-desumanas-dez-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -478,7 +478,7 @@ BEGIN
       'https://www.estadao.com.br/politica/zambelli-condenada-10-anos-invasao-cnj-stf/',
       'news_article',
       'Brasília', 'Julgamento STF — Zambelli', 'zambelli-condenada-cnj-perseguicao-mai-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, true FROM ins;
@@ -499,7 +499,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/07/zambelli-italia-exilio-perseguicao.ghtml',
       'social_media_post',
       'Itália', 'Vídeo em redes sociais', 'zambelli-italia-exilio-perseguicao-jul-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, true FROM ins;
@@ -520,7 +520,7 @@ BEGIN
       'https://www.poder360.com.br/justica/zambelli-condenada-5-anos-arma-fogo-stf/',
       'news_article',
       'Brasília', 'Julgamento STF — segunda condenação Zambelli', 'zambelli-condenada-arma-5-anos-ago-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, true FROM ins;
@@ -541,7 +541,7 @@ BEGIN
       'https://www.metropoles.com/brasil/zambelli-mandato-anulado-morte-civil-opositora',
       'news_article',
       'Itália', 'Carta aberta', 'zambelli-mandato-anulado-morte-civil-dez-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -562,7 +562,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2026/03/zambelli-extraditada-italia-brasil.shtml',
       'news_article',
       'Roma', 'Aeroporto de Roma — extradição', 'zambelli-extraditada-italia-pressao-lula-mar-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, true FROM ins;
@@ -583,7 +583,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/ramagem-foge-eua-refugiado-politico-mandato-cassado/',
       'social_media_post',
       'Estados Unidos', 'Vídeo em redes sociais', 'ramagem-foge-eua-refugiado-politico-dez-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, true FROM ins;
@@ -604,7 +604,7 @@ BEGIN
       'https://www.uol.com.br/noticias/politica/2026/04/ramagem-preso-ice-eua-asilo-politico.htm',
       'news_article',
       'Estados Unidos', 'Detenção pelo ICE', 'ramagem-preso-ice-eua-asilo-abr-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, true FROM ins;
@@ -625,7 +625,7 @@ BEGIN
       'https://www.estadao.com.br/politica/daniel-silveira-stf-nega-progressao-regime-marco-2025/',
       'news_article',
       'Rio de Janeiro', 'Carta do presídio', 'silveira-stf-nega-progressao-vinganca-mar-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, true FROM ins;
@@ -646,7 +646,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/09/daniel-silveira-regime-aberto-liberdade-expressao.ghtml',
       'news_article',
       'Rio de Janeiro', 'Saída do presídio', 'silveira-regime-aberto-liberdade-expressao-set-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -667,7 +667,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2026/01/bolsonaro-transferido-papudinha-humilhacao.shtml',
       'news_article',
       'Brasília', 'Presídio Papudinha', 'bolsonaro-papudinha-humilhacao-jan-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -688,7 +688,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/bolsonaro-hospitalizado-broncopneumonia-presidio/',
       'news_article',
       'Brasília', 'Hospital militar', 'bolsonaro-hospitalizado-broncopneumonia-tortura-mar-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -709,7 +709,7 @@ BEGIN
       'https://www.poder360.com.br/justica/wassef-pede-domiciliar-bolsonaro-saude-risco-vida/',
       'news_article',
       'Brasília', 'Petição ao STF', 'wassef-domiciliar-bolsonaro-saude-risco-mar-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, true FROM ins;
@@ -730,7 +730,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2026/04/bolsonaro-prisao-domiciliar-tornozeleira-stf.shtml',
       'news_article',
       'Brasília', 'Decisão STF — prisão domiciliar', 'bolsonaro-domiciliar-tornozeleira-luta-continua-abr-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -751,7 +751,7 @@ BEGIN
       'https://www.uol.com.br/noticias/politica/2026/04/michelle-tornozeleira-simbolo-perseguicao.htm',
       'social_media_post',
       'Brasília', 'Live no Instagram', 'michelle-tornozeleira-simbolo-perseguicao-abr-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -772,7 +772,7 @@ BEGIN
       'https://www.metropoles.com/brasil/eduardo-bolsonaro-condenacao-fortaleceu-direita-2026',
       'news_article',
       'Estados Unidos', 'Podcast conservador', 'eduardo-condenacao-fortaleceu-direita-2026-out-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -793,7 +793,7 @@ BEGIN
       'https://www.estadao.com.br/politica/nikolas-ferreira-cpi-stf-abusos-sistematicos/',
       'news_article',
       'Brasília', 'Câmara dos Deputados', 'nikolas-cpi-stf-abusos-sistematicos-out-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -814,7 +814,7 @@ BEGIN
       'https://www.poder360.com.br/governo/bolsonaro-carta-prisao-brasileiros-nao-desistam/',
       'news_article',
       'Brasília', 'Carta da prisão', 'bolsonaro-carta-prisao-nao-desistam-fev-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -835,7 +835,7 @@ BEGIN
       'https://www.cartacapital.com.br/politica/flavio-compara-bolsonaro-mandela-preso-politico/',
       'news_article',
       'Rio de Janeiro', 'Ato de apoio a Bolsonaro', 'flavio-bolsonaro-mandela-preso-politico-nov-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -856,7 +856,7 @@ BEGIN
       'https://www.uol.com.br/noticias/politica/2026/03/bolsonaro-acusa-governo-querer-mata-lo-prisao.htm',
       'news_article',
       'Brasília', 'Hospital militar — visita advogados', 'bolsonaro-acusa-governo-matar-prisao-mar-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -877,7 +877,7 @@ BEGIN
       'https://www.metropoles.com/brasil/bia-kicis-brasil-virou-cuba-bolsonaro-preso',
       'news_article',
       'Brasília', 'Câmara dos Deputados — plenário', 'bia-kicis-brasil-cuba-bolsonaro-preso-out-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -898,7 +898,7 @@ BEGIN
       'https://www.gospelprime.com.br/damares-vigilias-oracao-bolsonaro-guerra-espiritual/',
       'social_media_post',
       'Brasília', 'Vídeo convocatório', 'damares-vigilias-oracao-bolsonaro-dez-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -919,7 +919,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/bolsonaro-tornozeleira-medalha-honra-resistencia/',
       'news_article',
       'Brasília', 'Áudio vazado', 'bolsonaro-tornozeleira-medalha-honra-abr-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_neg, true FROM ins;
@@ -940,7 +940,7 @@ BEGIN
       'https://www.estadao.com.br/politica/eduardo-bolsonaro-pede-sancoes-eua-brasil-ditadura/',
       'news_article',
       'Washington D.C.', 'Entrevista Fox News', 'eduardo-pede-sancoes-eua-brasil-out-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -961,7 +961,7 @@ BEGIN
       'https://www.poder360.com.br/congresso/flavio-defende-anistia-total-8-janeiro-bolsonaro/',
       'news_article',
       'Brasília', 'Senado Federal — plenário', 'flavio-anistia-total-8-janeiro-nov-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, true FROM ins;
@@ -982,7 +982,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2026/01/bolsonaro-nunca-pedir-perdao-crime-nenhum.ghtml',
       'news_article',
       'Brasília', 'Declaração via advogados', 'bolsonaro-nunca-pedir-perdao-jan-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_neg, true FROM ins;
@@ -1003,7 +1003,7 @@ BEGIN
       'https://www.cartacapital.com.br/politica/carlos-bolsonaro-ameaca-documentos-stf-conspiração/',
       'social_media_post',
       'Redes sociais', 'Post no X', 'carlos-ameaca-documentos-stf-conspiracao-nov-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_int, true FROM ins;
@@ -1024,7 +1024,7 @@ BEGIN
       'https://jovenpan.uol.com.br/noticias/politica/bolsonaro-moraes-juiz-promotor-carrasco-carta.html',
       'news_article',
       'Brasília', 'Carta lida por Flávio na Jovem Pan', 'bolsonaro-moraes-juiz-promotor-carrasco-fev-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_aut, true FROM ins;
@@ -1045,7 +1045,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/12/ramagem-mandato-cassado-perseguicao-direita.shtml',
       'news_article',
       'Estados Unidos', 'Nota via assessoria', 'ramagem-mandato-cassado-perseguicao-dez-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -1066,7 +1066,7 @@ BEGIN
       'https://www.estadao.com.br/politica/zambelli-cassada-tre-sp-golpe-judicial-mulheres/',
       'news_article',
       'São Paulo', 'Julgamento TRE-SP', 'zambelli-cassada-tre-sp-golpe-judicial-jan-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, true FROM ins;
@@ -1087,7 +1087,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2026/04/bolsonaro-liderar-direita-prisao-domiciliar.ghtml',
       'news_article',
       'Brasília', 'Áudio a lideranças do PL', 'bolsonaro-liderar-direita-domiciliar-abr-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_aut, true FROM ins;

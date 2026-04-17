@@ -51,7 +51,7 @@ BEGIN
       'https://www.conjur.com.br/2023-fev-15/moraes-defende-inquerito-fake-news-stf/',
       'news_article',
       'Brasília', 'Sessão plenária STF', 'moraes-defende-inquerito-fake-news-fevereiro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -72,7 +72,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2023/04/12/moraes-8-janeiro-tentativa-golpe.ghtml',
       'news_article',
       'Brasília', 'Julgamento 8 de janeiro', 'moraes-8-janeiro-tentativa-golpe-abril-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -93,7 +93,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2024/08/moraes-determina-bloqueio-do-x-no-brasil.shtml',
       'news_article',
       'Brasília', 'Decisão STF caso X/Musk', 'moraes-bloqueio-x-twitter-agosto-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -114,7 +114,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/moraes-elon-musk-desrespeito-criminoso-abril-2024/',
       'news_article',
       'Brasília', 'Reação a Elon Musk', 'moraes-musk-desrespeito-criminoso-abril-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -135,7 +135,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/07/21/moraes-prisao-domiciliar-bolsonaro.ghtml',
       'news_article',
       'Brasília', 'Decisão STF - Inquérito do Golpe', 'moraes-prisao-domiciliar-bolsonaro-julho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -156,7 +156,7 @@ BEGIN
       'https://www.poder360.com.br/justica/moraes-sancoes-magnitsky-agosto-2025/',
       'news_article',
       'Brasília', 'Reação a sanções dos EUA', 'moraes-sancoes-magnitsky-agosto-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -177,7 +177,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/09/moraes-vota-condenacao-bolsonaro-golpe.shtml',
       'news_article',
       'Brasília', 'Julgamento AP 2668 - Trama Golpista', 'moraes-voto-condenacao-bolsonaro-setembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -198,7 +198,7 @@ BEGIN
       'https://www.estadao.com.br/politica/moraes-milicias-digitais-tse-fevereiro-2024/',
       'news_article',
       'Brasília', 'Abertura Ano Judiciário TSE', 'moraes-milicias-digitais-fevereiro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -219,7 +219,7 @@ BEGIN
       'https://www.jota.info/stf/moraes-pec-sagas-separacao-poderes-setembro-2024',
       'news_article',
       'São Paulo', 'Evento FGV Direito', 'moraes-pec-retaliacao-stf-setembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -240,7 +240,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/11/22/moraes-prisao-preventiva-bolsonaro-tornozeleira.ghtml',
       'news_article',
       'Brasília', 'Decisão STF - Inquérito do Golpe', 'moraes-prisao-preventiva-bolsonaro-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -261,7 +261,7 @@ BEGIN
       'https://www.conjur.com.br/2023-mar-22/gilmar-lava-jato-maior-escandalo-judicial/',
       'news_article',
       'Brasília', 'Entrevista', 'gilmar-lava-jato-escandalo-judicial-marco-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -282,7 +282,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2024/05/gilmar-moro-militante-politico-juiz.shtml',
       'news_article',
       'Brasília', 'Comentário sobre Moro', 'gilmar-moro-militante-politico-maio-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -303,7 +303,7 @@ BEGIN
       'https://www.jota.info/justica/gilmar-cpmi-inss-uso-politico-outubro-2025',
       'news_article',
       'Brasília', 'Evento IDP', 'gilmar-cpmi-inss-uso-politico-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -324,7 +324,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/gilmar-regulamentacao-fake-news-marco-civil-junho-2024/',
       'news_article',
       'Brasília', 'Julgamento Marco Civil da Internet', 'gilmar-regulamentacao-fake-news-junho-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -345,7 +345,7 @@ BEGIN
       'https://www.estadao.com.br/politica/gilmar-reforma-prisional-encarceramento-julho-2023/',
       'news_article',
       'Brasília', 'Audiência Pública STF', 'gilmar-reforma-prisional-encarceramento-julho-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -366,7 +366,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/09/11/gilmar-voto-bolsonaro-golpe-mais-grave-1964.ghtml',
       'news_article',
       'Brasília', 'Julgamento AP 2668', 'gilmar-voto-bolsonaro-golpe-grave-1964-setembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -387,7 +387,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2023/07/barroso-derrotamos-bolsonarismo-une.shtml',
       'news_article',
       'Brasília', 'Evento UNE', 'barroso-derrotamos-bolsonarismo-julho-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_con, true FROM ins;
@@ -408,7 +408,7 @@ BEGIN
       'https://www.conjur.com.br/2024-ago-01/barroso-stf-nao-recuara-congresso/',
       'news_article',
       'Brasília', 'Abertura do ano judiciário', 'barroso-stf-nao-recuara-agosto-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -429,7 +429,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/barroso-direitos-lgbtqia-panico-moral-outubro-2023/',
       'news_article',
       'Rio de Janeiro', 'Evento Direitos Humanos', 'barroso-direitos-lgbtqia-outubro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, true FROM ins;
@@ -450,7 +450,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2023/09/22/barroso-aborto-saude-publica-stf.ghtml',
       'news_article',
       'Brasília', 'Julgamento STF - Aborto', 'barroso-aborto-saude-publica-setembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -471,7 +471,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2023/09/toffoli-anula-provas-odebrecht-lava-jato-armacao.shtml',
       'news_article',
       'Brasília', 'Decisão STF - Odebrecht', 'toffoli-anula-provas-odebrecht-setembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_con, true FROM ins;
@@ -492,7 +492,7 @@ BEGIN
       'https://www.estadao.com.br/politica/toffoli-condenacoes-lula-erro-judicial-agosto-2023/',
       'news_article',
       'Brasília', 'Decisão STF - Habeas Corpus', 'toffoli-lula-erro-judicial-agosto-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_con, true FROM ins;
@@ -513,7 +513,7 @@ BEGIN
       'https://www.poder360.com.br/justica/toffoli-suspende-colaboracao-jf-abril-2024/',
       'news_article',
       'Brasília', 'Decisão STF - J&F', 'toffoli-suspende-jf-abril-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_con, true FROM ins;
@@ -534,7 +534,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/toffoli-moro-criminoso-toga-outubro-2023/',
       'news_article',
       'Brasília', 'Decisão STF', 'toffoli-moro-criminoso-toga-outubro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -555,7 +555,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2024/09/30/carmen-lucia-posse-presidente-stf.ghtml',
       'news_article',
       'Brasília', 'Posse Presidência STF', 'carmen-lucia-posse-presidente-stf-setembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -576,7 +576,7 @@ BEGIN
       'https://www.agenciabrasil.ebc.com.br/justica/noticia/2025-03/carmen-lucia-violencia-mulher-crime-estado',
       'news_article',
       'Brasília', 'Evento CNJ Dia da Mulher', 'carmen-lucia-violencia-mulher-crime-estado-marco-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mac, true FROM ins;
@@ -597,7 +597,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2024/11/carmen-pec-senado-equilibrio-constitucional.shtml',
       'news_article',
       'Brasília', 'Declaração à imprensa', 'carmen-lucia-pec-senado-equilibrio-novembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -618,7 +618,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/09/10/carmen-lucia-condenacao-bolsonaro-democracia-golpistas.ghtml',
       'news_article',
       'Brasília', 'Julgamento AP 2668', 'carmen-lucia-condenacao-bolsonaro-setembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -639,7 +639,7 @@ BEGIN
       'https://www.estadao.com.br/politica/carmen-lucia-pacto-democracia-motta-alcolumbre-marco-2026/',
       'news_article',
       'Brasília', 'Reunião cúpula dos Poderes', 'carmen-pacto-democracia-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -660,7 +660,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/fux-absolve-bolsonaro-golpe-setembro-2025/',
       'news_article',
       'Brasília', 'Julgamento AP 2668', 'fux-absolvicao-parcial-bolsonaro-setembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -681,7 +681,7 @@ BEGIN
       'https://www.jota.info/stf/fux-transparencia-emendas-agosto-2024',
       'news_article',
       'Brasília', 'Julgamento STF - Emendas', 'fux-emendas-transparencia-agosto-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -702,7 +702,7 @@ BEGIN
       'https://www.conjur.com.br/2024-fev-28/fux-arcabouco-fiscal-populismo-orcamentario/',
       'news_article',
       'Brasília', 'Julgamento STF - Arcabouço Fiscal', 'fux-arcabouco-fiscal-fevereiro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -723,7 +723,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2023/08/fachin-urnas-patrimonio-democracia-tse.shtml',
       'news_article',
       'Brasília', 'Despedida TSE', 'fachin-urnas-patrimonio-democracia-agosto-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_neg, true FROM ins;
@@ -744,7 +744,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2023/06/30/fachin-inelegibilidade-bolsonaro-embaixadores.ghtml',
       'news_article',
       'Brasília', 'TSE - Julgamento Inelegibilidade', 'fachin-inelegibilidade-bolsonaro-junho-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -765,7 +765,7 @@ BEGIN
       'https://www.agenciabrasil.ebc.com.br/justica/noticia/2024-01/fachin-8-janeiro-resposta-civilizacional',
       'news_article',
       'Brasília', 'Evento 1 ano do 8 de janeiro', 'fachin-8-janeiro-civilizacional-janeiro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -786,7 +786,7 @@ BEGIN
       'https://www.poder360.com.br/justica/nunes-marques-absolve-bolsonaro-setembro-2025/',
       'news_article',
       'Brasília', 'Julgamento AP 2668', 'nunes-marques-absolve-bolsonaro-setembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_neg, true FROM ins;
@@ -807,7 +807,7 @@ BEGIN
       'https://www.conjur.com.br/2024-abr-22/nunes-marques-contra-restricao-armas-stf/',
       'news_article',
       'Brasília', 'Julgamento STF - Decreto de Armas', 'nunes-marques-contra-restricao-armas-abril-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_vio, true FROM ins;
@@ -828,7 +828,7 @@ BEGIN
       'https://www.estadao.com.br/politica/nunes-marques-prisao-segunda-instancia-julho-2023/',
       'news_article',
       'Brasília', 'Entrevista', 'nunes-marques-prisao-segunda-instancia-julho-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -849,7 +849,7 @@ BEGIN
       'https://www.folha.uol.com.br/ambiente/2023/09/mendonca-marco-temporal-stf.shtml',
       'news_article',
       'Brasília', 'Julgamento STF - Marco Temporal', 'mendonca-marco-temporal-setembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -870,7 +870,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2023/09/22/mendonca-aborto-vida-concepcao-stf.ghtml',
       'news_article',
       'Brasília', 'Julgamento STF - Aborto', 'mendonca-aborto-vida-concepcao-setembro-2023'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -891,7 +891,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/mendonca-absolve-aliados-bolsonaro-outubro-2025/',
       'news_article',
       'Brasília', 'Julgamento STF - Réus Golpe', 'mendonca-absolve-aliados-golpe-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_neg, true FROM ins;
@@ -912,7 +912,7 @@ BEGIN
       'https://www.jota.info/stf/zanin-nega-suspeicao-lula-maio-2024',
       'news_article',
       'Brasília', 'Declaração pública', 'zanin-nega-suspeicao-lula-maio-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_con, true FROM ins;
@@ -933,7 +933,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2025/09/11/zanin-acompanha-moraes-condenacao-bolsonaro.ghtml',
       'news_article',
       'Brasília', 'Julgamento AP 2668', 'zanin-condenacao-bolsonaro-setembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -954,7 +954,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/11/zanin-obstrucao-sistematica-golpe.shtml',
       'news_article',
       'Brasília', 'Declaração à imprensa', 'zanin-obstrucao-sistematica-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, true FROM ins;
@@ -975,7 +975,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2024/08/14/dino-bloqueia-emendas-pix-transparencia.ghtml',
       'news_article',
       'Brasília', 'Decisão STF - Emendas Pix', 'dino-bloqueia-emendas-pix-agosto-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -996,7 +996,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/dino-congresso-captura-orcamento-corrupcao-setembro-2024/',
       'news_article',
       'Brasília', 'Sessão STF', 'dino-congresso-captura-orcamento-setembro-2024'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_cor, true FROM ins;
@@ -1017,7 +1017,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/09/dino-vota-condenacao-bolsonaro-golpismo-anistia.shtml',
       'news_article',
       'Brasília', 'Julgamento AP 2668', 'dino-condenacao-bolsonaro-anistia-setembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -1038,7 +1038,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/moraes-eleicao-2026-extremismo-digital-fevereiro-2026/',
       'news_article',
       'Brasília', 'Abertura Ano Judiciário TSE', 'moraes-eleicao-2026-extremismo-digital-fevereiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1059,7 +1059,7 @@ BEGIN
       'https://www.estadao.com.br/politica/gilmar-anistia-golpistas-inconstitucional-marco-2026/',
       'news_article',
       'Brasília', 'Evento jurídico', 'gilmar-anistia-golpistas-inconstitucional-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -1080,7 +1080,7 @@ BEGIN
       'https://www.agenciabrasil.ebc.com.br/direitos-humanos/noticia/2025-11/carmen-lucia-feminicidio-genocidio-silencioso',
       'news_article',
       'Brasília', 'Dia Internacional Não Violência Mulher', 'carmen-lucia-feminicidio-genocidio-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mac, true FROM ins;

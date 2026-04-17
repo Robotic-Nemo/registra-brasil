@@ -78,7 +78,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2022/07/18/bolsonaro-volta-a-dizer-que-so-ha-3-alternativas-prisao-morte-ou-vitoria.ghtml',
       'news_article',
       'São Paulo', 'Evento com empresários', '2022-bolsonaro-prisao-morte-vitoria-julho'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -99,7 +99,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2022/07/18/em-reuniao-com-embaixadores-bolsonaro-repete-acusacoes-sem-provas-sobre-urnas.ghtml',
       'news_article',
       'Brasília', 'Reunião com embaixadores no Palácio da Alvorada', '2022-bolsonaro-reuniao-embaixadores-urnas-julho'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -120,7 +120,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2022/10/24/bolsonaro-reage-ao-caso-de-roberto-jefferson.ghtml',
       'news_article',
       'Brasília', 'Entrevista coletiva', '2022-bolsonaro-jefferson-patriota-ataque-pf-outubro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -141,7 +141,7 @@ BEGIN
       'https://g1.globo.com/sp/sao-paulo/noticia/2022/10/29/carla-zambelli-saca-arma-contra-homem-em-sao-paulo-veja-video.ghtml',
       'news_article',
       'São Paulo', 'Incidente nos Jardins — véspera do 2º turno', '2022-zambelli-arma-jornalista-outubro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_vio, true FROM ins;
@@ -162,7 +162,7 @@ BEGIN
       'https://g1.globo.com/politica/eleicoes/2022/noticia/2022/08/29/bolsonaro-ataca-jornalista-vera-magalhaes-em-debate-da-band.ghtml',
       'news_article',
       'São Paulo', 'Debate presidencial da Band', '2022-bolsonaro-vera-magalhaes-debate-band-agosto'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mis, true FROM ins;
@@ -183,7 +183,7 @@ BEGIN
       'https://g1.globo.com/mundo/ucrania-russia/noticia/2022/02/27/bolsonaro-diz-que-brasil-e-neutro-sobre-invasao-russa-na-ucrania.ghtml',
       'news_article',
       'Brasília', 'Entrevista coletiva', '2022-bolsonaro-neutralidade-putin-ucrania-fevereiro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -204,7 +204,7 @@ BEGIN
       'https://g1.globo.com/politica/eleicoes/2022/noticia/2022/07/21/lula-e-oficializado-candidato-a-presidente-pelo-pt.ghtml',
       'news_article',
       'São Paulo', 'Convenção Nacional do PT', '2022-lula-oficializa-candidatura-alckmin-julho'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -225,7 +225,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2022/08/bolsonaro-ao-economist-nao-aceitara-resultado-se-considerar-eleicao-anormal.shtml',
       'news_article',
       'Brasília', 'Entrevista à revista The Economist', '2022-bolsonaro-economist-aceitar-resultado-agosto'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -246,7 +246,7 @@ BEGIN
       'https://www.estadao.com.br/politica/nikolas-ferreira-eleito-deputado-federal-mais-votado-pais/',
       'news_article',
       'Belo Horizonte', 'Discurso de vitória eleitoral', '2022-nikolas-eleito-mais-votado-deputado-outubro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -267,7 +267,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2022/02/coach-pablo-marcal-se-lanca-candidato-a-presidente-pelo-pros.shtml',
       'news_article',
       'São Paulo', 'Lançamento da pré-candidatura do PROS', '2022-marcal-pre-candidatura-pros-fevereiro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -288,7 +288,7 @@ BEGIN
       'https://g1.globo.com/sp/sao-paulo/noticia/2022/10/03/guilherme-boulos-e-eleito-deputado-federal.ghtml',
       'news_article',
       'São Paulo', 'Discurso de vitória', '2022-boulos-eleito-deputado-federal-sp-outubro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -309,7 +309,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2022/08/damares-diz-em-culto-que-ilha-abriga-meninas-estupradas-com-dentes-arrancados.shtml',
       'news_article',
       'Brasília', 'Culto em igreja Presbiteriana', '2022-damares-ilha-meninas-dentes-arrancados-agosto'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -330,7 +330,7 @@ BEGIN
       'https://www1.folha.uol.com.br/mercado/2022/06/guedes-ameaca-congresso-e-diz-que-balanca-bom-no-brasil-se-teto-cair.shtml',
       'news_article',
       'São Paulo', 'Evento empresarial', '2022-guedes-balanca-bom-teto-gastos-junho'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_intim, true FROM ins;
@@ -351,7 +351,7 @@ BEGIN
       'https://www.cartacapital.com.br/politica/gleisi-hoffmann-acusa-bolsonaro-de-preparar-golpe/',
       'news_article',
       'Brasília', 'Coletiva na sede do PT', '2022-gleisi-bolsonaro-golpe-intervir-setembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -372,7 +372,7 @@ BEGIN
       'https://g1.globo.com/politica/eleicoes/2022/noticia/2022/09/12/ciro-gomes-ataca-lula-maior-corrupto-da-historia.ghtml',
       'news_article',
       'Recife', 'Comício da campanha presidencial', '2022-ciro-lula-maior-corrupto-historia-setembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, true FROM ins;
@@ -393,7 +393,7 @@ BEGIN
       'https://g1.globo.com/politica/eleicoes/2022/noticia/2022/10/30/prf-faz-abordagens-atipicas-no-dia-do-2o-turno-no-nordeste.ghtml',
       'news_article',
       'Brasília', 'Entrevista no 2º turno da eleição', '2022-bolsonaro-prf-nordeste-2-turno-outubro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_abu, true FROM ins;
@@ -414,7 +414,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2022/11/01/bolsonaro-primeiro-pronunciamento-apos-derrota.ghtml',
       'news_article',
       'Brasília', 'Pronunciamento no Palácio da Alvorada', '2022-bolsonaro-primeiro-pronunciamento-derrota-novembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -435,7 +435,7 @@ BEGIN
       'https://g1.globo.com/politica/eleicoes/2022/noticia/2022/10/30/leia-a-integra-do-discurso-de-lula-apos-vitoria-na-eleicao.ghtml',
       'news_article',
       'São Paulo', 'Discurso de vitória — Avenida Paulista', '2022-lula-discurso-vitoria-215-milhoes-outubro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -456,7 +456,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2022/12/30/bolsonaro-viaja-para-os-eua-antes-do-fim-do-mandato.ghtml',
       'news_article',
       'Orlando', 'Live nas redes sociais a partir dos EUA', '2022-bolsonaro-foge-eua-fim-mandato-dezembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -477,7 +477,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2022/11/02/bolsonaro-pede-para-apoiadores-desbloquear-rodovias.ghtml',
       'news_article',
       'Brasília', 'Pronunciamento no Palácio do Planalto', '2022-bolsonaro-desbloqueio-caminhoneiros-novembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -498,7 +498,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2022/11/15/eduardo-bolsonaro-incita-acampamentos-quarteis.ghtml',
       'news_article',
       'Brasília', 'Publicação nas redes sociais', '2022-eduardo-bolsonaro-acampamentos-quarteis-novembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -519,7 +519,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2022/11/07/mourao-critica-silencio-de-bolsonaro-apos-derrota.ghtml',
       'news_article',
       'Brasília', 'Entrevista coletiva', '2022-mourao-critica-silencio-bolsonaro-novembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -540,7 +540,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2022/11/haddad-diz-que-bolsonaro-deixou-politica-de-terra-arrasada.shtml',
       'news_article',
       'Brasília', 'Coletiva do Gabinete de Transição', '2022-haddad-terra-arrasada-transicao-novembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -561,7 +561,7 @@ BEGIN
       'https://g1.globo.com/politica/eleicoes/2022/noticia/2022/11/22/pl-pede-anulacao-de-votos-tse-rejeita-e-aplica-multa.ghtml',
       'news_article',
       'Brasília', 'Representação protocolada no TSE', '2022-bolsonaro-pl-anulacao-votos-tse-novembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -582,7 +582,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2022/04/21/bolsonaro-concede-indulto-a-daniel-silveira.ghtml',
       'news_article',
       'Brasília', 'Decreto presidencial publicado no Diário Oficial', '2022-bolsonaro-indulto-daniel-silveira-abril'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_obs, true FROM ins;
@@ -603,7 +603,7 @@ BEGIN
       'https://www.camara.leg.br/noticias/919312-lira-reconhece-vitoria-de-lula-e-fala-em-respeito-as-urnas/',
       'news_article',
       'Brasília', 'Pronunciamento na Câmara dos Deputados', '2022-lira-reconhece-vitoria-lula-outubro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -624,7 +624,7 @@ BEGIN
       'https://g1.globo.com/politica/eleicoes/2022/noticia/2022/10/13/bolsonaro-gera-polemica-com-fala-sobre-venezuelanas.ghtml',
       'news_article',
       'Brasília', 'Entrevista ao Cara a Cara no Flow Podcast', '2022-bolsonaro-venezuelanas-14-15-anos-outubro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mis, true FROM ins;
@@ -645,7 +645,7 @@ BEGIN
       'https://g1.globo.com/pr/parana/eleicoes/2022/noticia/2022/10/02/sergio-moro-e-eleito-senador-pelo-parana.ghtml',
       'news_article',
       'Curitiba', 'Discurso de vitória eleitoral', '2022-moro-eleito-senador-parana-outubro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -666,7 +666,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2022/11/bia-kicis-incentiva-acampamentos-em-quarteis.shtml',
       'news_article',
       'Brasília', 'Publicação nas redes sociais', '2022-kicis-incentiva-acampamentos-quarteis-novembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -687,7 +687,7 @@ BEGIN
       'https://g1.globo.com/ms/mato-grosso-do-sul/eleicoes/2022/noticia/2022/10/02/tereza-cristina-e-eleita-senadora-por-ms.ghtml',
       'news_article',
       'Campo Grande', 'Discurso de vitória', '2022-tereza-cristina-eleita-senadora-ms-outubro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -708,7 +708,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2022/11/02/bolsonaro-emocionado-elogia-manifestacoes-em-quarteis-e-bloqueios.ghtml',
       'news_article',
       'Brasília', 'Reunião com apoiadores no Alvorada', '2022-bolsonaro-emocionado-povo-nas-ruas-novembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -729,7 +729,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2022/11/carlos-bolsonaro-ataca-tse-e-alimenta-teorias-de-fraude.shtml',
       'news_article',
       'Rio de Janeiro', 'Publicações no Twitter', '2022-carlos-bolsonaro-fraude-tse-aparelhado-novembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -750,7 +750,7 @@ BEGIN
       'https://g1.globo.com/politica/eleicoes/2022/noticia/2022/08/04/janones-desiste-de-candidatura-a-presidencia-e-apoia-lula.ghtml',
       'news_article',
       'Brasília', 'Anúncio em coletiva de imprensa', '2022-janones-desiste-apoia-lula-agosto'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -771,7 +771,7 @@ BEGIN
       'https://www12.senado.leg.br/noticias/materias/2022/09/20/flavio-bolsonaro-defende-impeachment-de-moraes',
       'news_article',
       'Brasília', 'Entrevista no Senado', '2022-flavio-moraes-enquadrar-impeachment-setembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ama, true FROM ins;
@@ -792,7 +792,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2022/11/marcos-do-val-defende-intervencao-militar-via-artigo-142.shtml',
       'news_article',
       'Brasília', 'Entrevista no Senado', '2022-marcos-do-val-artigo-142-intervencao-novembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -813,7 +813,7 @@ BEGIN
       'https://g1.globo.com/rj/rio-de-janeiro/eleicoes/2022/noticia/2022/10/02/romario-e-reeleito-senador-pelo-rj.ghtml',
       'news_article',
       'Rio de Janeiro', 'Discurso de vitória eleitoral', '2022-romario-reeleito-senador-rj-outubro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -834,7 +834,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2022/11/temer-pede-pacificacao-e-critica-silencio-de-bolsonaro.shtml',
       'news_article',
       'São Paulo', 'Entrevista à Folha de S. Paulo', '2022-temer-pacificacao-bolsonaro-silencio-novembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -855,7 +855,7 @@ BEGIN
       'https://www.estadao.com.br/politica/sarney-crise-democratica-2022-golpe/',
       'news_article',
       'Brasília', 'Entrevista ao Estado de S. Paulo', '2022-sarney-crise-grave-redemocratizacao-dezembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -876,7 +876,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2022/12/29/em-live-bolsonaro-faz-despedida-sem-reconhecer-derrota.ghtml',
       'news_article',
       'Brasília', 'Live final nas redes sociais', '2022-bolsonaro-live-despedida-sem-reconhecer-dezembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -897,7 +897,7 @@ BEGIN
       'https://www.cartacapital.com.br/politica/feliciano-chama-lula-de-instrumento-do-diabo-em-culto/',
       'news_article',
       'São Paulo', 'Culto em igreja evangélica', '2022-feliciano-lula-diabo-culto-setembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_int, true FROM ins;
@@ -918,7 +918,7 @@ BEGIN
       'https://noticias.uol.com.br/politica/ultimas-noticias/2022/07/28/bolsonaro-canibalismo-indios-pt.htm',
       'news_article',
       'Nova York', 'Entrevista ao The New York Times', '2022-bolsonaro-canibalismo-indigena-pt-julho'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_rac, true FROM ins;
@@ -939,7 +939,7 @@ BEGIN
       'https://g1.globo.com/rr/roraima/eleicoes/2022/noticia/2022/09/27/lula-acusa-bolsonaro-de-genocidio-contra-yanomami.ghtml',
       'news_article',
       'Boa Vista', 'Comício da campanha presidencial', '2022-lula-bolsonaro-yanomami-genocidio-setembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -960,7 +960,7 @@ BEGIN
       'https://g1.globo.com/politica/eleicoes/2022/noticia/2022/10/28/debate-globo-venezuelanas-bolsonaro-lula.ghtml',
       'news_article',
       'Rio de Janeiro', 'Debate presidencial da TV Globo — 2º turno', '2022-bolsonaro-venezuelanas-debate-globo-outubro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mis, true FROM ins;
@@ -981,7 +981,7 @@ BEGIN
       'https://www1.folha.uol.com.br/mercado/2022/12/guedes-diz-que-proximo-governo-vai-mamar-no-que-deixamos.shtml',
       'news_article',
       'Brasília', 'Evento de despedida no Ministério da Economia', '2022-guedes-proximo-vai-mamar-fiscal-dezembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1002,7 +1002,7 @@ BEGIN
       'https://g1.globo.com/sp/vale-do-paraiba-regiao/eleicoes/2022/noticia/2022/09/23/bolsonaro-ataca-pesquisas-em-sao-jose-dos-campos.ghtml',
       'news_article',
       'São José dos Campos', 'Comício da campanha presidencial', '2022-bolsonaro-pesquisas-manipuladas-sp-setembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1023,7 +1023,7 @@ BEGIN
       'https://www1.folha.uol.com.br/poder/2022/12/flavio-bolsonaro-defende-acampamentos-golpistas.shtml',
       'news_article',
       'Brasília', 'Entrevista no Senado', '2022-flavio-acampamentos-vieram-para-ficar-dezembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -1044,7 +1044,7 @@ BEGIN
       'https://g1.globo.com/mundo/noticia/2022/11/28/eduardo-bolsonaro-se-reune-com-bannon-e-trump-jr-nos-eua.ghtml',
       'news_article',
       'Washington', 'Encontros com Steve Bannon e Donald Trump Jr.', '2022-eduardo-bannon-trump-jr-fraude-novembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -1065,7 +1065,7 @@ BEGIN
       'https://www.cartacapital.com.br/politica/nikolas-ferreira-defende-que-nao-e-preciso-estudar-para-ser-deputado/',
       'news_article',
       'Belo Horizonte', 'Vídeo publicado nas redes sociais', '2022-nikolas-nao-precisa-estudar-deputado-novembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, true FROM ins;
@@ -1086,7 +1086,7 @@ BEGIN
       'https://www12.senado.leg.br/noticias/materias/2022/11/01/pacheco-reconhece-vitoria-de-lula',
       'news_article',
       'Brasília', 'Pronunciamento na presidência do Senado', '2022-pacheco-reconhece-vitoria-lula-novembro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -1107,7 +1107,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2023/01/01/leia-a-integra-do-discurso-de-posse-de-lula.ghtml',
       'news_article',
       'Brasília', 'Posse presidencial no Congresso Nacional', '2023-lula-posse-democracia-venceu-janeiro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;

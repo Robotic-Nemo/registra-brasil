@@ -50,7 +50,7 @@ BEGIN
       'https://www.gov.br/fazenda/pt-br/assuntos/noticias/2025/janeiro/haddad-25-prioridades-agenda-economica',
       'news_article',
       'Brasília', 'Coletiva no Ministério da Fazenda', 'haddad-25-prioridades-agenda-economica-janeiro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -71,7 +71,7 @@ BEGIN
       'https://www.senado.leg.br/noticias/2025/02/haddad-defende-metas-fiscais-deficit-zero-senado/',
       'news_article',
       'Brasília', 'Audiência no Senado Federal', 'haddad-metas-fiscais-deficit-zero-2025-fevereiro'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -92,7 +92,7 @@ BEGIN
       'https://www.folha.uol.com.br/mercado/2025/03/haddad-taxacao-super-ricos-aliquota-minima-15-por-cento.shtml',
       'news_article',
       'Brasília', 'Coletiva no Ministério da Fazenda', 'haddad-taxacao-super-ricos-aliquota-minima-marco-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -113,7 +113,7 @@ BEGIN
       'https://www.reuters.com/world/americas/brazil-haddad-imf-letter-super-rich-taxation-green-transition-2025/',
       'news_article',
       'Brasília', 'Carta ao FMI', 'haddad-carta-fmi-taxacao-super-ricos-abril-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -134,7 +134,7 @@ BEGIN
       'https://www.valor.globo.com/brasil/noticia/2025/05/haddad-arcabouco-fiscal-credibilidade-febraban.ghtml',
       'news_article',
       'São Paulo', 'Evento da Febraban', 'haddad-arcabouco-fiscal-credibilidade-febraban-maio-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -155,7 +155,7 @@ BEGIN
       'https://www.infomoney.com.br/economia/haddad-iof-aumento-governo-nao-pode-abrir-mao-receita-2025/',
       'news_article',
       'Brasília', 'Entrevista coletiva', 'haddad-iof-aumento-governo-nao-abrir-mao-maio-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -176,7 +176,7 @@ BEGIN
       'https://www.estadao.com.br/economia/haddad-recua-iof-mercado-reacao-negativa-2025/',
       'news_article',
       'Brasília', 'Nota à imprensa', 'haddad-recua-iof-mercado-reacao-maio-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -197,7 +197,7 @@ BEGIN
       'https://www.poder360.com.br/economia/haddad-divide-ajuste-fiscal-dois-pls-mp-rejeitada/',
       'news_article',
       'Brasília', 'Reunião com líderes do Congresso', 'haddad-divide-ajuste-fiscal-dois-pls-junho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -218,7 +218,7 @@ BEGIN
       'https://www.valor.globo.com/empresas/noticia/2025/07/haddad-regulacao-taxacao-big-techs-bndes.ghtml',
       'news_article',
       'Rio de Janeiro', 'Seminário no BNDES', 'haddad-regulacao-taxacao-big-techs-julho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -239,7 +239,7 @@ BEGIN
       'https://www.folha.uol.com.br/mercado/2026/03/haddad-isencao-ir-5000-reais-36-milhoes-brasileiros.shtml',
       'news_article',
       'Brasília', 'Palácio do Planalto', 'haddad-isencao-ir-5000-reais-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -260,7 +260,7 @@ BEGIN
       'https://www.senado.leg.br/noticias/2025/02/tebet-infraestrutura-motor-crescimento-ppa/',
       'news_article',
       'Brasília', 'Apresentação no Senado', 'tebet-infraestrutura-motor-crescimento-fevereiro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -281,7 +281,7 @@ BEGIN
       'https://www.valor.globo.com/brasil/noticia/2025/04/tebet-equilibrio-social-fiscal-planejamento.ghtml',
       'news_article',
       'Brasília', 'Entrevista ao Valor Econômico', 'tebet-equilibrio-social-fiscal-abril-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -302,7 +302,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/economia/tebet-novo-pac-1-5-milhao-empregos-2026/',
       'news_article',
       'Fortaleza', 'Visita a obras do PAC', 'tebet-pac-empregos-fortaleza-agosto-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -323,7 +323,7 @@ BEGIN
       'https://www.folha.uol.com.br/mercado/2025/11/gleisi-fim-escala-6x1-maxima-prioridade-pt.shtml',
       'news_article',
       'Brasília', 'Entrevista à Folha', 'gleisi-fim-escala-6x1-maxima-prioridade-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -344,7 +344,7 @@ BEGIN
       'https://www.pt.org.br/gleisi-oposicao-sabotar-economia-obstrucao-congresso-2026/',
       'news_article',
       'São Paulo', 'Coletiva na sede do PT', 'gleisi-oposicao-sabotagem-economia-congresso-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, true FROM ins;
@@ -365,7 +365,7 @@ BEGIN
       'https://g1.globo.com/economia/noticia/2025/06/lula-culpa-intermediarios-preco-combustiveis-investigacao.ghtml',
       'news_article',
       'Brasília', 'Café com jornalistas no Planalto', 'lula-culpa-intermediarios-combustiveis-junho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -386,7 +386,7 @@ BEGIN
       'https://www.estadao.com.br/economia/lula-familias-endividadas-economia-crescendo-renegociacao/',
       'news_article',
       'São Paulo', 'Convenção do PT', 'lula-familias-endividadas-economia-crescendo-agosto-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -407,7 +407,7 @@ BEGIN
       'https://www.bandnews.com.br/noticias/politica/lula-taxa-juros-crime-banco-central-selic-2025/',
       'news_article',
       'São Paulo', 'Entrevista à Rádio Bandeirantes', 'lula-ataca-juros-banco-central-selic-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -428,7 +428,7 @@ BEGIN
       'https://www.gov.br/planalto/pt-br/noticias/2025/09/lula-reindustrializacao-nova-industria-brasil-camaçari',
       'news_article',
       'Camaçari', 'Inauguração de fábrica', 'lula-reindustrializacao-nova-industria-brasil-setembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -449,7 +449,7 @@ BEGIN
       'https://www.gazetadopovo.com.br/economia/nikolas-comunismo-fiscal-haddad-arcabouco-2026/',
       'news_article',
       'Belo Horizonte', 'Vídeo nas redes sociais', 'nikolas-comunismo-fiscal-haddad-janeiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -470,7 +470,7 @@ BEGIN
       'https://www.metropoles.com/colunas/eduardo-bolsonaro-farra-fiscal-governo-lula-live/',
       'news_article',
       'Miami', 'Live no Instagram', 'eduardo-farra-fiscal-governo-lula-fevereiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -491,7 +491,7 @@ BEGIN
       'https://www.fiesp.com.br/noticias/tarcisio-critica-modelo-tributario-governo-federal-fiesp-2026/',
       'news_article',
       'São Paulo', 'Congresso da Fiesp', 'tarcisio-critica-modelo-tributario-governo-fiesp-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -512,7 +512,7 @@ BEGIN
       'https://portal.fgv.br/noticias/ciro-gomes-terceira-via-economica-palestra-2025/',
       'news_article',
       'São Paulo', 'Palestra na FGV', 'ciro-critica-lula-bolsonaro-economia-terceira-via-maio-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -533,7 +533,7 @@ BEGIN
       'https://g1.globo.com/economia/noticia/2025/09/haddad-pib-cresce-economia-inclusao-social-resultados.ghtml',
       'news_article',
       'Brasília', 'Entrevista à GloboNews', 'haddad-pib-economia-inclusao-social-setembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -554,7 +554,7 @@ BEGIN
       'https://www.senado.leg.br/noticias/2025/04/flavio-bolsonaro-taxacao-super-ricos-populismo-tributario/',
       'news_article',
       'Brasília', 'Sessão do Senado Federal', 'flavio-taxacao-super-ricos-populismo-tributario-abril-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -575,7 +575,7 @@ BEGIN
       'https://www.camara.leg.br/noticias/2025/02/motta-reforma-tributaria-prioridade-camara/',
       'news_article',
       'Brasília', 'Reunião de líderes na Câmara', 'motta-reforma-tributaria-prioridade-camara-fevereiro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -596,7 +596,7 @@ BEGIN
       'https://www.band.uol.com.br/noticias/moro-politica-economica-irresponsavel-crise-fiscal-2026/',
       'news_article',
       'São Paulo', 'Entrevista à Band', 'moro-politica-economica-irresponsavel-crise-fiscal-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -617,7 +617,7 @@ BEGIN
       'https://www.folha.uol.com.br/mercado/2025/10/haddad-reforma-ir-justica-social-progressividade.shtml',
       'news_article',
       'Brasília', 'Seminário na Câmara dos Deputados', 'haddad-reforma-ir-justica-social-progressividade-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -638,7 +638,7 @@ BEGIN
       'https://www.uol.com.br/noticias/politica/nikolas-haddad-roubar-trabalhador-vagabundo-reforma-ir-2025.htm',
       'news_article',
       'Belo Horizonte', 'Vídeo nas redes sociais', 'nikolas-haddad-roubar-trabalhador-vagabundo-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, true FROM ins;
@@ -659,7 +659,7 @@ BEGIN
       'https://www.infomoney.com.br/politica/marcal-zerar-ir-10-mil-promessa-inviavel-economistas/',
       'news_article',
       'São Paulo', 'Podcast Primocast', 'marcal-zerar-ir-10-mil-promessa-inviavel-abril-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -680,7 +680,7 @@ BEGIN
       'https://g1.globo.com/economia/noticia/2025/07/lula-defende-haddad-carta-branca-economia.ghtml',
       'news_article',
       'Brasília', 'Entrevista à GloboNews', 'lula-defende-haddad-carta-branca-economia-julho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -701,7 +701,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/economia/haddad-pacote-reduzir-preco-alimentos-cesta-basica-2025/',
       'news_article',
       'Brasília', 'Coletiva no Palácio do Planalto', 'haddad-pacote-reduzir-preco-alimentos-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -722,7 +722,7 @@ BEGIN
       'https://www.valor.globo.com/brasil/noticia/2025/11/tarcisio-privatizacoes-modelo-brasil-sabesp.ghtml',
       'news_article',
       'São Paulo', 'Congresso de infraestrutura', 'tarcisio-privatizacoes-modelo-brasil-sabesp-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -743,7 +743,7 @@ BEGIN
       'https://www.pt.org.br/gleisi-salario-minimo-acima-inflacao-dia-trabalho-2025/',
       'news_article',
       'São Paulo', 'Ato do Dia do Trabalho', 'gleisi-salario-minimo-inflacao-dia-trabalho-maio-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -764,7 +764,7 @@ BEGIN
       'https://www.poder360.com.br/economia/bolsonaro-economia-lula-bomba-relogio-video-2025/',
       'news_article',
       'Brasília', 'Vídeo em prisão domiciliar', 'bolsonaro-economia-lula-bomba-relogio-agosto-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -785,7 +785,7 @@ BEGIN
       'https://www.correiobraziliense.com.br/economia/2025/06/tebet-simplificacao-licenciamento-ambiental-investimentos.html',
       'news_article',
       'Brasília', 'Seminário sobre desburocratização', 'tebet-simplificacao-licenciamento-ambiental-junho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -806,7 +806,7 @@ BEGIN
       'https://www.valor.globo.com/financas/noticia/2026/04/haddad-spread-bancario-maior-mundo-reducao-juros.ghtml',
       'news_article',
       'São Paulo', 'Encontro com a CUT', 'haddad-spread-bancario-reducao-juros-abril-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -827,7 +827,7 @@ BEGIN
       'https://www.senado.leg.br/noticias/2025/08/flavio-bolsonaro-contabilidade-criativa-deficit-governo/',
       'news_article',
       'Brasília', 'Sessão do Senado Federal', 'flavio-contabilidade-criativa-deficit-governo-agosto-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -848,7 +848,7 @@ BEGIN
       'https://www.gov.br/planalto/pt-br/noticias/2026/janeiro/lula-programa-credito-popular-juros-subsidiados',
       'news_article',
       'Brasília', 'Cerimônia no Palácio do Planalto', 'lula-programa-credito-popular-juros-subsidiados-janeiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -869,7 +869,7 @@ BEGIN
       'https://www.gazetadopovo.com.br/economia/nikolas-credito-popular-compra-votos-lula-2026/',
       'news_article',
       'Belo Horizonte', 'Vídeo nas redes sociais', 'nikolas-credito-popular-compra-votos-lula-janeiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -890,7 +890,7 @@ BEGIN
       'https://www.reuters.com/business/environment/brazil-haddad-green-transition-economic-opportunity-world-bank-2025/',
       'news_article',
       'Washington D.C.', 'Evento do Banco Mundial', 'haddad-transicao-energetica-oportunidade-outubro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -911,7 +911,7 @@ BEGIN
       'https://www.folha.uol.com.br/mercado/2025/09/tebet-alerta-divida-publica-contencao-despesas-governo.shtml',
       'news_article',
       'Brasília', 'Reunião ministerial', 'tebet-alerta-divida-publica-contencao-setembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -932,7 +932,7 @@ BEGIN
       'https://www.opovo.com.br/noticias/politica/2025/07/ciro-reforma-sistema-financeiro-bancos-vampiros/',
       'news_article',
       'Fortaleza', 'Seminário sobre desenvolvimento', 'ciro-reforma-sistema-financeiro-bancos-vampiros-julho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -953,7 +953,7 @@ BEGIN
       'https://www.infomoney.com.br/economia/haddad-resultado-fiscal-primeiro-semestre-deficit-zero-2025/',
       'news_article',
       'Brasília', 'Coletiva no Ministério da Fazenda', 'haddad-resultado-fiscal-semestre-deficit-zero-julho-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -974,7 +974,7 @@ BEGIN
       'https://www.pt.org.br/gleisi-taxacao-dividendos-financiar-programas-sociais-2026/',
       'news_article',
       'Brasília', 'Plenária do PT', 'gleisi-taxacao-dividendos-programas-sociais-marco-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -995,7 +995,7 @@ BEGIN
       'https://www.estadao.com.br/economia/lula-pessimismo-mercado-financeiro-economia-real-inauguracao/',
       'news_article',
       'São Bernardo do Campo', 'Inauguração do Minha Casa Minha Vida', 'lula-pessimismo-mercado-economia-real-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -1016,7 +1016,7 @@ BEGIN
       'https://www.bloomberg.com/news/articles/2025-11-28/brazil-haddad-dollar-measures-currency-volatility',
       'news_article',
       'Brasília', 'Coletiva de emergência', 'haddad-medidas-conter-dolar-volatilidade-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -1037,7 +1037,7 @@ BEGIN
       'https://www.correiobraziliense.com.br/economia/2025/12/nikolas-dolar-inflacao-culpa-governo-lula.html',
       'news_article',
       'Belo Horizonte', 'Vídeo nas redes sociais', 'nikolas-dolar-inflacao-culpa-governo-dezembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1058,7 +1058,7 @@ BEGIN
       'https://www.bbc.com/portuguese/articles/haddad-cop30-brasil-potencia-verde-2030-belem',
       'news_article',
       'Belém', 'COP30', 'haddad-brasil-potencia-verde-2030-cop30-novembro-2025'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;
@@ -1079,7 +1079,7 @@ BEGIN
       'https://www.insper.edu.br/noticias/tarcisio-critica-subsidios-governo-federal-insper-2026/',
       'news_article',
       'São Paulo', 'Palestra no Insper', 'tarcisio-critica-subsidios-governo-federal-insper-fevereiro-2026'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_irr, true FROM ins;

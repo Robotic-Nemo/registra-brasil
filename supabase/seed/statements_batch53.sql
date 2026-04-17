@@ -68,7 +68,7 @@ BEGIN
       'Em 2024, defendendo operações de remoção de pessoas em situação de rua no centro de São Paulo, denunciadas por movimentos sociais como higienização urbana.',
       'verified', true, '2024-05-20',
       'https://www.folha.uol.com.br/cotidiano/2024/05/nunes-moradores-rua-zeladoria.shtml',
-      'news_article', 'São Paulo', 'Entrevista coletiva', 'nunes-moradores-rua-zeladoria-maio-2024') RETURNING id)
+      'news_article', 'São Paulo', 'Entrevista coletiva', 'nunes-moradores-rua-zeladoria-maio-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
 
   -- 2. Nunes x Boulos campanha
@@ -80,7 +80,7 @@ BEGIN
       'Em outubro de 2024, durante segundo turno acirrado da eleição municipal de São Paulo, Nunes usou repetidamente o rótulo de invasor para atacar o adversário do PSOL.',
       'verified', true, '2024-10-10',
       'https://oglobo.globo.com/politica/noticia/2024/10/nunes-boulos-invasor-campanha.ghtml',
-      'news_article', 'São Paulo', 'Debate eleitoral Band', 'nunes-boulos-invasor-outubro-2024') RETURNING id)
+      'news_article', 'São Paulo', 'Debate eleitoral Band', 'nunes-boulos-invasor-outubro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 3. Nunes Marçal agressão
@@ -92,7 +92,7 @@ BEGIN
       'Em setembro de 2024, após o episódio em que Pablo Marçal foi atingido por cadeirada de José Luiz Datena durante debate eleitoral em São Paulo.',
       'verified', false, '2024-09-16',
       'https://www.folha.uol.com.br/poder/2024/09/nunes-cadeirada-debate-sao-paulo.shtml',
-      'news_article', 'São Paulo', 'Entrevista pós-debate', 'nunes-cadeirada-debate-setembro-2024') RETURNING id)
+      'news_article', 'São Paulo', 'Entrevista pós-debate', 'nunes-cadeirada-debate-setembro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
   -- 4. Nunes vitória reeleição
@@ -104,7 +104,7 @@ BEGIN
       'Em outubro de 2024, após vencer Boulos no segundo turno da eleição municipal de São Paulo, Nunes sinalizou alinhamento com Tarcísio para 2026.',
       'verified', false, '2024-10-27',
       'https://g1.globo.com/sp/sao-paulo/noticia/2024/10/nunes-reeleicao-tarcisio-2026.ghtml',
-      'news_article', 'São Paulo', 'Discurso de vitória', 'nunes-reeleicao-tarcisio-outubro-2024') RETURNING id)
+      'news_article', 'São Paulo', 'Discurso de vitória', 'nunes-reeleicao-tarcisio-outubro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 5. Eduardo Paes Bolsonaro Lula
@@ -116,7 +116,7 @@ BEGIN
       'Em 2024, durante entrevista, Paes criticou gestão do governo federal mesmo sendo aliado histórico do PT e MDB, reforçando posicionamento pragmático.',
       'verified', false, '2024-08-15',
       'https://oglobo.globo.com/politica/noticia/2024/08/paes-lula-bolsonaro-gestao.ghtml',
-      'news_article', 'Rio de Janeiro', 'Entrevista à Globonews', 'paes-lula-bolsonaro-gestao-agosto-2024') RETURNING id)
+      'news_article', 'Rio de Janeiro', 'Entrevista à Globonews', 'paes-lula-bolsonaro-gestao-agosto-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 6. Eduardo Paes Carnaval
@@ -128,7 +128,7 @@ BEGIN
       'Em fevereiro de 2024, após incidentes durante o Carnaval do Rio, incluindo roubos e tumultos em blocos de rua, que geraram críticas sobre planejamento de segurança municipal.',
       'verified', false, '2024-02-18',
       'https://g1.globo.com/rj/rio-de-janeiro/carnaval/2024/noticia/paes-seguranca-carnaval.ghtml',
-      'news_article', 'Rio de Janeiro', 'Coletiva do Carnaval', 'paes-seguranca-carnaval-fevereiro-2024') RETURNING id)
+      'news_article', 'Rio de Janeiro', 'Coletiva do Carnaval', 'paes-seguranca-carnaval-fevereiro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
   -- 7. Paes reeleição
@@ -140,7 +140,7 @@ BEGIN
       'Em outubro de 2024, após vencer em primeiro turno a eleição municipal do Rio, Paes sinalizou possível candidatura ao governo estadual em 2026.',
       'verified', true, '2024-10-06',
       'https://g1.globo.com/rj/rio-de-janeiro/eleicoes/2024/noticia/paes-reeleicao-2024.ghtml',
-      'news_article', 'Rio de Janeiro', 'Discurso de vitória', 'paes-reeleicao-2024-outubro-2024') RETURNING id)
+      'news_article', 'Rio de Janeiro', 'Discurso de vitória', 'paes-reeleicao-2024-outubro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 8. Fuad Noman BH saúde
@@ -152,7 +152,7 @@ BEGIN
       'Em 2024, após Fuad ser internado durante campanha eleitoral, em meio a críticas da oposição sobre filas e gestão do sistema municipal de saúde em Belo Horizonte.',
       'verified', false, '2024-09-25',
       'https://www.em.com.br/app/noticia/politica/2024/09/fuad-saude-bh-campanha.html',
-      'news_article', 'Belo Horizonte', 'Declaração após alta hospitalar', 'fuad-saude-bh-setembro-2024') RETURNING id)
+      'news_article', 'Belo Horizonte', 'Declaração após alta hospitalar', 'fuad-saude-bh-setembro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 9. Fuad reeleição
@@ -164,7 +164,7 @@ BEGIN
       'Em outubro de 2024, após vencer em segundo turno o bolsonarista Bruno Engler pela prefeitura de Belo Horizonte, em eleição acirrada.',
       'verified', true, '2024-10-27',
       'https://www.em.com.br/app/noticia/politica/2024/10/fuad-vitoria-bh-engler.html',
-      'news_article', 'Belo Horizonte', 'Discurso de vitória', 'fuad-vitoria-bh-outubro-2024') RETURNING id)
+      'news_article', 'Belo Horizonte', 'Discurso de vitória', 'fuad-vitoria-bh-outubro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 10. João Campos Recife
@@ -176,7 +176,7 @@ BEGIN
       'Em outubro de 2024, após vencer em primeiro turno a eleição pela reeleição em Recife, João Campos foi saudado como futuro candidato nacional do PSB.',
       'verified', true, '2024-10-06',
       'https://g1.globo.com/pe/pernambuco/eleicoes/2024/noticia/joao-campos-reeleicao.ghtml',
-      'news_article', 'Recife', 'Discurso de vitória', 'joao-campos-reeleicao-outubro-2024') RETURNING id)
+      'news_article', 'Recife', 'Discurso de vitória', 'joao-campos-reeleicao-outubro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 11. João Campos Raquel Lyra
@@ -188,7 +188,7 @@ BEGIN
       'Em 2024, em meio a disputas sobre responsabilidades por obras inacabadas e serviços em Recife entre o PSB na capital e o PSDB no governo estadual.',
       'verified', false, '2024-05-18',
       'https://www.folhape.com.br/politica/joao-campos-raquel-lyra-disputa',
-      'news_article', 'Recife', 'Entrevista ao Diário de Pernambuco', 'joao-campos-raquel-lyra-maio-2024') RETURNING id)
+      'news_article', 'Recife', 'Entrevista ao Diário de Pernambuco', 'joao-campos-raquel-lyra-maio-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 12. Topázio Silveira
@@ -200,7 +200,7 @@ BEGIN
       'Em 2024, após denúncias do MP sobre indicações de parentes e aliados em cargos da Prefeitura de Florianópolis durante a gestão Topázio Silveira.',
       'verified', false, '2024-03-12',
       'https://www.nsctotal.com.br/noticias/topazio-silveira-nepotismo-denuncia',
-      'news_article', 'Florianópolis', 'Entrevista à imprensa', 'topazio-nepotismo-marco-2024') RETURNING id)
+      'news_article', 'Florianópolis', 'Entrevista à imprensa', 'topazio-nepotismo-marco-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_nep, true FROM ins;
 
   -- 13. José Sarto Fortaleza
@@ -212,7 +212,7 @@ BEGIN
       'Em 2023, durante agravamento da violência em Fortaleza, Sarto tentou desvincular sua gestão municipal da crise de segurança, cobrando o governo estadual.',
       'verified', false, '2023-09-05',
       'https://g1.globo.com/ce/ceara/noticia/2023/09/sarto-seguranca-elmano.ghtml',
-      'news_article', 'Fortaleza', 'Entrevista à TV Ceará', 'sarto-seguranca-elmano-setembro-2023') RETURNING id)
+      'news_article', 'Fortaleza', 'Entrevista à TV Ceará', 'sarto-seguranca-elmano-setembro-2023') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 14. Sebastião Melo Porto Alegre enchentes
@@ -224,7 +224,7 @@ BEGIN
       'Em maio de 2024, durante enchentes históricas em Porto Alegre com falha do sistema de bombas e comportas. Melo foi criticado por falta de manutenção.',
       'verified', true, '2024-05-15',
       'https://gauchazh.clicrbs.com.br/politica/noticia/2024/05/melo-enchentes-portoalegre.html',
-      'news_article', 'Porto Alegre', 'Entrevista à GaúchaZH', 'melo-enchentes-porto-alegre-maio-2024') RETURNING id)
+      'news_article', 'Porto Alegre', 'Entrevista à GaúchaZH', 'melo-enchentes-porto-alegre-maio-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
   -- 15. Melo reeleição
@@ -236,7 +236,7 @@ BEGIN
       'Em outubro de 2024, após Melo ser reeleito prefeito de Porto Alegre em segundo turno, apesar das críticas sobre a gestão das enchentes.',
       'verified', false, '2024-10-27',
       'https://g1.globo.com/rs/rio-grande-do-sul/eleicoes/2024/noticia/melo-reeleito.ghtml',
-      'news_article', 'Porto Alegre', 'Discurso de vitória', 'melo-reeleito-outubro-2024') RETURNING id)
+      'news_article', 'Porto Alegre', 'Discurso de vitória', 'melo-reeleito-outubro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 16. Rafael Greca Curitiba saída
@@ -248,7 +248,7 @@ BEGIN
       'Em outubro de 2024, durante campanha apoiando seu sucessor Eduardo Pimentel em Curitiba, no fim de seu mandato.',
       'verified', false, '2024-10-15',
       'https://g1.globo.com/pr/parana/eleicoes/2024/noticia/greca-pimentel-curitiba.ghtml',
-      'news_article', 'Curitiba', 'Ato de campanha', 'greca-pimentel-curitiba-outubro-2024') RETURNING id)
+      'news_article', 'Curitiba', 'Ato de campanha', 'greca-pimentel-curitiba-outubro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 17. Bruno Reis Salvador segurança
@@ -260,7 +260,7 @@ BEGIN
       'Em 2024, durante agravamento da violência em Salvador, Bruno Reis (União Brasil) atacou o governador Jerônimo Rodrigues (PT) por segurança pública.',
       'verified', false, '2024-06-10',
       'https://www.correio24horas.com.br/noticia/bruno-reis-jeronimo-seguranca',
-      'news_article', 'Salvador', 'Entrevista à Rede Bahia', 'bruno-reis-jeronimo-seguranca-junho-2024') RETURNING id)
+      'news_article', 'Salvador', 'Entrevista à Rede Bahia', 'bruno-reis-jeronimo-seguranca-junho-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 18. Bruno Reis reeleição
@@ -272,7 +272,7 @@ BEGIN
       'Em outubro de 2024, após vencer em primeiro turno com ampla margem a eleição em Salvador, Bruno Reis comemorou como derrota política do PT baiano.',
       'verified', true, '2024-10-06',
       'https://www.correio24horas.com.br/noticia/bruno-reis-reeleicao-2024',
-      'news_article', 'Salvador', 'Discurso de vitória', 'bruno-reis-reeleicao-outubro-2024') RETURNING id)
+      'news_article', 'Salvador', 'Discurso de vitória', 'bruno-reis-reeleicao-outubro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 19. David Almeida Manaus
@@ -284,7 +284,7 @@ BEGIN
       'Em 2024, após série de reportagens investigando contratos e denúncias na gestão de David Almeida em Manaus, o prefeito atacou veículos de imprensa.',
       'verified', false, '2024-08-15',
       'https://www.amazonasatual.com.br/david-almeida-imprensa-militante/',
-      'news_article', 'Manaus', 'Coletiva de imprensa', 'david-almeida-imprensa-militante-agosto-2024') RETURNING id)
+      'news_article', 'Manaus', 'Coletiva de imprensa', 'david-almeida-imprensa-militante-agosto-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_int, true FROM ins;
 
   -- 20. David Almeida reeleição
@@ -296,7 +296,7 @@ BEGIN
       'Em outubro de 2024, após vencer em primeiro turno a eleição para prefeito de Manaus em meio a controvérsias e investigações do MP contra sua gestão.',
       'verified', false, '2024-10-06',
       'https://g1.globo.com/am/amazonas/eleicoes/2024/noticia/david-almeida-reeleicao.ghtml',
-      'news_article', 'Manaus', 'Discurso de vitória', 'david-almeida-reeleicao-outubro-2024') RETURNING id)
+      'news_article', 'Manaus', 'Discurso de vitória', 'david-almeida-reeleicao-outubro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_int, true FROM ins;
 
   -- 21. Castro segurança escolar
@@ -308,7 +308,7 @@ BEGIN
       'Em 2024, ao anunciar implantação de tecnologia de reconhecimento facial em escolas públicas do Rio, gerando críticas de especialistas em direitos digitais.',
       'verified', false, '2024-04-18',
       'https://oglobo.globo.com/rio/noticia/2024/04/castro-reconhecimento-facial-escolas.ghtml',
-      'news_article', 'Rio de Janeiro', 'Anúncio do programa', 'castro-reconhecimento-facial-escolas-abril-2024') RETURNING id)
+      'news_article', 'Rio de Janeiro', 'Anúncio do programa', 'castro-reconhecimento-facial-escolas-abril-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_aut, true FROM ins;
 
   -- 22. Tarcísio ataque Lula Alemão
@@ -320,7 +320,7 @@ BEGIN
       'Em outubro de 2025, Tarcísio de Freitas defendeu publicamente a megaoperação do Rio de Janeiro e atacou o governo federal após declarações do Ministério da Justiça.',
       'verified', true, '2025-10-30',
       'https://www.cnnbrasil.com.br/politica/tarcisio-apoia-castro-operacao-rio.html',
-      'news_article', 'São Paulo', 'Entrevista coletiva', 'tarcisio-apoia-castro-outubro-2025') RETURNING id)
+      'news_article', 'São Paulo', 'Entrevista coletiva', 'tarcisio-apoia-castro-outubro-2025') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_vio, true FROM ins;
 
   -- 23. Zema minorias
@@ -332,7 +332,7 @@ BEGIN
       'Em entrevista em 2024, Zema atacou pautas de gênero, identidade e raça promovidas pelo governo Lula como estratégia para ignorar desempenho econômico.',
       'verified', false, '2024-06-22',
       'https://veja.abril.com.br/politica/zema-pautas-identitarias-esquerda',
-      'news_article', 'Belo Horizonte', 'Entrevista à Veja', 'zema-pautas-identitarias-junho-2024') RETURNING id)
+      'news_article', 'Belo Horizonte', 'Entrevista à Veja', 'zema-pautas-identitarias-junho-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
 
   -- 24. Caiado segurança pró-candidato
@@ -344,7 +344,7 @@ BEGIN
       'Em 2025, durante pré-campanha presidencial, Caiado intensificou retórica tough-on-crime e atacou políticas de direitos humanos como proteção a criminosos.',
       'verified', false, '2025-07-15',
       'https://www.metropoles.com/brasil/caiado-direitos-humanos-candidatura',
-      'news_article', 'Goiânia', 'Evento de pré-campanha', 'caiado-direitos-humanos-julho-2025') RETURNING id)
+      'news_article', 'Goiânia', 'Evento de pré-campanha', 'caiado-direitos-humanos-julho-2025') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_vio, true FROM ins;
 
   -- 25. Ratinho Jr educação ideologia
@@ -356,7 +356,7 @@ BEGIN
       'Em 2024, Ratinho Júnior atacou o Ministério da Educação do governo Lula por políticas de currículo e combate a assédio escolar.',
       'verified', false, '2024-04-25',
       'https://g1.globo.com/pr/parana/noticia/2024/04/ratinho-critica-mec-camilo.ghtml',
-      'news_article', 'Curitiba', 'Evento de educação', 'ratinho-critica-mec-abril-2024') RETURNING id)
+      'news_article', 'Curitiba', 'Evento de educação', 'ratinho-critica-mec-abril-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 26. Elmano CE pacto federal
@@ -368,7 +368,7 @@ BEGIN
       'Em 2024, apoiando programa federal de combate à fome em oposição a governadores de direita que criticavam a política social.',
       'verified', false, '2024-05-25',
       'https://g1.globo.com/ce/ceara/noticia/2024/05/elmano-brasil-sem-fome.ghtml',
-      'news_article', 'Fortaleza', 'Evento do governo federal', 'elmano-brasil-sem-fome-maio-2024') RETURNING id)
+      'news_article', 'Fortaleza', 'Evento do governo federal', 'elmano-brasil-sem-fome-maio-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 27. Jerônimo crise facções
@@ -380,7 +380,7 @@ BEGIN
       'Em março de 2025, após série de confrontos entre facções criminosas em cidades do interior da Bahia com dezenas de mortos em uma única semana.',
       'verified', false, '2025-03-18',
       'https://www.correio24horas.com.br/noticia/jeronimo-faccoes-bahia-2025',
-      'news_article', 'Salvador', 'Coletiva de imprensa', 'jeronimo-faccoes-bahia-marco-2025') RETURNING id)
+      'news_article', 'Salvador', 'Coletiva de imprensa', 'jeronimo-faccoes-bahia-marco-2025') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 28. Helder COP30 abertura
@@ -392,7 +392,7 @@ BEGIN
       'Em novembro de 2025, durante abertura da COP30 em Belém, rebatendo críticas sobre preços de hospedagem, preparação urbana e impactos ambientais das obras.',
       'verified', true, '2025-11-10',
       'https://g1.globo.com/pa/para/noticia/2025/11/helder-abertura-cop30-belem.ghtml',
-      'news_article', 'Belém', 'Abertura da COP30', 'helder-abertura-cop30-novembro-2025') RETURNING id)
+      'news_article', 'Belém', 'Abertura da COP30', 'helder-abertura-cop30-novembro-2025') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 29. Raquel Lyra mulher na política
@@ -404,7 +404,7 @@ BEGIN
       'Em 2024, após ataques políticos à sua gestão em Pernambuco que ela classificou como machistas, especialmente após ruptura do União Brasil com sua gestão.',
       'verified', false, '2024-07-30',
       'https://www.folhape.com.br/politica/raquel-lyra-machismo-critica',
-      'news_article', 'Recife', 'Entrevista coletiva', 'raquel-lyra-machismo-julho-2024') RETURNING id)
+      'news_article', 'Recife', 'Entrevista coletiva', 'raquel-lyra-machismo-julho-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 30. Castro RJ oposição a ministro
@@ -416,7 +416,7 @@ BEGIN
       'Em 2025, após declarações do ministro da Justiça Ricardo Lewandowski sobre necessidade de protocolos para operações policiais no Rio após megaoperações letais.',
       'verified', false, '2025-11-10',
       'https://oglobo.globo.com/politica/noticia/2025/11/castro-ataca-lewandowski.ghtml',
-      'news_article', 'Rio de Janeiro', 'Entrevista à Globonews', 'castro-ataca-lewandowski-novembro-2025') RETURNING id)
+      'news_article', 'Rio de Janeiro', 'Entrevista à Globonews', 'castro-ataca-lewandowski-novembro-2025') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_ame, true FROM ins;
 
   -- 31. Nunes CEU creche
@@ -428,7 +428,7 @@ BEGIN
       'Em 2024, rebatendo críticas da oposição e do Ministério Público sobre longa espera por vagas em creches na cidade de São Paulo.',
       'verified', false, '2024-07-12',
       'https://www.folha.uol.com.br/educacao/2024/07/nunes-creches-sp-heranca.shtml',
-      'news_article', 'São Paulo', 'Entrevista à CBN', 'nunes-creches-sp-julho-2024') RETURNING id)
+      'news_article', 'São Paulo', 'Entrevista à CBN', 'nunes-creches-sp-julho-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
   -- 32. Paes enchente Rio
@@ -440,7 +440,7 @@ BEGIN
       'Em 2024, após alagamentos pontuais no Rio de Janeiro durante temporal, Paes defendeu o Centro de Operações e sistemas de drenagem contra críticas.',
       'verified', false, '2024-01-22',
       'https://g1.globo.com/rj/rio-de-janeiro/noticia/2024/01/paes-alagamento-rio.ghtml',
-      'news_article', 'Rio de Janeiro', 'Centro de Operações', 'paes-alagamento-rio-janeiro-2024') RETURNING id)
+      'news_article', 'Rio de Janeiro', 'Centro de Operações', 'paes-alagamento-rio-janeiro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 33. Eduardo Leite recuperação RS
@@ -452,7 +452,7 @@ BEGIN
       'Em novembro de 2024, Leite atacou o governo federal por considerar lenta a ajuda do governo Lula às vítimas das enchentes do Rio Grande do Sul.',
       'verified', false, '2024-11-18',
       'https://gauchazh.clicrbs.com.br/politica/noticia/2024/11/leite-critica-lula-ajuda-rs.html',
-      'news_article', 'Porto Alegre', 'Entrevista à GaúchaZH', 'leite-critica-lula-ajuda-novembro-2024') RETURNING id)
+      'news_article', 'Porto Alegre', 'Entrevista à GaúchaZH', 'leite-critica-lula-ajuda-novembro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 34. Wilson Lima apoio Tarcísio
@@ -464,7 +464,7 @@ BEGIN
       'Em 2025, Wilson Lima se alinhou publicamente a Tarcísio de Freitas como apoiador de sua candidatura presidencial em 2026.',
       'verified', false, '2025-12-10',
       'https://g1.globo.com/am/amazonas/noticia/2025/12/wilson-apoio-tarcisio.ghtml',
-      'news_article', 'Manaus', 'Evento do Republicanos', 'wilson-apoio-tarcisio-dezembro-2025') RETURNING id)
+      'news_article', 'Manaus', 'Evento do Republicanos', 'wilson-apoio-tarcisio-dezembro-2025') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 35. Ibaneis DF BRT
@@ -476,7 +476,7 @@ BEGIN
       'Em 2024, após reclamações crescentes sobre qualidade do transporte público no Distrito Federal, com frota sucateada e atrasos frequentes.',
       'verified', false, '2024-06-18',
       'https://g1.globo.com/df/distrito-federal/noticia/2024/06/ibaneis-transporte-df.ghtml',
-      'news_article', 'Brasília', 'Entrevista à TV Brasília', 'ibaneis-transporte-df-junho-2024') RETURNING id)
+      'news_article', 'Brasília', 'Entrevista à TV Brasília', 'ibaneis-transporte-df-junho-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
   -- 36. Riedel Pantanal
@@ -488,7 +488,7 @@ BEGIN
       'Em setembro de 2024, durante crise de queimadas no Pantanal em Mato Grosso do Sul, Riedel criticou operação do Ibama contra produtores rurais.',
       'verified', false, '2024-09-25',
       'https://g1.globo.com/ms/mato-grosso-do-sul/noticia/2024/09/riedel-ibama-pantanal.ghtml',
-      'news_article', 'Campo Grande', 'Entrevista à imprensa', 'riedel-ibama-pantanal-setembro-2024') RETURNING id)
+      'news_article', 'Campo Grande', 'Entrevista à imprensa', 'riedel-ibama-pantanal-setembro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_neg, true FROM ins;
 
   -- 37. Mauro Mendes Araguaia Tocantins
@@ -500,7 +500,7 @@ BEGIN
       'Em 2025, defendendo projetos hidrelétricos em Mato Grosso questionados por comunidades indígenas e órgãos ambientais.',
       'verified', false, '2025-04-08',
       'https://valor.globo.com/politica/noticia/2025/04/mauro-mendes-hidreletricas-mt.ghtml',
-      'news_article', 'Cuiabá', 'Evento do setor elétrico', 'mauro-mendes-hidreletricas-abril-2025') RETURNING id)
+      'news_article', 'Cuiabá', 'Evento do setor elétrico', 'mauro-mendes-hidreletricas-abril-2025') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_odi, true FROM ins;
 
   -- 38. Fátima Bezerra educação
@@ -512,7 +512,7 @@ BEGIN
       'Em 2024, após divulgação de índices educacionais mostrando queda no Ideb do Rio Grande do Norte em relação a metas.',
       'verified', false, '2024-08-25',
       'https://www.tribunadonorte.com.br/noticia/fatima-ideb-rn-queda',
-      'news_article', 'Natal', 'Coletiva de imprensa', 'fatima-ideb-rn-agosto-2024') RETURNING id)
+      'news_article', 'Natal', 'Coletiva de imprensa', 'fatima-ideb-rn-agosto-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_irr, true FROM ins;
 
   -- 39. Nunes bloqueios contra motoristas de app
@@ -524,7 +524,7 @@ BEGIN
       'Em 2023, durante paralisação de motoristas de aplicativo em São Paulo por reajuste de tarifas, Nunes adotou tom de confronto.',
       'verified', false, '2023-10-15',
       'https://g1.globo.com/sp/sao-paulo/noticia/2023/10/nunes-motoristas-aplicativo-greve.ghtml',
-      'news_article', 'São Paulo', 'Entrevista coletiva', 'nunes-motoristas-aplicativo-outubro-2023') RETURNING id)
+      'news_article', 'São Paulo', 'Entrevista coletiva', 'nunes-motoristas-aplicativo-outubro-2023') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_aut, true FROM ins;
 
   -- 40. Paes mudança estado
@@ -536,7 +536,7 @@ BEGIN
       'Em março de 2026, Eduardo Paes formalizou pré-candidatura ao governo do Rio de Janeiro, atacando a gestão de Cláudio Castro.',
       'verified', true, '2026-03-10',
       'https://oglobo.globo.com/politica/noticia/2026/03/paes-candidato-governo-rj.ghtml',
-      'news_article', 'Rio de Janeiro', 'Convenção do PSD', 'paes-candidato-governo-rj-marco-2026') RETURNING id)
+      'news_article', 'Rio de Janeiro', 'Convenção do PSD', 'paes-candidato-governo-rj-marco-2026') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 41. Sarto defeat
@@ -548,7 +548,7 @@ BEGIN
       'Em outubro de 2024, após derrota em primeiro turno para candidato do PL em Fortaleza, com Sarto ficando de fora do segundo turno.',
       'verified', false, '2024-10-08',
       'https://g1.globo.com/ce/ceara/eleicoes/2024/noticia/sarto-derrota-fortaleza.ghtml',
-      'news_article', 'Fortaleza', 'Entrevista pós-eleição', 'sarto-derrota-fortaleza-outubro-2024') RETURNING id)
+      'news_article', 'Fortaleza', 'Entrevista pós-eleição', 'sarto-derrota-fortaleza-outubro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 42. Greca sucessor Pimentel vitória
@@ -560,7 +560,7 @@ BEGIN
       'Em outubro de 2024, após vitória de Eduardo Pimentel em segundo turno pela prefeitura de Curitiba, candidato apoiado por Rafael Greca.',
       'verified', false, '2024-10-27',
       'https://g1.globo.com/pr/parana/eleicoes/2024/noticia/greca-pimentel-vitoria.ghtml',
-      'news_article', 'Curitiba', 'Comemoração', 'greca-pimentel-vitoria-outubro-2024') RETURNING id)
+      'news_article', 'Curitiba', 'Comemoração', 'greca-pimentel-vitoria-outubro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 43. João Campos PSB 2026
@@ -572,7 +572,7 @@ BEGIN
       'Em janeiro de 2026, João Campos sinalizou possível candidatura ao governo de Pernambuco em 2026, contra eventual reeleição de Raquel Lyra.',
       'verified', false, '2026-01-20',
       'https://www.folhape.com.br/politica/joao-campos-governo-pe-2026',
-      'news_article', 'Recife', 'Entrevista à Folha de Pernambuco', 'joao-campos-governo-pe-janeiro-2026') RETURNING id)
+      'news_article', 'Recife', 'Entrevista à Folha de Pernambuco', 'joao-campos-governo-pe-janeiro-2026') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 44. Fuad Noman vice Kalil
@@ -584,7 +584,7 @@ BEGIN
       'Em 2024, durante campanha pela reeleição, Fuad reforçou vínculo com ex-prefeito Alexandre Kalil de BH como elemento de continuidade política.',
       'verified', false, '2024-08-18',
       'https://www.em.com.br/app/noticia/politica/2024/08/fuad-kalil-continuidade.html',
-      'news_article', 'Belo Horizonte', 'Ato de campanha', 'fuad-kalil-continuidade-agosto-2024') RETURNING id)
+      'news_article', 'Belo Horizonte', 'Ato de campanha', 'fuad-kalil-continuidade-agosto-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_des, true FROM ins;
 
   -- 45. Bruno Reis Carnaval tradicionalismo
@@ -596,7 +596,7 @@ BEGIN
       'Em 2024, após denúncia sobre diferença salarial entre artistas homens e mulheres no Carnaval de Salvador, Bruno Reis rejeitou paridade de cachês.',
       'verified', false, '2024-02-15',
       'https://www.correio24horas.com.br/noticia/bruno-reis-cache-mulheres-carnaval',
-      'news_article', 'Salvador', 'Coletiva do Carnaval', 'bruno-reis-cache-mulheres-fevereiro-2024') RETURNING id)
+      'news_article', 'Salvador', 'Coletiva do Carnaval', 'bruno-reis-cache-mulheres-fevereiro-2024') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_mac, true FROM ins;
 
   -- 46. David Almeida xenofobia venezuelanos
@@ -608,7 +608,7 @@ BEGIN
       'Em 2023, em meio a aumento da imigração de venezuelanos para Manaus, David Almeida fez declarações consideradas xenofóbicas por organizações de direitos humanos.',
       'verified', true, '2023-07-18',
       'https://www.amazonasatual.com.br/david-almeida-venezuelanos-manaus/',
-      'news_article', 'Manaus', 'Entrevista à Rádio Rio Mar', 'david-almeida-venezuelanos-julho-2023') RETURNING id)
+      'news_article', 'Manaus', 'Entrevista à Rádio Rio Mar', 'david-almeida-venezuelanos-julho-2023') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_xen, true FROM ins;
 
   -- 47. Melo Porto Alegre LGBT
@@ -620,7 +620,7 @@ BEGIN
       'Em 2023, após Melo cortar verba municipal para apoio à Parada LGBT de Porto Alegre, gerando críticas de ativistas e da comunidade LGBTQIA+.',
       'verified', false, '2023-11-18',
       'https://gauchazh.clicrbs.com.br/porto-alegre/noticia/2023/11/melo-lgbt-parada-verba.html',
-      'news_article', 'Porto Alegre', 'Entrevista à GaúchaZH', 'melo-lgbt-parada-novembro-2023') RETURNING id)
+      'news_article', 'Porto Alegre', 'Entrevista à GaúchaZH', 'melo-lgbt-parada-novembro-2023') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_hom, true FROM ins;
 
   -- 48. Paes Bolsonaro anistia
@@ -632,7 +632,7 @@ BEGIN
       'Em 2025, Eduardo Paes se pronunciou publicamente contra projetos de anistia aos envolvidos nos atos golpistas de 8 de janeiro de 2023.',
       'verified', true, '2025-08-12',
       'https://g1.globo.com/rj/rio-de-janeiro/noticia/2025/08/paes-anistia-bolsonaro.ghtml',
-      'news_article', 'Rio de Janeiro', 'Entrevista à Rádio Tupi', 'paes-anistia-bolsonaro-agosto-2025') RETURNING id)
+      'news_article', 'Rio de Janeiro', 'Entrevista à Rádio Tupi', 'paes-anistia-bolsonaro-agosto-2025') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_ant, true FROM ins;
 
   -- 49. Tarcísio anistia Bolsonaro
@@ -644,7 +644,7 @@ BEGIN
       'Em 2025, após condenação de Bolsonaro pelo STF no caso do golpe, Tarcísio defendeu publicamente projetos de anistia em tramitação no Congresso.',
       'verified', true, '2025-09-20',
       'https://www.folha.uol.com.br/poder/2025/09/tarcisio-anistia-bolsonaro-pacificacao.shtml',
-      'news_article', 'São Paulo', 'Entrevista ao Jornal Nacional', 'tarcisio-anistia-bolsonaro-setembro-2025') RETURNING id)
+      'news_article', 'São Paulo', 'Entrevista ao Jornal Nacional', 'tarcisio-anistia-bolsonaro-setembro-2025') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_ant, true FROM ins;
 
   -- 50. Nunes gestão social
@@ -656,7 +656,7 @@ BEGIN
       'Em 2025, Nunes rebateu estudos do Ibope e Rede PENSSAN que apontavam aumento da insegurança alimentar severa na capital paulista.',
       'verified', false, '2025-05-22',
       'https://www.folha.uol.com.br/cotidiano/2025/05/nunes-fome-sp-pesquisas.shtml',
-      'news_article', 'São Paulo', 'Entrevista à imprensa', 'nunes-fome-sp-maio-2025') RETURNING id)
+      'news_article', 'São Paulo', 'Entrevista à imprensa', 'nunes-fome-sp-maio-2025') ON CONFLICT (slug) DO NOTHING RETURNING id)
   INSERT INTO statement_categories (statement_id, category_id, is_primary) SELECT id, c_neg, true FROM ins;
 
 END $$;

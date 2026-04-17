@@ -83,7 +83,7 @@ BEGIN
       'https://www.metropoles.com/politica/nikolas-expulsao-globo-arrecadacao-minas',
       'social_media_post',
       'Instagram', 'Pós-expulsão Globo', 'nikolas-expulsao-globo-arrecadacao-b77-1'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -102,9 +102,9 @@ BEGIN
       'Declaração de Nikolas Ferreira em fevereiro de 2025 em entrevista à Jovem Pan, reivindicando autoria do recuo do governo sobre a norma da Receita. O governo ressaltou que a medida era técnica e não tinha relação com taxação.',
       3, 'verified', false, '2025-02-03',
       'https://www.jovempan.com.br/noticias/politica/nikolas-ferreira-pix-lula-derrotou-sozinho.html',
-      'interview',
+      'news_article',
       'Jovem Pan', 'Entrevista sobre vitória no Pix', 'nikolas-pix-lula-derrotou-sozinho-b77-2'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -125,7 +125,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2024/05/nikolas-ferreira-familia-moraes-stf-investigacao.shtml',
       'social_media_post',
       'Twitter/X', 'Exposição de familiares de Moraes', 'nikolas-familia-moraes-investigacao-b77-3'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_itm, true FROM ins;
@@ -144,9 +144,9 @@ BEGIN
       'Declaração de Nikolas Ferreira em abril de 2024 em discurso na Câmara defendendo revisão das decisões do STF que anularam condenações de Lula em 2021. A fala foi considerada ofensiva pelos ministros.',
       3, 'verified', false, '2024-04-04',
       'https://www.poder360.com.br/justica/nikolas-ferreira-lula-anistia-cadeia/',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Discurso contra Lula', 'nikolas-lula-anistia-cadeia-b77-4'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, true FROM ins;
@@ -165,9 +165,9 @@ BEGIN
       'Anúncio por Nikolas Ferreira em junho de 2023 de projeto de lei contra a exigência de cartão de vacinação para matrículas escolares. A proposta contraria orientação do Ministério da Saúde e da pediatria brasileira.',
       4, 'verified', false, '2023-06-14',
       'https://g1.globo.com/saude/noticia/2023/06/nikolas-ferreira-pl-vacina-obrigatoria-escolas.ghtml',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Apresentação de projeto de lei', 'nikolas-pl-vacina-obrigatoria-b77-5'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_neg, true FROM ins;
@@ -186,9 +186,9 @@ BEGIN
       'Pronunciamento de Nikolas Ferreira em maio de 2023 na Câmara defendendo tipificação do MST como organização terrorista durante CPI do movimento. A proposta foi rejeitada por juristas.',
       4, 'verified', false, '2023-05-17',
       'https://www.cnnbrasil.com.br/politica/nikolas-ferreira-mst-terrorismo-cpi/',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'CPI do MST', 'nikolas-mst-terrorismo-cpi-b77-6'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, true FROM ins;
@@ -207,9 +207,9 @@ BEGIN
       'Discurso de Nikolas Ferreira em março de 2024 na Câmara durante debate sobre renovação da Lei de Cotas. O deputado é um dos principais opositores da política afirmativa.',
       4, 'verified', false, '2024-03-13',
       'https://www.folha.uol.com.br/educacao/2024/03/nikolas-ferreira-cotas-raciais-racismo-reverso.shtml',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Debate sobre Lei de Cotas', 'nikolas-cotas-raciais-racismo-reverso-b77-7'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_rac, true FROM ins;
@@ -228,9 +228,9 @@ BEGIN
       'Anúncio de Nikolas Ferreira em julho de 2024 declarando apoio à pré-candidatura de Bruno Engler à Prefeitura de BH. O engler acabou indo para segundo turno e perdeu para Fuad Noman (PSD).',
       1, 'verified', false, '2024-07-02',
       'https://www.otempo.com.br/politica/nikolas-ferreira-apoio-bruno-engler-bh-2024.html',
-      'interview',
+      'news_article',
       'Belo Horizonte', 'Apoio a candidato', 'nikolas-apoio-engler-bh-2024-b77-8'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -249,9 +249,9 @@ BEGIN
       'Declaração de Nikolas Ferreira em março de 2024 durante entrevista sobre investigação relativa a milícias no Rio de Janeiro. A fala desconsidera denúncias já oferecidas pelo Ministério Público.',
       3, 'verified', false, '2024-03-20',
       'https://oglobo.globo.com/politica/nikolas-ferreira-milicia-bolsonaros-fabula-esquerda.ghtml',
-      'interview',
+      'news_article',
       'CNN Brasil', 'Entrevista sobre milícias', 'nikolas-milicia-bolsonaros-fabula-b77-9'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -270,9 +270,9 @@ BEGIN
       'Pronunciamento de Nikolas Ferreira em junho de 2023 após TSE declarar Bolsonaro inelegível até 2030. O deputado foi um dos principais críticos da decisão.',
       3, 'verified', true, '2023-06-30',
       'https://www.poder360.com.br/eleicoes/nikolas-ferreira-bolsonaro-inelegibilidade-morte-politica/',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Reação à inelegibilidade de Bolsonaro', 'nikolas-bolsonaro-inelegibilidade-morte-b77-10'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -294,7 +294,7 @@ BEGIN
       'https://www.metropoles.com/politica/zambelli-italia-nikolas-ferreira-mensagem-direita',
       'social_media_post',
       'Twitter/X', 'Mensagem do exílio a Nikolas', 'zambelli-italia-nikolas-direita-b77-11'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -313,9 +313,9 @@ BEGIN
       'Declaração de Bia Kicis em julho de 2025 após o Conselho de Ética da Câmara suspender André Janones por três meses. A deputada cobrou cassação definitiva.',
       2, 'verified', false, '2025-07-23',
       'https://www.folha.uol.com.br/poder/2025/07/kicis-janones-suspensao-cassacao-conselho-etica.shtml',
-      'interview',
+      'news_article',
       'Brasília', 'Entrevista sobre cassação', 'kicis-janones-suspensao-cassacao-b77-12'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -334,9 +334,9 @@ BEGIN
       'Sermão de Marco Feliciano em março de 2026 em culto no Rio de Janeiro, declarando apoio religioso à candidatura de Nikolas ao governo mineiro. O pastor cooptou sua rede evangélica para a campanha.',
       3, 'verified', false, '2026-03-08',
       'https://www.cnnbrasil.com.br/politica/feliciano-apoio-nikolas-minas-unidade-crista/',
-      'speech',
+      'other',
       'Rio de Janeiro', 'Culto de apoio político', 'feliciano-apoio-nikolas-minas-b77-13'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_int, true FROM ins;
@@ -355,9 +355,9 @@ BEGIN
       'Pronunciamento de Silas Câmara em fevereiro de 2024 na Câmara. O deputado defendeu regulamentação de isenção fiscal para igrejas progressistas, proposta criticada por ferir Estado laico.',
       3, 'verified', false, '2024-02-29',
       'https://www.uol.com.br/universa/noticias/2024/02/silas-camara-regulamentacao-igrejas-progressistas.htm',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Pronunciamento no plenário', 'silas-regulamentacao-igrejas-progressistas-b77-14'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_int, true FROM ins;
@@ -376,9 +376,9 @@ BEGIN
       'Discurso de Magno Malta em setembro de 2024 em evento bolsonarista em Cachoeiro de Itapemirim, invertendo a narrativa sobre 8 de Janeiro. A fala repete linha de defesa usada por Bolsonaro.',
       4, 'verified', false, '2024-09-08',
       'https://www.poder360.com.br/congresso/magno-malta-stf-golpista-8-janeiro/',
-      'speech',
+      'other',
       'Cachoeiro de Itapemirim', 'Evento bolsonarista', 'magno-stf-golpista-8-janeiro-b77-15'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -397,9 +397,9 @@ BEGIN
       'Anúncio de Damares Alves em julho de 2025 sobre criação de CPI no Senado para investigar supostas perseguições religiosas. A instalação da CPI foi criticada por ser usada politicamente contra o STF.',
       3, 'verified', true, '2025-07-08',
       'https://www.metropoles.com/politica/damares-cpi-evangelicos-perseguicao-stf',
-      'interview',
+      'news_article',
       'Senado Federal', 'Anúncio de CPI', 'damares-cpi-evangelicos-perseguicao-b77-16'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_int, true FROM ins;
@@ -420,7 +420,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2024/03/eduardo-bolsonaro-militares-responsabilizacao-golpe.shtml',
       'social_media_post',
       'Twitter/X', 'Defesa de militares indiciados', 'eduardo-militares-responsabilizacao-b77-17'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -439,9 +439,9 @@ BEGIN
       'Declaração de Flávio Bolsonaro em abril de 2025 após articulação com senadores insatisfeitos com Davi Alcolumbre. O senador lidera fração do PL que acumula atritos com a presidência do Senado.',
       2, 'verified', false, '2025-04-16',
       'https://www.poder360.com.br/congresso/flavio-bolsonaro-bloco-oposicao-senado-alcolumbre/',
-      'interview',
+      'news_article',
       'Senado Federal', 'Entrevista sobre bloco de oposição', 'flavio-bloco-oposicao-senado-b77-18'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -462,7 +462,7 @@ BEGIN
       'https://www.metropoles.com/politica/carlos-bolsonaro-lula-saude-mental-boato',
       'social_media_post',
       'Twitter/X', 'Boato sobre saúde de Lula', 'carlos-lula-saude-mental-boato-b77-19'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -483,7 +483,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/internacional/bolsonaro-trump-mar-a-lago-direitas-mundiais/',
       'social_media_post',
       'Twitter/X', 'Visita a Trump em Mar-a-Lago', 'bolsonaro-trump-mar-a-lago-b77-20'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -502,9 +502,9 @@ BEGIN
       'Fala de Marcel van Hattem em junho de 2024 após decisão do STF descriminalizar posse de maconha para uso pessoal. O deputado liderou tentativa de superar decisão via PEC.',
       2, 'verified', false, '2024-06-26',
       'https://www.gazetadopovo.com.br/republica/van-hattem-stf-maconha-ativismo-judicial/',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Debate sobre descriminalização', 'van-hattem-stf-maconha-ativismo-b77-21'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -523,9 +523,9 @@ BEGIN
       'Pronunciamento de Kim Kataguiri em agosto de 2024 na Câmara contra PL 2630 de regulação de redes. O deputado articulou oposição de parte do centro ao texto original.',
       2, 'verified', false, '2024-08-29',
       'https://www.folha.uol.com.br/poder/2024/08/kim-kataguiri-pl-fake-news-liberdade-expressao.shtml',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Debate PL das Fake News', 'kim-pl-fake-news-liberdade-b77-22'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -544,9 +544,9 @@ BEGIN
       'Discurso de General Girão em audiência pública na Câmara em novembro de 2024 defendendo organização armada de produtores rurais. A proposta foi considerada perigosa por entidades de direitos humanos.',
       5, 'verified', false, '2024-11-13',
       'https://www.uol.com.br/noticias/2024/11/general-girao-centros-treinamento-paramilitar-mst.htm',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Audiência sobre segurança rural', 'girao-centros-treinamento-paramilitar-b77-23'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_vio, true FROM ins;
@@ -567,7 +567,7 @@ BEGIN
       'https://g1.globo.com/sc/santa-catarina/noticia/2025/02/julia-zanatta-projeto-banheiro-escola-identidade-genero.ghtml',
       'social_media_post',
       'Florianópolis', 'Apresentação de PL estadual', 'zanatta-pl-banheiro-escola-sc-b77-24'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -586,9 +586,9 @@ BEGIN
       'Declaração de Sanderson em abril de 2025 na Câmara comparando fraude do INSS ao esquema da Lava Jato. A fala ignora que parte das irregularidades começou em gestões anteriores.',
       3, 'verified', false, '2025-04-08',
       'https://www.correiobraziliense.com.br/politica/2025/04/sanderson-inss-petrolao-lula.html',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Debate sobre INSS', 'sanderson-inss-petrolao-b77-25'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -607,9 +607,9 @@ BEGIN
       'Pronunciamento de Filipe Barros em maio de 2024 na Câmara após novas decisões monocráticas de Moraes bloqueando perfis bolsonaristas. O deputado foi autor de pedido de impeachment.',
       3, 'verified', false, '2024-05-14',
       'https://www.jovempan.com.br/noticias/politica/filipe-barros-moraes-censura-brasileiros.html',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Discurso contra Moraes', 'barros-moraes-censura-milhoes-b77-26'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -628,9 +628,9 @@ BEGIN
       'Entrevista de Cabo Gilberto em outubro de 2023 à Band defendendo revisão da Lei do Abate (Lei 9.614) para flexibilizar derrubada de aeronaves suspeitas. A proposta foi contestada por especialistas em segurança aérea.',
       4, 'verified', false, '2023-10-18',
       'https://www.band.com.br/noticias/politica/cabo-gilberto-lei-abate-aviao-paraiba.html',
-      'interview',
+      'news_article',
       'Band', 'Entrevista sobre segurança', 'cabo-gilberto-lei-abate-aviao-b77-27'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_vio, true FROM ins;
@@ -649,9 +649,9 @@ BEGIN
       'Discurso de Guiga Peixoto em setembro de 2024 na Câmara atacando legitimidade do presidente Lula. A fala foi alvo de representação no Conselho de Ética.',
       4, 'verified', false, '2024-09-12',
       'https://www.folha.uol.com.br/poder/2024/09/guiga-peixoto-lula-presidente-ilegitimo-camara.shtml',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Discurso no plenário', 'guiga-peixoto-lula-ilegitimo-b77-28'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -672,7 +672,7 @@ BEGIN
       'https://oglobo.globo.com/politica/ricardo-salles-cop30-belem-circo-climatico.ghtml',
       'social_media_post',
       'Twitter/X', 'Ataque à COP30', 'salles-cop30-belem-circo-climatico-b77-29'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_neg, true FROM ins;
@@ -693,7 +693,7 @@ BEGIN
       'https://www.metropoles.com/politica/ramagem-condenacao-stf-vingativo-moraes',
       'social_media_post',
       'Twitter/X', 'Reação à condenação', 'ramagem-condenacao-stf-vingativo-b77-30'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -714,7 +714,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2024/07/daniel-silveira-ameaca-lista-juizes-enderecos.shtml',
       'social_media_post',
       'Twitter/X', 'Ameaça a magistrados', 'silveira-ameaca-lista-juizes-b77-31'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_vio, true FROM ins;
@@ -733,9 +733,9 @@ BEGIN
       'Declaração de Adriana Ventura em outubro de 2024 na Câmara durante debate sobre reforma tributária. A deputada do Novo defende agenda liberal em gastos públicos.',
       1, 'verified', false, '2024-10-15',
       'https://www.valor.globo.com/politica/noticia/2024/10/adriana-ventura-corte-beneficios-estatais.ghtml',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Debate sobre reforma tributária', 'adriana-corte-estatais-beneficios-b77-32'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -756,7 +756,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/02/erika-hilton-nikolas-verba-gabinete-youtube.shtml',
       'social_media_post',
       'Câmara dos Deputados', 'Representação contra Nikolas', 'erika-nikolas-verba-gabinete-b77-33'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -775,9 +775,9 @@ BEGIN
       'Manifestação de Sâmia Bomfim em março de 2025 no Dia Internacional da Visibilidade Trans, rebatendo ofensiva legislativa conservadora. A deputada é uma das principais vozes das pautas LGBTQIA+ na Câmara.',
       1, 'verified', false, '2025-03-31',
       'https://www.uol.com.br/universa/noticias/2025/03/samia-bomfim-dia-visibilidade-trans-resistencia.htm',
-      'speech',
+      'other',
       'São Paulo', 'Ato do Dia da Visibilidade Trans', 'samia-visibilidade-trans-resistencia-b77-34'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -796,9 +796,9 @@ BEGIN
       'Pronunciamento de Talíria Petrone em maio de 2024 na Câmara em defesa da renovação e ampliação da Lei de Cotas. A deputada é uma das principais vozes antirracistas do parlamento.',
       1, 'verified', false, '2024-05-13',
       'https://www.cnnbrasil.com.br/politica/taliria-petrone-cotas-raciais-racismo-estrutural/',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Defesa das cotas raciais', 'taliria-cotas-raciais-racismo-estrutural-b77-35'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_rac, true FROM ins;
@@ -817,9 +817,9 @@ BEGIN
       'Declaração de Lindbergh Farias em setembro de 2025 após condenação de Jair Bolsonaro pelo STF a 27 anos e 3 meses pelo plano golpista. O líder do PT celebrou a decisão.',
       1, 'verified', true, '2025-09-11',
       'https://www.folha.uol.com.br/poder/2025/09/lindbergh-condenacao-bolsonaro-stf-democracia.shtml',
-      'interview',
+      'news_article',
       'Brasília', 'Coletiva após condenação', 'lindbergh-condenacao-bolsonaro-stf-b77-36'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -840,7 +840,7 @@ BEGIN
       'https://oglobo.globo.com/politica/jandira-feghali-prisao-brazao-marielle-justica.ghtml',
       'social_media_post',
       'Twitter/X', 'Celebração de prisão', 'jandira-brazao-marielle-justica-b77-37'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -859,9 +859,9 @@ BEGIN
       'Anúncio de Orlando Silva em junho de 2025 de projeto de lei para taxar plataformas digitais. A proposta foi recebida com resistência por empresas de tecnologia.',
       1, 'verified', false, '2025-06-13',
       'https://www.poder360.com.br/tecnologia/orlando-silva-tributar-big-techs-desinformacao/',
-      'interview',
+      'news_article',
       'Câmara dos Deputados', 'Coletiva sobre PL de tributação', 'orlando-tributar-big-techs-b77-38'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -880,9 +880,9 @@ BEGIN
       'Pronunciamento de Chico Alencar em março de 2023 em plenário da Câmara após episódio da peruca protagonizado por Nikolas Ferreira. O veterano deputado do PSOL solicitou apuração pelo Conselho de Ética.',
       1, 'verified', false, '2023-03-08',
       'https://www.folha.uol.com.br/poder/2023/03/chico-alencar-nikolas-peruca-vergonha-historica.shtml',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Reação ao episódio da peruca', 'chico-alencar-nikolas-peruca-vergonha-b77-39'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -901,9 +901,9 @@ BEGIN
       'Declaração de Gleisi Hoffmann em março de 2026 em evento do PT em Juiz de Fora contra a candidatura de Nikolas ao governo mineiro. A fala marcou agenda da ministra em Minas.',
       1, 'verified', false, '2026-03-14',
       'https://www.cartacapital.com.br/politica/gleisi-hoffmann-nikolas-ditador-digital/',
-      'speech',
+      'other',
       'Juiz de Fora', 'Evento do PT', 'gleisi-nikolas-ditador-digital-b77-40'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -922,9 +922,9 @@ BEGIN
       'Anúncio de Pablo Marçal em março de 2026 de pré-candidatura à Presidência pelo PRTB. O ex-coach busca espaço entre bolsonarismo e liberalismo de mercado.',
       2, 'verified', true, '2026-03-18',
       'https://www.metropoles.com/politica/pablo-marcal-pre-candidato-presidencia-2026',
-      'interview',
+      'news_article',
       'São Paulo', 'Anúncio de pré-candidatura', 'marcal-pre-candidato-presidencia-b77-41'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -943,9 +943,9 @@ BEGIN
       'Discurso de Nikolas Ferreira em agosto de 2023 na Câmara em defesa de PEC sobre redução da maioridade penal. A pauta é tradicional na bancada conservadora.',
       3, 'verified', false, '2023-08-23',
       'https://g1.globo.com/politica/noticia/2023/08/nikolas-ferreira-maioridade-penal-14-anos.ghtml',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Debate sobre maioridade penal', 'nikolas-maioridade-penal-14-anos-b77-42'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_vio, true FROM ins;
@@ -964,9 +964,9 @@ BEGIN
       'Declaração de Nikolas Ferreira em novembro de 2023 em entrevista ao Gazeta do Povo defendendo privatização parcial do SUS. A proposta foi criticada por sanitaristas.',
       3, 'verified', false, '2023-11-22',
       'https://www.gazetadopovo.com.br/republica/nikolas-ferreira-sus-fracasso-voucher-privatizacao/',
-      'interview',
+      'news_article',
       'Gazeta do Povo', 'Entrevista sobre saúde', 'nikolas-sus-fracasso-voucher-b77-43'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -987,7 +987,7 @@ BEGIN
       'https://www.folha.uol.com.br/ilustrada/2023/05/nikolas-ferreira-lei-paulo-gustavo-mamata-esquerda.shtml',
       'social_media_post',
       'Twitter/X', 'Crítica à Lei Paulo Gustavo', 'nikolas-lei-paulo-gustavo-mamata-b77-44'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1008,7 +1008,7 @@ BEGIN
       'https://g1.globo.com/ba/bahia/noticia/2024/04/nikolas-ferreira-bahia-fazendeiro-mst.ghtml',
       'social_media_post',
       'Bahia', 'Visita a fazenda invadida', 'nikolas-bahia-fazendeiro-mst-b77-45'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_odi, true FROM ins;
@@ -1029,7 +1029,7 @@ BEGIN
       'https://www.metropoles.com/politica/nikolas-ferreira-janja-maridou-cargo-misoginia',
       'social_media_post',
       'Twitter/X', 'Ataque misógino a Janja', 'nikolas-janja-maridou-cargo-b77-46'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mis, true FROM ins;
@@ -1048,9 +1048,9 @@ BEGIN
       'Anúncio por Nikolas Ferreira em junho de 2023 de projeto para tornar obrigatória disciplina de Educação Moral e Cívica. A proposta remete a modelo da ditadura militar.',
       3, 'verified', false, '2023-06-05',
       'https://www.folha.uol.com.br/educacao/2023/06/nikolas-ferreira-educacao-civica-militar-escolas.shtml',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Apresentação de projeto', 'nikolas-educacao-civica-militar-b77-47'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_aut, true FROM ins;
@@ -1069,9 +1069,9 @@ BEGIN
       'Pronunciamento de Nikolas Ferreira em outubro de 2024 atacando política fiscal do governo Lula. A fala foi contestada por economistas que apontam ajustes fiscais feitos.',
       2, 'verified', false, '2024-10-01',
       'https://www.valor.globo.com/politica/noticia/2024/10/nikolas-ferreira-lula-lei-responsabilidade-fiscal.ghtml',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Discurso sobre economia', 'nikolas-lula-responsabilidade-fiscal-b77-48'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1092,7 +1092,7 @@ BEGIN
       'https://www.poder360.com.br/tecnologia/nikolas-ferreira-youtube-censura-vacina-processar/',
       'social_media_post',
       'Twitter/X', 'Reação a remoção de vídeo', 'nikolas-youtube-censura-vacina-b77-49'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1113,7 +1113,7 @@ BEGIN
       'https://www.otempo.com.br/politica/nikolas-kalil-chance-falhou-minas-2026.html',
       'social_media_post',
       'Twitter/X', 'Provocação a Alexandre Kalil', 'nikolas-kalil-chance-falhou-b77-50'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1132,9 +1132,9 @@ BEGIN
       'Declaração de Nikolas Ferreira em janeiro de 2026 em entrevista à Rádio Itatiaia sobre articulação da direita mineira. O deputado busca apoio do governador Romeu Zema para sua candidatura.',
       1, 'verified', false, '2026-01-15',
       'https://www.otempo.com.br/politica/nikolas-zema-alianca-2026-minas-gerais.html',
-      'interview',
+      'news_article',
       'Rádio Itatiaia', 'Entrevista sobre eleição MG', 'nikolas-zema-alianca-2026-b77-51'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1153,9 +1153,9 @@ BEGIN
       'Apresentação por Nikolas Ferreira em agosto de 2023 de PL concedendo indulto a Daniel Silveira. A proposta não avançou mas integra estratégia de anistia ampla defendida pelo bolsonarismo.',
       3, 'verified', false, '2023-08-30',
       'https://www.folha.uol.com.br/poder/2023/08/nikolas-ferreira-pl-indulto-daniel-silveira.shtml',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Apresentação de PL', 'nikolas-pl-indulto-silveira-b77-52'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -1176,7 +1176,7 @@ BEGIN
       'https://www.metropoles.com/politica/zambelli-roma-moraes-tribunais-internacionais',
       'social_media_post',
       'Twitter/X', 'Denúncia internacional', 'zambelli-roma-moraes-tribunais-b77-53'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -1197,7 +1197,7 @@ BEGIN
       'https://www.folha.uol.com.br/mundo/2025/11/bia-kicis-italia-zambelli-exilio-verba-publica.shtml',
       'social_media_post',
       'Roma', 'Visita a Zambelli', 'kicis-italia-zambelli-exilio-b77-54'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1216,9 +1216,9 @@ BEGIN
       'Anúncio de Marco Feliciano em agosto de 2023 de PEC que proíbe qualquer aborto, incluindo casos previstos em lei. A proposta foi criticada por médicos e ativistas de direitos humanos.',
       4, 'verified', false, '2023-08-07',
       'https://www.uol.com.br/universa/noticias/2023/08/feliciano-pec-vida-aborto-proibicao-estupro.htm',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Apresentação de PEC', 'feliciano-pec-vida-aborto-b77-55'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mis, true FROM ins;
@@ -1237,9 +1237,9 @@ BEGIN
       'Discurso de Silas Câmara em novembro de 2023 na Câmara, durante debate sobre intolerância religiosa. A fala foi duramente criticada por líderes de religiões de matriz africana.',
       5, 'verified', true, '2023-11-20',
       'https://g1.globo.com/religiao/noticia/2023/11/20/silas-camara-macumba-plenario-intolerancia-religiosa.ghtml',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Discurso no Dia da Consciência Negra', 'silas-macumba-intolerancia-religiosa-b77-56'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_int, true FROM ins;
@@ -1258,9 +1258,9 @@ BEGIN
       'Pregação de Magno Malta em março de 2024 em igreja em Vitória, ES. A fala ecoa discurso recorrente contra políticas de identidade de gênero na educação.',
       4, 'verified', false, '2024-03-12',
       'https://www.jovempan.com.br/noticias/politica/magno-malta-ideologia-genero-menino-menina-escola.html',
-      'speech',
+      'other',
       'Vitória', 'Pregação em igreja', 'magno-ideologia-genero-menino-menina-b77-57'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -1279,9 +1279,9 @@ BEGIN
       'Anúncio por Damares Alves em setembro de 2024 de projeto de lei restringindo adoção por casais do mesmo sexo. A proposta foi considerada inconstitucional e enfrenta resistência na Comissão de Constituição e Justiça.',
       4, 'verified', false, '2024-09-19',
       'https://www.folha.uol.com.br/poder/2024/09/damares-alves-adocao-casais-homoafetivos-pl.shtml',
-      'speech',
+      'other',
       'Senado Federal', 'Apresentação de projeto', 'damares-adocao-casais-homoafetivos-b77-58'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -1302,7 +1302,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/internacional/eduardo-bolsonaro-onu-brasil-sair-direitos-humanos/',
       'social_media_post',
       'Twitter/X', 'Ataque à ONU', 'eduardo-onu-brasil-sair-b77-59'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_xen, true FROM ins;
@@ -1323,7 +1323,7 @@ BEGIN
       'https://www.metropoles.com/politica/flavio-bolsonaro-rachadinha-ficcao-petista-processar',
       'social_media_post',
       'Twitter/X', 'Resposta a reportagem', 'flavio-rachadinha-ficcao-petista-b77-60'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1344,7 +1344,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2024/11/carlos-bolsonaro-candidato-2026-custe-custar.shtml',
       'social_media_post',
       'Twitter/X', 'Defesa de candidatura em 2026', 'carlos-bolsonaro-candidato-2026-b77-61'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -1365,7 +1365,7 @@ BEGIN
       'https://www.cnnbrasil.com.br/politica/bolsonaro-tornozeleira-live-stf-humilhacao/',
       'social_media_post',
       'YouTube', 'Live com tornozeleira', 'bolsonaro-tornozeleira-live-stf-b77-62'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1386,7 +1386,7 @@ BEGIN
       'https://www.gazetadopovo.com.br/republica/van-hattem-nikolas-pix-governo-intrusivo/',
       'social_media_post',
       'Twitter/X', 'Apoio a Nikolas no caso Pix', 'van-hattem-nikolas-pix-intrusivo-b77-63'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1405,9 +1405,9 @@ BEGIN
       'Declaração de Kim Kataguiri em julho de 2024 em entrevista ao Poder360, criticando desempenho parlamentar de Nikolas Ferreira e André Janones. O deputado do União buscou marcar diferença do polo extremo.',
       1, 'verified', false, '2024-07-05',
       'https://www.poder360.com.br/congresso/kim-kataguiri-nikolas-janones-podcast-politica/',
-      'interview',
+      'news_article',
       'Poder360', 'Entrevista sobre parlamentarismo digital', 'kim-nikolas-janones-podcast-b77-64'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1426,9 +1426,9 @@ BEGIN
       'Declaração de General Girão em abril de 2024 durante vigília de apoiadores dos condenados pelo 8 de Janeiro em frente ao Congresso. A mobilização foi criticada pela Mesa Diretora.',
       3, 'verified', false, '2024-04-10',
       'https://www.folha.uol.com.br/poder/2024/04/general-girao-anistia-8-janeiro-acampamento-brasilia.shtml',
-      'interview',
+      'news_article',
       'Brasília', 'Vigília pela anistia', 'girao-acampamento-anistia-b77-65'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -1449,7 +1449,7 @@ BEGIN
       'https://www.metropoles.com/entretenimento/julia-zanatta-cinema-feminista-propaganda-ideologica',
       'social_media_post',
       'Twitter/X', 'Ataque a cinema feminista', 'zanatta-cinema-feminista-propaganda-b77-66'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mis, true FROM ins;
@@ -1470,7 +1470,7 @@ BEGIN
       'https://g1.globo.com/rs/rio-grande-do-sul/noticia/2024/05/sanderson-enchentes-rs-ajuste-climatico-natural.ghtml',
       'social_media_post',
       'Twitter/X', 'Declaração sobre enchentes', 'sanderson-enchentes-rs-ajuste-climatico-b77-67'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_neg, true FROM ins;
@@ -1489,9 +1489,9 @@ BEGIN
       'Anúncio de Filipe Barros em outubro de 2024 de projeto de lei limitando decisões monocráticas do STF. O texto foi amplamente criticado por ministros da Corte.',
       3, 'verified', false, '2024-10-23',
       'https://www.jovempan.com.br/noticias/politica/filipe-barros-pl-decisoes-monocraticas-stf.html',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Apresentação de PL', 'barros-pl-monocraticas-stf-b77-68'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -1510,9 +1510,9 @@ BEGIN
       'Declaração de Cabo Gilberto em fevereiro de 2024 em evento em João Pessoa, gerando críticas sobre preconceito regional. A fala foi considerada xenófoba por deputados nordestinos.',
       4, 'verified', false, '2024-02-28',
       'https://www.cnnbrasil.com.br/politica/cabo-gilberto-nordeste-reduto-pt-atraso-xenofobia/',
-      'speech',
+      'other',
       'João Pessoa', 'Evento político', 'cabo-gilberto-nordeste-reduto-pt-b77-69'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_xen, true FROM ins;
@@ -1533,7 +1533,7 @@ BEGIN
       'https://www.metropoles.com/politica/guiga-peixoto-globo-concessao-publica-fim',
       'social_media_post',
       'Câmara dos Deputados', 'Proposta contra Globo', 'guiga-peixoto-globo-concessao-publica-b77-70'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -1552,9 +1552,9 @@ BEGIN
       'Declaração de Ricardo Salles em setembro de 2023 em painel no Congresso. A fala foi rebatida por lideranças indígenas e por entidades ambientais.',
       4, 'verified', false, '2023-09-13',
       'https://www.folha.uol.com.br/ambiente/2023/09/ricardo-salles-garimpo-terras-indigenas-legalizacao.shtml',
-      'speech',
+      'other',
       'Congresso Nacional', 'Painel sobre mineração', 'salles-garimpo-terras-indigenas-legalizacao-b77-71'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_rac, true FROM ins;
@@ -1573,9 +1573,9 @@ BEGIN
       'Declaração de Alexandre Ramagem em outubro de 2024 após derrota no primeiro turno para Eduardo Paes nas eleições para a Prefeitura do Rio. Ramagem obteve votação expressiva.',
       2, 'verified', false, '2024-10-07',
       'https://oglobo.globo.com/rio/ramagem-derrota-paes-rio-comprado-esquerda-2024.ghtml',
-      'interview',
+      'news_article',
       'Rio de Janeiro', 'Declaração pós-eleição', 'ramagem-derrota-paes-rio-comprado-b77-72'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1596,7 +1596,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2024/11/daniel-silveira-ameaca-jornalistas-cobertura-condenacao.shtml',
       'social_media_post',
       'Twitter/X', 'Ameaça a jornalistas', 'silveira-ameaca-jornalistas-nomes-b77-73'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_vio, true FROM ins;
@@ -1615,9 +1615,9 @@ BEGIN
       'Voto de Adriana Ventura em setembro de 2024 na Câmara contra MP do governo sobre ampliação de programas sociais. A deputada lidera bancada do Novo na defesa de austeridade fiscal.',
       1, 'verified', false, '2024-09-04',
       'https://www.valor.globo.com/politica/noticia/2024/09/adriana-ventura-mp-governo-gastos-publicos.ghtml',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Voto contra MP do governo', 'adriana-mp-gastos-publicos-b77-74'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1636,9 +1636,9 @@ BEGIN
       'Declaração de Erika Hilton em outubro de 2024 sobre necessidade de segurança privada contratada após escalada de ameaças. A Câmara ofereceu escolta institucional.',
       1, 'verified', false, '2024-10-28',
       'https://www.uol.com.br/universa/noticias/2024/10/erika-hilton-seguranca-privada-ameacas-nikolas.htm',
-      'interview',
+      'news_article',
       'São Paulo', 'Coletiva sobre ameaças', 'erika-seguranca-privada-ameacas-b77-75'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -1657,9 +1657,9 @@ BEGIN
       'Pronunciamento de Sâmia Bomfim em junho de 2025 na Câmara contra PL que flexibiliza relação de trabalho em plataformas. A disputa polarizou parlamentares.',
       1, 'verified', false, '2025-06-17',
       'https://www.cartacapital.com.br/politica/samia-bomfim-clt-uberizada-plataforma/',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Debate sobre PL das plataformas', 'samia-clt-uberizada-plataforma-b77-76'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1678,9 +1678,9 @@ BEGIN
       'Apresentação por Talíria Petrone em abril de 2024 de projeto de lei revisando regras de posse e porte de arma após novos episódios de violência escolar. A proposta encontrou resistência da bancada da bala.',
       1, 'verified', false, '2024-04-09',
       'https://www.folha.uol.com.br/cotidiano/2024/04/taliria-petrone-desarmamento-civil-pl-rio.shtml',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Apresentação de PL sobre armas', 'taliria-desarmamento-civil-escola-b77-77'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1699,9 +1699,9 @@ BEGIN
       'Manifestação de Lindbergh Farias em outubro de 2023 ao término da CPMI do 8 de Janeiro, celebrando as conclusões do relatório final da comissão. A CPMI indiciou dezenas de pessoas.',
       1, 'verified', false, '2023-10-18',
       'https://www.cnnbrasil.com.br/politica/lindbergh-cpmi-8-janeiro-verdade-libertadora/',
-      'speech',
+      'other',
       'Congresso Nacional', 'Encerramento da CPMI', 'lindbergh-cpmi-8-janeiro-verdade-b77-78'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1720,9 +1720,9 @@ BEGIN
       'Declaração de Jandira Feghali em abril de 2024 após sanção da Lei 14.811/2024 sobre crime de misoginia. A deputada foi uma das articuladoras da proposta na Câmara.',
       1, 'verified', false, '2024-04-23',
       'https://www.correiobraziliense.com.br/politica/2024/04/jandira-lei-misoginia-vitoria-feminista.html',
-      'interview',
+      'news_article',
       'Brasília', 'Coletiva após sanção da lei', 'jandira-lei-misoginia-vitoria-feminista-b77-79'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mis, true FROM ins;
@@ -1741,9 +1741,9 @@ BEGIN
       'Declaração de Orlando Silva em janeiro de 2026 em seminário do PCdoB, alertando para o papel decisivo das redes sociais nas eleições gerais. O deputado articula agenda digital para a esquerda.',
       1, 'verified', false, '2026-01-24',
       'https://www.poder360.com.br/eleicoes/orlando-silva-batalha-digital-2026-pcdob/',
-      'speech',
+      'other',
       'São Paulo', 'Seminário do PCdoB', 'orlando-batalha-digital-2026-pcdob-b77-80'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1764,7 +1764,7 @@ BEGIN
       'https://www.folha.uol.com.br/opiniao/2024/02/chico-alencar-bolsonarismo-minoria-ruidosa-camara.shtml',
       'news_article',
       'Folha de S.Paulo', 'Artigo de opinião', 'chico-bolsonarismo-minoria-ruidosa-b77-81'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1783,9 +1783,9 @@ BEGIN
       'Declaração de Gleisi Hoffmann em fevereiro de 2026 durante evento do PT em Curitiba, sinalizando projeto reeleitoral de Lula. A ministra da SRI articulou agenda pré-eleitoral.',
       1, 'verified', false, '2026-02-07',
       'https://www.cartacapital.com.br/politica/gleisi-lula-reeleito-2026-ataques-bolsonarismo/',
-      'speech',
+      'other',
       'Curitiba', 'Evento do PT', 'gleisi-lula-reeleito-2026-b77-82'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1804,9 +1804,9 @@ BEGIN
       'Apresentação de Pablo Marçal em abril de 2026 em evento em São Paulo de seu plano de governo focado em tecnologia. O pré-candidato busca posicionamento liberal-tecnológico.',
       1, 'verified', false, '2026-04-03',
       'https://www.valor.globo.com/politica/noticia/2026/04/pablo-marcal-ia-brasil-potencia-plano-governo.ghtml',
-      'speech',
+      'other',
       'São Paulo', 'Lançamento de plano de governo', 'marcal-ia-brasil-potencia-b77-83'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1827,7 +1827,7 @@ BEGIN
       'https://www.folha.uol.com.br/poder/2025/09/nikolas-stf-tribunal-excecao-condenacoes.shtml',
       'social_media_post',
       'Twitter/X', 'Reação às condenações do STF', 'nikolas-stf-tribunal-excecao-b77-84'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -1848,7 +1848,7 @@ BEGIN
       'https://www.valor.globo.com/politica/noticia/2024/04/nikolas-ferreira-chines-importacao-quinquilharia.ghtml',
       'social_media_post',
       'Twitter/X', 'Ataque a importações chinesas', 'nikolas-chines-importacao-quinquilharia-b77-85'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_xen, true FROM ins;
@@ -1867,9 +1867,9 @@ BEGIN
       'Declaração de Nikolas Ferreira em março de 2024 em entrevista à Jovem Pan propondo homenagem a Jair Bolsonaro. A fala foi vista como provocação.',
       2, 'verified', false, '2024-03-08',
       'https://www.jovempan.com.br/noticias/politica/nikolas-ferreira-estatua-bolsonaro-brasilia.html',
-      'interview',
+      'news_article',
       'Jovem Pan', 'Entrevista sobre Bolsonaro', 'nikolas-estatua-bolsonaro-brasilia-b77-86'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1890,7 +1890,7 @@ BEGIN
       'https://www.folha.uol.com.br/educacao/2024/03/nikolas-ferreira-ufmg-lgbt-aula-inaugural.shtml',
       'social_media_post',
       'Twitter/X', 'Ataque à UFMG', 'nikolas-ufmg-lgbt-aula-inaugural-b77-87'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -1911,7 +1911,7 @@ BEGIN
       'https://www.metropoles.com/politica/nikolas-defende-ramagem-condenacao-servidor-exemplar',
       'social_media_post',
       'Twitter/X', 'Defesa de Ramagem', 'nikolas-defende-ramagem-servidor-b77-88'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1930,9 +1930,9 @@ BEGIN
       'Declaração de Nikolas Ferreira em fevereiro de 2024 em debate na Câmara, atacando política de crédito do BNDES. A proposta foi criticada por economistas que defendem o papel do banco.',
       2, 'verified', false, '2024-02-07',
       'https://www.valor.globo.com/politica/noticia/2024/02/nikolas-ferreira-bndes-caixa-dois-pt.ghtml',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Debate sobre BNDES', 'nikolas-bndes-caixa-dois-pt-b77-89'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1953,7 +1953,7 @@ BEGIN
       'https://www.cartacapital.com.br/politica/nikolas-ferreira-deputadas-esquerda-feminismo-revista/',
       'social_media_post',
       'Twitter/X', 'Ataque a deputadas de esquerda', 'nikolas-deputadas-esquerda-feminismo-b77-90'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_mis, true FROM ins;
@@ -1972,9 +1972,9 @@ BEGIN
       'Discurso de Nikolas Ferreira em abril de 2026 em Ouro Preto durante evento pré-eleitoral no feriado de Tiradentes. O deputado construiu narrativa mitológica para sua candidatura.',
       2, 'verified', false, '2026-04-21',
       'https://www.otempo.com.br/politica/nikolas-tiradentes-ouro-preto-minas-liberdade-2026.html',
-      'speech',
+      'other',
       'Ouro Preto', 'Evento no feriado de Tiradentes', 'nikolas-tiradentes-ouro-preto-liberdade-b77-91'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -1993,9 +1993,9 @@ BEGIN
       'Declaração de Nikolas Ferreira em novembro de 2024 em entrevista ao Estadão sobre articulação política. O deputado critica o centrão apesar de depender de seus votos para pautas conservadoras.',
       2, 'verified', false, '2024-11-27',
       'https://www.estadao.com.br/politica/nikolas-ferreira-fim-centrao-polarizacao-brasil-pt/',
-      'interview',
+      'news_article',
       'Estadão', 'Entrevista sobre articulação política', 'nikolas-fim-centrao-polarizacao-b77-92'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -2014,9 +2014,9 @@ BEGIN
       'Entrevista de Nikolas Ferreira em agosto de 2024 no Roda Viva quando perguntado sobre autoras brasileiras. A resposta gerou debate sobre o conhecimento literário do parlamentar.',
       2, 'verified', false, '2024-08-26',
       'https://www.folha.uol.com.br/ilustrada/2024/08/nikolas-ferreira-roda-viva-patricia-galvao-pagu.shtml',
-      'interview',
+      'news_article',
       'TV Cultura', 'Entrevista no Roda Viva', 'nikolas-roda-viva-pagu-literatura-b77-93'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -2037,7 +2037,7 @@ BEGIN
       'https://www.poder360.com.br/congresso/nikolas-ferreira-visita-presos-8-janeiro-anistia/',
       'social_media_post',
       'Brasília', 'Visita a presídio federal', 'nikolas-visita-presos-8-janeiro-b77-94'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -2058,7 +2058,7 @@ BEGIN
       'https://g1.globo.com/politica/noticia/2024/06/nikolas-ferreira-urnas-eletronicas-auditabilidade-tse.ghtml',
       'social_media_post',
       'Twitter/X', 'Desconfiança sobre urnas', 'nikolas-urnas-auditabilidade-tse-b77-95'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ant, true FROM ins;
@@ -2077,9 +2077,9 @@ BEGIN
       'Anúncio por Nikolas Ferreira em setembro de 2024 de projeto de lei sobre uso de blockchain em urnas. A proposta foi criticada por especialistas em segurança eleitoral.',
       3, 'verified', false, '2024-09-10',
       'https://www.valor.globo.com/politica/noticia/2024/09/nikolas-ferreira-blockchain-urnas-pl.ghtml',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Apresentação de PL', 'nikolas-blockchain-urnas-pl-b77-96'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;
@@ -2098,9 +2098,9 @@ BEGIN
       'Declaração de Nikolas Ferreira em outubro de 2024 em entrevista à CNN defendendo ampliação da composição do STF. A proposta foi criticada por juristas como court-packing.',
       3, 'verified', false, '2024-10-21',
       'https://www.cnnbrasil.com.br/politica/nikolas-ferreira-stf-15-ministros-equilibrio-poder/',
-      'interview',
+      'news_article',
       'CNN Brasil', 'Entrevista sobre reforma do STF', 'nikolas-stf-15-ministros-equilibrio-b77-97'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_ame, true FROM ins;
@@ -2119,9 +2119,9 @@ BEGIN
       'Discurso de Nikolas Ferreira em maio de 2023 atacando decisão do STF que criminalizou homofobia. O deputado articula proposta para reverter jurisprudência.',
       4, 'verified', false, '2023-05-17',
       'https://www.folha.uol.com.br/poder/2023/05/nikolas-ferreira-homofobia-crime-inventado-stf.shtml',
-      'speech',
+      'other',
       'Câmara dos Deputados', 'Discurso no Dia Contra a Homofobia', 'nikolas-homofobia-crime-inventado-b77-98'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_hom, true FROM ins;
@@ -2140,9 +2140,9 @@ BEGIN
       'Pregação de Nikolas Ferreira em março de 2026 em culto na Lagoinha em Belo Horizonte. O deputado articula evangélicos como eleitorado central da campanha.',
       3, 'verified', false, '2026-03-26',
       'https://www.uol.com.br/noticias/2026/03/nikolas-ferreira-evangelicos-poder-politico-lagoinha.htm',
-      'speech',
+      'other',
       'Belo Horizonte', 'Culto na Igreja Lagoinha', 'nikolas-evangelicos-poder-politico-b77-99'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_int, true FROM ins;
@@ -2161,9 +2161,9 @@ BEGIN
       'Declaração final de Nikolas Ferreira em abril de 2026 em evento de encerramento do período pré-eleitoral, consolidando narrativa da candidatura ao governo de Minas. O deputado acumulou apoios no PL e evangélicos.',
       3, 'verified', true, '2026-04-15',
       'https://www.otempo.com.br/politica/nikolas-ferreira-balanco-pre-campanha-revolucao-conservadora-mg.html',
-      'speech',
+      'other',
       'Belo Horizonte', 'Encerramento do período pré-eleitoral', 'nikolas-pre-campanha-revolucao-conservadora-b77-100'
-    ) RETURNING id
+    ) ON CONFLICT (slug) DO NOTHING RETURNING id
   )
   INSERT INTO statement_categories (statement_id, category_id, is_primary)
   SELECT id, c_des, true FROM ins;

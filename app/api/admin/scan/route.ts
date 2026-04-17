@@ -16,10 +16,26 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { scanForScandals } from '@/lib/scanner'
+import { createLogger } from '@/lib/utils/logger'
+
+const log = createLogger('api/admin/scan')
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 export const maxDuration = 300  // 5 min timeout (Vercel Pro)
+
+// Defensive slug validator — same pattern used elsewhere in the codebase.
+const SLUG_PATTERN = /^[a-z0-9](?:[a-z0-9-]{0,98}[a-z0-9])?$/
+
+/** Constant-time string comparison. Avoids timing oracle on the secret. */
+function timingSafeEqual(a: string, b: string): boolean {
+  const len = Math.max(a.length, b.length)
+  let result = a.length === b.length ? 0 : 1
+  for (let i = 0; i < len; i++) {
+    result |= (a.charCodeAt(i) || 0) ^ (b.charCodeAt(i) || 0)
+  }
+  return result === 0
+}
 
 // Simple in-memory rate limiter: max 2 scans per 10 minutes
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
@@ -55,7 +71,7 @@ export async function POST(req: NextRequest) {
 
   const authHeader = req.headers.get('authorization') ?? ''
   const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : ''
-  if (token !== adminSecret) return unauthorized()
+  if (!token || !timingSafeEqual(token, adminSecret)) return unauthorized()
 
   // Rate limit by token (use last 8 chars to avoid logging full secret)
   const rateLimitKey = token.slice(-8)
@@ -97,6 +113,15 @@ export async function POST(req: NextRequest) {
     body.limit = Math.max(1, Math.min(10, Number(body.limit) || 5))
   }
 
+  if (body.politician_slug !== undefined) {
+    if (typeof body.politician_slug !== 'string' || !SLUG_PATTERN.test(body.politician_slug)) {
+      return NextResponse.json(
+        { error: 'politician_slug must be a valid lowercase slug' },
+        { status: 400 },
+      )
+    }
+  }
+
   const startTime = Date.now()
 
   try {
@@ -114,14 +139,14 @@ export async function POST(req: NextRequest) {
       ...result,
     })
   } catch (err) {
-    console.error('[scan] Error:', err)
+    log.error('scan failed', { err: err instanceof Error ? err.message : String(err) })
     return NextResponse.json(
       {
         ok: false,
         error: err instanceof Error ? err.message : 'Unknown error',
         elapsed_ms: Date.now() - startTime,
       },
-      { status: 500 },
+      { status: 500, headers: { 'X-Content-Type-Options': 'nosniff' } },
     )
   }
 }
@@ -133,7 +158,7 @@ export async function GET(req: NextRequest) {
 
   const authHeader = req.headers.get('authorization') ?? ''
   const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : ''
-  if (token !== adminSecret) return unauthorized()
+  if (!token || !timingSafeEqual(token, adminSecret)) return unauthorized()
 
   return NextResponse.json({
     ok: true,
