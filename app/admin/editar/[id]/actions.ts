@@ -35,6 +35,13 @@ export async function updateStatement(
   const eventName = (formData.get('event_name') as string)?.trim() || null
   const editorNotes = (formData.get('editor_notes') as string)?.trim() || null
   const categorySlugList = formData.getAll('categories') as string[]
+  const severityRaw = formData.get('severity_score')
+  const severityScore: number | null = (() => {
+    if (severityRaw === null || severityRaw === '' || severityRaw === 'auto') return null
+    const n = Number(severityRaw)
+    if (!Number.isFinite(n) || n < 1 || n > 5) return null
+    return Math.floor(n)
+  })()
 
   if (!summary || !statementDate || !primarySourceUrl) {
     return { ok: false, message: 'Campos obrigatórios faltando.' }
@@ -82,6 +89,7 @@ export async function updateStatement(
       venue,
       event_name: eventName,
       editor_notes: editorNotes,
+      severity_score: severityScore,
     })
     .eq('id', statementId)
 

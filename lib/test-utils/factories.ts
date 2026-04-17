@@ -56,6 +56,7 @@ export function createMockStatement(overrides: Partial<Statement> = {}): Stateme
     youtube_channel_id: null,
     transcript_excerpt: null,
     secondary_sources: [],
+    severity_score: null,
     venue: 'Plenario da Camara dos Deputados',
     event_name: 'Sessao Ordinaria',
     editor_notes: null,

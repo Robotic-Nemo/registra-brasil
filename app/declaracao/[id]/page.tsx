@@ -4,6 +4,8 @@ import { getSupabaseServerClient } from '@/lib/supabase/server'
 import { getStatementBySlug, getStatementById, getRelatedStatements, getAdjacentStatements } from '@/lib/supabase/queries/statements'
 import { CategoryTag } from '@/components/statements/CategoryTag'
 import { VerificationBadge } from '@/components/statements/VerificationBadge'
+import { SeverityBadge } from '@/components/statements/SeverityBadge'
+import { getStatementSeverity } from '@/lib/utils/severity'
 import { SourceLink } from '@/components/statements/SourceLink'
 import { YouTubeEmbed } from '@/components/youtube/YouTubeEmbed'
 import { ShareButton } from '@/components/ui/ShareButton'
@@ -190,7 +192,10 @@ export default async function StatementPage({ params }: PageProps) {
               </div>
             </div>
           </Link>
-          <VerificationBadge status={statement.verification_status} showLabel />
+          <div className="flex items-center gap-2 flex-wrap">
+            <SeverityBadge severity={getStatementSeverity(statement)} />
+            <VerificationBadge status={statement.verification_status} showLabel />
+          </div>
         </div>
 
         {/* Date & venue */}

@@ -22,6 +22,7 @@ interface Props {
     event_name: string
     editor_notes: string
     politician_slug: string
+    severity_score: number | null
   }
   selectedCategories: string[]
   allCategories: { slug: string; label_pt: string }[]
@@ -145,6 +146,26 @@ export function EditStatementForm({ statement, selectedCategories, allCategories
       <div>
         <label htmlFor="editor_notes" className={labelClass}>Notas editoriais</label>
         <textarea id="editor_notes" name="editor_notes" rows={2} className={inputClass} defaultValue={statement.editor_notes} maxLength={2000} />
+      </div>
+
+      <div>
+        <label htmlFor="severity_score" className={labelClass}>Gravidade</label>
+        <select
+          id="severity_score"
+          name="severity_score"
+          className={inputClass}
+          defaultValue={statement.severity_score ?? 'auto'}
+        >
+          <option value="auto">Automática (usa severidade da categoria principal)</option>
+          <option value="1">1 — Baixa</option>
+          <option value="2">2 — Moderada</option>
+          <option value="3">3 — Elevada</option>
+          <option value="4">4 — Alta</option>
+          <option value="5">5 — Crítica</option>
+        </select>
+        <p className="text-xs text-gray-500 mt-1">
+          Override editorial. Deixe em <em>Automática</em> para herdar a gravidade da categoria principal.
+        </p>
       </div>
 
       <fieldset>

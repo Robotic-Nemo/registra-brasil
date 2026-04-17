@@ -62,6 +62,11 @@ export interface Statement {
   youtube_channel_id: string | null
   transcript_excerpt: string | null
   secondary_sources: SecondarySource[] | null
+  /**
+   * Editorial severity override (1=low … 5=critical). When null the UI falls
+   * back to the primary category severity. See getEffectiveSeverity().
+   */
+  severity_score: 1 | 2 | 3 | 4 | 5 | null
   venue: string | null
   event_name: string | null
   editor_notes: string | null

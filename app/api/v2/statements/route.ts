@@ -4,6 +4,7 @@ import { checkRateLimit, getRateLimitKey } from '@/lib/utils/rate-limit'
 import { decodeCursor, parseLimit, buildCursorPagination } from '@/lib/utils/cursor-pagination'
 import { parseFields, buildSelectString, projectFields } from '@/lib/utils/field-selection'
 import { parseMultiValueUpper, parseMultiValueLower, parseInclude, isValidDate } from '@/lib/utils/api-filters'
+import { parseSeverityFilter } from '@/lib/utils/severity'
 import type { V2StatementInclude } from '@/types/api-v2'
 import type { FieldSelectionConfig } from '@/types/api-v2'
 
@@ -14,17 +15,18 @@ const FIELD_CONFIG: FieldSelectionConfig = {
     'id', 'summary', 'full_quote', 'context', 'verification_status',
     'statement_date', 'primary_source_url', 'primary_source_type',
     'venue', 'event_name', 'slug', 'created_at', 'updated_at',
-    'is_featured', 'politician_id',
+    'is_featured', 'politician_id', 'severity_score',
   ],
   defaults: [
     'id', 'summary', 'verification_status', 'statement_date',
-    'primary_source_url', 'slug', 'created_at',
+    'primary_source_url', 'slug', 'created_at', 'severity_score',
   ],
 }
 
 const SORT_MAP: Record<string, string> = {
   date: 'statement_date',
   created: 'created_at',
+  severity: 'severity_score',
 }
 
 /**
@@ -57,6 +59,12 @@ export async function GET(request: NextRequest) {
   const limit = parseLimit(sp.get('limit'), 20, 100)
   const fields = parseFields(sp.get('fields'), FIELD_CONFIG)
   const includes = parseInclude<V2StatementInclude>(sp.get('include'), ['politician', 'categories'])
+  const severity = parseSeverityFilter(sp.get('severity'))
+  // `min_severity=N` filters statements with severity_score >= N.
+  const minSeverityRaw = Number(sp.get('min_severity'))
+  const minSeverity = Number.isFinite(minSeverityRaw) && minSeverityRaw >= 1 && minSeverityRaw <= 5
+    ? Math.floor(minSeverityRaw)
+    : null
 
   // Validate dates
   if (from && !isValidDate(from)) {
@@ -107,6 +115,17 @@ export async function GET(request: NextRequest) {
   // Date range
   if (from) query = query.gte('statement_date', from)
   if (to) query = query.lte('statement_date', to)
+
+  // Severity filters.
+  // `severity=4,5` — exact match against the set.
+  // `min_severity=3` — >= 3.
+  // Both filter on the statement override column (nulls excluded).
+  if (severity && severity.length > 0) {
+    query = query.in('severity_score', severity as number[])
+  }
+  if (minSeverity !== null) {
+    query = query.gte('severity_score', minSeverity)
+  }
 
   // Multi-value filters: party and state require a join through politicians
   if (parties || states) {

@@ -51,6 +51,7 @@ export default async function EditStatementPage({ params }: PageProps) {
           event_name: statement.event_name ?? '',
           editor_notes: statement.editor_notes ?? '',
           politician_slug: statement.politicians.slug,
+          severity_score: statement.severity_score ?? null,
         }}
         selectedCategories={selectedCategories}
         allCategories={(allCategories ?? []) as { slug: string; label_pt: string }[]}

@@ -38,6 +38,13 @@ export async function submitStatement(
   const editorNotes = formData.get('editor_notes') as string
   const submittedBy = formData.get('submitted_by') as string
   const categorySlugList = formData.getAll('categories') as string[]
+  const severityRaw = formData.get('severity_score')
+  const severityScore: number | null = (() => {
+    if (severityRaw === null || severityRaw === '' || severityRaw === 'auto') return null
+    const n = Number(severityRaw)
+    if (!Number.isFinite(n) || n < 1 || n > 5) return null
+    return Math.floor(n)
+  })()
 
   // Validate required fields
   if (!politicianSlug || !summary || !statementDate || !primarySourceUrl) {
@@ -135,6 +142,7 @@ export async function submitStatement(
       event_name: eventName?.trim() || null,
       editor_notes: editorNotes?.trim() || null,
       submitted_by: submittedBy?.trim() || null,
+      severity_score: severityScore,
       slug: finalSlug,
     } as any)
     .select('id')

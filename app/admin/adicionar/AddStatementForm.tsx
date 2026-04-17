@@ -331,6 +331,29 @@ export function AddStatementForm({ categories, politicianSlugs = [] }: AddStatem
         {errors.categories && <p className="text-xs text-red-600 mt-1">{errors.categories}</p>}
       </div>
 
+      {/* Severity override */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="severity_score">
+          Gravidade
+        </label>
+        <select
+          id="severity_score"
+          name="severity_score"
+          defaultValue="auto"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="auto">Automática (usa severidade da categoria principal)</option>
+          <option value="1">1 — Baixa</option>
+          <option value="2">2 — Moderada</option>
+          <option value="3">3 — Elevada</option>
+          <option value="4">4 — Alta</option>
+          <option value="5">5 — Crítica</option>
+        </select>
+        <p className="text-xs text-gray-500 mt-1">
+          Override editorial. Deixe em <em>Automática</em> para herdar a gravidade da categoria principal.
+        </p>
+      </div>
+
       {/* Editor notes */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">Notas editoriais</label>

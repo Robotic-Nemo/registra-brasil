@@ -3,10 +3,12 @@ import Image from 'next/image'
 import type { StatementWithRelations } from '@/types/database'
 import { CategoryTag } from './CategoryTag'
 import { VerificationBadge } from './VerificationBadge'
+import { SeverityBadge } from './SeverityBadge'
 import { SourceLink } from './SourceLink'
 import { formatDateShort } from '@/lib/utils/date'
 import { OFFICIAL_CHANNELS } from '@/lib/youtube/constants'
 import { getPartyColor } from '@/lib/constants/party-colors'
+import { getStatementSeverity } from '@/lib/utils/severity'
 import { MapPin, Building2 } from 'lucide-react'
 
 interface StatementCardProps {
@@ -19,6 +21,7 @@ export function StatementCard({ statement }: StatementCardProps) {
   const { politicians: politician, statement_categories } = statement
   const primaryCat = statement_categories.find((sc) => sc.is_primary)?.categories
   const allCats = statement_categories.filter((sc) => sc.categories).map((sc) => sc.categories)
+  const severity = getStatementSeverity(statement)
   const isOfficial = statement.youtube_channel_id
     ? OFFICIAL_IDS.has(statement.youtube_channel_id)
     : false
@@ -77,6 +80,7 @@ export function StatementCard({ statement }: StatementCardProps) {
               <span className="ml-1 text-gray-400 italic">aprox.</span>
             )}
           </time>
+          <SeverityBadge severity={severity} />
           <VerificationBadge status={statement.verification_status} />
         </div>
       </div>
