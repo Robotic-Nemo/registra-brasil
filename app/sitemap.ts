@@ -46,6 +46,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/equipe`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.3 },
     { url: `${SITE_URL}/parceiros`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.3 },
     { url: `${SITE_URL}/financiamento`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.3 },
+    { url: `${SITE_URL}/colecoes`, lastModified: STATIC_DATE, changeFrequency: 'weekly', priority: 0.7 },
+    { url: `${SITE_URL}/sugerir`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.5 },
   ]
 
   // Dynamic pages from Supabase
@@ -91,6 +93,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${SITE_URL}/declaracao/${s.slug ?? s.id}`,
       lastModified: new Date(s.updated_at),
       changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    }))
+
+    // Published collections
+    const { data: collections } = await supabase
+      .from('collections')
+      .select('slug, updated_at')
+      .eq('is_published', true)
+    const collectionPages: MetadataRoute.Sitemap = (collections ?? []).map((c: { slug: string; updated_at: string }) => ({
+      url: `${SITE_URL}/colecao/${c.slug}`,
+      lastModified: new Date(c.updated_at),
+      changeFrequency: 'weekly' as const,
       priority: 0.7,
     }))
 
@@ -152,6 +166,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...politicianPages,
       ...categoryPages,
       ...statementPages,
+      ...collectionPages,
       ...partyPages,
       ...statePages,
       ...yearPages,

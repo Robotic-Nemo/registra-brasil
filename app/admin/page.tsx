@@ -62,6 +62,15 @@ export default async function AdminPage() {
         </Link>
 
         <Link
+          href="/admin/colecoes"
+          className="flex flex-col gap-2 p-5 border border-gray-200 rounded-xl hover:shadow-md transition-shadow"
+        >
+          <List className="w-6 h-6 text-blue-700" />
+          <p className="font-semibold text-gray-900">Coleções editoriais</p>
+          <p className="text-sm text-gray-500">Agrupar declarações em coleções temáticas</p>
+        </Link>
+
+        <Link
           href="/admin/adicionar"
           className="flex flex-col gap-2 p-5 border border-gray-200 rounded-xl hover:shadow-md transition-shadow"
         >
