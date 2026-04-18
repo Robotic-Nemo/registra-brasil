@@ -40,7 +40,7 @@ export function SortSelect({ options, paramName = 'ordenar', className = '' }: P
         value={current}
         onChange={(e) => onChange(e.target.value)}
         aria-label="Ordenar por"
-        className="text-sm border border-gray-300 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+        className="text-sm border border-gray-300 rounded-lg px-2 py-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 bg-white"
       >
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>{opt.label}</option>

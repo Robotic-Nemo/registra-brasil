@@ -144,7 +144,7 @@ export function CompareSelector({ politicians, countMap, categoryMap, initialIds
           autoComplete="off"
           aria-label="Filtrar politicos"
           data-testid="compare-filter"
-          className="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
         />
       </div>
 

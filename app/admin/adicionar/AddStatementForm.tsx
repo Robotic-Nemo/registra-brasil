@@ -124,7 +124,7 @@ export function AddStatementForm({ categories, politicianSlugs = [] }: AddStatem
           spellCheck={false}
           autoCorrect="off"
           aria-describedby="politician-slug-help"
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
         />
         {politicianSlugs.length > 0 && (
           <datalist id="politician-slugs-list">
@@ -149,7 +149,7 @@ export function AddStatementForm({ categories, politicianSlugs = [] }: AddStatem
           maxLength={500}
           rows={3}
           placeholder="Descreva a declaração em 1-2 frases objetivas, na terceira pessoa."
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 resize-none"
         />
         {errors.summary && <p className="text-xs text-red-600 mt-1">{errors.summary}</p>}
       </div>
@@ -164,7 +164,7 @@ export function AddStatementForm({ categories, politicianSlugs = [] }: AddStatem
           rows={3}
           maxLength={5000}
           placeholder="Transcreva as palavras exatas, se disponíveis."
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 resize-none"
         />
       </div>
 
@@ -176,7 +176,7 @@ export function AddStatementForm({ categories, politicianSlugs = [] }: AddStatem
           rows={2}
           maxLength={2000}
           placeholder="O que estava acontecendo? Onde? Para quem foi dito?"
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 resize-none"
         />
       </div>
 
@@ -191,7 +191,7 @@ export function AddStatementForm({ categories, politicianSlugs = [] }: AddStatem
             name="statement_date"
             required
             aria-label="Data da declaracao"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           />
           {errors.statement_date && <p className="text-xs text-red-600 mt-1">{errors.statement_date}</p>}
         </div>
@@ -220,7 +220,7 @@ export function AddStatementForm({ categories, politicianSlugs = [] }: AddStatem
             placeholder="https://www.youtube.com/watch?v=..."
             spellCheck={false}
             autoCorrect="off"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           />
           {errors.primary_source_url && <p className="text-xs text-red-600 mt-1">{errors.primary_source_url}</p>}
           {detectedVideoId && (
@@ -236,7 +236,7 @@ export function AddStatementForm({ categories, politicianSlugs = [] }: AddStatem
             name="primary_source_type"
             value={sourceType}
             onChange={(e) => setSourceType(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           >
             {SOURCE_TYPES.map((t) => (
               <option key={t.value} value={t.value}>{t.label}</option>
@@ -257,7 +257,7 @@ export function AddStatementForm({ categories, politicianSlugs = [] }: AddStatem
                 placeholder="1:15:23 ou 4523"
                 spellCheck={false}
                 aria-describedby="timestamp-help"
-                className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               />
               {parsedTimestamp != null && parsedTimestamp > 0 && (
                 <span className="text-xs text-green-700 bg-green-50 border border-green-200 px-2 py-1 rounded font-mono whitespace-nowrap">
@@ -280,7 +280,7 @@ export function AddStatementForm({ categories, politicianSlugs = [] }: AddStatem
             name="transcript_excerpt"
             rows={2}
             placeholder="Cole o trecho exato da ata ou nota taquigráfica oficial, se disponível."
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 resize-none"
           />
         </div>
       </div>
@@ -292,7 +292,7 @@ export function AddStatementForm({ categories, politicianSlugs = [] }: AddStatem
           <input
             name="venue"
             placeholder="ex: Câmara dos Deputados"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           />
         </div>
         <div>
@@ -300,7 +300,7 @@ export function AddStatementForm({ categories, politicianSlugs = [] }: AddStatem
           <input
             name="event_name"
             placeholder="ex: Sessão Plenária"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           />
         </div>
       </div>
@@ -340,7 +340,7 @@ export function AddStatementForm({ categories, politicianSlugs = [] }: AddStatem
           id="severity_score"
           name="severity_score"
           defaultValue="auto"
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
         >
           <option value="auto">Automática (usa severidade da categoria principal)</option>
           <option value="1">1 — Baixa</option>
@@ -361,7 +361,7 @@ export function AddStatementForm({ categories, politicianSlugs = [] }: AddStatem
           name="editor_notes"
           rows={2}
           placeholder="Observações internas sobre a verificação, confiabilidade da fonte, etc."
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 resize-none"
         />
       </div>
 
@@ -371,7 +371,7 @@ export function AddStatementForm({ categories, politicianSlugs = [] }: AddStatem
         <input
           name="submitted_by"
           placeholder="ex: @editor_nome"
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
         />
       </div>
 

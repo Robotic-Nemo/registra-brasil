@@ -59,7 +59,7 @@ export function PoliticianSearch({ politicians, countMap }: PoliticianSearchProp
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Buscar politico..."
-            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus:border-transparent"
             aria-label="Buscar politico"
           />
         </div>
@@ -67,7 +67,7 @@ export function PoliticianSearch({ politicians, countMap }: PoliticianSearchProp
         <select
           value={selectedParty}
           onChange={(e) => setSelectedParty(e.target.value)}
-          className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           aria-label="Filtrar por partido"
         >
           <option value="">Todos os partidos</option>
@@ -81,7 +81,7 @@ export function PoliticianSearch({ politicians, countMap }: PoliticianSearchProp
         <select
           value={selectedState}
           onChange={(e) => setSelectedState(e.target.value)}
-          className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           aria-label="Filtrar por estado"
         >
           <option value="">Todos os estados</option>

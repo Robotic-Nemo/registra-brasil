@@ -38,7 +38,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             setCharCount(e.target.value.length)
             props.onChange?.(e)
           }}
-          className={`w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none transition-colors ${
+          className={`w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 resize-none transition-colors ${
             error
               ? 'border-red-300 focus:ring-red-500'
               : 'border-gray-300'

@@ -158,7 +158,7 @@ export function CategoriasClient({ initialCategories }: Props) {
                 type="text"
                 value={editing.label_pt}
                 onChange={(e) => setEditing({ ...editing, label_pt: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               />
             </div>
             <div>
@@ -167,7 +167,7 @@ export function CategoriasClient({ initialCategories }: Props) {
                 type="text"
                 value={editing.slug}
                 onChange={(e) => setEditing({ ...editing, slug: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               />
             </div>
             <div>
@@ -176,7 +176,7 @@ export function CategoriasClient({ initialCategories }: Props) {
                 type="text"
                 value={editing.label_en}
                 onChange={(e) => setEditing({ ...editing, label_en: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               />
             </div>
             <div>
@@ -192,7 +192,7 @@ export function CategoriasClient({ initialCategories }: Props) {
                   type="text"
                   value={editing.color_hex}
                   onChange={(e) => setEditing({ ...editing, color_hex: e.target.value })}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                 />
               </div>
             </div>
@@ -201,7 +201,7 @@ export function CategoriasClient({ initialCategories }: Props) {
               <select
                 value={editing.severity}
                 onChange={(e) => setEditing({ ...editing, severity: Number(e.target.value) as 1 | 2 | 3 | 4 })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               >
                 {[1, 2, 3, 4].map((s) => (
                   <option key={s} value={s}>{s} - {SEVERITY_LABELS[s]}</option>
@@ -214,7 +214,7 @@ export function CategoriasClient({ initialCategories }: Props) {
                 type="text"
                 value={editing.icon}
                 onChange={(e) => setEditing({ ...editing, icon: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                 placeholder="nome-do-icone"
               />
             </div>
@@ -224,7 +224,7 @@ export function CategoriasClient({ initialCategories }: Props) {
                 value={editing.description}
                 onChange={(e) => setEditing({ ...editing, description: e.target.value })}
                 rows={2}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               />
             </div>
           </div>

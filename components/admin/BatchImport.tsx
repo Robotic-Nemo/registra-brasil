@@ -140,7 +140,7 @@ export function BatchImport() {
                   <select
                     value={current}
                     onChange={(e) => updateMapping(h, e.target.value)}
-                    className="flex-1 px-2 py-1.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="flex-1 px-2 py-1.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                   >
                     <option value="">-- Ignorar --</option>
                     {knownFields.map((f) => (

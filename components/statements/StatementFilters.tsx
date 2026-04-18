@@ -52,7 +52,7 @@ export function StatementFilters({ statements, showSearch = true }: Props) {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as 'date' | 'relevance')}
-            className="text-sm border border-gray-300 rounded-lg px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="text-sm border border-gray-300 rounded-lg px-2 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             aria-label="Ordenar por"
           >
             <option value="date">Mais recentes</option>

@@ -64,7 +64,7 @@ export function BatchCategoryAssign({ selectedIds, categories, onComplete }: Bat
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             >
               <option value="">Selecione uma categoria</option>
               {categories.map((cat) => (

@@ -26,7 +26,7 @@ export function SearchSort({ value, onChange }: SearchSortProps) {
         id="search-sort"
         value={value}
         onChange={(e) => onChange(e.target.value as SortOption)}
-        className="text-sm border border-gray-200 rounded-lg px-2 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="text-sm border border-gray-200 rounded-lg px-2 py-1.5 bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
       >
         {OPTIONS.map((opt) => (
           <option key={opt.value} value={opt.value}>

@@ -114,7 +114,7 @@ export function PinInput({
           onFocus={(e) => e.target.select()}
           disabled={disabled}
           aria-label={`Digito ${i + 1}`}
-          className="w-10 h-12 text-center text-lg font-mono border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:text-gray-400"
+          className="w-10 h-12 text-center text-lg font-mono border border-gray-300 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:text-gray-400"
         />
       ))}
     </div>

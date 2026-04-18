@@ -167,14 +167,14 @@ export function SearchFilters({ categories }: SearchFiltersProps) {
             type="date"
             value={dateFrom ?? ''}
             onChange={(e) => update('de', e.target.value || null)}
-            className="w-full text-sm border border-gray-300 rounded-lg px-2.5 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full text-sm border border-gray-300 rounded-lg px-2.5 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             aria-label="Data inicial"
           />
           <input
             type="date"
             value={dateTo ?? ''}
             onChange={(e) => update('ate', e.target.value || null)}
-            className="w-full text-sm border border-gray-300 rounded-lg px-2.5 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full text-sm border border-gray-300 rounded-lg px-2.5 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             aria-label="Data final"
           />
         </div>

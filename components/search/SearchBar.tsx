@@ -196,7 +196,7 @@ export function SearchBar({ initialValue = '', placeholder = 'Buscar declaraçõ
         aria-activedescendant={activeIndex >= 0 ? `suggestion-${activeIndex}` : undefined}
         aria-label="Buscar declarações"
         data-testid="search-input"
-        className="w-full pl-9 pr-9 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        className="w-full pl-9 pr-9 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus:border-transparent"
       />
       {value ? (
         <button

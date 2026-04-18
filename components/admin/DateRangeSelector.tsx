@@ -66,14 +66,14 @@ export function DateRangeSelector({
           type="date"
           value={startDate}
           onChange={(e) => { onChangeStart(e.target.value); setActivePreset(null) }}
-          className="px-2 py-1 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="px-2 py-1 text-xs border border-gray-200 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
         />
         <span className="text-xs text-gray-400">ate</span>
         <input
           type="date"
           value={endDate}
           onChange={(e) => { onChangeEnd(e.target.value); setActivePreset(null) }}
-          className="px-2 py-1 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="px-2 py-1 text-xs border border-gray-200 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
         />
       </div>
     </div>

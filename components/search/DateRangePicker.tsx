@@ -83,7 +83,7 @@ export function DateRangePicker({ from, to, onChange }: DateRangePickerProps) {
               type="date"
               value={from ?? ''}
               onChange={(e) => onChange(e.target.value || null, to)}
-              className="flex-1 text-sm border border-gray-300 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-1 text-sm border border-gray-300 rounded-lg px-2.5 py-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               aria-label="Data inicial"
             />
             <span className="text-xs text-gray-400">a</span>
@@ -91,7 +91,7 @@ export function DateRangePicker({ from, to, onChange }: DateRangePickerProps) {
               type="date"
               value={to ?? ''}
               onChange={(e) => onChange(from, e.target.value || null)}
-              className="flex-1 text-sm border border-gray-300 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-1 text-sm border border-gray-300 rounded-lg px-2.5 py-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               aria-label="Data final"
             />
           </div>

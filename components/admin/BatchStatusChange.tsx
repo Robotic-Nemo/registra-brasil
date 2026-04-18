@@ -57,7 +57,7 @@ export function BatchStatusChange({ selectedIds, onComplete }: BatchStatusChange
             <select
               value={targetStatus}
               onChange={(e) => setTargetStatus(e.target.value as VerificationStatus)}
-              className="px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             >
               {STATUS_OPTIONS.map((opt) => (
                 <option key={opt.value} value={opt.value}>{opt.label}</option>

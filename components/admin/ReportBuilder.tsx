@@ -84,7 +84,7 @@ export function ReportBuilder() {
             <select
               value={reportType}
               onChange={(e) => setReportType(e.target.value as ReportType)}
-              className="px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             >
               {REPORT_TYPES.map((rt) => (
                 <option key={rt.value} value={rt.value}>{rt.label}</option>
@@ -95,7 +95,7 @@ export function ReportBuilder() {
               <select
                 value={bucket}
                 onChange={(e) => setBucket(e.target.value as 'day' | 'week' | 'month')}
-                className="px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               >
                 {BUCKET_OPTIONS.map((b) => (
                   <option key={b.value} value={b.value}>{b.label}</option>

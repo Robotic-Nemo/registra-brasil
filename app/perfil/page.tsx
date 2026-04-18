@@ -86,7 +86,7 @@ export default function PerfilPage() {
           value={name}
           onChange={(e) => saveName(e.target.value)}
           placeholder="Como quer ser chamado(a)?"
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
         />
       </section>
 

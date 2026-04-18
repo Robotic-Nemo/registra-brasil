@@ -81,7 +81,7 @@ export function APIKeyManager({ apiKeys: initialKeys }: APIKeyManagerProps) {
             value={newLabel}
             onChange={(e) => setNewLabel(e.target.value)}
             placeholder="Nome da chave (ex: Frontend, Mobile)"
-            className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           />
           <div>
             <p className="text-xs font-medium text-gray-600 mb-1.5">Permissoes:</p>

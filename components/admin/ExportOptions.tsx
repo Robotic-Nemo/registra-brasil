@@ -107,7 +107,7 @@ export function ExportOptions({ entityType, availableFields, onExport }: ExportO
                 type="date"
                 value={dateFrom}
                 onChange={(e) => setDateFrom(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               />
             </div>
             <div>
@@ -116,7 +116,7 @@ export function ExportOptions({ entityType, availableFields, onExport }: ExportO
                 type="date"
                 value={dateTo}
                 onChange={(e) => setDateTo(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               />
             </div>
             <div>
@@ -124,7 +124,7 @@ export function ExportOptions({ entityType, availableFields, onExport }: ExportO
               <select
                 value={verificationStatus}
                 onChange={(e) => setVerificationStatus(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               >
                 <option value="">Todos</option>
                 <option value="verified">Verificado</option>
@@ -140,7 +140,7 @@ export function ExportOptions({ entityType, availableFields, onExport }: ExportO
                 value={party}
                 onChange={(e) => setParty(e.target.value)}
                 placeholder="Ex: PT"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               />
             </div>
             <div>
@@ -150,7 +150,7 @@ export function ExportOptions({ entityType, availableFields, onExport }: ExportO
                 value={state}
                 onChange={(e) => setState(e.target.value)}
                 placeholder="Ex: SP"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               />
             </div>
           </div>

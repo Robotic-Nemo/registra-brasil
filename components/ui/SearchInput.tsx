@@ -43,7 +43,7 @@ export function SearchInput({
         inputMode="search"
         spellCheck={false}
         aria-label={ariaLabel}
-        className="w-full pl-9 pr-9 py-2 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow"
+        className="w-full pl-9 pr-9 py-2 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus:border-transparent transition-shadow"
       />
       {value && (
         <button

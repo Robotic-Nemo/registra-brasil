@@ -82,7 +82,7 @@ export function WebhookManager({ webhooks: initialWebhooks }: WebhookManagerProp
             value={newUrl}
             onChange={(e) => setNewUrl(e.target.value)}
             placeholder="https://example.com/webhook"
-            className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           />
           <div>
             <p className="text-xs font-medium text-gray-600 mb-1.5">Eventos:</p>

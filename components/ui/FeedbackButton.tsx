@@ -90,7 +90,7 @@ export function FeedbackButton({ onSubmit }: FeedbackButtonProps) {
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Descreva seu feedback..."
                 rows={3}
-                className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 resize-none"
                 required
               />
 

@@ -87,6 +87,24 @@ export default function TermosPage() {
           </a>
           {' '}sob licença MIT.
         </p>
+        <p>
+          Fotografias de políticos são exibidas apenas quando a origem e a licença forem compatíveis
+          com uso editorial (domínio público, trabalho governamental, Wikimedia Commons, Creative
+          Commons ou uso justo para fins jornalísticos). Cada foto guarda, no banco de dados,
+          metadados de origem e licença que podem ser solicitados por e-mail editorial. Na ausência
+          de licença verificada, o site renderiza um espaço reservado em vez da imagem.
+        </p>
+
+        <h2 className="text-lg font-semibold text-gray-900 mt-8">5.1 Proteção de crianças e adolescentes</h2>
+        <p>
+          Em observância ao art. 227 da Constituição Federal e ao Estatuto da Criança e do
+          Adolescente (Lei 8.069/1990), declarações que envolvam menores de idade — seja por tema,
+          citação direta ou identificação — passam por revisão editorial adicional. O acervo
+          mantém um sinalizador interno que restringe a indexação e a agregação desses
+          registros. Nomes, imagens ou dados pessoais de menores só são exibidos quando já
+          tornados públicos por fonte oficial ou quando houver interesse público inequívoco.
+          Pedidos de remoção envolvendo menores são tratados como prioridade máxima.
+        </p>
 
         <h2 className="text-lg font-semibold text-gray-900 mt-8">6. Retificação, remoção e contraditório</h2>
         <p>
