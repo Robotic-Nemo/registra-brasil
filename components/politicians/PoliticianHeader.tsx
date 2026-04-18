@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import type { Politician } from '@/types/database'
-import { MapPin, ExternalLink, Building2 } from 'lucide-react'
+import { MapPin, ExternalLink, Building2, Rss } from 'lucide-react'
 
 interface PoliticianHeaderProps {
   politician: Politician
@@ -97,6 +97,16 @@ export function PoliticianHeader({ politician, statementCount }: PoliticianHeade
               Wikipedia
             </a>
           )}
+          <a
+            href={`/politico/${politician.slug}/feed.xml`}
+            rel="alternate"
+            type="application/rss+xml"
+            className="inline-flex items-center gap-1 text-xs text-orange-600 hover:underline"
+            aria-label={`Feed RSS de ${politician.common_name}`}
+          >
+            <Rss className="w-3 h-3" />
+            RSS
+          </a>
         </div>
       </div>
 
