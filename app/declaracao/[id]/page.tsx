@@ -109,6 +109,12 @@ export default async function StatementPage({ params }: PageProps) {
     .eq('status', 'replied')
     .order('public_reply_published_at', { ascending: false })
 
+  // External fact-checks cross-referenced to this statement.
+  const { data: factChecks } = await (supabase.from('statement_fact_checks') as any)
+    .select('id, outlet, outlet_label, url, title, rating, rating_label, published_at')
+    .eq('statement_id', statement.id)
+    .order('published_at', { ascending: false, nullsFirst: false })
+
   const { politicians: politician, statement_categories } = statement
   const isOfficial = statement.youtube_channel_id
     ? OFFICIAL_IDS.has(statement.youtube_channel_id)
@@ -324,6 +330,48 @@ export default async function StatementPage({ params }: PageProps) {
           <div className="border-t border-gray-100 pt-4">
             <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Notas editoriais</p>
             <p className="text-sm text-gray-600">{statement.editor_notes}</p>
+          </div>
+        )}
+
+        {/* External fact-checks */}
+        {factChecks && factChecks.length > 0 && (
+          <div className="border-t border-gray-100 pt-4">
+            <p className="text-xs font-semibold text-green-800 uppercase tracking-wider mb-2">
+              Checagens externas ({factChecks.length})
+            </p>
+            <ul className="flex flex-col gap-2">
+              {(factChecks as Array<{ id: string; outlet_label: string; url: string; title: string | null; rating: string | null; rating_label: string | null; published_at: string | null }>).map((fc) => {
+                const ratingClasses: Record<string, string> = {
+                  true: 'bg-green-100 text-green-800 border-green-300',
+                  mostly_true: 'bg-emerald-100 text-emerald-800 border-emerald-300',
+                  half_true: 'bg-yellow-100 text-yellow-800 border-yellow-300',
+                  mostly_false: 'bg-orange-100 text-orange-800 border-orange-300',
+                  false: 'bg-red-100 text-red-800 border-red-300',
+                  misleading: 'bg-amber-100 text-amber-900 border-amber-300',
+                  unproven: 'bg-gray-100 text-gray-800 border-gray-300',
+                  satire: 'bg-purple-100 text-purple-800 border-purple-300',
+                }
+                const ratingLabels: Record<string, string> = {
+                  true: 'Verdadeiro', mostly_true: 'Em parte verdadeiro', half_true: 'Meia verdade',
+                  mostly_false: 'Em parte falso', false: 'Falso', misleading: 'Enganoso',
+                  unproven: 'Sem comprovação', satire: 'Sátira',
+                }
+                const label = fc.rating_label || (fc.rating ? ratingLabels[fc.rating] : null)
+                const cls = fc.rating ? ratingClasses[fc.rating] ?? '' : 'bg-gray-100 text-gray-700 border-gray-300'
+                return (
+                  <li key={fc.id} className="bg-white border border-gray-200 rounded p-3 text-sm">
+                    <div className="flex items-center gap-2 flex-wrap mb-1">
+                      <span className="text-xs font-semibold px-2 py-0.5 rounded bg-blue-50 text-blue-800 border border-blue-200">{fc.outlet_label}</span>
+                      {label && <span className={`text-xs font-medium px-2 py-0.5 rounded border ${cls}`}>{label}</span>}
+                      {fc.published_at && <span className="text-xs text-gray-500">{fc.published_at}</span>}
+                    </div>
+                    <a href={fc.url} target="_blank" rel="noopener noreferrer" className="text-gray-900 hover:underline">
+                      {fc.title ?? fc.url}
+                    </a>
+                  </li>
+                )
+              })}
+            </ul>
           </div>
         )}
 
