@@ -10,12 +10,17 @@ const BackToTop = dynamic(
   () => import('@/components/ui/BackToTop').then(m => ({ default: m.BackToTop })),
   { ssr: false }
 )
+const CookieConsent = dynamic(
+  () => import('@/components/ui/CookieConsent').then(m => ({ default: m.CookieConsent })),
+  { ssr: false }
+)
 
 export function ClientExtras() {
   return (
     <>
       <KeyboardShortcuts />
       <BackToTop />
+      <CookieConsent />
     </>
   )
 }

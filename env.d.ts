@@ -18,6 +18,7 @@ declare namespace NodeJS {
 
     // Admin panel
     readonly ADMIN_SECRET?: string
+    readonly ADMIN_API_KEY?: string
 
     // Site
     readonly NEXT_PUBLIC_SITE_URL?: string

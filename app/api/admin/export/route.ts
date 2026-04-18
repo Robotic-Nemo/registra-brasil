@@ -50,7 +50,8 @@ export async function GET(request: NextRequest) {
     .limit(5000)
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    console.error('[api/admin/export]', error)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 
   // Build CSV

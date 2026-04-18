@@ -75,7 +75,7 @@ export function SearchFilters({ categories }: SearchFiltersProps) {
 
       {/* Categories */}
       <div>
-        <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Categoria</h3>
+        <h3 className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Categoria</h3>
         <div className="flex flex-col gap-1.5">
           {categories.map((cat) => (
             <label key={cat.slug} className="flex items-center gap-2 cursor-pointer group">
@@ -97,11 +97,12 @@ export function SearchFilters({ categories }: SearchFiltersProps) {
 
       {/* Party */}
       <div>
-        <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Partido</h3>
+        <h3 className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2" id="filter-partido-label">Partido</h3>
         <select
           value={selectedParty ?? ''}
           onChange={(e) => update('partido', e.target.value || null)}
-          className="w-full text-sm border border-gray-300 rounded-lg px-2.5 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          aria-labelledby="filter-partido-label"
+          className="w-full text-sm border border-gray-300 rounded-lg px-2.5 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
         >
           <option value="">Todos</option>
           {BRAZILIAN_PARTIES.map((p) => (
@@ -112,11 +113,12 @@ export function SearchFilters({ categories }: SearchFiltersProps) {
 
       {/* State */}
       <div>
-        <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Estado</h3>
+        <h3 className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2" id="filter-estado-label">Estado</h3>
         <select
           value={selectedState ?? ''}
           onChange={(e) => update('estado', e.target.value || null)}
-          className="w-full text-sm border border-gray-300 rounded-lg px-2.5 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          aria-labelledby="filter-estado-label"
+          className="w-full text-sm border border-gray-300 rounded-lg px-2.5 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
         >
           <option value="">Todos</option>
           {BRAZILIAN_STATES.map((s) => (
@@ -127,7 +129,7 @@ export function SearchFilters({ categories }: SearchFiltersProps) {
 
       {/* Date range */}
       <div>
-        <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Período</h3>
+        <h3 className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Período</h3>
         <div className="flex flex-wrap gap-1.5 mb-2">
           {[
             { label: '7 dias', days: 7 },
@@ -180,7 +182,7 @@ export function SearchFilters({ categories }: SearchFiltersProps) {
 
       {/* Status */}
       <div>
-        <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Verificação</h3>
+        <h3 className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Verificação</h3>
         <div className="flex flex-col gap-1.5">
           {[
             { value: '', label: 'Todos' },

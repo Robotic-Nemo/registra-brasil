@@ -151,6 +151,12 @@ export async function POST(request: NextRequest) {
  * DELETE /api/webhooks — Deactivate a webhook by ID.
  */
 export async function DELETE(request: NextRequest) {
+  const rateLimitKey = getRateLimitKey(request, 'webhooks-delete')
+  const { allowed } = checkRateLimit(rateLimitKey, { limit: 10, windowMs: 60_000 })
+  if (!allowed) {
+    return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 })
+  }
+
   if (!isAuthorized(request)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }

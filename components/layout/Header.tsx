@@ -86,7 +86,7 @@ export function Header() {
         {/* Mobile menu button */}
         <button
           ref={hamburgerRef}
-          className="md:hidden text-gray-600 hover:text-gray-900 p-1"
+          className="md:hidden text-gray-700 hover:text-gray-900 p-2.5 -mr-2 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
           aria-expanded={menuOpen}

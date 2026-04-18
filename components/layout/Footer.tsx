@@ -16,7 +16,7 @@ export function Footer() {
             Arquivo de declarações de políticos brasileiros com ligação a fontes primárias.
             Transparência cívica, não partidarismo.
           </p>
-          <p className="text-xs text-gray-400">&copy; {year} Registra Brasil</p>
+          <p className="text-xs text-gray-600">&copy; {year} Registra Brasil</p>
         </div>
 
         <nav className="flex gap-8" aria-label="Rodapé">
