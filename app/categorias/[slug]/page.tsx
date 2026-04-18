@@ -6,6 +6,7 @@ import { getStatementsByCategory } from '@/lib/supabase/queries/statements'
 import { StatementGrid } from '@/components/statements/StatementGrid'
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { Pagination } from '@/components/ui/Pagination'
+import { FollowButton } from '@/components/alerts/FollowButton'
 import { breadcrumbListJsonLd } from '@/lib/utils/structured-data'
 import type { Metadata } from 'next'
 
@@ -117,6 +118,9 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
             RSS
           </a>
+        </div>
+        <div className="mt-3">
+          <FollowButton scope={{ kind: 'categoria', slug: category.slug, label: category.label_pt }} />
         </div>
         {category.description && (
           <p className="text-gray-600 text-sm">{category.description}</p>

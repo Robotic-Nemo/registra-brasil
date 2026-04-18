@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
+import { FollowButton } from '@/components/alerts/FollowButton'
 
 export const revalidate = 3600
 
@@ -111,6 +112,9 @@ export default async function PartyDetailPage({ params }: Props) {
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
           RSS
         </a>
+      </div>
+      <div className="mb-4">
+        <FollowButton scope={{ kind: 'partido', value: party, label: party }} />
       </div>
       <p className="text-gray-500 text-sm mb-8">
         {politicians.length} {politicians.length === 1 ? 'politico' : 'politicos'} ·{' '}

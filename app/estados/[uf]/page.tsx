@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
+import { FollowButton } from '@/components/alerts/FollowButton'
 
 export const revalidate = 3600
 
@@ -109,10 +110,13 @@ export default async function StateDetailPage({ params }: Props) {
           RSS
         </a>
       </div>
-      <p className="text-gray-500 text-sm mb-8">
+      <p className="text-gray-500 text-sm mb-3">
         {politicians.length} {politicians.length === 1 ? 'politico' : 'politicos'} ·{' '}
         {statementsResult.total} {statementsResult.total === 1 ? 'declaracao verificada' : 'declaracoes verificadas'}
       </p>
+      <div className="mb-8">
+        <FollowButton scope={{ kind: 'estado', value: stateCode, label: `${stateName} (${stateCode})` }} />
+      </div>
 
       <h2 className="text-lg font-semibold text-gray-900 mb-3">Politicos</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-10">
