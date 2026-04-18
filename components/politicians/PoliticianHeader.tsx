@@ -11,16 +11,32 @@ export function PoliticianHeader({ politician, statementCount }: PoliticianHeade
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col sm:flex-row gap-4">
       {politician.photo_url ? (
-        <Image
-          src={politician.photo_url}
-          alt={politician.common_name}
-          width={80}
-          height={80}
-          sizes="80px"
-          className="w-20 h-20 rounded-full object-cover border-2 border-gray-200 flex-shrink-0"
-          priority
-          fetchPriority="high"
-        />
+        <figure className="flex flex-col items-center flex-shrink-0">
+          <Image
+            src={politician.photo_url}
+            alt={politician.common_name}
+            width={80}
+            height={80}
+            sizes="80px"
+            className="w-20 h-20 rounded-full object-cover border-2 border-gray-200"
+            priority
+            fetchPriority="high"
+            unoptimized
+          />
+          {politician.photo_source_url && (
+            <figcaption className="text-[10px] text-gray-500 mt-1">
+              Foto:{' '}
+              <a
+                href={politician.photo_source_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-gray-700"
+              >
+                {politician.photo_license === 'wikimedia' ? 'Wikipedia' : 'fonte'}
+              </a>
+            </figcaption>
+          )}
+        </figure>
       ) : (
         <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center text-2xl font-bold text-gray-500 flex-shrink-0">
           {politician.common_name?.[0] ?? '?'}

@@ -22,6 +22,8 @@ export interface Politician {
   role: string | null
   role_history: { role: string; from: string; to?: string }[]
   photo_url: string | null
+  photo_source_url: string | null
+  photo_license: string | null
   tse_id: string | null
   camara_id: number | null
   senado_id: number | null

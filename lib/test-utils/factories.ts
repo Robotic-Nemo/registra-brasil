@@ -25,6 +25,8 @@ export function createMockPolitician(overrides: Partial<Politician> = {}): Polit
     role: 'Deputada Federal',
     role_history: [{ role: 'Deputada Federal', from: '2019-02-01' }],
     photo_url: null,
+    photo_source_url: null,
+    photo_license: null,
     tse_id: null,
     camara_id: null,
     senado_id: null,
