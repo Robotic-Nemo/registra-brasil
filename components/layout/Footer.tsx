@@ -33,6 +33,7 @@ export function Footer() {
               <li><Link href="/estatisticas" className="hover:text-gray-900">Estatísticas</Link></li>
               <li><Link href="/declaracoes-recentes" className="hover:text-gray-900">Recentes</Link></li>
               <li><Link href="/linha-do-tempo" className="hover:text-gray-900">Linha do Tempo</Link></li>
+              <li><Link href="/retrospectiva" className="hover:text-gray-900">Retrospectiva</Link></li>
               <li><Link href="/partidos" className="hover:text-gray-900">Partidos</Link></li>
               <li><Link href="/estados" className="hover:text-gray-900">Estados</Link></li>
               <li><Link href="/ranking" className="hover:text-gray-900">Ranking</Link></li>
