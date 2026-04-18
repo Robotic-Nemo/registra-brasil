@@ -64,12 +64,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .select('slug, updated_at')
       .eq('is_active', true)
 
-    const politicianPages: MetadataRoute.Sitemap = (politicians ?? []).map((p: { slug: string; updated_at: string }) => ({
-      url: `${SITE_URL}/politico/${p.slug}`,
-      lastModified: new Date(p.updated_at),
-      changeFrequency: 'weekly' as const,
-      priority: 0.8,
-    }))
+    const politicianPages: MetadataRoute.Sitemap = (politicians ?? []).flatMap((p: { slug: string; updated_at: string }) => [
+      {
+        url: `${SITE_URL}/politico/${p.slug}`,
+        lastModified: new Date(p.updated_at),
+        changeFrequency: 'weekly' as const,
+        priority: 0.8,
+      },
+      {
+        url: `${SITE_URL}/politico/${p.slug}/dossie`,
+        lastModified: new Date(p.updated_at),
+        changeFrequency: 'weekly' as const,
+        priority: 0.5,
+      },
+    ])
 
     // Categories
     const { data: categories } = await supabase
