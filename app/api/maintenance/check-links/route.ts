@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSupabaseServiceClient } from '@/lib/supabase/server'
+import { getClosestSnapshot } from '@/lib/wayback/client'
 
 export const runtime = 'nodejs'
 export const maxDuration = 60
@@ -77,6 +78,8 @@ async function handle(request: NextRequest) {
   let server5xx = 0
   let errored = 0
 
+  let waybackHits = 0
+
   // Process sequentially to be polite to upstream servers.
   for (const row of (batch ?? []) as Array<{ id: string; primary_source_url: string }>) {
     const { status, error: checkErr } = await checkUrl(row.primary_source_url)
@@ -86,11 +89,26 @@ async function handle(request: NextRequest) {
     else if (status && status >= 400 && status < 500) client4xx++
     else if (status && status >= 500) server5xx++
 
+    // Broken link? Try to find a Wayback snapshot so the public page
+    // has a fallback. Only runs for 4xx/5xx/error rows; skipped for 2xx
+    // so we don't spam the Archive for healthy links.
+    const isBroken = Boolean(checkErr) || (typeof status === 'number' && status >= 400)
+    let waybackUpdate: { source_wayback_url: string | null; source_wayback_checked_at: string } | null = null
+    if (isBroken) {
+      const snap = await getClosestSnapshot(row.primary_source_url)
+      waybackUpdate = {
+        source_wayback_url: snap?.url ?? null,
+        source_wayback_checked_at: new Date().toISOString(),
+      }
+      if (snap) waybackHits++
+    }
+
     await (supabase.from('statements') as any)
       .update({
         source_last_checked_at: new Date().toISOString(),
         source_http_status: status,
         source_check_error: checkErr,
+        ...(waybackUpdate ?? {}),
       })
       .eq('id', row.id)
   }
@@ -98,7 +116,7 @@ async function handle(request: NextRequest) {
   return NextResponse.json({
     checked: batch?.length ?? 0,
     took_ms: Date.now() - start,
-    summary: { ok2xx, redirect3xx, client4xx, server5xx, errored },
+    summary: { ok2xx, redirect3xx, client4xx, server5xx, errored, waybackHits },
   })
 }
 

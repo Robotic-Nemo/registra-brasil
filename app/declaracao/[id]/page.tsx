@@ -317,6 +317,29 @@ export default async function StatementPage({ params }: PageProps) {
             timestampSec={statement.youtube_timestamp_sec}
             isOfficial={isOfficial}
           />
+          {/* Wayback fallback: if the primary URL is broken and we have an
+              Internet Archive snapshot, surface it so readers still reach
+              the evidence even when the original disappeared. */}
+          {((statement as unknown as { source_http_status?: number | null }).source_http_status ?? null) !== null &&
+           ((statement as unknown as { source_http_status?: number | null }).source_http_status as number) >= 400 &&
+           (statement as unknown as { source_wayback_url?: string | null }).source_wayback_url && (
+            <div className="mt-3 bg-amber-50 border border-amber-200 rounded-lg p-3 text-xs text-amber-900">
+              <p className="font-semibold mb-1">⚠ Fonte fora do ar</p>
+              <p className="mb-2">
+                A URL original retornou HTTP{' '}
+                {(statement as unknown as { source_http_status?: number | null }).source_http_status}.
+                O Registra Brasil mantém um espelho arquivado pelo Internet Archive:
+              </p>
+              <a
+                href={(statement as unknown as { source_wayback_url: string }).source_wayback_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-amber-900 underline font-medium hover:text-amber-950 break-all"
+              >
+                {(statement as unknown as { source_wayback_url: string }).source_wayback_url}
+              </a>
+            </div>
+          )}
         </div>
 
         {/* Secondary sources */}
