@@ -4,6 +4,7 @@ import { getAllCategories } from '@/lib/supabase/queries/categories'
 import { unifiedSearch } from '@/lib/search/unified'
 import { SearchBar } from '@/components/search/SearchBar'
 import { SearchFilters } from '@/components/search/SearchFilters'
+import { AlertSubscribe } from '@/components/search/AlertSubscribe'
 import { CuratedResults } from '@/components/search/CuratedResults'
 import { LiveResults } from '@/components/search/LiveResults'
 import { StatementCardSkeleton } from '@/components/ui/Skeleton'
@@ -81,6 +82,11 @@ export default async function BuscarPage({ searchParams }: PageProps) {
       <div className="mb-6 flex items-center gap-3">
         <Suspense fallback={<div className="h-10 flex-1 bg-gray-100 rounded-lg animate-pulse" />}>
           <SearchBar initialValue={params.q ?? ''} autoFocus />
+        </Suspense>
+      </div>
+      <div className="mb-4">
+        <Suspense fallback={null}>
+          <AlertSubscribe />
         </Suspense>
       </div>
 
