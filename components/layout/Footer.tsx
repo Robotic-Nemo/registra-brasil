@@ -27,6 +27,7 @@ export function Footer() {
               <li><Link href="/politicos" className="hover:text-gray-900">Políticos</Link></li>
               <li><Link href="/categorias" className="hover:text-gray-900">Categorias</Link></li>
               <li><Link href="/comparar" className="hover:text-gray-900">Comparar</Link></li>
+              <li><Link href="/analise" className="hover:text-gray-900">Análise comparativa</Link></li>
               <li><Link href="/colecoes" className="hover:text-gray-900">Coleções</Link></li>
               <li><Link href="/buscar?status=verified" className="hover:text-gray-900">Verificados</Link></li>
               <li><Link href="/estatisticas" className="hover:text-gray-900">Estatísticas</Link></li>
