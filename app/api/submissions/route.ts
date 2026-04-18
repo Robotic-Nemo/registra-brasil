@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSupabaseServiceClient } from '@/lib/supabase/server'
 import { checkRateLimit, getRateLimitKey } from '@/lib/utils/rate-limit'
+import { findSimilarStatements } from '@/lib/utils/similar-statements'
 
 export const runtime = 'nodejs'
 
@@ -161,6 +162,14 @@ export async function POST(request: NextRequest) {
     })
   }
 
+  // Auto-flag potential near-duplicates so the reviewer sees them inline.
+  const similar = await findSimilarStatements(supabase, summary, {
+    minSimilarity: 0.5,
+    limit: 1,
+    politicianId: politician_id ?? undefined,
+  }).catch(() => [])
+  const topMatch = similar[0]
+
   const { error } = await (supabase.from('statement_submissions') as any).insert({
     politician_id,
     politician_name_raw: politician_id ? null : politician_name_raw,
@@ -175,6 +184,8 @@ export async function POST(request: NextRequest) {
     submitter_notes,
     submitter_ip_hash: ip_hash,
     status: 'pending',
+    similar_statement_id: topMatch?.id ?? null,
+    similarity_score: topMatch?.similarity ?? null,
   })
 
   if (error) {

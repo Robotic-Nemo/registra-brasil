@@ -1,7 +1,7 @@
 'use client'
 
-import { FormEvent, useState, useId } from 'react'
-import { CheckCircle2, AlertCircle, Loader2 } from 'lucide-react'
+import { FormEvent, useEffect, useRef, useState, useId } from 'react'
+import { CheckCircle2, AlertCircle, Loader2, AlertTriangle } from 'lucide-react'
 
 interface Politician {
   slug: string
@@ -16,10 +16,46 @@ interface Props {
 
 type SubmitState = 'idle' | 'submitting' | 'ok' | 'error'
 
+interface SimilarMatch {
+  id: string
+  slug: string | null
+  summary: string
+  date: string
+  similarity: number
+}
+
 export function SubmissionForm({ politicians }: Props) {
   const [state, setState] = useState<SubmitState>('idle')
   const [message, setMessage] = useState<string>('')
   const [useOther, setUseOther] = useState(false)
+  const [summaryText, setSummaryText] = useState('')
+  const [politicianSlug, setPoliticianSlug] = useState('')
+  const [similar, setSimilar] = useState<SimilarMatch[]>([])
+  const similarAbort = useRef<AbortController | null>(null)
+
+  // Debounced live similarity check — cuts duplicate submissions at source.
+  useEffect(() => {
+    if (useOther) { setSimilar([]); return }
+    const q = summaryText.trim()
+    if (q.length < 15) { setSimilar([]); return }
+
+    const handle = window.setTimeout(() => {
+      similarAbort.current?.abort()
+      const ctrl = new AbortController()
+      similarAbort.current = ctrl
+      fetch('/api/submissions/similar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ summary: q, politician_slug: politicianSlug || undefined }),
+        signal: ctrl.signal,
+      })
+        .then((r) => r.ok ? r.json() : { matches: [] })
+        .then((j) => { setSimilar(j.matches ?? []) })
+        .catch(() => {})
+    }, 500)
+
+    return () => window.clearTimeout(handle)
+  }, [summaryText, politicianSlug, useOther])
   const polIds = useId()
   const summaryId = useId()
   const quoteId = useId()
@@ -118,7 +154,14 @@ export function SubmissionForm({ politicians }: Props) {
         {!useOther ? (
           <>
             <label htmlFor={polIds} className={labelCls}>Político *</label>
-            <select id={polIds} name="politician_slug" required={!useOther} className={inputCls} defaultValue="">
+            <select
+              id={polIds}
+              name="politician_slug"
+              required={!useOther}
+              className={inputCls}
+              value={politicianSlug}
+              onChange={(e) => setPoliticianSlug(e.target.value)}
+            >
               <option value="" disabled>Selecione…</option>
               {politicians.map((p) => (
                 <option key={p.slug} value={p.slug}>
@@ -170,7 +213,35 @@ export function SubmissionForm({ politicians }: Props) {
             rows={3}
             className={inputCls}
             placeholder="Ex.: Defendeu o fim do voto secreto no Congresso durante debate televisivo."
+            value={summaryText}
+            onChange={(e) => setSummaryText(e.target.value)}
           />
+          {similar.length > 0 && (
+            <div className="mt-2 rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs text-amber-900">
+              <p className="font-semibold flex items-center gap-1.5 mb-1">
+                <AlertTriangle className="w-3.5 h-3.5" aria-hidden="true" />
+                Possíveis declarações similares já no arquivo
+              </p>
+              <ul className="space-y-1">
+                {similar.map((m) => (
+                  <li key={m.id}>
+                    <a
+                      href={`/declaracao/${m.slug ?? m.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline hover:text-amber-950"
+                    >
+                      [{(m.similarity * 100).toFixed(0)}%] {m.summary.slice(0, 120)}{m.summary.length > 120 ? '…' : ''}
+                    </a>
+                    <span className="text-amber-700"> · {m.date}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-1 text-amber-700">
+                Se for a mesma declaração, não precisa reenviar — obrigado por conferir.
+              </p>
+            </div>
+          )}
         </div>
         <div>
           <label htmlFor={quoteId} className={labelCls}>Citação literal (opcional)</label>

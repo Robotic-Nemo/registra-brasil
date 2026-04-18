@@ -21,7 +21,10 @@ interface Submission {
   reviewer_notes: string | null
   reviewed_at: string | null
   created_at: string
+  similar_statement_id: string | null
+  similarity_score: number | null
   politicians: { slug: string; common_name: string; party: string; state: string | null } | null
+  similar: { id: string; slug: string | null; summary: string } | null
 }
 
 interface Props {
@@ -128,6 +131,20 @@ function SubmissionItem({ sub }: { sub: Submission }) {
         <p className="text-xs text-gray-600 bg-gray-50 border border-gray-200 rounded p-2 mb-3">
           <strong>Obs:</strong> {sub.submitter_notes}
         </p>
+      )}
+
+      {sub.similar && sub.similarity_score && (
+        <div className="text-xs text-amber-900 bg-amber-50 border border-amber-200 rounded p-2 mb-3">
+          <strong>Possível duplicata ({(sub.similarity_score * 100).toFixed(0)}%):</strong>{' '}
+          <a
+            href={`/declaracao/${sub.similar.slug ?? sub.similar.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline"
+          >
+            {sub.similar.summary.slice(0, 140)}{sub.similar.summary.length > 140 ? '…' : ''}
+          </a>
+        </div>
       )}
 
       {sub.reviewer_notes && (

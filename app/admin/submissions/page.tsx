@@ -16,7 +16,7 @@ export default async function AdminSubmissionsPage({ searchParams }: PageProps) 
 
   const supabase = getSupabaseServiceClient()
   const { data, error } = await (supabase.from('statement_submissions') as any)
-    .select('id, politician_id, politician_name_raw, summary, full_quote, statement_date, venue, primary_source_url, context, submitter_email, submitter_name, submitter_notes, status, reviewer_notes, reviewed_at, created_at, politicians(slug, common_name, party, state)')
+    .select('id, politician_id, politician_name_raw, summary, full_quote, statement_date, venue, primary_source_url, context, submitter_email, submitter_name, submitter_notes, status, reviewer_notes, reviewed_at, created_at, similar_statement_id, similarity_score, politicians(slug, common_name, party, state), similar:similar_statement_id(id, slug, summary)')
     .eq('status', filterStatus)
     .order('created_at', { ascending: false })
     .limit(100)
@@ -38,7 +38,10 @@ export default async function AdminSubmissionsPage({ searchParams }: PageProps) 
     reviewer_notes: string | null
     reviewed_at: string | null
     created_at: string
+    similar_statement_id: string | null
+    similarity_score: number | null
     politicians: { slug: string; common_name: string; party: string; state: string | null } | null
+    similar: { id: string; slug: string | null; summary: string } | null
   }>
 
   // Count per status for the tab bar.
