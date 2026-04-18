@@ -56,11 +56,19 @@ export default async function AdminPage() {
     },
     {
       icon: <Copy className="w-5 h-5" aria-hidden="true" />,
-      label: 'Duplicatas para revisar',
+      label: 'Duplicatas (trigram)',
       count: null as number | null,
       href: '/admin/duplicatas?days=180&threshold=0.6',
       tone: 'purple',
-      hint: 'últimos 180 dias',
+      hint: 'similaridade textual',
+    },
+    {
+      icon: <Copy className="w-5 h-5" aria-hidden="true" />,
+      label: 'Fontes duplicadas',
+      count: null as number | null,
+      href: '/admin/fontes-duplicadas',
+      tone: 'purple',
+      hint: 'mesma URL de fonte',
     },
     {
       icon: <Mail className="w-5 h-5" aria-hidden="true" />,
