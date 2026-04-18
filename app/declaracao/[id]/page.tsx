@@ -102,6 +102,13 @@ export default async function StatementPage({ params }: PageProps) {
     .eq('statement_id', statement.id)
     .maybeSingle()
 
+  // Published right-of-reply replies attached to this statement.
+  const { data: replies } = await (supabase.from('retraction_requests') as any)
+    .select('id, public_reply, public_reply_published_at, petitioner_name, kind')
+    .eq('statement_id', statement.id)
+    .eq('status', 'replied')
+    .order('public_reply_published_at', { ascending: false })
+
   const { politicians: politician, statement_categories } = statement
   const isOfficial = statement.youtube_channel_id
     ? OFFICIAL_IDS.has(statement.youtube_channel_id)
@@ -319,6 +326,40 @@ export default async function StatementPage({ params }: PageProps) {
             <p className="text-sm text-gray-600">{statement.editor_notes}</p>
           </div>
         )}
+
+        {/* Published right-of-reply replies (Lei 13.188/2015) */}
+        {replies && replies.length > 0 && (
+          <div className="border-t border-gray-100 pt-4">
+            <p className="text-xs font-semibold text-amber-800 uppercase tracking-wider mb-2">
+              Direito de resposta
+            </p>
+            {(replies as Array<{ id: string; public_reply: string; public_reply_published_at: string; petitioner_name: string; kind: string }>).map((r) => (
+              <blockquote
+                key={r.id}
+                className="bg-amber-50 border-l-4 border-amber-400 rounded-r p-4 mb-2 text-sm text-amber-950"
+                cite={`#reply-${r.id}`}
+              >
+                <p className="whitespace-pre-wrap">{r.public_reply}</p>
+                <footer className="text-xs text-amber-800 mt-2 not-italic">
+                  — {r.petitioner_name}
+                  {r.public_reply_published_at && (
+                    <>, {new Date(r.public_reply_published_at).toLocaleDateString('pt-BR')}</>
+                  )}
+                </footer>
+              </blockquote>
+            ))}
+          </div>
+        )}
+
+        {/* Link to file a new retraction request */}
+        <div className="border-t border-gray-100 pt-4">
+          <Link
+            href={`/retratacoes/solicitar?statement=${statement.slug ?? statement.id}`}
+            className="inline-flex items-center gap-1.5 text-xs text-gray-600 hover:text-blue-700 hover:underline"
+          >
+            Solicitar retificação / direito de resposta
+          </Link>
+        </div>
 
         {/* Anonymous reactions */}
         <ReactionBar

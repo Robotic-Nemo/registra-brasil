@@ -98,6 +98,15 @@ export default async function AdminPage() {
         </Link>
 
         <Link
+          href="/admin/retratacoes"
+          className="flex flex-col gap-2 p-5 border border-gray-200 rounded-xl hover:shadow-md transition-shadow"
+        >
+          <List className="w-6 h-6 text-amber-600" />
+          <p className="font-semibold text-gray-900">Pedidos de retificação</p>
+          <p className="text-sm text-gray-500">Direito de resposta, correções e retratações</p>
+        </Link>
+
+        <Link
           href="/admin/adicionar"
           className="flex flex-col gap-2 p-5 border border-gray-200 rounded-xl hover:shadow-md transition-shadow"
         >

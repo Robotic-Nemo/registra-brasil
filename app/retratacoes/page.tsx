@@ -71,11 +71,17 @@ export default async function RetratacoesPage() {
           <AlertTriangle className="w-8 h-8 text-amber-600" aria-hidden="true" />
           <h1 className="text-3xl font-bold text-gray-900">Retratações e correções</h1>
         </div>
-        <p className="text-gray-600 leading-relaxed">
+        <p className="text-gray-600 leading-relaxed mb-4">
           Este registro público lista declarações que foram removidas ou corrigidas após revisão
           editorial. Transparência é parte do compromisso do Registra Brasil: erros acontecem e são
           registrados publicamente quando identificados.
         </p>
+        <Link
+          href="/retratacoes/solicitar"
+          className="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-blue-500"
+        >
+          Solicitar retificação / direito de resposta
+        </Link>
       </header>
 
       {rows.length === 0 ? (
