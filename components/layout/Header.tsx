@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import { Suspense, useEffect, useRef, useState } from 'react'
 import { SearchBar } from '@/components/search/SearchBar'
 import { Archive, Menu, X } from 'lucide-react'
+import { ThemeToggle } from './ThemeToggle'
 
 const NAV_LINKS = [
   { href: '/buscar', label: 'Buscar' },
@@ -82,6 +83,8 @@ export function Header() {
             )
           })}
         </nav>
+
+        <ThemeToggle className="flex-shrink-0" />
 
         {/* Mobile menu button */}
         <button

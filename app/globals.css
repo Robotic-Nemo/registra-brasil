@@ -5,6 +5,23 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Opt-in dark mode: applied when <html class="dark"> is set by the
+   ThemeProvider from a cookie. Matches the `dark:` prefix variants
+   that individual components already use. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Page-level dark theme surfaces — these flip when the class is set,
+   regardless of whether every child uses `dark:` explicitly. */
+html.dark {
+  color-scheme: dark;
+  background-color: #0b1220;
+  color: #e5e7eb;
+}
+html.dark body {
+  background-color: #0b1220;
+  color: #e5e7eb;
+}
+
 /* Prose styles for /sobre page */
 .prose {
   max-width: 65ch;
