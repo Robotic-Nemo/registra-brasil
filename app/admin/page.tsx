@@ -85,6 +85,14 @@ export default async function AdminPage() {
       href: '/boletim',
       tone: 'blue',
     },
+    {
+      icon: <Inbox className="w-5 h-5" aria-hidden="true" />,
+      label: 'Buscas dos leitores',
+      count: null as number | null,
+      href: '/admin/buscas',
+      tone: 'blue',
+      hint: 'top + zero-result',
+    },
   ] as const
 
   const toneClasses: Record<string, string> = {

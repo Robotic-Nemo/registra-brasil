@@ -5,6 +5,7 @@ import { unifiedSearch } from '@/lib/search/unified'
 import { SearchBar } from '@/components/search/SearchBar'
 import { SearchFilters } from '@/components/search/SearchFilters'
 import { AlertSubscribe } from '@/components/search/AlertSubscribe'
+import { SearchBeacon } from '@/components/search/SearchBeacon'
 import { CuratedResults } from '@/components/search/CuratedResults'
 import { LiveResults } from '@/components/search/LiveResults'
 import { StatementCardSkeleton } from '@/components/ui/Skeleton'
@@ -79,6 +80,12 @@ export default async function BuscarPage({ searchParams }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(SEARCH_JSON_LD) }}
       />
+      {params.q && (
+        <SearchBeacon
+          q={params.q}
+          results={searchResult.curated?.total ?? 0}
+        />
+      )}
       <div className="mb-6 flex items-center gap-3">
         <Suspense fallback={<div className="h-10 flex-1 bg-gray-100 rounded-lg animate-pulse" />}>
           <SearchBar initialValue={params.q ?? ''} autoFocus />
