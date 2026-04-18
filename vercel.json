@@ -11,6 +11,10 @@
     {
       "path": "/api/maintenance/refresh-scores",
       "schedule": "13 2 * * *"
+    },
+    {
+      "path": "/api/maintenance/weekly-digest",
+      "schedule": "37 13 * * 1"
     }
   ]
 }
