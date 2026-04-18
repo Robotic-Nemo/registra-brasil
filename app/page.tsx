@@ -9,6 +9,7 @@ import { CategoryTag } from '@/components/statements/CategoryTag'
 import { StatsBar } from '@/components/ui/StatsBar'
 import { StatementCardSkeleton } from '@/components/ui/Skeleton'
 import { PopularSearches } from '@/components/search/PopularSearches'
+import { DailyPick } from '@/components/home/DailyPick'
 import { PoliticianCard } from '@/components/politicians/PoliticianCard'
 import { Archive, Search, Clock, Users } from 'lucide-react'
 
@@ -129,6 +130,12 @@ export default async function HomePage() {
             <SiteStats totalCategories={categories.length} />
           </Suspense>
         </div>
+      </section>
+
+      <section className="max-w-4xl mx-auto px-4 pt-8">
+        <Suspense fallback={null}>
+          <DailyPick />
+        </Suspense>
       </section>
 
       {/* Categories */}
