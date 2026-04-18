@@ -37,18 +37,46 @@ interface Resource {
 
 const RESOURCES: Resource[] = [
   {
-    title: 'Exportar declarações (JSON)',
-    description: 'Todas as declarações verificadas do arquivo em formato JSON. Ideal para análise ou reutilização.',
+    title: 'Dump completo — declarações (JSON)',
+    description: 'Acervo inteiro (~12.500 declarações não-removidas) em um único arquivo JSON, com ETag + cache de 1h. Licença CC BY 4.0.',
+    href: '/api/dump/statements?format=json',
+    icon: <FileJson className="w-5 h-5 text-blue-600" aria-hidden="true" />,
+    filename: 'registra-brasil-statements-full.json',
+  },
+  {
+    title: 'Dump completo — declarações (CSV)',
+    description: 'Mesmo acervo em CSV UTF-8 (BOM para Excel) com categorias primárias e secundárias separadas.',
+    href: '/api/dump/statements?format=csv',
+    icon: <FileSpreadsheet className="w-5 h-5 text-green-600" aria-hidden="true" />,
+    filename: 'registra-brasil-statements-full.csv',
+  },
+  {
+    title: 'Dump — políticos',
+    description: 'Todos os políticos ativos com foto/licença de imagem, IDs oficiais (TSE, Câmara, Senado) e URL Wikipédia.',
+    href: '/api/dump/politicians',
+    icon: <FileJson className="w-5 h-5 text-blue-600" aria-hidden="true" />,
+    filename: 'registra-brasil-politicians.json',
+  },
+  {
+    title: 'Dump — categorias',
+    description: 'Taxonomia completa com pesos de severidade e cores.',
+    href: '/api/dump/categories',
+    icon: <FileJson className="w-5 h-5 text-blue-600" aria-hidden="true" />,
+    filename: 'registra-brasil-categories.json',
+  },
+  {
+    title: 'Especificação OpenAPI 3.1',
+    description: 'Definição machine-readable de toda a API REST + feeds RSS. Importe no Postman, Insomnia ou Swagger UI.',
+    href: '/api/openapi.json',
+    icon: <Code className="w-5 h-5 text-purple-600" aria-hidden="true" />,
+    filename: 'registra-brasil-openapi.json',
+  },
+  {
+    title: 'Exportar subset filtrado (JSON/CSV)',
+    description: 'Versão filtrada por político, categoria ou status (até 2 mil linhas por chamada).',
     href: '/api/export?format=json&status=verified&limit=2000',
     icon: <FileJson className="w-5 h-5 text-blue-600" aria-hidden="true" />,
     filename: 'registra-brasil-verificadas.json',
-  },
-  {
-    title: 'Exportar declarações (CSV)',
-    description: 'Mesma base em formato planilha — abre no Excel, LibreOffice, Google Sheets.',
-    href: '/api/export?format=csv&status=verified&limit=2000',
-    icon: <FileSpreadsheet className="w-5 h-5 text-green-600" aria-hidden="true" />,
-    filename: 'registra-brasil-verificadas.csv',
   },
   {
     title: 'Feed RSS (Atom)',
@@ -95,12 +123,12 @@ const DATASET_JSON_LD = {
     {
       '@type': 'DataDownload',
       encodingFormat: 'application/json',
-      contentUrl: `${SITE_URL}/api/export?format=json&status=verified`,
+      contentUrl: `${SITE_URL}/api/dump/statements?format=json`,
     },
     {
       '@type': 'DataDownload',
       encodingFormat: 'text/csv',
-      contentUrl: `${SITE_URL}/api/export?format=csv&status=verified`,
+      contentUrl: `${SITE_URL}/api/dump/statements?format=csv`,
     },
     {
       '@type': 'DataDownload',

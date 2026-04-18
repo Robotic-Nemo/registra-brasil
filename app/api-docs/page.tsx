@@ -93,10 +93,54 @@ export default function ApiDocsPage() {
   return (
     <main className="max-w-4xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-zinc-900 mb-2">Documentação da API</h1>
-      <p className="text-zinc-600 mb-8">
+      <p className="text-zinc-600 mb-6">
         A API pública do Registra Brasil permite acesso aos dados de declarações verificadas.
-        Todas as respostas são em JSON (exceto feeds e exportações CSV).
+        Todas as respostas são em JSON (exceto feeds e exportações CSV). Licença CC BY 4.0 — uso
+        livre com atribuição.
       </p>
+
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 text-sm">
+        <p className="font-semibold text-blue-900 mb-1">Especificação OpenAPI 3.1</p>
+        <p className="text-blue-800 mb-2">
+          Definição machine-readable completa da API — importável em Postman, Insomnia, Swagger UI,
+          Redoc e qualquer gerador de client SDK.
+        </p>
+        <div className="flex flex-wrap gap-3 text-xs">
+          <a href="/api/openapi.json" className="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded font-medium">
+            Baixar openapi.json
+          </a>
+          <a
+            href="https://petstore.swagger.io/?url=https://registrabrasil.com.br/api/openapi.json"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 px-3 py-1.5 border border-blue-300 text-blue-700 hover:bg-blue-100 rounded font-medium"
+          >
+            Abrir no Swagger Editor ↗
+          </a>
+        </div>
+      </div>
+
+      <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-8 text-sm">
+        <p className="font-semibold text-green-900 mb-1">Dump completo do acervo</p>
+        <p className="text-green-800 mb-2">
+          Arquivo único com <strong>todas</strong> as declarações não-removidas (~12.500 rows).
+          ETag estável + cache 1h edge / 24h browser, resposta 304 se nada mudou.
+        </p>
+        <div className="flex flex-wrap gap-3 text-xs">
+          <a href="/api/dump/statements?format=json" className="inline-flex items-center gap-1 px-3 py-1.5 bg-green-700 hover:bg-green-800 text-white rounded font-medium">
+            statements.json
+          </a>
+          <a href="/api/dump/statements?format=csv" className="inline-flex items-center gap-1 px-3 py-1.5 border border-green-300 text-green-800 hover:bg-green-100 rounded font-medium">
+            statements.csv
+          </a>
+          <a href="/api/dump/politicians" className="inline-flex items-center gap-1 px-3 py-1.5 border border-green-300 text-green-800 hover:bg-green-100 rounded font-medium">
+            politicians.json
+          </a>
+          <a href="/api/dump/categories" className="inline-flex items-center gap-1 px-3 py-1.5 border border-green-300 text-green-800 hover:bg-green-100 rounded font-medium">
+            categories.json
+          </a>
+        </div>
+      </div>
 
       <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-8">
         <h2 className="font-semibold text-amber-800 text-sm">Limites de uso</h2>
