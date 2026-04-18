@@ -89,6 +89,15 @@ export default async function AdminPage() {
         </Link>
 
         <Link
+          href="/admin/auditoria"
+          className="flex flex-col gap-2 p-5 border border-gray-200 rounded-xl hover:shadow-md transition-shadow"
+        >
+          <List className="w-6 h-6 text-indigo-700" />
+          <p className="font-semibold text-gray-900">Auditoria editorial</p>
+          <p className="text-sm text-gray-500">Feed unificado: revisões, imports, submissões, coleções</p>
+        </Link>
+
+        <Link
           href="/admin/adicionar"
           className="flex flex-col gap-2 p-5 border border-gray-200 rounded-xl hover:shadow-md transition-shadow"
         >

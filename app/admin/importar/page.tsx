@@ -42,24 +42,29 @@ export default async function ImportPage() {
           <h2 className="text-sm font-semibold text-gray-900 mb-3">Últimos lotes</h2>
           <ol className="flex flex-col gap-2">
             {batches.map((b) => (
-              <li key={b.id} className="bg-white border border-gray-200 rounded p-3 text-sm">
-                <div className="flex items-center justify-between gap-2 mb-1">
-                  <span className="font-mono text-xs text-gray-500">{b.id.slice(0, 8)}</span>
-                  <time className="text-xs text-gray-500">
-                    {new Date(b.created_at).toLocaleString('pt-BR')}
-                  </time>
-                </div>
-                <p className="text-gray-900">{b.source_filename ?? '(sem nome)'}</p>
-                <p className="text-xs text-gray-600 mt-1">
-                  <span className="text-green-700">{b.row_count_created} criadas</span>
-                  {' · '}
-                  <span className="text-amber-700">{b.row_count_skipped} puladas</span>
-                  {' · '}
-                  <span className="text-red-700">{b.row_count_errored} erros</span>
-                  {' · '}
-                  total {b.row_count_total}
-                </p>
-                {b.note && <p className="text-xs text-gray-500 italic mt-1">{b.note}</p>}
+              <li key={b.id}>
+                <Link
+                  href={`/admin/importar/${b.id}`}
+                  className="block bg-white border border-gray-200 rounded p-3 text-sm hover:border-blue-400 hover:shadow-sm transition-all"
+                >
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <span className="font-mono text-xs text-gray-500">{b.id.slice(0, 8)}</span>
+                    <time className="text-xs text-gray-500">
+                      {new Date(b.created_at).toLocaleString('pt-BR')}
+                    </time>
+                  </div>
+                  <p className="text-gray-900">{b.source_filename ?? '(sem nome)'}</p>
+                  <p className="text-xs text-gray-600 mt-1">
+                    <span className="text-green-700">{b.row_count_created} criadas</span>
+                    {' · '}
+                    <span className="text-amber-700">{b.row_count_skipped} puladas</span>
+                    {' · '}
+                    <span className="text-red-700">{b.row_count_errored} erros</span>
+                    {' · '}
+                    total {b.row_count_total}
+                  </p>
+                  {b.note && <p className="text-xs text-gray-500 italic mt-1">{b.note}</p>}
+                </Link>
               </li>
             ))}
           </ol>
