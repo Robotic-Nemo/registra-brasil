@@ -93,6 +93,22 @@ export default async function AdminPage() {
       tone: 'blue',
       hint: 'top + zero-result',
     },
+    {
+      icon: <Mail className="w-5 h-5" aria-hidden="true" />,
+      label: 'Configurações',
+      count: null as number | null,
+      href: '/admin/configuracoes-site',
+      tone: 'blue',
+      hint: 'banner + cron + SLA',
+    },
+    {
+      icon: <Mail className="w-5 h-5" aria-hidden="true" />,
+      label: 'Declaração do dia',
+      count: null as number | null,
+      href: '/admin/declaracao-do-dia',
+      tone: 'blue',
+      hint: 'agenda de picks',
+    },
   ] as const
 
   const toneClasses: Record<string, string> = {
