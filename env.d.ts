@@ -20,6 +20,18 @@ declare namespace NodeJS {
     readonly ADMIN_SECRET?: string
     readonly ADMIN_API_KEY?: string
 
+    // Alerts self-service access tokens (falls back to NEWSLETTER_SECRET then REVALIDATE_SECRET)
+    readonly ALERTS_ACCESS_SECRET?: string
+    readonly NEWSLETTER_SECRET?: string
+
+    // Email provider (Resend) & generic SMTP relay
+    readonly RESEND_API_KEY?: string
+    readonly SMTP_RELAY_URL?: string
+    readonly EMAIL_FROM?: string
+
+    // Vercel Cron bearer
+    readonly CRON_SECRET?: string
+
     // Site
     readonly NEXT_PUBLIC_SITE_URL?: string
 
