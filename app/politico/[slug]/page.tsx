@@ -5,6 +5,7 @@ import { getPoliticianBySlug, getPoliticianCategoryStats, getPoliticianActivityB
 import { searchStatements } from '@/lib/supabase/queries/statements'
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { PoliticianHeader } from '@/components/politicians/PoliticianHeader'
+import { PoliticianWikipediaBio } from '@/components/politicians/PoliticianWikipediaBio'
 import { PoliticianStats } from '@/components/politicians/PoliticianStats'
 import { PoliticianStatements } from '@/components/politicians/PoliticianStatements'
 import { Pagination } from '@/components/ui/Pagination'
@@ -130,6 +131,10 @@ export default async function PoliticianPage({ params, searchParams }: PageProps
         { label: politician.common_name },
       ]} />
       <PoliticianHeader politician={politician} statementCount={statementsResult.total} />
+
+      {politician.bio_excerpt && (
+        <PoliticianWikipediaBio excerpt={politician.bio_excerpt} sourceUrl={politician.bio_source_url} />
+      )}
 
       {categoryStats.length > 0 && <PoliticianStats stats={categoryStats} />}
 

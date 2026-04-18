@@ -7,7 +7,7 @@ export async function getPoliticianBySlug(
 ): Promise<Politician | null> {
   const { data, error } = await supabase
     .from('politicians')
-    .select('id, slug, full_name, common_name, party, party_history, state, role, role_history, photo_url, photo_source_url, photo_license, tse_id, camara_id, senado_id, wikipedia_url, is_active, created_at, updated_at')
+    .select('id, slug, full_name, common_name, party, party_history, state, role, role_history, photo_url, photo_source_url, photo_license, bio_excerpt, bio_source_url, bio_checked_at, tse_id, camara_id, senado_id, wikipedia_url, is_active, created_at, updated_at')
     .eq('slug', slug)
     .single()
 

@@ -28,6 +28,9 @@ export interface Politician {
   camara_id: number | null
   senado_id: number | null
   wikipedia_url: string | null
+  bio_excerpt: string | null
+  bio_source_url: string | null
+  bio_checked_at: string | null
   is_active: boolean
   created_at: string
   updated_at: string
