@@ -14,6 +14,10 @@ const CookieConsent = dynamic(
   () => import('@/components/ui/CookieConsent').then(m => ({ default: m.CookieConsent })),
   { ssr: false }
 )
+const PWARegister = dynamic(
+  () => import('@/components/layout/PWARegister').then(m => ({ default: m.PWARegister })),
+  { ssr: false }
+)
 
 export function ClientExtras() {
   return (
@@ -21,6 +25,7 @@ export function ClientExtras() {
       <KeyboardShortcuts />
       <BackToTop />
       <CookieConsent />
+      <PWARegister />
     </>
   )
 }

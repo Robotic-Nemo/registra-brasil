@@ -53,6 +53,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/transparencia`, lastModified: STATIC_DATE, changeFrequency: 'weekly', priority: 0.5 },
     { url: `${SITE_URL}/historias`, lastModified: STATIC_DATE, changeFrequency: 'weekly', priority: 0.7 },
     { url: `${SITE_URL}/analise`, lastModified: STATIC_DATE, changeFrequency: 'weekly', priority: 0.5 },
+    { url: `${SITE_URL}/offline`, lastModified: STATIC_DATE, changeFrequency: 'yearly', priority: 0.1 },
   ]
 
   // Dynamic pages from Supabase
