@@ -5,18 +5,81 @@ import { getSupabaseServiceClient } from '@/lib/supabase/server'
 import { getUnverifiedStatements, getSiteStats } from '@/lib/supabase/queries/statements'
 import { ReviewQueue } from './review/ReviewQueue'
 import { ScanButton } from './review/ScanButton'
+import { Inbox, Scale, Flag, Copy, Mail } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
 export default async function AdminPage() {
   const supabase = getSupabaseServiceClient()
-  const [unverified, stats, { count: disputedCount }, { data: latestScan }, { data: recentEdits }] = await Promise.all([
+  const [
+    unverified, stats, { count: disputedCount }, { data: latestScan }, { data: recentEdits },
+    { count: pendingSubmissions },
+    { count: pendingRetractions },
+    { count: reactionFlags },
+    { count: pendingFactChecks },
+    { count: pendingNewsletter },
+  ] = await Promise.all([
     getUnverifiedStatements(supabase, 25),
     getSiteStats(supabase),
     supabase.from('statements').select('id', { count: 'exact', head: true }).eq('verification_status', 'disputed'),
     supabase.from('statements').select('created_at').eq('verification_status', 'unverified').order('created_at', { ascending: false }).limit(1).maybeSingle(),
     supabase.from('statements').select('id, slug, summary, updated_at, reviewed_at, politicians(common_name)').not('reviewed_at', 'is', null).order('reviewed_at', { ascending: false }).limit(8),
+    supabase.from('statement_submissions').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
+    supabase.from('retraction_requests').select('id', { count: 'exact', head: true }).in('status', ['pending', 'in_review']),
+    // Fast approximation for "flagged": total erro + contestada reactions
+    supabase.from('statement_reactions').select('id', { count: 'exact', head: true }).in('reaction', ['erro', 'contestada']),
+    supabase.from('statement_fact_checks').select('id', { count: 'exact', head: true }),
+    supabase.from('newsletter_subscribers').select('id', { count: 'exact', head: true }).eq('is_active', true),
   ])
+
+  const inboxItems = [
+    {
+      icon: <Inbox className="w-5 h-5" aria-hidden="true" />,
+      label: 'Submissões pendentes',
+      count: pendingSubmissions ?? 0,
+      href: '/admin/submissions?status=pending',
+      tone: 'amber',
+    },
+    {
+      icon: <Scale className="w-5 h-5" aria-hidden="true" />,
+      label: 'Pedidos de retificação',
+      count: pendingRetractions ?? 0,
+      href: '/admin/retratacoes',
+      tone: 'red',
+    },
+    {
+      icon: <Flag className="w-5 h-5" aria-hidden="true" />,
+      label: 'Reações do público',
+      count: reactionFlags ?? 0,
+      href: '/admin/reacoes?sort=contestada',
+      tone: 'orange',
+    },
+    {
+      icon: <Copy className="w-5 h-5" aria-hidden="true" />,
+      label: 'Duplicatas para revisar',
+      count: null as number | null,
+      href: '/admin/duplicatas?days=180&threshold=0.6',
+      tone: 'purple',
+      hint: 'últimos 180 dias',
+    },
+    {
+      icon: <Mail className="w-5 h-5" aria-hidden="true" />,
+      label: 'Assinantes do boletim',
+      count: pendingNewsletter ?? 0,
+      href: '/boletim',
+      tone: 'blue',
+    },
+  ] as const
+
+  const toneClasses: Record<string, string> = {
+    amber: 'bg-amber-50 border-amber-200 text-amber-900 hover:bg-amber-100',
+    red: 'bg-red-50 border-red-200 text-red-900 hover:bg-red-100',
+    orange: 'bg-orange-50 border-orange-200 text-orange-900 hover:bg-orange-100',
+    purple: 'bg-purple-50 border-purple-200 text-purple-900 hover:bg-purple-100',
+    blue: 'bg-blue-50 border-blue-200 text-blue-900 hover:bg-blue-100',
+  }
+
+  void pendingFactChecks // surfaced only in fact-checks sub-page for now
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-12">
@@ -35,6 +98,31 @@ export default async function AdminPage() {
           </button>
         </form>
       </div>
+
+      {/* Inbox — editorial queues needing attention */}
+      <section className="mb-8">
+        <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Caixa de entrada editorial</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+          {inboxItems.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className={`flex items-start gap-2 p-3 border rounded-lg transition-colors ${toneClasses[item.tone]}`}
+            >
+              <span className="flex-shrink-0 mt-0.5">{item.icon}</span>
+              <span className="flex-1 min-w-0">
+                <span className="block text-xs font-semibold">{item.label}</span>
+                <span className="block text-lg font-bold tabular-nums">
+                  {item.count === null ? '—' : item.count.toLocaleString('pt-BR')}
+                </span>
+                {'hint' in item && item.hint && (
+                  <span className="block text-[10px] opacity-70">{item.hint}</span>
+                )}
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
 
       {/* Quick stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
