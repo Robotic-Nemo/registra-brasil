@@ -109,6 +109,30 @@ export async function getPoliticianActivityByMonth(
     .sort((a, b) => a.month.localeCompare(b.month))
 }
 
+export async function getPoliticianActivityByDay(
+  supabase: SupabaseClient,
+  politicianId: string,
+  weeks = 52,
+): Promise<{ date: string; count: number }[]> {
+  const since = new Date()
+  since.setDate(since.getDate() - weeks * 7)
+  const sinceStr = since.toISOString().slice(0, 10)
+
+  const { data } = await supabase
+    .from('statements')
+    .select('statement_date')
+    .eq('politician_id', politicianId)
+    .neq('verification_status', 'removed')
+    .gte('statement_date', sinceStr)
+
+  if (!data) return []
+  const counts = new Map<string, number>()
+  for (const row of data as { statement_date: string }[]) {
+    counts.set(row.statement_date, (counts.get(row.statement_date) ?? 0) + 1)
+  }
+  return [...counts.entries()].map(([date, count]) => ({ date, count }))
+}
+
 export async function searchPoliticians(
   supabase: SupabaseClient,
   query: string,

@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import { getSupabaseServerClient } from '@/lib/supabase/server'
-import { getPoliticianBySlug, getPoliticianCategoryStats, getPoliticianActivityByMonth, getAllPoliticianSlugs, getRelatedPoliticians } from '@/lib/supabase/queries/politicians'
+import { getPoliticianBySlug, getPoliticianCategoryStats, getPoliticianActivityByMonth, getPoliticianActivityByDay, getAllPoliticianSlugs, getRelatedPoliticians } from '@/lib/supabase/queries/politicians'
 import { searchStatements } from '@/lib/supabase/queries/statements'
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { PoliticianHeader } from '@/components/politicians/PoliticianHeader'
@@ -10,6 +10,7 @@ import { PoliticianStatements } from '@/components/politicians/PoliticianStateme
 import { Pagination } from '@/components/ui/Pagination'
 import { RelatedPoliticians } from '@/components/politicians/RelatedPoliticians'
 import { PoliticianActivityChart } from '@/components/politicians/PoliticianActivityChart'
+import { ActivityCalendar } from '@/components/politicians/ActivityCalendar'
 import { breadcrumbListJsonLd, personJsonLd, itemListJsonLd } from '@/lib/utils/structured-data'
 import type { Metadata } from 'next'
 
@@ -74,10 +75,11 @@ export default async function PoliticianPage({ params, searchParams }: PageProps
   if (!politician) notFound()
 
   // Load category stats and related politicians after confirming politician exists
-  const [categoryStats, relatedPoliticians, activityData] = await Promise.all([
+  const [categoryStats, relatedPoliticians, activityData, dailyActivity] = await Promise.all([
     getPoliticianCategoryStats(supabase, politician.id).catch(() => []),
     getRelatedPoliticians(supabase, politician.slug, politician.party, politician.state, 4).catch(() => []),
     getPoliticianActivityByMonth(supabase, politician.id, 12).catch(() => []),
+    getPoliticianActivityByDay(supabase, politician.id, 52).catch(() => []),
   ])
 
   const personLd = personJsonLd({
@@ -133,6 +135,16 @@ export default async function PoliticianPage({ params, searchParams }: PageProps
 
       {activityData.length > 0 && (
         <PoliticianActivityChart data={activityData} className="bg-white border border-gray-200 rounded-xl p-4" />
+      )}
+
+      {dailyActivity.length > 0 && (
+        <section className="bg-white border border-gray-200 rounded-xl p-4">
+          <ActivityCalendar
+            days={dailyActivity}
+            title={`Atividade em 52 semanas — ${politician.common_name}`}
+            hrefFor={(date) => `/buscar?politico=${politician.slug}&de=${date}&ate=${date}`}
+          />
+        </section>
       )}
 
       <section>
