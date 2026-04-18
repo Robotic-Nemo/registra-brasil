@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 
 export default function ImprensaPage() {
   return (
-    <main id="main-content" className="max-w-3xl mx-auto px-4 py-10">
+    <main className="max-w-3xl mx-auto px-4 py-10">
       <Breadcrumbs items={[{ label: 'Imprensa' }]} />
 
       <header className="mb-10">
@@ -51,29 +51,35 @@ export default function ImprensaPage() {
         <h2 className="text-xl font-semibold text-gray-900 mb-3">Recursos visuais</h2>
         <div className="grid grid-cols-2 gap-4">
           <a
-            href="/icon.png"
+            href="/icon"
             download="registra-brasil-logo.png"
-            className="block border border-gray-200 rounded-lg p-4 hover:border-blue-400 transition-colors"
+            className="block border border-gray-200 rounded-lg p-4 hover:border-blue-400 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           >
             <div className="aspect-square bg-gray-50 rounded flex items-center justify-center mb-3">
-              <Image src="/icon.png" alt="" width={96} height={96} unoptimized />
+              <Image
+                src="/icon"
+                alt="Logotipo Registra Brasil"
+                width={96}
+                height={96}
+                unoptimized
+              />
             </div>
             <div className="flex items-center gap-1 text-sm font-medium text-blue-700">
               <Download className="w-4 h-4" aria-hidden="true" />
-              Logotipo PNG
+              Logotipo (PNG 512×512)
             </div>
           </a>
           <a
-            href="/og-image.png"
+            href="/opengraph-image"
             download="registra-brasil-og.png"
-            className="block border border-gray-200 rounded-lg p-4 hover:border-blue-400 transition-colors"
+            className="block border border-gray-200 rounded-lg p-4 hover:border-blue-400 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           >
             <div className="aspect-square bg-gray-50 rounded flex items-center justify-center mb-3 text-gray-400">
               1200×630
             </div>
             <div className="flex items-center gap-1 text-sm font-medium text-blue-700">
               <Download className="w-4 h-4" aria-hidden="true" />
-              Imagem Open Graph
+              Imagem Open Graph (PNG 1200×630)
             </div>
           </a>
         </div>

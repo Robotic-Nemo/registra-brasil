@@ -1,0 +1,13 @@
+'use client'
+
+import { PageError } from '@/components/layout/PageError'
+
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string }
+  reset: () => void
+}) {
+  return <PageError error={error} reset={reset} title="Erro ao carregar a linha do tempo do ano" topic="linha-do-tempo-year" />
+}

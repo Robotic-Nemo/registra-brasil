@@ -112,7 +112,7 @@ const DATASET_JSON_LD = {
 
 export default function DadosPage() {
   return (
-    <main id="main-content" className="max-w-4xl mx-auto px-4 py-10">
+    <main className="max-w-4xl mx-auto px-4 py-10">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(DATASET_JSON_LD) }}

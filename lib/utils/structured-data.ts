@@ -241,7 +241,7 @@ export function articleJsonLd(input: ArticleSchemaInput): Record<string, unknown
       url: SITE_URL,
       logo: {
         '@type': 'ImageObject',
-        url: `${SITE_URL}/icon.png`,
+        url: `${SITE_URL}/icon`,
       },
     },
     mainEntityOfPage: {
@@ -317,7 +317,7 @@ export function organizationJsonLd(input: OrganizationSchemaInput = {}): Record<
     '@type': 'Organization',
     name: SITE_NAME,
     url: SITE_URL,
-    logo: `${SITE_URL}/icon.png`,
+    logo: `${SITE_URL}/icon`,
     ...(input.description ? { description: input.description } : {}),
     ...(input.sameAs && input.sameAs.length > 0 ? { sameAs: input.sameAs } : {}),
   }

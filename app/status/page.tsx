@@ -20,7 +20,7 @@ const services = [
 
 export default function StatusPage() {
   return (
-    <main id="main-content" className="container mx-auto max-w-3xl px-4 py-8">
+    <main className="container mx-auto max-w-3xl px-4 py-8">
       <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Status do Sistema</h1>
       <p className="text-gray-500 dark:text-gray-400 mb-8">
         Status atual dos servicos do Registra Brasil.
