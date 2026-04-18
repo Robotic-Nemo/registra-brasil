@@ -18,6 +18,10 @@ const PWARegister = dynamic(
   () => import('@/components/layout/PWARegister').then(m => ({ default: m.PWARegister })),
   { ssr: false }
 )
+const CommandPalette = dynamic(
+  () => import('@/components/ui/CommandPalette').then(m => ({ default: m.CommandPalette })),
+  { ssr: false }
+)
 
 export function ClientExtras() {
   return (
@@ -26,6 +30,7 @@ export function ClientExtras() {
       <BackToTop />
       <CookieConsent />
       <PWARegister />
+      <CommandPalette />
     </>
   )
 }
