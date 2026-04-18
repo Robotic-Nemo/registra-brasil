@@ -24,6 +24,7 @@ import { EmbedCode } from '@/components/statements/EmbedCode'
 import { ShareCardMenu } from '@/components/statements/ShareCardMenu'
 import { StatementMeta } from '@/components/statements/StatementMeta'
 import { BookmarkButton } from '@/components/ui/BookmarkButton'
+import { CitationGenerator } from '@/components/statements/CitationGenerator'
 import { ReactionBar } from '@/components/statements/ReactionBar'
 import { claimReviewJsonLd, breadcrumbListJsonLd, articleJsonLd } from '@/lib/utils/structured-data'
 import type { Metadata } from 'next'
@@ -449,6 +450,16 @@ export default async function StatementPage({ params }: PageProps) {
             politicianName={politician.common_name}
           />
           <ShareCardMenu statementId={statement.id} statementSlug={statement.slug} />
+          <CitationGenerator
+            statement={{
+              politicianName: politician.common_name,
+              politicianPartyState: `(${politician.party}${politician.state ? '-' + politician.state : ''})`,
+              statementDate: statement.statement_date,
+              summary: statement.summary,
+              primarySourceUrl: statement.primary_source_url,
+              permalink: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://registrabrasil.com.br'}${permalink}`,
+            }}
+          />
         </div>
       </article>
 
