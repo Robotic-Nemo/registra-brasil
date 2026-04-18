@@ -80,6 +80,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="dns-prefetch" href="https://i.ytimg.com" />
         <link rel="preconnect" href="https://i.ytimg.com" crossOrigin="anonymous" />
         <link rel="search" type="application/opensearchdescription+xml" title="Registra Brasil" href="/opensearch.xml" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var c=document.cookie.split(/;\\s*/).find(function(x){return x.indexOf('rb:theme=')===0});var v=c?c.slice(9):'auto';var sys=window.matchMedia('(prefers-color-scheme: dark)').matches;var dark=v==='dark'||(v==='auto'&&sys);if(dark)document.documentElement.classList.add('dark');}catch(e){}})();`,
+          }}
+        />
       </head>
       <body className="min-h-full flex flex-col bg-gray-50 text-gray-900">
         <noscript>
