@@ -8,6 +8,7 @@ import { SearchBar } from '@/components/search/SearchBar'
 import { CategoryTag } from '@/components/statements/CategoryTag'
 import { StatsBar } from '@/components/ui/StatsBar'
 import { StatementCardSkeleton } from '@/components/ui/Skeleton'
+import { PopularSearches } from '@/components/search/PopularSearches'
 import { PoliticianCard } from '@/components/politicians/PoliticianCard'
 import { Archive, Search, Clock, Users } from 'lucide-react'
 
@@ -188,6 +189,12 @@ export default async function HomePage() {
           }
         >
           <RecentStatements />
+        </Suspense>
+      </section>
+
+      <section className="max-w-7xl mx-auto px-4 pb-16">
+        <Suspense fallback={null}>
+          <PopularSearches />
         </Suspense>
       </section>
     </main>
