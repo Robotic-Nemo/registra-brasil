@@ -60,6 +60,46 @@ export async function removeStatement(id: string) {
   revalidateAfterStatusChange()
 }
 
+type BulkStatus = 'verified' | 'disputed' | 'removed'
+
+/**
+ * Apply `status` to every `ids[]` in a single UPDATE. Runs
+ * `set_revision_annotation` first so the revision trigger records
+ * the batch reason against every row. Returns count affected.
+ *
+ * Sanity guard: rejects > 200 ids per call to keep the revision
+ * trigger output bounded.
+ */
+export async function bulkChangeStatus(
+  ids: string[],
+  status: BulkStatus,
+  reason: string,
+): Promise<{ updated: number }> {
+  await assertAuthenticated()
+  if (!Array.isArray(ids) || ids.length === 0) throw new Error('Nenhum ID selecionado.')
+  if (ids.length > 200) throw new Error('Limite de 200 itens por lote.')
+  const trimmed = (reason ?? '').trim().slice(0, 300)
+  if (trimmed.length < 3) throw new Error('Informe um motivo (≥3 caracteres).')
+  const valid = ids.every((i) => UUID_PATTERN.test(i))
+  if (!valid) throw new Error('ID inválido na seleção.')
+  if (!['verified', 'disputed', 'removed'].includes(status)) throw new Error('Status inválido.')
+
+  const supabase = getSupabaseServiceClient()
+
+  await (supabase as any).rpc('set_revision_annotation', {
+    reason: `Lote ${status}: ${trimmed}`,
+    actor: 'admin:bulk-review',
+  }).catch(() => {})
+
+  const { error, count } = await (supabase.from('statements') as any)
+    .update({ verification_status: status, updated_at: new Date().toISOString() }, { count: 'exact' })
+    .in('id', ids)
+
+  if (error) throw new Error(error.message)
+  revalidateAfterStatusChange()
+  return { updated: count ?? 0 }
+}
+
 export async function triggerScan(dryRun: boolean): Promise<{
   ok: boolean
   inserted?: number
