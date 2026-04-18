@@ -71,6 +71,15 @@ export default async function AdminPage() {
         </Link>
 
         <Link
+          href="/admin/importar"
+          className="flex flex-col gap-2 p-5 border border-gray-200 rounded-xl hover:shadow-md transition-shadow"
+        >
+          <List className="w-6 h-6 text-green-700" />
+          <p className="font-semibold text-gray-900">Importar em lote</p>
+          <p className="text-sm text-gray-500">Upload de CSV com preview e checksum anti-duplicata</p>
+        </Link>
+
+        <Link
           href="/admin/adicionar"
           className="flex flex-col gap-2 p-5 border border-gray-200 rounded-xl hover:shadow-md transition-shadow"
         >
