@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
+import { MaintenanceBanner } from '@/components/layout/MaintenanceBanner'
 import { ProgressBar } from '@/components/ui/ProgressBar'
 import { ClientExtras } from '@/components/layout/ClientExtras'
 
@@ -97,6 +98,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
         <ProgressBar />
         <Header />
+        <MaintenanceBanner />
         <div id="main-content" className="flex-1" tabIndex={-1}>{children}</div>
         <Footer />
         <ClientExtras />
