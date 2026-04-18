@@ -46,6 +46,7 @@ export function Footer() {
               <li><Link href="/dados" className="hover:text-gray-900">Dados abertos</Link></li>
               <li><Link href="/desenvolvedores" className="hover:text-gray-900">Para devs</Link></li>
               <li><Link href="/retratacoes" className="hover:text-gray-900">Retratações</Link></li>
+              <li><Link href="/sugerir" className="hover:text-gray-900">Sugerir declaração</Link></li>
               <li><Link href="/api-docs" className="hover:text-gray-900"><span lang="en">API</span></Link></li>
               <li>
                 <a href="/feed.xml" rel="noopener noreferrer" type="application/rss+xml" className="inline-flex items-center gap-1 hover:text-gray-900">

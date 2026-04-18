@@ -53,6 +53,15 @@ export default async function AdminPage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
         <Link
+          href="/admin/submissions"
+          className="flex flex-col gap-2 p-5 border border-gray-200 rounded-xl hover:shadow-md transition-shadow"
+        >
+          <PlusCircle className="w-6 h-6 text-amber-600" />
+          <p className="font-semibold text-gray-900">Fila de submissões</p>
+          <p className="text-sm text-gray-500">Revisar sugestões enviadas pelo público</p>
+        </Link>
+
+        <Link
           href="/admin/adicionar"
           className="flex flex-col gap-2 p-5 border border-gray-200 rounded-xl hover:shadow-md transition-shadow"
         >
