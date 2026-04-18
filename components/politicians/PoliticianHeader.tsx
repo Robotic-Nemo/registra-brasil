@@ -2,6 +2,7 @@ import Image from 'next/image'
 import type { Politician } from '@/types/database'
 import { MapPin, ExternalLink, Building2, Rss } from 'lucide-react'
 import { FollowButton } from '@/components/alerts/FollowButton'
+import { BookmarkButton } from '@/components/ui/BookmarkButton'
 
 interface PoliticianHeaderProps {
   politician: Politician

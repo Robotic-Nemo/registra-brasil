@@ -23,6 +23,7 @@ import { AdminEditLink } from '@/components/ui/AdminEditLink'
 import { EmbedCode } from '@/components/statements/EmbedCode'
 import { ShareCardMenu } from '@/components/statements/ShareCardMenu'
 import { StatementMeta } from '@/components/statements/StatementMeta'
+import { BookmarkButton } from '@/components/ui/BookmarkButton'
 import { ReactionBar } from '@/components/statements/ReactionBar'
 import { claimReviewJsonLd, breadcrumbListJsonLd, articleJsonLd } from '@/lib/utils/structured-data'
 import type { Metadata } from 'next'
@@ -184,6 +185,12 @@ export default async function StatementPage({ params }: PageProps) {
         ]} />
         <div className="flex items-center gap-2">
           <AdminEditLink statementId={statement.id} />
+          <BookmarkButton
+            id={statement.id}
+            type="statement"
+            title={`${politician.common_name}: ${statement.summary.slice(0, 80)}`}
+            slug={statement.slug ?? statement.id}
+          />
           <ShareButton />
         </div>
       </div>
