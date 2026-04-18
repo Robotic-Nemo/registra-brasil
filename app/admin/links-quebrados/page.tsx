@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { ArrowLeft, AlertTriangle, ExternalLink, Clock } from 'lucide-react'
 import { getSupabaseServiceClient } from '@/lib/supabase/server'
+import { ArchiveNowButton } from './ArchiveNowButton'
 
 export const dynamic = 'force-dynamic'
 
@@ -120,6 +121,7 @@ export default async function LinksQuebradosPage() {
                     <span className="truncate font-mono">{r.primary_source_url}</span>
                   </a>
                   <Link href={`/admin/editar/${r.id}`} className="text-blue-700 hover:underline flex-shrink-0">Editar</Link>
+                  <ArchiveNowButton statementId={r.id} />
                   {r.source_last_checked_at && (
                     <span className="text-gray-500 inline-flex items-center gap-1 flex-shrink-0">
                       <Clock className="w-3 h-3" aria-hidden="true" />
