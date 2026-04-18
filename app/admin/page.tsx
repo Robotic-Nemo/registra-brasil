@@ -71,6 +71,14 @@ export default async function AdminPage() {
       hint: 'mesma URL de fonte',
     },
     {
+      icon: <Flag className="w-5 h-5" aria-hidden="true" />,
+      label: 'Links quebrados',
+      count: null as number | null,
+      href: '/admin/links-quebrados',
+      tone: 'red',
+      hint: 'HTTP 4xx/5xx',
+    },
+    {
       icon: <Mail className="w-5 h-5" aria-hidden="true" />,
       label: 'Assinantes do boletim',
       count: pendingNewsletter ?? 0,
