@@ -79,6 +79,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="dns-prefetch" href="https://www.youtube.com" />
         <link rel="dns-prefetch" href="https://i.ytimg.com" />
         <link rel="preconnect" href="https://i.ytimg.com" crossOrigin="anonymous" />
+        <link rel="search" type="application/opensearchdescription+xml" title="Registra Brasil" href="/opensearch.xml" />
       </head>
       <body className="min-h-full flex flex-col bg-gray-50 text-gray-900">
         <noscript>

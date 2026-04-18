@@ -21,6 +21,7 @@ import { readingTime, wordCount } from '@/lib/utils/text'
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { AdminEditLink } from '@/components/ui/AdminEditLink'
 import { EmbedCode } from '@/components/statements/EmbedCode'
+import { ShareCardMenu } from '@/components/statements/ShareCardMenu'
 import { StatementMeta } from '@/components/statements/StatementMeta'
 import { ReactionBar } from '@/components/statements/ReactionBar'
 import { claimReviewJsonLd, breadcrumbListJsonLd, articleJsonLd } from '@/lib/utils/structured-data'
@@ -440,6 +441,7 @@ export default async function StatementPage({ params }: PageProps) {
             summary={statement.summary}
             politicianName={politician.common_name}
           />
+          <ShareCardMenu statementId={statement.id} statementSlug={statement.slug} />
         </div>
       </article>
 
