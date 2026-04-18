@@ -56,6 +56,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     alternates: {
       canonical: `/categorias/${slug}`,
       languages: { 'pt-BR': `/categorias/${slug}` },
+      types: { 'application/rss+xml': `/categorias/${slug}/feed.xml` },
     },
   }
 }
@@ -106,6 +107,16 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
             style={{ backgroundColor: category.color_hex }}
           />
           <h1 className="text-2xl font-bold text-gray-900">{category.label_pt}</h1>
+          <a
+            href={`/categorias/${category.slug}/feed.xml`}
+            rel="alternate"
+            type="application/rss+xml"
+            aria-label={`Feed RSS: ${category.label_pt}`}
+            className="ml-auto inline-flex items-center gap-1 text-xs text-orange-600 hover:underline"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+            RSS
+          </a>
         </div>
         {category.description && (
           <p className="text-gray-600 text-sm">{category.description}</p>

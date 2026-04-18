@@ -47,6 +47,7 @@ export function Footer() {
               <li><Link href="/dados" className="hover:text-gray-900">Dados abertos</Link></li>
               <li><Link href="/desenvolvedores" className="hover:text-gray-900">Para devs</Link></li>
               <li><Link href="/retratacoes" className="hover:text-gray-900">Retratações</Link></li>
+              <li><Link href="/atualizacoes" className="hover:text-gray-900">Atualizações</Link></li>
               <li><Link href="/sugerir" className="hover:text-gray-900">Sugerir declaração</Link></li>
               <li><Link href="/api-docs" className="hover:text-gray-900"><span lang="en">API</span></Link></li>
               <li>
