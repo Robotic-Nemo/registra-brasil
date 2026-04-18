@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import { getSupabaseServerClient } from '@/lib/supabase/server'
@@ -108,12 +109,19 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
             style={{ backgroundColor: category.color_hex }}
           />
           <h1 className="text-2xl font-bold text-gray-900">{category.label_pt}</h1>
+          <Link
+            href={`/categorias/${category.slug}/analise`}
+            className="ml-auto inline-flex items-center gap-1 text-xs text-blue-700 hover:underline"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 12l4-4 4 4 6-6"/></svg>
+            Análise
+          </Link>
           <a
             href={`/categorias/${category.slug}/feed.xml`}
             rel="alternate"
             type="application/rss+xml"
             aria-label={`Feed RSS: ${category.label_pt}`}
-            className="ml-auto inline-flex items-center gap-1 text-xs text-orange-600 hover:underline"
+            className="inline-flex items-center gap-1 text-xs text-orange-600 hover:underline"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
             RSS
