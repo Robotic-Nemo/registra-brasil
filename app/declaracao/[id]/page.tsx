@@ -22,6 +22,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { AdminEditLink } from '@/components/ui/AdminEditLink'
 import { EmbedCode } from '@/components/statements/EmbedCode'
 import { StatementMeta } from '@/components/statements/StatementMeta'
+import { ReactionBar } from '@/components/statements/ReactionBar'
 import { claimReviewJsonLd, breadcrumbListJsonLd, articleJsonLd } from '@/lib/utils/structured-data'
 import type { Metadata } from 'next'
 import type { SecondarySource } from '@/types/database'
@@ -94,6 +95,12 @@ export default async function StatementPage({ params }: PageProps) {
   // Try slug first, then UUID
   const statement = await getStatementBySlug(supabase, id) ?? await getStatementById(supabase, id)
   if (!statement) notFound()
+
+  // Reaction counts (cheap aggregated view). Don't block render on failure.
+  const { data: reactionCounts } = await (supabase.from('statement_reaction_counts') as any)
+    .select('importante, contestada, fora_de_contexto, erro, total')
+    .eq('statement_id', statement.id)
+    .maybeSingle()
 
   const { politicians: politician, statement_categories } = statement
   const isOfficial = statement.youtube_channel_id
@@ -312,6 +319,12 @@ export default async function StatementPage({ params }: PageProps) {
             <p className="text-sm text-gray-600">{statement.editor_notes}</p>
           </div>
         )}
+
+        {/* Anonymous reactions */}
+        <ReactionBar
+          statementId={statement.id}
+          initialCounts={reactionCounts ?? undefined}
+        />
 
         {/* Revision history link */}
         <div className="border-t border-gray-100 pt-4">

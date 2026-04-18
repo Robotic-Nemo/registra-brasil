@@ -80,6 +80,15 @@ export default async function AdminPage() {
         </Link>
 
         <Link
+          href="/admin/reacoes"
+          className="flex flex-col gap-2 p-5 border border-gray-200 rounded-xl hover:shadow-md transition-shadow"
+        >
+          <List className="w-6 h-6 text-red-600" />
+          <p className="font-semibold text-gray-900">Reações do público</p>
+          <p className="text-sm text-gray-500">Triagem de sinalizações e erros reportados</p>
+        </Link>
+
+        <Link
           href="/admin/adicionar"
           className="flex flex-col gap-2 p-5 border border-gray-200 rounded-xl hover:shadow-md transition-shadow"
         >
