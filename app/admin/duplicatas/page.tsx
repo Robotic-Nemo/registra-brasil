@@ -118,6 +118,14 @@ export default async function DuplicatasPage({ searchParams }: PageProps) {
                   </div>
                 ))}
               </div>
+              <div className="mt-2 flex justify-end">
+                <Link
+                  href={`/admin/merge?a=${p.id_a}&b=${p.id_b}`}
+                  className="inline-flex items-center gap-1 text-xs bg-purple-700 hover:bg-purple-800 text-white px-2.5 py-1 rounded font-medium"
+                >
+                  Mesclar →
+                </Link>
+              </div>
             </li>
           )
         })}
