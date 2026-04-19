@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { FollowButton } from '@/components/alerts/FollowButton'
+import { ScopeDownloads } from '@/components/export/ScopeDownloads'
 
 export const revalidate = 3600
 
@@ -116,6 +117,7 @@ export default async function PartyDetailPage({ params }: Props) {
       <div className="mb-4">
         <FollowButton scope={{ kind: 'partido', value: party, label: party }} />
       </div>
+      <ScopeDownloads base={`/api/partidos/${encodeURIComponent(party)}/export`} label="Baixar arquivo do partido:" />
       <p className="text-gray-500 text-sm mb-8">
         {politicians.length} {politicians.length === 1 ? 'politico' : 'politicos'} ·{' '}
         {statementsResult.total} {statementsResult.total === 1 ? 'declaracao verificada' : 'declaracoes verificadas'}
