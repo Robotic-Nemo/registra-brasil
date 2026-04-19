@@ -7,6 +7,8 @@ import { SearchFilters } from '@/components/search/SearchFilters'
 import { AlertSubscribe } from '@/components/search/AlertSubscribe'
 import { SearchBeacon } from '@/components/search/SearchBeacon'
 import { QueryChips } from '@/components/search/QueryChips'
+import { DidYouMean } from '@/components/search/DidYouMean'
+import { getSearchSuggestions } from '@/lib/search/suggestions'
 import { isFeatureEnabled } from '@/lib/utils/db-settings'
 import { CuratedResults } from '@/components/search/CuratedResults'
 import { LiveResults } from '@/components/search/LiveResults'
@@ -77,6 +79,14 @@ export default async function BuscarPage({ searchParams }: PageProps) {
 
   const categories = await getAllCategories(supabase)
 
+  // Fetch trigram fallback suggestions only when curated produced nothing and
+  // the user typed a real query — avoids RPC overhead on hot paths.
+  const noCurated = (searchResult.curated?.total ?? 0) === 0
+  const suggestions =
+    params.q && noCurated
+      ? await getSearchSuggestions(params.q).catch(() => ({ politicians: [], categories: [] }))
+      : { politicians: [], categories: [] }
+
   return (
     <main className="max-w-7xl mx-auto px-4 py-6">
       <script
@@ -98,6 +108,9 @@ export default async function BuscarPage({ searchParams }: PageProps) {
         <Suspense fallback={null}>
           <QueryChips q={params.q} />
         </Suspense>
+      )}
+      {params.q && noCurated && (
+        <DidYouMean suggestions={suggestions} query={params.q} />
       )}
       {alertsEnabled && (
         <div className="mb-4">
