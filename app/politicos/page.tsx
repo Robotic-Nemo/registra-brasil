@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { getSupabaseServerClient } from '@/lib/supabase/server'
 import { PoliticianFilter } from '@/components/politicians/PoliticianFilter'
 import type { Politician } from '@/types/database'
@@ -60,7 +61,14 @@ export default async function PoliticosPage() {
   return (
     <main className="max-w-5xl mx-auto px-4 py-8">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }} />
-      <h1 className="text-2xl font-bold text-gray-900 mb-2">Políticos</h1>
+      <div className="flex items-center justify-between mb-2 gap-3 flex-wrap">
+        <h1 className="text-2xl font-bold text-gray-900">Políticos</h1>
+        <div className="flex gap-3 text-sm">
+          <Link href="/politicos/a-z" className="text-blue-700 hover:underline">A-Z</Link>
+          <Link href="/politicos/por-partido" className="text-blue-700 hover:underline">Por partido</Link>
+          <Link href="/politicos/por-estado" className="text-blue-700 hover:underline">Por estado</Link>
+        </div>
+      </div>
       <p className="text-gray-500 text-sm mb-6">
         {total} políticos monitorados, {withStatements} com declarações registradas. Ordenados por quantidade.
       </p>
