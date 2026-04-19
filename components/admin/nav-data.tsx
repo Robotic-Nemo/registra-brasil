@@ -49,6 +49,7 @@ export const ADMIN_NAV: Section[] = [
       { href: '/admin/historias', label: 'Histórias', Icon: BookOpen },
       { href: '/admin/declaracao-do-dia', label: 'Declaração do dia', Icon: Sparkles },
       { href: '/admin/contradicoes', label: 'Contradições', Icon: GitCompare },
+      { href: '/admin/agenda', label: 'Agenda política', Icon: LayoutDashboard },
     ],
   },
   {
