@@ -42,6 +42,7 @@ const NAV: Section[] = [
       { href: '/admin/fontes-duplicadas', label: 'Fontes duplicadas', Icon: Link2 },
       { href: '/admin/links-quebrados', label: 'Links quebrados', Icon: AlertTriangle },
       { href: '/admin/merge', label: 'Mesclar declarações', Icon: Merge },
+      { href: '/admin/categorizar', label: 'Categorizar em lote', Icon: Copy },
       { href: '/admin/fact-checks', label: 'Checagens externas', Icon: ShieldCheck },
     ],
   },
