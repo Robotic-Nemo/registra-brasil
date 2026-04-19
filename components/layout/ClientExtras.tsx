@@ -22,6 +22,10 @@ const CommandPalette = dynamic(
   () => import('@/components/ui/CommandPalette').then(m => ({ default: m.CommandPalette })),
   { ssr: false }
 )
+const ReportIssueButton = dynamic(
+  () => import('@/components/feedback/ReportIssueButton').then(m => ({ default: m.ReportIssueButton })),
+  { ssr: false }
+)
 
 export function ClientExtras() {
   return (
@@ -31,6 +35,7 @@ export function ClientExtras() {
       <CookieConsent />
       <PWARegister />
       <CommandPalette />
+      <ReportIssueButton />
     </>
   )
 }

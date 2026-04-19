@@ -1,7 +1,7 @@
 import {
   LayoutDashboard, Plus, List, Inbox, Scale, Flag, Copy, Upload,
   FolderKanban, BookOpen, Search, Settings, Sparkles,
-  AlertTriangle, ShieldCheck, History, Link2, Merge, GitCompare,
+  AlertTriangle, ShieldCheck, History, Link2, Merge, GitCompare, MessageSquareWarning,
 } from 'lucide-react'
 
 export type BadgeKey = 'pending_submissions' | 'pending_retractions' | 'pending_review'
@@ -28,6 +28,7 @@ export const ADMIN_NAV: Section[] = [
       { href: '/admin/submissions', label: 'Submissões públicas', Icon: Inbox, badgeKey: 'pending_submissions' },
       { href: '/admin/retratacoes', label: 'Pedidos de retificação', Icon: Scale, badgeKey: 'pending_retractions' },
       { href: '/admin/reacoes', label: 'Reações do público', Icon: Flag },
+      { href: '/admin/feedback', label: 'Reportes de leitores', Icon: MessageSquareWarning },
     ],
   },
   {
