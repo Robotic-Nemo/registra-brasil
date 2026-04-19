@@ -7,6 +7,7 @@ import { SearchFilters } from '@/components/search/SearchFilters'
 import { AlertSubscribe } from '@/components/search/AlertSubscribe'
 import { SearchBeacon } from '@/components/search/SearchBeacon'
 import { QueryChips } from '@/components/search/QueryChips'
+import { isFeatureEnabled } from '@/lib/utils/db-settings'
 import { CuratedResults } from '@/components/search/CuratedResults'
 import { LiveResults } from '@/components/search/LiveResults'
 import { StatementCardSkeleton } from '@/components/ui/Skeleton'
@@ -68,9 +69,10 @@ export default async function BuscarPage({ searchParams }: PageProps) {
   const sp = await searchParams
   const params = parseSearchParams(sp)
 
-  const [supabase, searchResult] = await Promise.all([
+  const [supabase, searchResult, alertsEnabled] = await Promise.all([
     getSupabaseServerClient(),
     unifiedSearch(params),
+    isFeatureEnabled('alerts'),
   ])
 
   const categories = await getAllCategories(supabase)
@@ -97,11 +99,13 @@ export default async function BuscarPage({ searchParams }: PageProps) {
           <QueryChips q={params.q} />
         </Suspense>
       )}
-      <div className="mb-4">
-        <Suspense fallback={null}>
-          <AlertSubscribe />
-        </Suspense>
-      </div>
+      {alertsEnabled && (
+        <div className="mb-4">
+          <Suspense fallback={null}>
+            <AlertSubscribe />
+          </Suspense>
+        </div>
+      )}
 
       <div className="flex gap-8">
         <Suspense fallback={null}>

@@ -49,3 +49,20 @@ export async function getMaintenanceBanner(): Promise<MaintenanceBanner | null> 
 export async function getFooterMessage(): Promise<string> {
   return await getSetting<string>('footer_message', '')
 }
+
+export type FeatureKey =
+  | 'submissions'
+  | 'reactions'
+  | 'alerts'
+  | 'retractions'
+  | 'bookmarks'
+
+/**
+ * Feature flag lookup. Defaults to `true` so a missing row (e.g.
+ * a brand-new feature the admin hasn't acknowledged) doesn't hide
+ * functionality.
+ */
+export async function isFeatureEnabled(key: FeatureKey): Promise<boolean> {
+  return await getSetting<boolean>(`feature_${key}`, true)
+}
+

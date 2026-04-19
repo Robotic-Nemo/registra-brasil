@@ -3,6 +3,8 @@ import { getSupabaseServerClient } from '@/lib/supabase/server'
 import { SubmissionForm } from './SubmissionForm'
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { Info } from 'lucide-react'
+import { isFeatureEnabled } from '@/lib/utils/db-settings'
+import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Sugerir declaração — Registra Brasil',
@@ -14,12 +16,31 @@ export const metadata: Metadata = {
 export const revalidate = 3600
 
 export default async function SugerirPage() {
+  const enabled = await isFeatureEnabled('submissions')
   const supabase = await getSupabaseServerClient()
   const { data: politicians } = await supabase
     .from('politicians')
     .select('slug, common_name, party, state')
     .eq('is_active', true)
     .order('common_name')
+
+  if (!enabled) {
+    return (
+      <main className="max-w-2xl mx-auto px-4 py-10">
+        <Breadcrumbs items={[{ label: 'Sugerir declaração' }]} />
+        <h1 className="text-2xl font-bold text-gray-900 mb-3">Sugerir declaração</h1>
+        <div className="bg-amber-50 border border-amber-200 rounded-lg p-5 text-sm text-amber-900">
+          <p className="font-semibold mb-1">Submissões temporariamente pausadas</p>
+          <p>
+            A equipe editorial desativou o formulário público enquanto trabalha na fila de
+            revisão. Volte em breve ou{' '}
+            <Link href="/contato" className="underline">entre em contato</Link> diretamente
+            com a redação.
+          </p>
+        </div>
+      </main>
+    )
+  }
 
   return (
     <main className="max-w-2xl mx-auto px-4 py-10">

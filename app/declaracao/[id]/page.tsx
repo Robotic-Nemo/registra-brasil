@@ -27,6 +27,7 @@ import { StatementMeta } from '@/components/statements/StatementMeta'
 import { BookmarkButton } from '@/components/ui/BookmarkButton'
 import { CitationGenerator } from '@/components/statements/CitationGenerator'
 import { ReactionBar } from '@/components/statements/ReactionBar'
+import { isFeatureEnabled } from '@/lib/utils/db-settings'
 import { claimReviewJsonLd, breadcrumbListJsonLd, articleJsonLd } from '@/lib/utils/structured-data'
 import type { Metadata } from 'next'
 import type { SecondarySource } from '@/types/database'
@@ -99,6 +100,8 @@ export default async function StatementPage({ params }: PageProps) {
   // Try slug first, then UUID
   const statement = await getStatementBySlug(supabase, id) ?? await getStatementById(supabase, id)
   if (!statement) notFound()
+
+  const reactionsEnabled = await isFeatureEnabled('reactions')
 
   // Reaction counts (cheap aggregated view). Don't block render on failure.
   const { data: reactionCounts } = await (supabase.from('statement_reaction_counts') as any)
@@ -444,11 +447,13 @@ export default async function StatementPage({ params }: PageProps) {
           </Link>
         </div>
 
-        {/* Anonymous reactions */}
-        <ReactionBar
-          statementId={statement.id}
-          initialCounts={reactionCounts ?? undefined}
-        />
+        {/* Anonymous reactions (toggled via feature flag) */}
+        {reactionsEnabled && (
+          <ReactionBar
+            statementId={statement.id}
+            initialCounts={reactionCounts ?? undefined}
+          />
+        )}
 
         {/* Revision history link */}
         <div className="border-t border-gray-100 pt-4">
