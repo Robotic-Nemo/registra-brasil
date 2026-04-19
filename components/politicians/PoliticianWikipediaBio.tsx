@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { BookOpen, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react'
+import { renderWithGlossary } from '@/lib/glossary/render'
 
 interface Props {
   excerpt: string
@@ -27,7 +28,7 @@ export function PoliticianWikipediaBio({ excerpt, sourceUrl }: Props) {
         </button>
       </div>
       {open ? (
-        <p className="text-gray-800 leading-relaxed whitespace-pre-wrap">{excerpt}</p>
+        <p className="text-gray-800 leading-relaxed whitespace-pre-wrap">{renderWithGlossary(excerpt)}</p>
       ) : (
         <p className="text-gray-600 line-clamp-2">{short}</p>
       )}

@@ -7,6 +7,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { StatementGrid } from '@/components/statements/StatementGrid'
 import { Rss, FolderKanban } from 'lucide-react'
 import { CollectionDownloads } from '@/components/collections/CollectionDownloads'
+import { renderWithGlossary } from '@/lib/glossary/render'
 import { collectionPageJsonLd, breadcrumbListJsonLd } from '@/lib/utils/structured-data'
 
 export const revalidate = 300
@@ -111,7 +112,9 @@ export default async function CollectionDetailPage({ params }: PageProps) {
           <p className="text-gray-700 text-lg leading-relaxed mb-3">{collection.subtitle}</p>
         )}
         {collection.description && (
-          <p className="text-gray-700 leading-relaxed whitespace-pre-line">{collection.description}</p>
+          <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+            {renderWithGlossary(collection.description)}
+          </p>
         )}
         <div className="flex items-center gap-4 mt-4 text-xs text-gray-500">
           <span>{statements.length} declaraç{statements.length === 1 ? 'ão' : 'ões'}</span>

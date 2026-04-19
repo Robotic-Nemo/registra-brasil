@@ -31,6 +31,7 @@ import { ReactionBar } from '@/components/statements/ReactionBar'
 import { ContradictionPanel } from '@/components/statements/ContradictionPanel'
 import { listContradictionsMentioningStatement } from '@/lib/contradictions/queries'
 import { isFeatureEnabled } from '@/lib/utils/db-settings'
+import { renderWithGlossary } from '@/lib/glossary/render'
 import { claimReviewJsonLd, breadcrumbListJsonLd, articleJsonLd } from '@/lib/utils/structured-data'
 import type { Metadata } from 'next'
 import type { SecondarySource } from '@/types/database'
@@ -284,7 +285,7 @@ export default async function StatementPage({ params }: PageProps) {
         {statement.context && (
           <div className="bg-gray-50 rounded-lg p-4 text-sm text-gray-700">
             <p className="font-semibold text-gray-900 mb-1">Contexto</p>
-            <p>{statement.context}</p>
+            <p>{renderWithGlossary(statement.context)}</p>
           </div>
         )}
 

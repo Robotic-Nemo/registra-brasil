@@ -2,6 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { Calendar, Rss } from 'lucide-react'
 import { listEvents, kindLabel, type PoliticalEvent } from '@/lib/agenda/queries'
+import { renderWithGlossary } from '@/lib/glossary/render'
 
 export const revalidate = 600
 
@@ -136,7 +137,7 @@ export default async function AgendaPage({ searchParams }: PageProps) {
                         {e.title}
                       </h3>
                       <p className="mt-1 text-sm text-gray-700 dark:text-gray-300">
-                        {e.summary}
+                        {renderWithGlossary(e.summary)}
                       </p>
                       {(e.source_url || e.politician) && (
                         <footer className="mt-2 flex flex-wrap items-center gap-3 text-xs">

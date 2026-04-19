@@ -3,6 +3,7 @@ import Image from 'next/image'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getContradictionById } from '@/lib/contradictions/queries'
+import { renderWithGlossary } from '@/lib/glossary/render'
 
 export const revalidate = 900
 
@@ -127,7 +128,7 @@ export default async function ContradictionDetailPage({ params }: PageProps) {
           Nota editorial
         </h2>
         <p className="whitespace-pre-wrap text-gray-800 dark:text-gray-200">
-          {pair.editor_note}
+          {renderWithGlossary(pair.editor_note)}
         </p>
       </section>
 
