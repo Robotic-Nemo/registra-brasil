@@ -231,7 +231,9 @@ export default async function StatementPage({ params }: PageProps) {
         {/* Date & venue */}
         <div className="text-sm text-gray-500 flex flex-wrap gap-3">
           <time dateTime={statement.statement_date}>
-            {formatDatePtBR(statement.statement_date, statement.statement_date_approx)}
+            <Link href={`/contexto/${statement.statement_date}`} className="hover:text-blue-700 hover:underline">
+              {formatDatePtBR(statement.statement_date, statement.statement_date_approx)}
+            </Link>
           </time>
           {statement.venue && (
             <span className="flex items-center gap-1">
