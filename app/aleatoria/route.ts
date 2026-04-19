@@ -18,7 +18,7 @@ export async function GET() {
     .select('id, slug')
     .eq('verification_status', 'verified')
     .order('created_at', { ascending: false })
-    .limit(300)
+    .limit(150)
   const rows = (data ?? []) as Array<{ id: string; slug: string | null }>
   if (rows.length === 0) {
     return NextResponse.redirect(new URL('/buscar', process.env.NEXT_PUBLIC_SITE_URL ?? 'https://registrabrasil.com.br'))

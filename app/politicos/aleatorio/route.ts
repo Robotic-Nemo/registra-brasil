@@ -17,7 +17,7 @@ export async function GET() {
     .select('slug, statements!inner(id)')
     .eq('is_active', true)
     .eq('statements.verification_status', 'verified')
-    .limit(400)
+    .limit(150)
   const rows = ((data ?? []) as Array<{ slug: string }>)
   if (rows.length === 0) {
     return NextResponse.redirect(new URL('/politicos', SITE_URL), 302)
