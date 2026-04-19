@@ -6,6 +6,7 @@ import { getSupabaseServerClient } from '@/lib/supabase/server'
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { StatementGrid } from '@/components/statements/StatementGrid'
 import { Rss, FolderKanban } from 'lucide-react'
+import { CollectionDownloads } from '@/components/collections/CollectionDownloads'
 import { collectionPageJsonLd, breadcrumbListJsonLd } from '@/lib/utils/structured-data'
 
 export const revalidate = 300
@@ -129,6 +130,7 @@ export default async function CollectionDetailPage({ params }: PageProps) {
             RSS
           </a>
         </div>
+        <CollectionDownloads slug={collection.slug} />
       </header>
 
       {statements.length === 0 ? (
