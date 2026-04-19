@@ -6,6 +6,7 @@ import { SearchBar } from '@/components/search/SearchBar'
 import { SearchFilters } from '@/components/search/SearchFilters'
 import { AlertSubscribe } from '@/components/search/AlertSubscribe'
 import { SearchBeacon } from '@/components/search/SearchBeacon'
+import { QueryChips } from '@/components/search/QueryChips'
 import { CuratedResults } from '@/components/search/CuratedResults'
 import { LiveResults } from '@/components/search/LiveResults'
 import { StatementCardSkeleton } from '@/components/ui/Skeleton'
@@ -91,6 +92,11 @@ export default async function BuscarPage({ searchParams }: PageProps) {
           <SearchBar initialValue={params.q ?? ''} autoFocus />
         </Suspense>
       </div>
+      {params.q && (
+        <Suspense fallback={null}>
+          <QueryChips q={params.q} />
+        </Suspense>
+      )}
       <div className="mb-4">
         <Suspense fallback={null}>
           <AlertSubscribe />

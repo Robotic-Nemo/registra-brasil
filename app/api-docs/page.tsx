@@ -150,6 +150,23 @@ export default function ApiDocsPage() {
         </p>
       </div>
 
+      <section id="search-operators" className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8 text-sm scroll-mt-16">
+        <h2 className="font-semibold text-blue-900 mb-1">Operadores de busca</h2>
+        <p className="text-blue-800 mb-2">
+          O endpoint <code className="bg-blue-100 px-1 rounded">/api/search</code> e a página
+          <code className="bg-blue-100 px-1 rounded mx-1">/buscar</code> usam
+          <code className="bg-blue-100 px-1 rounded mx-1">websearch_to_tsquery</code> do Postgres
+          com o dicionário <code>portuguese</code>. Os operadores abaixo funcionam em ambos.
+        </p>
+        <ul className="text-blue-900 space-y-1 list-disc pl-5">
+          <li><code className="bg-white px-1 rounded">&ldquo;frase exata&rdquo;</code> — aspas duplas casam a sequência literal.</li>
+          <li><code className="bg-white px-1 rounded">-palavra</code> — exclui declarações que contêm essa palavra.</li>
+          <li><code className="bg-white px-1 rounded">A OR B</code> — qualquer um dos termos.</li>
+          <li><code className="bg-white px-1 rounded">politico:slug</code>, <code className="bg-white px-1 rounded">partido:PT</code>, <code className="bg-white px-1 rounded">estado:SP</code>, <code className="bg-white px-1 rounded">status:verified</code>, <code className="bg-white px-1 rounded">categoria:slug</code> — filtros estruturados.</li>
+        </ul>
+        <p className="text-[11px] text-blue-700 mt-2">Exemplo: <code className="bg-white px-1 rounded">&ldquo;reforma tributária&rdquo; -aumentos politico:lula</code></p>
+      </section>
+
       <div className="space-y-6">
         {endpoints.map((endpoint) => (
           <section key={endpoint.path} className="border border-zinc-200 rounded-lg overflow-hidden">
