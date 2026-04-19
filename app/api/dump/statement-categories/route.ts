@@ -6,48 +6,44 @@ export const runtime = 'nodejs'
 export const revalidate = 3600
 
 /**
- * GET /api/dump/contradictions — full dump of published
- * contradiction_pairs. ?format=csv for CSV.
+ * GET /api/dump/statement-categories — full dump of the
+ * statement_categories join table (statement_id × category_id, plus
+ * is_primary flag). JSON default; ?format=csv for CSV. Capped at 50k
+ * rows. Useful for reconstructing category histograms offline.
  */
 export async function GET(request: NextRequest) {
   const format = (request.nextUrl.searchParams.get('format') ?? 'json').toLowerCase()
   const supabase = getSupabaseServiceClient()
 
-  const { data, error } = await (supabase.from('contradiction_pairs') as any)
-    .select('id, politician_id, statement_low_id, statement_high_id, headline, editor_note, severity, is_published, created_at, updated_at')
-    .eq('is_published', true)
-    .order('created_at', { ascending: false })
-    .limit(20000)
+  const { data, error } = await (supabase.from('statement_categories') as any)
+    .select('statement_id, category_id, is_primary')
+    .limit(50000)
+
   if (error) {
     return new Response(JSON.stringify({ error: error.message }), {
       status: 500, headers: { 'Content-Type': 'application/json' },
     })
   }
-  type Row = {
-    id: string; politician_id: string; statement_low_id: string; statement_high_id: string
-    headline: string; editor_note: string; severity: number
-    is_published: boolean; created_at: string; updated_at: string
-  }
+  type Row = { statement_id: string; category_id: string; is_primary: boolean | null }
   const rows = (data ?? []) as Row[]
   const today = new Date().toISOString().slice(0, 10)
 
-  const latest = rows.length ? rows[0].updated_at : '0'
-  const etag = `W/"ctr-${rows.length}-${latest.replace(/[^0-9]/g, '').slice(0, 14)}"`
+  // ETag based on count only — this table has no timestamp col.
+  const etag = `W/"sc-${rows.length}"`
   if (request.headers.get('if-none-match') === etag) {
     return new Response(null, { status: 304, headers: { ETag: etag } })
   }
 
   if (format === 'csv') {
-    const header = 'id,politician_id,statement_low_id,statement_high_id,headline,editor_note,severity,created_at,updated_at'
+    const header = 'statement_id,category_id,is_primary'
     const body = rows.map((r) => [
-      r.id, r.politician_id, r.statement_low_id, r.statement_high_id,
-      csvEscape(r.headline), csvEscape(r.editor_note),
-      r.severity, r.created_at, r.updated_at,
+      r.statement_id, r.category_id,
+      csvEscape(r.is_primary ? 'true' : 'false'),
     ].join(',')).join('\n')
     return new Response(`${header}\n${body}\n`, {
       headers: {
         'Content-Type': 'text/csv; charset=utf-8',
-        'Content-Disposition': `attachment; filename="registra-brasil-contradictions-${today}.csv"`,
+        'Content-Disposition': `attachment; filename="registra-brasil-statement-categories-${today}.csv"`,
         'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400, max-age=86400',
         'X-Robots-Tag': 'noindex',
         ETag: etag,
@@ -65,11 +61,10 @@ export async function GET(request: NextRequest) {
   return new Response(body, {
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
-      'Content-Disposition': `inline; filename="registra-brasil-contradictions-${today}.json"`,
+      'Content-Disposition': `inline; filename="registra-brasil-statement-categories-${today}.json"`,
       'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400, max-age=86400',
       'X-Robots-Tag': 'noindex',
       ETag: etag,
     },
   })
 }
-

@@ -127,6 +127,9 @@ const GROUPS: Group[] = [
       { method: 'GET', path: '/api/dump/revisions', desc: 'Dump de statement_revisions (log completo de correções).', params: [{ name: 'format', desc: 'csv | json' }] },
       { method: 'GET', path: '/api/dump/fact-checks', desc: 'Dump das checagens externas indexadas.', params: [{ name: 'format', desc: 'csv | json' }] },
       { method: 'GET', path: '/api/dump/contradictions', desc: 'Dump dos pares de contradição publicados.', params: [{ name: 'format', desc: 'csv | json' }] },
+      { method: 'GET', path: '/api/dump/statement-categories', desc: 'Join statement_id × category_id (com is_primary).', params: [{ name: 'format', desc: 'csv | json' }] },
+      { method: 'GET', path: '/api/dump/collections', desc: 'Metadados das coleções editoriais publicadas.', params: [{ name: 'format', desc: 'csv | json' }] },
+      { method: 'GET', path: '/api/declaracao/:id/revisions.json', desc: 'Log de revisões de uma declaração (por UUID ou slug).' },
     ],
   },
 ]

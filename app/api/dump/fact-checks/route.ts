@@ -31,6 +31,12 @@ export async function GET(request: NextRequest) {
   const rows = (data ?? []) as Row[]
   const today = new Date().toISOString().slice(0, 10)
 
+  const latest = rows.length ? (rows[0].published_at ?? rows[0].created_at) : '0'
+  const etag = `W/"fc-${rows.length}-${latest.replace(/[^0-9]/g, '').slice(0, 14)}"`
+  if (request.headers.get('if-none-match') === etag) {
+    return new Response(null, { status: 304, headers: { ETag: etag } })
+  }
+
   if (format === 'csv') {
     const header = 'id,statement_id,outlet,outlet_label,url,title,rating,rating_label,published_at,created_at'
     const body = rows.map((r) => [
@@ -46,6 +52,7 @@ export async function GET(request: NextRequest) {
         'Content-Disposition': `attachment; filename="registra-brasil-fact-checks-${today}.csv"`,
         'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400, max-age=86400',
         'X-Robots-Tag': 'noindex',
+        ETag: etag,
       },
     })
   }
@@ -63,6 +70,7 @@ export async function GET(request: NextRequest) {
       'Content-Disposition': `inline; filename="registra-brasil-fact-checks-${today}.json"`,
       'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400, max-age=86400',
       'X-Robots-Tag': 'noindex',
+      ETag: etag,
     },
   })
 }

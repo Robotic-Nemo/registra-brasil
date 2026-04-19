@@ -34,6 +34,13 @@ export async function GET(request: NextRequest) {
   const rows = (data ?? []) as Row[]
   const today = new Date().toISOString().slice(0, 10)
 
+  // Weak ETag: (count, latest created_at) — revisions are append-only.
+  const latest = rows.length ? rows[0].created_at : '0'
+  const etag = `W/"rev-${rows.length}-${latest.replace(/[^0-9]/g, '').slice(0, 14)}"`
+  if (request.headers.get('if-none-match') === etag) {
+    return new Response(null, { status: 304, headers: { ETag: etag } })
+  }
+
   if (format === 'csv') {
     const header = 'id,statement_id,revision_number,changed_fields,reason,actor,created_at'
     const body = rows.map((r) => [
@@ -51,6 +58,7 @@ export async function GET(request: NextRequest) {
         'Content-Disposition': `attachment; filename="registra-brasil-revisions-${today}.csv"`,
         'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400, max-age=86400',
         'X-Robots-Tag': 'noindex',
+        ETag: etag,
       },
     })
   }
@@ -68,6 +76,7 @@ export async function GET(request: NextRequest) {
       'Content-Disposition': `inline; filename="registra-brasil-revisions-${today}.json"`,
       'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400, max-age=86400',
       'X-Robots-Tag': 'noindex',
+      ETag: etag,
     },
   })
 }
