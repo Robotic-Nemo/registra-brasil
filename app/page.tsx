@@ -10,6 +10,7 @@ import { StatsBar } from '@/components/ui/StatsBar'
 import { StatementCardSkeleton } from '@/components/ui/Skeleton'
 import { PopularSearches } from '@/components/search/PopularSearches'
 import { DailyPick } from '@/components/home/DailyPick'
+import { WeeklySpotlight } from '@/components/home/WeeklySpotlight'
 import { PoliticianCard } from '@/components/politicians/PoliticianCard'
 import { Archive, Search, Clock, Users } from 'lucide-react'
 
@@ -151,6 +152,11 @@ export default async function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* Weekly spotlight */}
+      <Suspense fallback={null}>
+        <WeeklySpotlight />
+      </Suspense>
 
       {/* Featured */}
       <section className="max-w-7xl mx-auto px-4 pb-8">
