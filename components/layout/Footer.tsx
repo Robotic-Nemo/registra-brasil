@@ -53,6 +53,7 @@ export function Footer() {
               <li><Link href="/esta-semana" className="hover:text-gray-900">Esta semana</Link></li>
               <li><Link href="/crescimento" className="hover:text-gray-900">Crescimento do arquivo</Link></li>
               <li><Link href="/analise/partidos-x-categorias" className="hover:text-gray-900">Partidos × categorias</Link></li>
+              <li><Link href="/assinar" className="hover:text-gray-900">Assinar (todos os canais)</Link></li>
               <li><Link href="/contato" className="hover:text-gray-900">Contato</Link></li>
               <li><Link href="/imprensa" className="hover:text-gray-900">Imprensa</Link></li>
               <li><Link href="/dados" className="hover:text-gray-900">Dados abertos</Link></li>
