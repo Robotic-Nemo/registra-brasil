@@ -61,6 +61,7 @@ const NAV: Section[] = [
       { href: '/admin/buscas', label: 'Buscas dos leitores', Icon: Search },
       { href: '/admin/auditoria', label: 'Auditoria', Icon: History },
       { href: '/admin/configuracoes-site', label: 'Configurações', Icon: Settings },
+      { href: '/api/admin/stats.csv', label: 'Exportar relatório CSV', Icon: History },
     ],
   },
 ]
