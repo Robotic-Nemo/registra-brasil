@@ -3,78 +3,14 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import {
-  LayoutDashboard, Plus, List, Inbox, Scale, Flag, Copy, Upload,
-  FolderKanban, BookOpen, Shield, Search, Settings, Sparkles,
-  AlertTriangle, ShieldCheck, History, Link2, Merge,
-} from 'lucide-react'
+import { Shield } from 'lucide-react'
+import { ADMIN_NAV, type BadgeKey } from './nav-data'
 
-interface SectionLink {
-  href: string
-  label: string
-  Icon: typeof Plus
-  badgeKey?: BadgeKey
-}
-
-type BadgeKey = 'pending_submissions' | 'pending_retractions' | 'pending_review'
-
-interface Section {
-  title: string
-  items: SectionLink[]
-}
-
-const NAV: Section[] = [
-  {
-    title: 'Revisão',
-    items: [
-      { href: '/admin', label: 'Painel', Icon: LayoutDashboard },
-      { href: '/admin/adicionar', label: 'Adicionar declaração', Icon: Plus },
-      { href: '/admin/statements', label: 'Todas as declarações', Icon: List, badgeKey: 'pending_review' },
-      { href: '/admin/submissions', label: 'Submissões públicas', Icon: Inbox, badgeKey: 'pending_submissions' },
-      { href: '/admin/retratacoes', label: 'Pedidos de retificação', Icon: Scale, badgeKey: 'pending_retractions' },
-      { href: '/admin/reacoes', label: 'Reações do público', Icon: Flag },
-    ],
-  },
-  {
-    title: 'Qualidade do acervo',
-    items: [
-      { href: '/admin/duplicatas', label: 'Duplicatas (trigram)', Icon: Copy },
-      { href: '/admin/fontes-duplicadas', label: 'Fontes duplicadas', Icon: Link2 },
-      { href: '/admin/links-quebrados', label: 'Links quebrados', Icon: AlertTriangle },
-      { href: '/admin/merge', label: 'Mesclar declarações', Icon: Merge },
-      { href: '/admin/categorizar', label: 'Categorizar em lote', Icon: Copy },
-      { href: '/admin/fact-checks', label: 'Checagens externas', Icon: ShieldCheck },
-    ],
-  },
-  {
-    title: 'Curadoria',
-    items: [
-      { href: '/admin/colecoes', label: 'Coleções', Icon: FolderKanban },
-      { href: '/admin/historias', label: 'Histórias', Icon: BookOpen },
-      { href: '/admin/declaracao-do-dia', label: 'Declaração do dia', Icon: Sparkles },
-    ],
-  },
-  {
-    title: 'Operações',
-    items: [
-      { href: '/admin/importar', label: 'Importar CSV', Icon: Upload },
-      { href: '/admin/buscas', label: 'Buscas dos leitores', Icon: Search },
-      { href: '/admin/auditoria', label: 'Auditoria', Icon: History },
-      { href: '/admin/configuracoes-site', label: 'Configurações', Icon: Settings },
-      { href: '/api/admin/stats.csv', label: 'Exportar relatório CSV', Icon: History },
-    ],
-  },
-]
-
-interface BadgeCounts {
-  pending_submissions: number
-  pending_retractions: number
-  pending_review: number
-}
+type BadgeCounts = Partial<Record<BadgeKey, number>>
 
 export function AdminSidebar() {
   const pathname = usePathname()
-  const [counts, setCounts] = useState<Partial<BadgeCounts>>({})
+  const [counts, setCounts] = useState<BadgeCounts>({})
 
   useEffect(() => {
     fetch('/api/admin/sidebar-counts', { cache: 'no-store' })
@@ -93,7 +29,7 @@ export function AdminSidebar() {
           <Shield className="w-3.5 h-3.5" aria-hidden="true" />
           Admin
         </div>
-        {NAV.map((section) => (
+        {ADMIN_NAV.map((section) => (
           <div key={section.title}>
             <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-1 px-2">
               {section.title}

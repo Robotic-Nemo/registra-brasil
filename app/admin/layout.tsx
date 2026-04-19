@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { AdminSidebar } from '@/components/admin/AdminSidebar'
+import { AdminMobileNav } from '@/components/admin/AdminMobileNav'
 
 export const metadata: Metadata = {
   robots: {
@@ -17,6 +18,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div className="flex min-h-full">
       <AdminSidebar />
       <div className="flex-1 min-w-0">
+        <AdminMobileNav />
         {children}
       </div>
     </div>
