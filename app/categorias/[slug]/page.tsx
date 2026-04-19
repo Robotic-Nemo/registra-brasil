@@ -8,6 +8,7 @@ import { StatementGrid } from '@/components/statements/StatementGrid'
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { Pagination } from '@/components/ui/Pagination'
 import { FollowButton } from '@/components/alerts/FollowButton'
+import { CategoryDownloads } from '@/components/categories/CategoryDownloads'
 import { breadcrumbListJsonLd } from '@/lib/utils/structured-data'
 import type { Metadata } from 'next'
 
@@ -130,6 +131,7 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
         <div className="mt-3">
           <FollowButton scope={{ kind: 'categoria', slug: category.slug, label: category.label_pt }} />
         </div>
+        <CategoryDownloads slug={category.slug} />
         {category.description && (
           <p className="text-gray-600 text-sm">{category.description}</p>
         )}
