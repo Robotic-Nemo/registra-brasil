@@ -62,6 +62,7 @@ export function Footer() {
               <li><Link href="/severidade" className="hover:text-gray-900">Explorar por gravidade</Link></li>
               <li><Link href="/top" className="hover:text-gray-900">Top de todos os tempos</Link></li>
               <li><Link href="/assinar" className="hover:text-gray-900">Assinar (todos os canais)</Link></li>
+              <li><Link href="/indices" className="hover:text-gray-900 font-semibold">Índice geral →</Link></li>
               <li><Link href="/contato" className="hover:text-gray-900">Contato</Link></li>
               <li><Link href="/imprensa" className="hover:text-gray-900">Imprensa</Link></li>
               <li><Link href="/dados" className="hover:text-gray-900">Dados abertos</Link></li>
