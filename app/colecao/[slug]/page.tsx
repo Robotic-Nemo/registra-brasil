@@ -36,7 +36,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     description: desc,
     alternates: {
       canonical: `/colecao/${slug}`,
-      types: { 'application/rss+xml': `/colecao/${slug}/feed.xml` },
+      types: {
+        'application/rss+xml': `/colecao/${slug}/feed.xml`,
+        'application/feed+json': `/colecao/${slug}/feed.json`,
+      },
     },
     openGraph: {
       title: data.title,

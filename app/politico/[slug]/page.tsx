@@ -60,7 +60,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description,
       ...(politician.photo_url ? { images: [politician.photo_url] } : {}),
     },
-    alternates: { canonical: `/politico/${slug}` },
+    alternates: {
+      canonical: `/politico/${slug}`,
+      types: {
+        'application/rss+xml': `/politico/${slug}/feed.xml`,
+        'application/feed+json': `/politico/${slug}/feed.json`,
+      },
+    },
   }
 }
 

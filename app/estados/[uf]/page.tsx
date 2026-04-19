@@ -33,7 +33,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     alternates: {
       canonical: `/estados/${uf.toLowerCase()}`,
-      types: { 'application/rss+xml': `/estados/${uf.toUpperCase()}/feed.xml` },
+      types: {
+        'application/rss+xml': `/estados/${uf.toUpperCase()}/feed.xml`,
+        'application/feed+json': `/estados/${uf.toLowerCase()}/feed.json`,
+      },
     },
   }
 }

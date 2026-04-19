@@ -84,6 +84,7 @@ const GROUPS: Group[] = [
       { method: 'GET', path: '/api/politico/:slug/similar.json', desc: 'Políticos similares por categoria compartilhada.', params: [{ name: 'limite', desc: '1..20' }] },
       { method: 'GET', path: '/api/declaracao/:id/related.json', desc: 'Declarações relacionadas (mesmo político + mesma categoria).', params: [{ name: 'limite', desc: '1..30' }] },
       { method: 'GET', path: '/api/boletim.json', desc: 'Conteúdo do boletim semanal (mesmo ranking do email).', params: [{ name: 'top', desc: '3..30' }] },
+      { method: 'GET', path: '/api/atualizacoes.json', desc: 'Log público de correções editoriais em JSON.', params: [{ name: 'limite', desc: '1..200' }] },
     ],
   },
   {

@@ -40,7 +40,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     alternates: {
       canonical: `/partidos/${encodeURIComponent(party)}`,
-      types: { 'application/rss+xml': `/partidos/${encodeURIComponent(party)}/feed.xml` },
+      types: {
+        'application/rss+xml': `/partidos/${encodeURIComponent(party)}/feed.xml`,
+        'application/feed+json': `/partidos/${encodeURIComponent(party)}/feed.json`,
+      },
     },
   }
 }

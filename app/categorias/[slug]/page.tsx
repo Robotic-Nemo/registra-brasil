@@ -59,7 +59,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     alternates: {
       canonical: `/categorias/${slug}`,
       languages: { 'pt-BR': `/categorias/${slug}` },
-      types: { 'application/rss+xml': `/categorias/${slug}/feed.xml` },
+      types: {
+        'application/rss+xml': `/categorias/${slug}/feed.xml`,
+        'application/feed+json': `/categorias/${slug}/feed.json`,
+      },
     },
   }
 }
