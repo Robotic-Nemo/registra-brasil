@@ -34,6 +34,7 @@ import { isFeatureEnabled } from '@/lib/utils/db-settings'
 import { renderWithGlossary } from '@/lib/glossary/render'
 import { ArchivePreservationBadge } from '@/components/statements/ArchivePreservationBadge'
 import { ReadAloudButton } from '@/components/statements/ReadAloudButton'
+import { CopyMarkdownButton } from '@/components/statements/CopyMarkdownButton'
 import { claimReviewJsonLd, breadcrumbListJsonLd, articleJsonLd } from '@/lib/utils/structured-data'
 import type { Metadata } from 'next'
 import type { SecondarySource } from '@/types/database'
@@ -206,6 +207,15 @@ export default async function StatementPage({ params }: PageProps) {
           <ShareButton />
           <ReadAloudButton
             text={`${politician.common_name} disse: ${statement.full_quote ?? statement.summary}`}
+          />
+          <CopyMarkdownButton
+            politicianName={politician.common_name}
+            politicianParty={politician.party}
+            politicianState={politician.state}
+            statementDate={statement.statement_date}
+            quote={statement.full_quote ?? statement.summary}
+            permalink={`${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://registrabrasil.com.br'}${permalink}`}
+            primarySourceUrl={statement.primary_source_url}
           />
         </div>
       </div>
