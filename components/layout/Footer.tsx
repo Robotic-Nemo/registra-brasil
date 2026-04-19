@@ -50,6 +50,7 @@ export function Footer() {
               <li><Link href="/registro-editorial" className="hover:text-gray-900">Registro editorial</Link></li>
               <li><Link href="/comparar-declaracoes" className="hover:text-gray-900">Comparar declarações</Link></li>
               <li><Link href="/agenda" className="hover:text-gray-900">Agenda política</Link></li>
+              <li><Link href="/esta-semana" className="hover:text-gray-900">Esta semana</Link></li>
               <li><Link href="/contato" className="hover:text-gray-900">Contato</Link></li>
               <li><Link href="/imprensa" className="hover:text-gray-900">Imprensa</Link></li>
               <li><Link href="/dados" className="hover:text-gray-900">Dados abertos</Link></li>
