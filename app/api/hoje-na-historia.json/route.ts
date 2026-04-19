@@ -32,8 +32,8 @@ export async function GET(request: NextRequest) {
     day = parsed.day
   } else {
     const now = new Date()
-    month = now.getMonth() + 1
-    day = now.getDate()
+    month = now.getUTCMonth() + 1
+    day = now.getUTCDate()
   }
 
   const rows = await statementsOnDayOfYear(month, day, 200)
