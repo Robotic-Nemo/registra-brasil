@@ -44,6 +44,7 @@ const GROUPS: Group[] = [
         label: 'Contradições',
         desc: 'Declarações que contradizem outras do mesmo político.',
         rss: '/contradicoes/feed.xml',
+        jsonFeed: '/contradicoes/feed.json',
       },
       {
         label: 'Destaques do mês',
@@ -54,11 +55,13 @@ const GROUPS: Group[] = [
         label: 'Hoje na história',
         desc: 'Declarações no mesmo dia (MM-DD) de anos anteriores.',
         rss: '/hoje-na-historia/feed.xml',
+        jsonFeed: '/hoje-na-historia/feed.json',
       },
       {
         label: 'Atualizações / correções',
         desc: 'Log público de revisões editoriais.',
         rss: '/atualizacoes/feed.xml',
+        jsonFeed: '/atualizacoes/feed.json',
       },
     ],
   },
