@@ -226,6 +226,30 @@ export default async function TransparenciaPage() {
         </div>
       </section>
 
+      <section className="rounded-xl border border-gray-200 bg-gray-50 p-5">
+        <h2 className="mb-1 text-base font-semibold text-gray-900">Acompanhar edições em tempo real</h2>
+        <p className="mb-3 text-sm text-gray-700">
+          Toda revisão feita em uma declaração aparece no registro público
+          abaixo — com o motivo informado e quais campos foram alterados. O
+          feed RSS é útil para jornalistas.
+        </p>
+        <div className="flex gap-2">
+          <Link
+            href="/registro-editorial"
+            className="inline-flex items-center gap-1.5 rounded border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-800 hover:bg-gray-100"
+          >
+            <History className="h-4 w-4" />
+            Registro editorial
+          </Link>
+          <a
+            href="/registro-editorial/feed.xml"
+            className="inline-flex items-center gap-1.5 rounded border border-orange-300 bg-orange-50 px-3 py-1.5 text-sm font-medium text-orange-800 hover:bg-orange-100"
+          >
+            Feed RSS
+          </a>
+        </div>
+      </section>
+
       <footer className="text-xs text-gray-500 border-t border-gray-200 pt-4">
         Dados colhidos diretamente do banco público. Nenhum indicador é calculado offline; se
         você encontrar números diferentes em outros lugares do site, esta é a versão autoritária.

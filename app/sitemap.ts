@@ -43,6 +43,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/fontes`, lastModified: STATIC_DATE, changeFrequency: 'weekly', priority: 0.5 },
     { url: `${SITE_URL}/tendencias`, lastModified: STATIC_DATE, changeFrequency: 'daily', priority: 0.5 },
     { url: `${SITE_URL}/contradicoes`, lastModified: STATIC_DATE, changeFrequency: 'weekly', priority: 0.5 },
+    { url: `${SITE_URL}/registro-editorial`, lastModified: STATIC_DATE, changeFrequency: 'daily', priority: 0.4 },
     { url: `${SITE_URL}/desenvolvedores`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.4 },
     { url: `${SITE_URL}/imprensa`, lastModified: STATIC_DATE, changeFrequency: 'monthly', priority: 0.3 },
     { url: `${SITE_URL}/retratacoes`, lastModified: STATIC_DATE, changeFrequency: 'weekly', priority: 0.4 },
