@@ -79,6 +79,9 @@ const GROUPS: Group[] = [
     title: 'Escopos individuais',
     items: [
       { method: 'GET', path: '/api/politico/:slug/stats.json', desc: 'Scorecard completo de um político em JSON.' },
+      { method: 'GET', path: '/api/politico/:slug/timeline.json', desc: 'Timeline cronológica de um político.', params: [{ name: 'limite', desc: '1..200' }] },
+      { method: 'GET', path: '/api/retrospectiva/:year.json', desc: 'Resumo agregado do ano (top políticos, categorias, revisões).' },
+      { method: 'GET', path: '/api/aleatoria.json', desc: 'Uma declaração verificada aleatória.', params: [{ name: 'inclui_contestadas', desc: '1 para incluir disputed' }] },
       { method: 'GET', path: '/api/categorias/:slug/stats.json', desc: 'Agregados por categoria.' },
       { method: 'GET', path: '/api/partidos/:slug/stats.json', desc: 'Agregados por partido.' },
       { method: 'GET', path: '/api/estados/:uf/stats.json', desc: 'Agregados por UF (2 letras).' },
