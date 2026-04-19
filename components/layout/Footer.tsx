@@ -44,6 +44,7 @@ export function Footer() {
             <ul className="flex flex-col gap-1">
               <li><Link href="/sobre" className="hover:text-gray-900">Metodologia</Link></li>
               <li><Link href="/sobre#fontes" className="hover:text-gray-900">Fontes aceitas</Link></li>
+              <li><Link href="/fontes" className="hover:text-gray-900">Diretório de fontes</Link></li>
               <li><Link href="/contato" className="hover:text-gray-900">Contato</Link></li>
               <li><Link href="/imprensa" className="hover:text-gray-900">Imprensa</Link></li>
               <li><Link href="/dados" className="hover:text-gray-900">Dados abertos</Link></li>
