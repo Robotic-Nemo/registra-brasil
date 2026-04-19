@@ -33,23 +33,15 @@ function fmtDate(iso: string): string {
 export default async function TopPage() {
   const supabase = getSupabaseServiceClient()
 
-  const [stmtRes, politicianCountRes, categoryCountRes] = await Promise.all([
-    // Highest severity, break ties by statement_date desc.
+  const [stmtRes, polRes, catRes] = await Promise.all([
     (supabase.from('statements') as any)
       .select('id, slug, summary, statement_date, severity_score, politicians!inner(slug, common_name, party, state, photo_url)')
       .neq('verification_status', 'removed')
       .order('severity_score', { ascending: false, nullsFirst: false })
       .order('statement_date', { ascending: false })
       .limit(20),
-    // Politician counts via politician_id group. Postgres-level via RPC would
-    // be nicer but a single full scan over politicians with embedded count
-    // is fine at this size.
-    (supabase.from('politicians') as any)
-      .select('id, slug, common_name, party, state, photo_url, statements!inner(count)')
-      .eq('is_active', true)
-      .eq('statements.verification_status', 'verified'),
-    (supabase.from('categories') as any)
-      .select('slug, label_pt, color_hex, statement_categories(count)'),
+    (supabase.rpc as any)('top_politicians_all_time', { result_limit: 20 }),
+    (supabase.rpc as any)('top_categories_all_time', { result_limit: 20 }),
   ])
 
   type StmtRow = {
@@ -58,31 +50,11 @@ export default async function TopPage() {
   }
   const topStatements = ((stmtRes.data ?? []) as StmtRow[])
 
-  type PolRow = {
-    id: string; slug: string; common_name: string; party: string | null; state: string | null; photo_url: string | null
-    statements: Array<{ count: number }> | { count: number }
-  }
-  const rawPol = ((politicianCountRes.data ?? []) as PolRow[])
-  const polCounts = rawPol
-    .map((p) => ({
-      ...p,
-      count: Array.isArray(p.statements) ? (p.statements[0]?.count ?? 0) : (p.statements as { count: number }).count,
-    }))
-    .sort((a, b) => b.count - a.count)
-    .slice(0, 20)
+  type PolRow = { id: string; slug: string; common_name: string; party: string | null; state: string | null; photo_url: string | null; total: number | string }
+  const polCounts = ((polRes.data ?? []) as PolRow[]).map((p) => ({ ...p, count: Number(p.total) }))
 
-  type CatRow = {
-    slug: string; label_pt: string; color_hex: string | null
-    statement_categories: Array<{ count: number }> | { count: number }
-  }
-  const rawCat = ((categoryCountRes.data ?? []) as CatRow[])
-  const catCounts = rawCat
-    .map((c) => ({
-      ...c,
-      count: Array.isArray(c.statement_categories) ? (c.statement_categories[0]?.count ?? 0) : (c.statement_categories as { count: number }).count,
-    }))
-    .sort((a, b) => b.count - a.count)
-    .slice(0, 20)
+  type CatRow = { id: string; slug: string; label_pt: string; color_hex: string | null; total: number | string }
+  const catCounts = ((catRes.data ?? []) as CatRow[]).map((c) => ({ ...c, count: Number(c.total) }))
 
   return (
     <main className="max-w-5xl mx-auto px-4 py-8">
@@ -96,8 +68,8 @@ export default async function TopPage() {
             Top de todos os tempos
           </h1>
           <p className="mt-2 max-w-2xl text-gray-600 dark:text-gray-300">
-            Ranking consolidado do arquivo em três dimensões: declarações
-            mais graves, políticos mais registrados e categorias mais usadas,
+            Ranking consolidado do arquivo em três dimensões: declarações mais
+            graves, políticos mais registrados e categorias mais usadas,
             considerando toda a história do acervo.
           </p>
         </div>
@@ -151,7 +123,7 @@ export default async function TopPage() {
                       <Image src={p.photo_url} alt="" width={24} height={24} unoptimized className="h-6 w-6 shrink-0 rounded-full object-cover" />
                     ) : <span className="h-6 w-6 shrink-0 rounded-full bg-gray-200 dark:bg-gray-800" />}
                     <span className="min-w-0 flex-1 truncate text-sm">{p.common_name}</span>
-                    <span className="shrink-0 text-sm font-semibold tabular-nums text-indigo-700 dark:text-indigo-300">{p.count}</span>
+                    <span className="shrink-0 text-sm font-semibold tabular-nums text-indigo-700 dark:text-indigo-300">{p.count.toLocaleString('pt-BR')}</span>
                   </Link>
                 </li>
               ))}
@@ -164,12 +136,12 @@ export default async function TopPage() {
             </h2>
             <ol className="flex flex-col gap-1.5">
               {catCounts.map((c, i) => (
-                <li key={c.slug}>
+                <li key={c.id}>
                   <Link href={`/categorias/${c.slug}`} className="flex items-center gap-2 rounded px-1 py-0.5 hover:bg-gray-50 dark:hover:bg-gray-800">
                     <span className="w-6 shrink-0 text-xs tabular-nums text-gray-500 dark:text-gray-500">{i + 1}.</span>
                     <span aria-hidden className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: c.color_hex ?? '#9ca3af' }} />
                     <span className="min-w-0 flex-1 truncate text-sm">{c.label_pt}</span>
-                    <span className="shrink-0 text-sm font-semibold tabular-nums text-indigo-700 dark:text-indigo-300">{c.count}</span>
+                    <span className="shrink-0 text-sm font-semibold tabular-nums text-indigo-700 dark:text-indigo-300">{c.count.toLocaleString('pt-BR')}</span>
                   </Link>
                 </li>
               ))}

@@ -6,7 +6,9 @@ import { getSupabaseServiceClient } from '@/lib/supabase/server'
 import { listPublishedContradictions } from '@/lib/contradictions/queries'
 import { listEvents } from '@/lib/agenda/queries'
 
-export const revalidate = 120
+// ISR 5 min — "live-feel" without hammering the DB every 2 min on
+// every reader. Readers who want fresher can hard-refresh.
+export const revalidate = 300
 
 export const metadata: Metadata = {
   title: 'Em tempo real — Registra Brasil',
@@ -90,7 +92,7 @@ export default async function AoVivoPage() {
             Painel único com os movimentos mais recentes do acervo: novas
             declarações, contradições recém-publicadas, a agenda política das
             próximas horas e os últimos textos editoriais. Atualiza a cada
-            2 minutos.
+            5 minutos.
           </p>
         </div>
       </header>
