@@ -387,6 +387,16 @@ export default async function StatementPage({ params }: PageProps) {
           </div>
         )}
 
+        {/* Revision history link */}
+        <div className="border-t border-gray-100 pt-3 text-xs">
+          <Link
+            href={`/declaracao/${statement.slug ?? statement.id}/revisoes`}
+            className="text-gray-500 hover:text-gray-800 hover:underline dark:text-gray-400 dark:hover:text-gray-200"
+          >
+            Ver histórico de revisões desta declaração →
+          </Link>
+        </div>
+
         {/* External fact-checks */}
         {factChecks && factChecks.length > 0 && (
           <div className="border-t border-gray-100 pt-4">
