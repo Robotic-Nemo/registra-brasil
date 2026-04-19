@@ -59,6 +59,7 @@ export function Footer() {
               <li><Link href="/ao-vivo" className="hover:text-gray-900">Em tempo real</Link></li>
               <li><Link href="/hoje-na-historia" className="hover:text-gray-900">Hoje na história</Link></li>
               <li><Link href="/quiz" className="hover:text-gray-900">Quiz: quem disse?</Link></li>
+              <li><Link href="/severidade" className="hover:text-gray-900">Explorar por gravidade</Link></li>
               <li><Link href="/assinar" className="hover:text-gray-900">Assinar (todos os canais)</Link></li>
               <li><Link href="/contato" className="hover:text-gray-900">Contato</Link></li>
               <li><Link href="/imprensa" className="hover:text-gray-900">Imprensa</Link></li>
