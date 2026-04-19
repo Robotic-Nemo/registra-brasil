@@ -28,6 +28,29 @@ interface AvailabilityResponse {
   }
 }
 
+/**
+ * Fire-and-forget Save Page Now submission. Internet Archive accepts
+ * unauthenticated GET to /save/<url> and triggers an async crawl.
+ * We don't wait for completion — the next scheduled availability
+ * query picks up the fresh snapshot.
+ */
+export async function submitSavePageNow(sourceUrl: string): Promise<boolean> {
+  if (!/^https?:\/\//.test(sourceUrl)) return false
+  const api = `https://web.archive.org/save/${sourceUrl}`
+  try {
+    const res = await fetch(api, {
+      method: 'GET',
+      headers: { 'User-Agent': USER_AGENT, Accept: 'text/html' },
+      redirect: 'manual',
+      signal: AbortSignal.timeout(TIMEOUT_MS),
+    })
+    // 200/302 accepted. 429 = rate-limited; 5xx = transient.
+    return res.status < 500 && res.status !== 429
+  } catch {
+    return false
+  }
+}
+
 export async function getClosestSnapshot(sourceUrl: string): Promise<WaybackSnapshot | null> {
   if (!/^https?:\/\//.test(sourceUrl)) return null
   const api = `https://archive.org/wayback/available?url=${encodeURIComponent(sourceUrl)}`

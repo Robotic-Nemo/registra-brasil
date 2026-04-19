@@ -32,6 +32,7 @@ import { ContradictionPanel } from '@/components/statements/ContradictionPanel'
 import { listContradictionsMentioningStatement } from '@/lib/contradictions/queries'
 import { isFeatureEnabled } from '@/lib/utils/db-settings'
 import { renderWithGlossary } from '@/lib/glossary/render'
+import { ArchivePreservationBadge } from '@/components/statements/ArchivePreservationBadge'
 import { claimReviewJsonLd, breadcrumbListJsonLd, articleJsonLd } from '@/lib/utils/structured-data'
 import type { Metadata } from 'next'
 import type { SecondarySource } from '@/types/database'
@@ -320,7 +321,13 @@ export default async function StatementPage({ params }: PageProps) {
 
         {/* Primary source */}
         <div className="border-t border-gray-100 pt-4">
-          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Fonte primária</p>
+          <div className="mb-2 flex items-center justify-between gap-2">
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Fonte primária</p>
+            <ArchivePreservationBadge
+              waybackUrl={(statement as unknown as { source_wayback_url?: string | null }).source_wayback_url ?? null}
+              checkedAt={(statement as unknown as { source_wayback_checked_at?: string | null }).source_wayback_checked_at ?? null}
+            />
+          </div>
           <SourceLink
             url={statement.primary_source_url}
             type={statement.primary_source_type}
