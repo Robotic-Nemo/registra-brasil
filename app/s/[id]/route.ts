@@ -38,10 +38,14 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
   }
 
   // Prefix lookup — UUIDs are random so 6+ chars rarely collide.
+  // Bug fix: exclude removed statements so /s/<prefix> never resolves
+  // to a record that was taken down, and normalize to lowercase since
+  // PG stores UUIDs lowercase and ILIKE is case-insensitive anyway.
   if (SHORT_RE.test(raw)) {
     const { data: byPrefix } = await (supabase.from('statements') as any)
       .select('id, slug')
-      .ilike('id', `${raw}%`)
+      .ilike('id', `${raw.toLowerCase()}%`)
+      .neq('verification_status', 'removed')
       .limit(1)
     const row = ((byPrefix ?? []) as Array<{ id: string; slug: string | null }>)[0]
     if (row) {

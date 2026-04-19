@@ -82,7 +82,7 @@ ${items.join('\n')}
     return new Response(rss, {
       headers: {
         'Content-Type': 'application/rss+xml; charset=utf-8',
-        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=600',
+        'Cache-Control': 'public, max-age=600, s-maxage=3600, stale-while-revalidate=1800',
       },
     })
   } catch (err) {
