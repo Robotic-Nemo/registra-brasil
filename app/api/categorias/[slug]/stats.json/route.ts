@@ -77,8 +77,8 @@ export async function GET(
   const now = new Date()
   const months: string[] = []
   for (let i = 23; i >= 0; i--) {
-    const d = new Date(now.getFullYear(), now.getMonth() - i, 1)
-    months.push(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`)
+    const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - i, 1))
+    months.push(`${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`)
   }
   const monthMap = new Map<string, number>(months.map((m) => [m, 0]))
   for (const s of stmts) {
