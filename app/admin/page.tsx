@@ -5,7 +5,9 @@ import { getSupabaseServiceClient } from '@/lib/supabase/server'
 import { getUnverifiedStatements, getSiteStats } from '@/lib/supabase/queries/statements'
 import { ReviewQueue } from './review/ReviewQueue'
 import { ScanButton } from './review/ScanButton'
-import { Inbox, Scale, Flag, Copy, Mail } from 'lucide-react'
+import { Inbox, Scale, Flag, Copy, Mail, AlertTriangle, Clock as ClockIcon } from 'lucide-react'
+import { getEditorialPriorities } from '@/lib/admin/queue-priorities'
+import { EditorialQueue, type QueueItem } from './EditorialQueue'
 
 export const dynamic = 'force-dynamic'
 
@@ -31,6 +33,21 @@ export default async function AdminPage() {
     supabase.from('statement_fact_checks').select('id', { count: 'exact', head: true }),
     supabase.from('newsletter_subscribers').select('id', { count: 'exact', head: true }).eq('is_active', true),
   ])
+
+  const priorities = await getEditorialPriorities(supabase).catch(() => [])
+  const priorityItems: QueueItem[] = priorities.slice(0, 5).map((p) => ({
+    key: p.key,
+    severity: p.severity,
+    icon: p.kind === 'retraction' ? <Scale className="w-5 h-5" aria-hidden="true" /> :
+          p.kind === 'submission' ? <Inbox className="w-5 h-5" aria-hidden="true" /> :
+          p.kind === 'reaction' ? <Flag className="w-5 h-5" aria-hidden="true" /> :
+          p.kind === 'link_broken' ? <AlertTriangle className="w-5 h-5" aria-hidden="true" /> :
+          <ClockIcon className="w-5 h-5" aria-hidden="true" />,
+    title: p.title,
+    detail: p.detail,
+    href: p.href,
+    age: p.ageDays !== null ? (p.ageDays < 1 ? '<1 dia' : `${p.ageDays} dia${p.ageDays === 1 ? '' : 's'}`) : undefined,
+  }))
 
   const inboxItems = [
     {
@@ -138,6 +155,9 @@ export default async function AdminPage() {
           </button>
         </form>
       </div>
+
+      {/* Prioritized next-action list */}
+      <EditorialQueue items={priorityItems} />
 
       {/* Inbox — editorial queues needing attention */}
       <section className="mb-8">
