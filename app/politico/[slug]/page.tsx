@@ -12,6 +12,8 @@ import { Pagination } from '@/components/ui/Pagination'
 import { RelatedPoliticians } from '@/components/politicians/RelatedPoliticians'
 import { SimilarPoliticians } from '@/components/politicians/SimilarPoliticians'
 import { getSimilarPoliticians } from '@/lib/politicians/similar'
+import { computeBadges } from '@/lib/politicians/badges'
+import { PoliticianBadges } from '@/components/politicians/PoliticianBadges'
 import { PoliticianActivityChart } from '@/components/politicians/PoliticianActivityChart'
 import { ActivityCalendar } from '@/components/politicians/ActivityCalendar'
 import { breadcrumbListJsonLd, personJsonLd, itemListJsonLd } from '@/lib/utils/structured-data'
@@ -78,12 +80,17 @@ export default async function PoliticianPage({ params, searchParams }: PageProps
   if (!politician) notFound()
 
   // Load category stats and related politicians after confirming politician exists
-  const [categoryStats, relatedPoliticians, activityData, dailyActivity, similarPoliticians] = await Promise.all([
+  const [categoryStats, relatedPoliticians, activityData, dailyActivity, similarPoliticians, badges] = await Promise.all([
     getPoliticianCategoryStats(supabase, politician.id).catch(() => []),
     getRelatedPoliticians(supabase, politician.slug, politician.party, politician.state, 4).catch(() => []),
     getPoliticianActivityByMonth(supabase, politician.id, 12).catch(() => []),
     getPoliticianActivityByDay(supabase, politician.id, 52).catch(() => []),
     getSimilarPoliticians(politician.id, 6).catch(() => []),
+    computeBadges({
+      politicianId: politician.id,
+      partyHistory: (politician as unknown as { party_history?: Array<{ party?: string; from?: string; to?: string }> }).party_history ?? null,
+      roleHistory: (politician as unknown as { role_history?: Array<{ role?: string; from?: string; to?: string }> }).role_history ?? null,
+    }).catch(() => []),
   ])
 
   const personLd = personJsonLd({
@@ -134,6 +141,7 @@ export default async function PoliticianPage({ params, searchParams }: PageProps
         { label: politician.common_name },
       ]} />
       <PoliticianHeader politician={politician} statementCount={statementsResult.total} />
+      <PoliticianBadges badges={badges} />
 
       {politician.bio_excerpt && (
         <PoliticianWikipediaBio excerpt={politician.bio_excerpt} sourceUrl={politician.bio_source_url} />
