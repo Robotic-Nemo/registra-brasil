@@ -38,7 +38,8 @@ export async function GET(request: NextRequest) {
   const [listRes, countRes] = await Promise.all([
     q,
     (supabase.from('statement_fact_checks') as any)
-      .select('rating'),
+      .select('rating')
+      .limit(20000),
   ])
 
   type Row = {
