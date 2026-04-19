@@ -80,6 +80,9 @@ const GROUPS: Group[] = [
     items: [
       { method: 'GET', path: '/api/politico/:slug/stats.json', desc: 'Scorecard completo de um político em JSON.' },
       { method: 'GET', path: '/api/politico/:slug/timeline.json', desc: 'Timeline cronológica de um político.', params: [{ name: 'limite', desc: '1..200' }] },
+      { method: 'GET', path: '/api/politico/:slug/categorias.json', desc: 'Breakdown do político por categoria (primária e total).' },
+      { method: 'GET', path: '/api/comparar.json', desc: 'Compara dois políticos (id ou slug).', params: [{ name: 'a', desc: 'id ou slug do primeiro' }, { name: 'b', desc: 'id ou slug do segundo' }] },
+      { method: 'GET', path: '/api/timeline.json', desc: 'Timeline global com filtro opcional de escopo.', params: [{ name: 'categoria', desc: 'slug' }, { name: 'partido', desc: 'sigla' }, { name: 'estado', desc: 'UF' }, { name: 'limite', desc: '1..200' }] },
       { method: 'GET', path: '/api/retrospectiva/:year.json', desc: 'Resumo agregado do ano (top políticos, categorias, revisões).' },
       { method: 'GET', path: '/api/aleatoria.json', desc: 'Uma declaração verificada aleatória.', params: [{ name: 'inclui_contestadas', desc: '1 para incluir disputed' }] },
       { method: 'GET', path: '/api/categorias/:slug/stats.json', desc: 'Agregados por categoria.' },
