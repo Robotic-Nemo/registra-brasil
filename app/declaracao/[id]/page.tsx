@@ -28,6 +28,8 @@ import { StatementMeta } from '@/components/statements/StatementMeta'
 import { BookmarkButton } from '@/components/ui/BookmarkButton'
 import { CitationGenerator } from '@/components/statements/CitationGenerator'
 import { ReactionBar } from '@/components/statements/ReactionBar'
+import { ContradictionPanel } from '@/components/statements/ContradictionPanel'
+import { listContradictionsMentioningStatement } from '@/lib/contradictions/queries'
 import { isFeatureEnabled } from '@/lib/utils/db-settings'
 import { claimReviewJsonLd, breadcrumbListJsonLd, articleJsonLd } from '@/lib/utils/structured-data'
 import type { Metadata } from 'next'
@@ -128,9 +130,10 @@ export default async function StatementPage({ params }: PageProps) {
     ? OFFICIAL_IDS.has(statement.youtube_channel_id)
     : false
 
-  const [related, adjacent] = await Promise.all([
+  const [related, adjacent, contradictions] = await Promise.all([
     getRelatedStatements(supabase, statement.id, politician.id, 4),
     getAdjacentStatements(supabase, politician.id, statement.statement_date, statement.id),
+    listContradictionsMentioningStatement(statement.id).catch(() => []),
   ])
 
   const permalink = statement.slug
@@ -482,6 +485,7 @@ export default async function StatementPage({ params }: PageProps) {
             politicianName={politician.common_name}
           />
           <ShareCardMenu statementId={statement.id} statementSlug={statement.slug} />
+          <ContradictionPanel pairs={contradictions} currentStatementId={statement.id} />
           <CitationGenerator
             statement={{
               politicianName: politician.common_name,

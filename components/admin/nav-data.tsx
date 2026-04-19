@@ -1,7 +1,7 @@
 import {
   LayoutDashboard, Plus, List, Inbox, Scale, Flag, Copy, Upload,
   FolderKanban, BookOpen, Search, Settings, Sparkles,
-  AlertTriangle, ShieldCheck, History, Link2, Merge,
+  AlertTriangle, ShieldCheck, History, Link2, Merge, GitCompare,
 } from 'lucide-react'
 
 export type BadgeKey = 'pending_submissions' | 'pending_retractions' | 'pending_review'
@@ -47,6 +47,7 @@ export const ADMIN_NAV: Section[] = [
       { href: '/admin/colecoes', label: 'Coleções', Icon: FolderKanban },
       { href: '/admin/historias', label: 'Histórias', Icon: BookOpen },
       { href: '/admin/declaracao-do-dia', label: 'Declaração do dia', Icon: Sparkles },
+      { href: '/admin/contradicoes', label: 'Contradições', Icon: GitCompare },
     ],
   },
   {
