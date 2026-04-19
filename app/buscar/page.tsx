@@ -8,6 +8,7 @@ import { AlertSubscribe } from '@/components/search/AlertSubscribe'
 import { SearchBeacon } from '@/components/search/SearchBeacon'
 import { QueryChips } from '@/components/search/QueryChips'
 import { DidYouMean } from '@/components/search/DidYouMean'
+import { SaveSearchPanel } from '@/components/search/SaveSearchPanel'
 import { getSearchSuggestions } from '@/lib/search/suggestions'
 import { isFeatureEnabled } from '@/lib/utils/db-settings'
 import { CuratedResults } from '@/components/search/CuratedResults'
@@ -87,6 +88,27 @@ export default async function BuscarPage({ searchParams }: PageProps) {
       ? await getSearchSuggestions(params.q).catch(() => ({ politicians: [], categories: [] }))
       : { politicians: [], categories: [] }
 
+  // Build a normalized querystring of the currently active search so the
+  // SaveSearchPanel can derive a stable share URL + RSS feed.
+  const activeQs = (() => {
+    const u = new URLSearchParams()
+    for (const [k, v] of Object.entries(sp)) {
+      if (k === 'page' || k === 'limit') continue
+      if (v === undefined || v === '') continue
+      if (Array.isArray(v)) v.forEach((x) => u.append(k, x))
+      else u.set(k, String(v))
+    }
+    return u.toString()
+  })()
+  const hasFilters = activeQs.length > 0
+  const summaryParts: string[] = []
+  if (params.q) summaryParts.push(`"${params.q}"`)
+  if (params.categoria) summaryParts.push(`cat=${Array.isArray(params.categoria) ? params.categoria.join('+') : params.categoria}`)
+  if (params.politico) summaryParts.push(`político=${params.politico}`)
+  if (params.partido) summaryParts.push(`partido=${params.partido}`)
+  if (params.estado) summaryParts.push(`UF=${params.estado}`)
+  const searchSummary = summaryParts.join(' · ') || 'Todos os resultados'
+
   return (
     <main className="max-w-7xl mx-auto px-4 py-6">
       <script
@@ -111,6 +133,13 @@ export default async function BuscarPage({ searchParams }: PageProps) {
       )}
       {params.q && noCurated && (
         <DidYouMean suggestions={suggestions} query={params.q} />
+      )}
+      {hasFilters && (searchResult.curated?.total ?? 0) > 0 && (
+        <SaveSearchPanel
+          qs={activeQs}
+          summary={searchSummary}
+          totalResults={searchResult.curated?.total ?? 0}
+        />
       )}
       {alertsEnabled && (
         <div className="mb-4">
