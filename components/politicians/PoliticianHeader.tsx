@@ -133,6 +133,14 @@ export function PoliticianHeader({ politician, statementCount }: PoliticianHeade
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/></svg>
             Scorecard
           </a>
+          <a
+            href={`/politico/${politician.slug}/trajetoria`}
+            className="inline-flex items-center gap-1 text-xs text-gray-700 hover:underline"
+            aria-label={`Trajetória de ${politician.common_name}`}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg>
+            Trajetória
+          </a>
         </div>
 
         <div className="mt-3">
