@@ -84,6 +84,14 @@ const GROUPS: Group[] = [
       { method: 'GET', path: '/api/politico/:slug/similar.json', desc: 'Políticos similares por categoria compartilhada.', params: [{ name: 'limite', desc: '1..20' }] },
       { method: 'GET', path: '/api/declaracao/:id/related.json', desc: 'Declarações relacionadas (mesmo político + mesma categoria).', params: [{ name: 'limite', desc: '1..30' }] },
       { method: 'GET', path: '/api/boletim.json', desc: 'Conteúdo do boletim semanal (mesmo ranking do email).', params: [{ name: 'top', desc: '3..30' }] },
+    ],
+  },
+  {
+    title: 'JSON Feed 1.1',
+    items: [
+      { method: 'GET', path: '/feed.json', desc: 'Feed global em formato JSON Feed 1.1 (alternativa a /feed.xml).' },
+      { method: 'GET', path: '/politico/:slug/feed.json', desc: 'Per-político em JSON Feed.' },
+      { method: 'GET', path: '/categorias/:slug/feed.json', desc: 'Per-categoria em JSON Feed.' },
       { method: 'GET', path: '/api/comparar.json', desc: 'Compara dois políticos (id ou slug).', params: [{ name: 'a', desc: 'id ou slug do primeiro' }, { name: 'b', desc: 'id ou slug do segundo' }] },
       { method: 'GET', path: '/api/timeline.json', desc: 'Timeline global com filtro opcional de escopo.', params: [{ name: 'categoria', desc: 'slug' }, { name: 'partido', desc: 'sigla' }, { name: 'estado', desc: 'UF' }, { name: 'limite', desc: '1..200' }] },
       { method: 'GET', path: '/api/retrospectiva/:year.json', desc: 'Resumo agregado do ano (top políticos, categorias, revisões).' },
