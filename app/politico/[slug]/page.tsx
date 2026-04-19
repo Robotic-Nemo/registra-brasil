@@ -14,6 +14,7 @@ import { SimilarPoliticians } from '@/components/politicians/SimilarPoliticians'
 import { getSimilarPoliticians } from '@/lib/politicians/similar'
 import { computeBadges } from '@/lib/politicians/badges'
 import { PoliticianBadges } from '@/components/politicians/PoliticianBadges'
+import { PoliticianDownloads } from '@/components/politicians/PoliticianDownloads'
 import { PoliticianActivityChart } from '@/components/politicians/PoliticianActivityChart'
 import { ActivityCalendar } from '@/components/politicians/ActivityCalendar'
 import { breadcrumbListJsonLd, personJsonLd, itemListJsonLd } from '@/lib/utils/structured-data'
@@ -142,6 +143,7 @@ export default async function PoliticianPage({ params, searchParams }: PageProps
       ]} />
       <PoliticianHeader politician={politician} statementCount={statementsResult.total} />
       <PoliticianBadges badges={badges} />
+      <PoliticianDownloads slug={politician.slug} />
 
       {politician.bio_excerpt && (
         <PoliticianWikipediaBio excerpt={politician.bio_excerpt} sourceUrl={politician.bio_source_url} />
