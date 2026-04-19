@@ -10,6 +10,8 @@ import { PoliticianStats } from '@/components/politicians/PoliticianStats'
 import { PoliticianStatements } from '@/components/politicians/PoliticianStatements'
 import { Pagination } from '@/components/ui/Pagination'
 import { RelatedPoliticians } from '@/components/politicians/RelatedPoliticians'
+import { SimilarPoliticians } from '@/components/politicians/SimilarPoliticians'
+import { getSimilarPoliticians } from '@/lib/politicians/similar'
 import { PoliticianActivityChart } from '@/components/politicians/PoliticianActivityChart'
 import { ActivityCalendar } from '@/components/politicians/ActivityCalendar'
 import { breadcrumbListJsonLd, personJsonLd, itemListJsonLd } from '@/lib/utils/structured-data'
@@ -76,11 +78,12 @@ export default async function PoliticianPage({ params, searchParams }: PageProps
   if (!politician) notFound()
 
   // Load category stats and related politicians after confirming politician exists
-  const [categoryStats, relatedPoliticians, activityData, dailyActivity] = await Promise.all([
+  const [categoryStats, relatedPoliticians, activityData, dailyActivity, similarPoliticians] = await Promise.all([
     getPoliticianCategoryStats(supabase, politician.id).catch(() => []),
     getRelatedPoliticians(supabase, politician.slug, politician.party, politician.state, 4).catch(() => []),
     getPoliticianActivityByMonth(supabase, politician.id, 12).catch(() => []),
     getPoliticianActivityByDay(supabase, politician.id, 52).catch(() => []),
+    getSimilarPoliticians(politician.id, 6).catch(() => []),
   ])
 
   const personLd = personJsonLd({
@@ -160,6 +163,10 @@ export default async function PoliticianPage({ params, searchParams }: PageProps
           </Suspense>
         )}
       </section>
+
+      {similarPoliticians.length > 0 && (
+        <SimilarPoliticians politicians={similarPoliticians} targetName={politician.common_name} />
+      )}
 
       {relatedPoliticians.length > 0 && (
         <RelatedPoliticians
