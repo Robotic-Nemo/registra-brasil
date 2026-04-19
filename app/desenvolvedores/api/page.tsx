@@ -62,6 +62,17 @@ const GROUPS: Group[] = [
       { method: 'GET', path: '/api/search.json', desc: 'Busca JSON com os mesmos filtros de /buscar.', params: [{ name: 'q', desc: 'texto' }, { name: 'categoria', desc: 'slug ou array' }, { name: 'politico', desc: 'slug' }, { name: 'partido/estado/de/ate/status', desc: 'filtros' }, { name: 'limite', desc: '1..100' }, { name: 'page', desc: '≥ 1' }] },
       { method: 'GET', path: '/api/ranking.json', desc: 'Ranking ponderado (severidade × decaimento).' },
       { method: 'GET', path: '/api/severidade.json', desc: 'Contagens por nível de severidade.' },
+      { method: 'GET', path: '/api/linha-do-tempo.json', desc: 'Linha do tempo global agrupada por mês.', params: [{ name: 'limite', desc: '1..200' }] },
+    ],
+  },
+  {
+    title: 'Análise',
+    items: [
+      { method: 'GET', path: '/api/destaques.json', desc: 'Recap mensal (top severidade, políticos, categorias).', params: [{ name: 'mes', desc: 'YYYY-MM' }] },
+      { method: 'GET', path: '/api/crescimento.json', desc: 'Crescimento acumulado mês a mês.', params: [{ name: 'meses', desc: '12..120' }] },
+      { method: 'GET', path: '/api/tendencias.json', desc: 'Série por categoria com delta_pct.', params: [{ name: 'janela', desc: '12..60 meses' }] },
+      { method: 'GET', path: '/api/analise/partidos-x-categorias.json', desc: 'Matriz partido × categoria.', params: [{ name: 'partidos', desc: '5..30' }, { name: 'categorias', desc: '5..20' }, { name: 'normalizar', desc: '1 para %' }] },
+      { method: 'GET', path: '/api/analise/estados-x-categorias.json', desc: 'Matriz UF × categoria.', params: [{ name: 'estados', desc: '5..27' }, { name: 'categorias', desc: '5..20' }, { name: 'normalizar', desc: '1 para %' }] },
     ],
   },
   {
