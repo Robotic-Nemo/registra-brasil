@@ -124,6 +124,9 @@ const GROUPS: Group[] = [
       { method: 'GET', path: '/api/dump/statements', desc: 'Dump global do acervo.' },
       { method: 'GET', path: '/api/dump/politicians', desc: 'Dump dos políticos.' },
       { method: 'GET', path: '/api/dump/categories', desc: 'Dump das categorias.' },
+      { method: 'GET', path: '/api/dump/revisions', desc: 'Dump de statement_revisions (log completo de correções).', params: [{ name: 'format', desc: 'csv | json' }] },
+      { method: 'GET', path: '/api/dump/fact-checks', desc: 'Dump das checagens externas indexadas.', params: [{ name: 'format', desc: 'csv | json' }] },
+      { method: 'GET', path: '/api/dump/contradictions', desc: 'Dump dos pares de contradição publicados.', params: [{ name: 'format', desc: 'csv | json' }] },
     ],
   },
 ]
