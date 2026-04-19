@@ -14,6 +14,7 @@ import { ShareCard } from '@/components/statements/ShareCard'
 import { StatementCard } from '@/components/statements/StatementCard'
 import { StatementNav } from '@/components/statements/StatementNav'
 import { RelatedStatements } from '@/components/statements/RelatedStatements'
+import { CrossPoliticianRelated } from '@/components/statements/CrossPoliticianRelated'
 import { formatDatePtBR } from '@/lib/utils/date'
 import { OFFICIAL_CHANNELS } from '@/lib/youtube/constants'
 import Image from 'next/image'
@@ -498,6 +499,12 @@ export default async function StatementPage({ params }: PageProps) {
       <StatementNav prev={adjacent.prev} next={adjacent.next} />
 
       <RelatedStatements
+        statementId={statement.id}
+        summary={statement.summary}
+        politicianId={politician.id}
+      />
+
+      <CrossPoliticianRelated
         statementId={statement.id}
         summary={statement.summary}
         politicianId={politician.id}
