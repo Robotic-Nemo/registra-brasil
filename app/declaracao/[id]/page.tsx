@@ -33,6 +33,7 @@ import { listContradictionsMentioningStatement } from '@/lib/contradictions/quer
 import { isFeatureEnabled } from '@/lib/utils/db-settings'
 import { renderWithGlossary } from '@/lib/glossary/render'
 import { ArchivePreservationBadge } from '@/components/statements/ArchivePreservationBadge'
+import { ReadAloudButton } from '@/components/statements/ReadAloudButton'
 import { claimReviewJsonLd, breadcrumbListJsonLd, articleJsonLd } from '@/lib/utils/structured-data'
 import type { Metadata } from 'next'
 import type { SecondarySource } from '@/types/database'
@@ -203,6 +204,9 @@ export default async function StatementPage({ params }: PageProps) {
             slug={statement.slug ?? statement.id}
           />
           <ShareButton />
+          <ReadAloudButton
+            text={`${politician.common_name} disse: ${statement.full_quote ?? statement.summary}`}
+          />
         </div>
       </div>
 
