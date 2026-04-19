@@ -4,10 +4,34 @@ import EmbedStatement from '@/components/embed/EmbedStatement'
 
 interface PageProps {
   params: Promise<{ id: string }>
+  searchParams: Promise<Record<string, string | string[] | undefined>>
 }
 
-export default async function EmbedStatementPage({ params }: PageProps) {
+type Theme = 'light' | 'dark' | 'auto'
+type Size = 'sm' | 'md' | 'lg'
+
+function parseTheme(v: string | string[] | undefined): Theme {
+  const s = Array.isArray(v) ? v[0] : v
+  return s === 'light' || s === 'dark' ? s : 'auto'
+}
+function parseSize(v: string | string[] | undefined): Size {
+  const s = Array.isArray(v) ? v[0] : v
+  return s === 'sm' || s === 'lg' ? s : 'md'
+}
+function truthy(v: string | string[] | undefined): boolean {
+  const s = Array.isArray(v) ? v[0] : v
+  return s === '1' || s === 'true'
+}
+
+export default async function EmbedStatementPage({ params, searchParams }: PageProps) {
   const { id } = await params
+  const sp = await searchParams
+  const options = {
+    theme: parseTheme(sp.theme),
+    size: parseSize(sp.size),
+    hidePhoto: truthy(sp.hide_photo),
+    hideMeta: truthy(sp.hide_meta),
+  }
   const supabase = getSupabaseServiceClient()
 
   const EMBED_SELECT = `
@@ -64,6 +88,7 @@ export default async function EmbedStatementPage({ params }: PageProps) {
         statement={data}
         politician={data.politicians}
         categories={categories}
+        options={options}
       />
     </div>
   )
