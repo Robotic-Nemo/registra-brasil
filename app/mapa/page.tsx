@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { getSupabaseServiceClient } from '@/lib/supabase/server'
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { MapPin } from 'lucide-react'
+import { BrazilTileMap } from '@/components/maps/BrazilTileMap'
 
 export const revalidate = 1800
 
@@ -113,6 +114,21 @@ export default async function MapaPage() {
           de {totalPoliticians} políticos cobrindo {statementCount.size} estados.
         </p>
       </header>
+
+      <section className="mb-10 rounded-xl border border-gray-200 bg-white p-4 sm:p-6">
+        <h2 className="mb-3 text-sm font-semibold text-gray-900">Cartograma em grade</h2>
+        <p className="mb-4 text-xs text-gray-600">
+          Cada estado ocupa o mesmo espaço visual. A intensidade da cor mostra
+          o volume de declarações arquivadas. Clique para abrir o estado.
+        </p>
+        <BrazilTileMap
+          counts={Object.fromEntries(statementCount)}
+          labelFor={(_, c) => (c === 0 ? '—' : c.toLocaleString('pt-BR'))}
+          rampColor="#1d4ed8"
+          hrefTemplate="/estados/{uf}"
+          title="Declarações por UF — cartograma em grade"
+        />
+      </section>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
         <div className="lg:col-span-2 space-y-6">

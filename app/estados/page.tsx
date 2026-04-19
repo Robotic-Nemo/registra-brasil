@@ -2,6 +2,7 @@ import { getSupabaseServerClient } from '@/lib/supabase/server'
 import { getStates, BRAZILIAN_STATES } from '@/lib/supabase/queries/states'
 import Link from 'next/link'
 import { MapPin } from 'lucide-react'
+import { BrazilTileMap } from '@/components/maps/BrazilTileMap'
 import type { Metadata } from 'next'
 
 export const revalidate = 3600
@@ -51,6 +52,16 @@ export default async function EstadosPage() {
         <span>{totalPoliticians} politicos</span>
         <span>{totalStatements} declaracoes verificadas</span>
       </div>
+
+      <section className="mb-8 rounded-xl border border-gray-200 bg-white p-4 sm:p-6">
+        <BrazilTileMap
+          counts={Object.fromEntries(states.map((s) => [s.state, s.count]))}
+          labelFor={(_, c) => (c === 0 ? '—' : c.toLocaleString('pt-BR'))}
+          rampColor="#047857"
+          hrefTemplate="/estados/{uf}"
+          title="Declarações por UF — cartograma em grade"
+        />
+      </section>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {states.map((s) => (
