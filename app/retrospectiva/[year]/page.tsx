@@ -7,6 +7,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import {
   CalendarClock, TrendingUp, Users, AlertTriangle, BarChart3, History,
 } from 'lucide-react'
+import { ScopeDownloads } from '@/components/export/ScopeDownloads'
 
 export const revalidate = 3600
 
@@ -132,6 +133,7 @@ export default async function RetrospectivaYear({ params }: PageProps) {
           {statements.length.toLocaleString('pt-BR')} declarações registradas em {year} de{' '}
           {byPol.size} políticos em {byCat.size} categorias distintas.
         </p>
+        <ScopeDownloads base={`/api/dump/year/${year}`} label={`Baixar arquivo ${year}:`} />
       </header>
 
       <section className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-10">
