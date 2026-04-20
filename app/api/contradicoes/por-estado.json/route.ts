@@ -49,7 +49,7 @@ export async function GET(request: NextRequest) {
     .sort((a, b) => b.count - a.count)
     .slice(0, lim)
 
-  const etag = `W/"contra-uf-${rows.length}-${results.length}"`
+  const etag = `W/"contra-uf-${lim}-${rows.length}-${results.length}"`
   if (request.headers.get('if-none-match') === etag) {
     return new Response(null, { status: 304, headers: { ETag: etag } })
   }
