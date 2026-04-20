@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSupabaseServiceClient } from '@/lib/supabase/server'
 import { checkRateLimit, getRateLimitKey } from '@/lib/utils/rate-limit'
 import { displaySourceName, classifySource, CATEGORY_LABEL } from '@/lib/sources/domain'
+import { sourceUrlOrFilter } from '@/lib/sources/domain-filter'
 
 export const runtime = 'nodejs'
 export const revalidate = 3600
@@ -46,7 +47,7 @@ export async function GET(request: NextRequest, { params }: Params) {
   const { count } = await (supabase.from('statements') as any)
     .select('id', { count: 'exact', head: true })
     .eq('verification_status', 'verified')
-    .or(`primary_source_url.ilike.%//${domain}/%,primary_source_url.ilike.%//www.${domain}/%,primary_source_url.ilike.%//${domain}`)
+    .or(sourceUrlOrFilter(domain))
 
   const statementCount = count ?? 0
   const displayName = displaySourceName(domain)
