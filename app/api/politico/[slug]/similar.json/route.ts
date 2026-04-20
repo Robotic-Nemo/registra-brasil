@@ -7,6 +7,7 @@ export const runtime = 'nodejs'
 export const revalidate = 3600
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://registrabrasil.com.br'
+const SLUG_RE = /^[a-z0-9](?:[a-z0-9-]{0,98}[a-z0-9])?$/
 
 interface Params { params: Promise<{ slug: string }> }
 
@@ -25,6 +26,9 @@ export async function GET(request: NextRequest, { params }: Params) {
   }
 
   const { slug } = await params
+  if (!SLUG_RE.test(slug)) {
+    return NextResponse.json({ error: 'slug inválido' }, { status: 400 })
+  }
   const limit = Math.max(1, Math.min(20,
     Number(request.nextUrl.searchParams.get('limite')) || 6))
 

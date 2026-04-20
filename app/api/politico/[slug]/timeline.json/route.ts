@@ -9,6 +9,7 @@ export const revalidate = 600
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://registrabrasil.com.br'
 
 interface Params { params: Promise<{ slug: string }> }
+const SLUG_RE = /^[a-z0-9](?:[a-z0-9-]{0,98}[a-z0-9])?$/
 
 /**
  * GET /api/politico/[slug]/timeline.json — chronological timeline for
@@ -24,6 +25,9 @@ export async function GET(request: NextRequest, { params }: Params) {
   }
 
   const { slug } = await params
+  if (!SLUG_RE.test(slug)) {
+    return NextResponse.json({ error: 'slug inválido' }, { status: 400 })
+  }
   const limit = Math.max(1, Math.min(200,
     Number(request.nextUrl.searchParams.get('limite')) || 50))
 

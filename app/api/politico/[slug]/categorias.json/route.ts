@@ -6,6 +6,7 @@ export const runtime = 'nodejs'
 export const revalidate = 1800
 
 interface Params { params: Promise<{ slug: string }> }
+const SLUG_RE = /^[a-z0-9](?:[a-z0-9-]{0,98}[a-z0-9])?$/
 
 /**
  * GET /api/politico/[slug]/categorias.json — per-politician category
@@ -22,6 +23,9 @@ export async function GET(request: NextRequest, { params }: Params) {
   }
 
   const { slug } = await params
+  if (!SLUG_RE.test(slug)) {
+    return NextResponse.json({ error: 'slug inválido' }, { status: 400 })
+  }
   const supabase = getSupabaseServiceClient()
 
   const { data: polRow } = await (supabase.from('politicians') as any)
