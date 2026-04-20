@@ -30,13 +30,15 @@ export async function getStatementTimeSeries(
     counts.set(month, (counts.get(month) ?? 0) + 1)
   }
 
+  // Keep bucket keys in UTC — statement_date is YYYY-MM-DD UTC so
+  // local getMonth() drifts the final bucket on BRT near midnight.
   const result: TimeSeriesPoint[] = []
   const current = new Date(startDate)
   const now = new Date()
   while (current <= now) {
-    const key = `${current.getFullYear()}-${String(current.getMonth() + 1).padStart(2, '0')}`
+    const key = `${current.getUTCFullYear()}-${String(current.getUTCMonth() + 1).padStart(2, '0')}`
     result.push({ period: key, count: counts.get(key) ?? 0 })
-    current.setMonth(current.getMonth() + 1)
+    current.setUTCMonth(current.getUTCMonth() + 1)
   }
   return result
 }
@@ -56,6 +58,7 @@ export async function getPartyDistribution(
     .from('statements')
     .select('politicians!inner(party)')
     .eq('verification_status', 'verified')
+    .limit(50000)
 
   if (error || !data) return []
 
@@ -186,13 +189,13 @@ export async function getPartyTimeSeries(
     monthMap.set(month, (monthMap.get(month) ?? 0) + 1)
   }
 
-  // Build full month range
+  // Build full month range in UTC (see note above).
   const monthKeys: string[] = []
   const current = new Date(startDate)
   const now = new Date()
   while (current <= now) {
-    monthKeys.push(`${current.getFullYear()}-${String(current.getMonth() + 1).padStart(2, '0')}`)
-    current.setMonth(current.getMonth() + 1)
+    monthKeys.push(`${current.getUTCFullYear()}-${String(current.getUTCMonth() + 1).padStart(2, '0')}`)
+    current.setUTCMonth(current.getUTCMonth() + 1)
   }
 
   return parties.map((party) => {

@@ -69,14 +69,15 @@ export async function getPoliticianCompareData(
     }
   }
 
-  // Fill months
+  // Fill months in UTC — matches the YYYY-MM-DD UTC statement_date
+  // so the final bucket doesn't drift on BRT machines.
   const monthlyData: { month: string; count: number }[] = []
   const current = new Date(startDate)
   const now = new Date()
   while (current <= now) {
-    const key = `${current.getFullYear()}-${String(current.getMonth() + 1).padStart(2, '0')}`
+    const key = `${current.getUTCFullYear()}-${String(current.getUTCMonth() + 1).padStart(2, '0')}`
     monthlyData.push({ month: key, count: monthlyCounts.get(key) ?? 0 })
-    current.setMonth(current.getMonth() + 1)
+    current.setUTCMonth(current.getUTCMonth() + 1)
   }
 
   return {
