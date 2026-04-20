@@ -1,0 +1,9 @@
+1 orient: tail -20 .loop-progress.md; cat .loop/state.txt; bash .loop/gen-manifest.sh
+2 plan: >=3 features + >=1 bug fix + >=1 cost opt; prefer matrix gaps (endpoints.tsv where has!=y)
+3 build: copy neighbor route; follow conventions.tsv; use shared utils (checkRateLimit, cursor-pagination, csvEscape, renderAtomFeed, renderBadge, extractDomain, renderSparklineSvg/renderHistogramSvg + headers)
+4 explorer: new endpoint -> app/desenvolvedores/api/page.tsx; params entries REQUIRE desc
+5 log: append block to .loop-progress.md (Feature/Bug/Cost bullets, past tense, short)
+6 verify: ./node_modules/.bin/tsc --noEmit -> EXIT=0
+7 commit: git add -A; git commit -m "Run N/500: title" (HEREDOC body w/ Co-Authored-By)
+8 deploy: if N%10==0 -> git push; update .loop/state.txt
+9 never: skip explorer; commit w/o typecheck; local-time date math; reuse builder across Promise.all; raw user input in .or(); unbounded select on statements

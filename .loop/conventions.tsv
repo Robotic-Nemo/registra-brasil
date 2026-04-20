@@ -1,0 +1,50 @@
+key	value
+runtime	nodejs default; edge only if all deps edge-safe
+revalidate	3600/1800/900/600 by freshness
+rl_prefix	short kebab unique per endpoint
+rl_limits	svg=120 json=60 aggregate=30 ranking=20 v2=100
+rl_call	checkRateLimit(getRateLimitKey(req,'prefix'),{limit,windowMs:60_000})
+re_politico_slug	^[a-z0-9](?:[a-z0-9-]{0,98}[a-z0-9])?$
+re_cat_slug	same as politico
+re_statement	^[a-z0-9-]{1,120}$/i
+re_party	^[a-z0-9%A-Z.-]{1,100}$ validate BEFORE decodeURIComponent
+re_uf	^[A-Za-z]{2}$
+re_domain	^[a-z0-9%.-]{3,253}$/i
+re_hex	^#[0-9a-fA-F]{3,8}$
+re_uuid	^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+supabase_bypass	(supabase.from('x') as any) / (supabase.rpc as any)
+etag_shape	W/"prefix-scope-count-..." weak content-keyed
+etag_headers	If-None-Match eq etag -> 304 w/ ETag only
+etag_svg	histogramEtag/sparklineEtag from lib/export/*-svg.ts
+etag_pivot_tables	statement_categories lacks updated_at; fall back to count-only
+cc_realtime	no-store
+cc_recent	public,max-age=60,s-maxage=180,stale-while-revalidate=600
+cc_list	public,max-age=120,s-maxage=600,stale-while-revalidate=1800
+cc_aggregate	public,max-age=900,s-maxage=1800,stale-while-revalidate=3600
+cc_directory	public,max-age=1800,s-maxage=3600,stale-while-revalidate=86400
+cc_chart	public,max-age=1800,s-maxage=3600,stale-while-revalidate=86400
+cc_openapi	public,max-age=3600,s-maxage=10800,stale-while-revalidate=86400
+cursor_import	decodeCursor,parseLimit,buildCursorPagination from @/lib/utils/cursor-pagination
+cursor_limit	parseLimit(sp.get('limit'),20,100)
+cursor_order	.order(sortField,{ascending}).order('id',{ascending}).limit(limit+1)
+cursor_where	ascending?`${f}.gt.${v},and(${f}.eq.${v},id.gt.${id})`:lt-variant
+cursor_hasMore	rows.length>limit; slice(0,limit); buildCursorPagination(pageRows,sortField,limit,hasMore)
+parallel_builder	supabase-js MUTATES. Factor const build=()=>supabase.from(...) before Promise.all
+or_sanitize	q.replace(/[,()\\]/g,' ').replace(/[%_]/g,' ').trim() before .or(ilike...)
+date_utc	Date.UTC(y,m,d); getUTCMonth/Year; slice(0,7) for YYYY-MM
+date_bad	new Date(y,m,d) drifts BRT at midnight boundaries
+chunked_in	CHUNK=500; for i+=CHUNK; .in('id',ids.slice(i,i+CHUNK))
+csv_escape	csvEscape() from lib/export/statement-formats guards formula-injection =+-@\t\r
+extract_domain	from @/lib/sources/domain; strips www.
+limit_scope	20000
+limit_cat_scan	30000
+limit_global_catalog	50000
+limit_mandatory	ALWAYS .limit(N) on statements/statement_categories queries
+join_filter	politicians!inner(party,state,is_active); .eq('politicians.party',x) not two-step .in()
+head_count	.select('id',{count:'exact',head:true}) for totals-only
+atom_shared	renderAtomFeed+atomHeaders from lib/feeds/atom
+badge_shared	renderBadge,badgeHeaders,isHexColor from lib/badges/shields; edge-safe
+embed_csp	X-Frame-Options:ALLOWALL + Content-Security-Policy:frame-ancestors *
+iframe_html	`<iframe src=... width/height frameborder=0 allowfullscreen style=border:1px solid #e5e7eb;border-radius:8px>`
+oembed_host	stripWww both sides before compare (SITE_URL may carry www.)
+explorer_req	every new endpoint -> app/desenvolvedores/api/page.tsx; every params entry NEEDS desc

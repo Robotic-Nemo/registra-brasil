@@ -1,0 +1,12 @@
+pattern	grep	fix
+local_time_date_math	new Date\([^)]*getMonth\(\)|getDate\(\)|getFullYear\(\) (no UTC)	Date.UTC, getUTCMonth, slice(0,7/10)
+unsanitized_or	\.or\(`[^`]*\$\{	replace [,()\\] and [%_] with space, trim
+reused_builder	const query = supabase\.from.*\n.*Promise\.all	factor const build=()=>supabase.from(...)
+has_more_off_by_one	rows?\.length === (limit|lim)	overfetch +1; hasMore=raw.length>limit; slice(0,limit)
+null_severity_dilution	severity_sum / (count|b\.count)	separate severity_n denom; null when 0
+unbounded_select	supabase\.from\('(statements|statement_categories)'\) no .limit	.limit(20000) per-scope, .limit(30000) cat fanout
+raw_slug_predecode	const { slug } = await params\n\s*const party = decodeURIComponent (no test)	validate raw with regex BEFORE decode
+large_in_from_join	\.in\('id', \w+Ids\)	chunk CHUNK=500; OR switch to politicians!inner filter
+input_equality_before_resolve	if \((a|left|from) === (b|right|to)\)	resolve both to canonical IDs first
+etag_missing_column	max(updated_at) on pivot tables	count-only ETag for join tables (no updated_at)
+double_www_host	new URL(SITE_URL).hostname compared to parsedUrl.hostname	stripWww both sides before compare

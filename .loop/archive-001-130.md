@@ -1,0 +1,2703 @@
+# Loop progress — large improvements
+
+Target: 100 runs of substantial improvements. Interval: 10 minutes (cron `*/10 * * * *`). Session-only; auto-expires 7 days.
+
+## Run 1 (2026-04-18)
+**Title:** Wikipedia photo sourcing pipeline for politicians.
+
+- Wrote `scripts/source-politician-photos.ts`: queries `pt.wikipedia.org` MediaWiki API `generator=search` + `prop=pageimages` for each politician missing a photo, pulls the 400-px thumbnail, updates `photo_url` + `photo_source_url` + `photo_license='wikimedia'`. Respectful 500 ms pacing, 8 s timeout, token-match guard to skip wrong-disambiguation hits.
+- Added `photo_source_url` + `photo_license` to the `Politician` TS type (migration 008 already added DB columns).
+- `PoliticianHeader` now wraps the photo in `<figure>` with a credit `<figcaption>` linking to the source article (Wikimedia attribution requirement). Uses `unoptimized` to hit the Wikimedia CDN directly (saves Vercel optimization bandwidth + keeps attribution chain intact).
+- Script executed against prod DB — result captured in commit message.
+
+## Run 2 (2026-04-18)
+**Title:** Public statement-submission system.
+
+- Migration 009 (applied live): `statement_submissions` table with full
+  editorial workflow columns (summary, full_quote, date, venue, source
+  URL, context, submitter name/email/notes), FK to politicians +
+  free-text fallback for politicians not yet in the archive,
+  submission_status enum (pending/approved/rejected/duplicate),
+  `resulting_statement_id` FK for provenance, daily-salted SHA-256
+  `submitter_ip_hash` for abuse mitigation, CHECK constraints enforcing
+  length bounds + URL format + politician-identity, RLS defaults to deny.
+- Public page `/sugerir` + `SubmissionForm` client component: full
+  accessible form with `useId` IDs, `aria-labels`, honeypot field,
+  progressive "not in the list" fallback, client-side state machine.
+- API `POST /api/submissions`: two-tier rate limit (5/10m + 20/h),
+  server-side validation against same constraints as DB, 24h IP+URL
+  dedupe, honeypot acceptance (silent pass for bots), SSRF-blocked
+  private hosts for source URL, never echoes raw DB errors.
+- Admin queue `/admin/submissions` + server actions
+  `approveSubmission` / `rejectSubmission` / `markDuplicate`: approve
+  creates real `statements` row and backlinks `resulting_statement_id`;
+  reject requires reviewer note; all actions re-verify admin cookie
+  with timing-safe compare. Tab bar filters by status with counts.
+- Footer link + admin dashboard card wired.
+
+## Run 3 (2026-04-18)
+**Title:** pg_trgm statement similarity — DB-side, catalog-wide.
+
+- Migration 010 (applied live): `CREATE EXTENSION pg_trgm`, GIN trigram
+  indexes on `statements.summary` + `statement_submissions.summary`,
+  SQL functions `find_similar_statements(text, threshold, limit, pol_id)`
+  + `find_all_similar_pairs(threshold, since_date, limit)`, new columns
+  `statement_submissions.similar_statement_id` + `similarity_score`.
+- `lib/utils/similar-statements.ts` — typed RPC wrapper for both
+  functions. 10-char minimum query length to prevent index blow-up.
+- `/admin/duplicatas` rewritten: was in-memory O(n²) over 500 rows; now
+  uses `find_all_similar_pairs` over configurable window (180 days /
+  90 days / full corpus). Preset buttons + threshold slider via query
+  params. Renders same-politician warning, severity-colored badges, per-
+  pair edit links.
+- `/api/submissions/similar` POST (rate-limited 30/min) — powers live
+  preview in /sugerir that warns submitters about existing matches
+  while they type (500 ms debounce, AbortController cancellation).
+- Submission intake now auto-flags top similar statement on insert
+  (stored as `similar_statement_id` + `similarity_score`); admin queue
+  surfaces it inline with % badge + link to the candidate match.
+- Tested live: Marina Silva Amazon deforestation statements cluster at
+  40-56% similarity — exactly the kind of editorial collapse target.
+
+## Run 4 (2026-04-18)
+**Title:** Public revision history + per-politician RSS.
+
+- Migration 011 (applied live): `statement_revisions` table (append-only
+  audit log), `record_statement_revision()` trigger on `UPDATE statements`
+  captures diff of tracked fields only (12 columns via
+  `statement_revision_tracked_fields()` helper — edit the helper, not
+  the trigger, to tune tracking). Session-level GUCs
+  `registra.revision_reason` + `registra.revision_actor` let callers
+  annotate a change before the UPDATE runs. RLS: public SELECT, no
+  direct INSERT (trigger bypasses as table owner). Tested live with a
+  controlled edit → revision captured correctly → test artifacts
+  purged.
+- Public `/declaracao/[id]/historico` page: breadcrumbs, revision list
+  newest-first, before/after columns with strikethrough + green, field
+  labels in Portuguese, timestamps in pt-BR locale, actor attribution.
+- Link to history added to the declaração detail page (bottom section).
+- Per-politician RSS feed at `/politico/[slug]/feed.xml`: 50 most-recent
+  non-removed statements, full content:encoded, self-link, 1-hour
+  s-maxage with stale-while-revalidate. Discoverable via rel=alternate
+  on the header link (subscribers can one-click into their reader).
+- `PoliticianHeader` gains RSS chip next to Câmara/Senado/Wikipedia.
+
+## Run 5 (2026-04-18)
+**Title:** Editorial collections — curated themed groupings.
+
+- Migration 012 live: `collections` + `collection_statements` with RLS
+  public-read-on-published + writes service-only + CHECK constraints.
+- Public `/colecoes` grid + `/colecao/[slug]` detail with JSON-LD +
+  per-collection `/colecao/[slug]/feed.xml` RSS.
+- Admin `/admin/colecoes` index + editor: `upsertCollection`,
+  `setCollectionMembers` (slugs or UUIDs, reports unresolved),
+  `deleteCollection` server actions.
+- Sitemap + Footer + admin dashboard wired.
+
+## Run 6 (2026-04-18)
+**Title:** Saved-search email alerts (double-opt-in + notifier cron).
+
+- Migration 013 (live): `saved_searches` with normalized `query` jsonb +
+  `query_hash` (SHA-256 of canonical JSON, 32-char), double-opt-in
+  columns (confirmation_token, confirmed_at), `last_notified_at` watermark,
+  UNIQUE(email, query_hash) so the same address can register many
+  distinct searches. Partial index scans "least-recently-notified first".
+- `lib/utils/saved-searches.ts`: `normalizeQuery` + `hashQuery` produce
+  canonical representation; `runSavedSearchIncremental` reconstructs the
+  filter set at notifier time (FTS + ilike fallback, date range,
+  politician/party/state/status).
+- API surface:
+  - POST `/api/alerts/subscribe` — rate-limited 5/10m, refuses empty
+    queries, never leaks whether an address already has an alert, sends
+    confirmation email via Resend.
+  - GET `/api/alerts/confirm?email&token` — single-use token exchange,
+    landing HTML page.
+  - GET `/api/alerts/unsubscribe?email&hash` — one alert (with hash) or
+    all alerts (without), returns confirmation HTML.
+  - GET|POST `/api/alerts/run` — notifier cron. Dual auth: `x-cron-secret`
+    (REVALIDATE_SECRET) for external cron, or `Authorization: Bearer`
+    (CRON_SECRET) for Vercel Cron. Batches 50 subscribers, always advances
+    watermark to avoid stuck loops, digests up to 20 matches per email,
+    includes per-alert unsub link.
+- `AlertSubscribe` client widget on `/buscar`: reads current search
+  params, presents inline form, graceful idle/open/submitting/ok states,
+  only visible when a query or filter is set.
+- `vercel.json` adds daily cron `7 13 * * *` → `/api/alerts/run`.
+
+## Run 7 (2026-04-18)
+**Title:** Public edit log + per-category RSS.
+
+- Public `/atualizacoes` page surfaces `statement_revisions` site-wide:
+  paginated (30/page), shows politician, summary snippet, list of
+  changed fields (Portuguese labels), editorial reason, revision number,
+  timestamp, links to statement + full history.
+- `/atualizacoes/feed.xml` RSS 2.0 of the 50 most-recent revisions — a
+  journalist can subscribe to "every correction we ever make" without
+  polling the pages. 10-minute cache.
+- Per-category RSS at `/categorias/[slug]/feed.xml` — filter by topic
+  rather than firehose, 50 most-recent non-removed, 1h cache, `content:
+  encoded` with full quote + context + source link.
+- Category detail page gains RSS chip + `<link rel=alternate>` so feed
+  readers auto-discover subscribe URLs.
+- Footer + sitemap wired; editorial transparency surface complete
+  (every edit is now reachable in three ways: per-statement history,
+  global page, RSS).
+
+## Run 8 (2026-04-18)
+**Title:** Geographic map revamp + per-state + per-party RSS.
+
+- `/mapa` rewritten: shows actual **statement** counts per UF (was
+  politician counts), 5-bucket density shading (gray → blue-700), each
+  tile is now a `<Link>` into `/estados/[uf]` instead of an inert div,
+  aria-label with full counts, region-grouped layout + regional
+  sub-totals, sidebar with top 10 states + accessible density legend,
+  30-minute revalidation.
+- Per-state RSS `/estados/[uf]/feed.xml` + per-party RSS
+  `/partidos/[slug]/feed.xml` (50 most-recent non-removed per scope,
+  1h cache, UF validated, party slug decoded).
+- Both detail pages now expose RSS chip + `<link rel=alternate>` in
+  metadata so feed readers auto-discover.
+
+## Run 9 (2026-04-18)
+**Title:** Full-catalog dumps + OpenAPI 3.1 spec.
+
+- `/api/dump/statements?format=json|csv` streams the **entire** acervo
+  (pages through Supabase in 1000-row chunks; old `/api/export` capped
+  at 2000). Weak ETag = `W/"stmts-<count>-<yyyymmddHHMM>"` from row
+  count + latest `updated_at` yields 304 on unchanged state. Cache
+  public, s-maxage 3600, stale-while-revalidate 86400, max-age 86400.
+  License preamble ("CC BY 4.0 — attribute Registra Brasil") embedded
+  in every JSON response. CSV BOM + formula-prefix defense + primary/
+  secondary categories split into separate columns.
+- `/api/dump/politicians` (photo provenance + official IDs + Wikipedia)
+  and `/api/dump/categories` (taxonomy + severity_weight + color_hex),
+  both with the same license preamble + 1h/24h caching.
+- `/api/openapi.json` serves OpenAPI 3.1.0 spec — hand-written, not
+  generated, covers 20+ endpoints (v2 API, dumps, submissions, alerts,
+  all 7 RSS scopes), full schemas for Statement / Politician /
+  PaginationMeta / ErrorResponse, rate-limit response model.
+- `/api-docs` gains two call-outs at the top: OpenAPI download + link
+  to Swagger Editor (one-click open in-browser), and dump endpoints
+  with JSON/CSV chips.
+- `/dados` resource list headlined by full dumps + OpenAPI; Dataset
+  JSON-LD `distribution` now points at `/api/dump/statements` instead
+  of the capped export.
+
+## Run 10 (2026-04-18)
+**Title:** Admin bulk CSV import with preview + checksum idempotency.
+
+- Migration 014 (applied live): `import_batches` (source filename,
+  size, checksum UNIQUE, row counts, status, error_log jsonb, note,
+  created_by). `statements.import_batch_id` FK for provenance. RLS
+  deny; service-role only.
+- `lib/import/csv-parse.ts`: zero-dependency RFC-4180 parser. Handles
+  quoted fields, escaped quotes, embedded newlines, BOM, blank rows.
+- `lib/import/validate-statement.ts`: per-row validator. Accepts
+  pt-BR or en headers (resumo/summary, data/statement_date, etc.).
+  Enforces 10–1000 summary, 5000 quote ceiling, ISO date + not-future,
+  SSRF-safe URL (blocks localhost/10./172.16-31./192.168./link-local),
+  enum source_type + status, severity 1–5, category slugs semicolon- or
+  comma-separated.
+- `/admin/importar` two-phase flow via server actions:
+  1. `previewImport(csvText, filename)` — parses, validates all rows,
+     resolves politicians in two batch round-trips (by slug, by
+     common_name), returns per-line error detail + resolved labels.
+     Checksum pre-checked against `import_batches` so the client can
+     warn about duplicates before uploading.
+  2. `commitImport` — inserts statements in a single pass, creates
+     statement_categories for resolved category slugs (first is
+     primary), stamps `import_batch_id`, writes error_log jsonb, and
+     marks every row with its line-number mapping. Each insert trips
+     the revision trigger from run 4 for editorial audit.
+- `ImportClient` React component: idle → previewing → previewed →
+  committing → done state machine. Shows OK/error/unmapped counts,
+  parse-error list, first 10 valid rows preview, optional editor
+  note, 5 MB client-side size guard.
+- Admin dashboard card + "Últimos lotes" history on the import page.
+
+## Run 11 (2026-04-18)
+**Title:** Anonymous reactions + triage queue.
+
+- Migration 015 (applied live): `reaction_type` enum
+  (importante/contestada/fora_de_contexto/erro), `statement_reactions`
+  table with daily-salted SHA-256 truncated IP hash, UNIQUE
+  (statement_id, ip_hash, reaction) prevents double-counting, public
+  read + no public insert (server-role-only). Aggregated view
+  `statement_reaction_counts` for cheap joins.
+- `/api/reactions` POST: rate-limit 30/10min per IP; UUID + enum
+  validation; unique_violation (23505) treated as `alreadyRecorded:
+  true` (idempotent). Returns fresh counts in response to avoid a
+  second round-trip. GET returns counts with 30s CDN cache.
+- `ReactionBar` client component on `/declaracao/[id]`: 4 buttons
+  (Importante/Contestada/Fora de contexto/Reportar erro) with
+  per-button counts, server-provided initial counts (no layout
+  shift), localStorage-backed client-side "my reactions" state (handles
+  NAT collisions gracefully), aria-pressed state, 30/10min hint in
+  small print.
+- `/admin/reacoes` triage queue: sort by any of 5 reaction counts,
+  per-row badges, inline edit + view links. Lets editors spot
+  statements the public is flagging.
+- Admin dashboard card added.
+
+## Run 12 (2026-04-18)
+**Title:** Batch revert + unified audit dashboard.
+
+- Migration 016 (live): `set_revision_annotation(reason, actor)`
+  SECURITY DEFINER RPC lets service-role callers set the session GUCs
+  (`registra.revision_reason`, `registra.revision_actor`) that the
+  trigger from mig 011 reads. Grants limited to `service_role`.
+- `/admin/importar/[id]` batch detail page: filename, checksum, row
+  counters, error_log expandable, sample of 25 most-recent statements
+  produced by the batch, status badge (committed/reverted).
+- `revertBatch(batchId, reason)` server action: annotates revision via
+  new RPC, soft-deletes every non-removed statement in the batch
+  (verification_status → 'removed') with per-row `editor_notes`, flips
+  `import_batches.status` to 'reverted'. Revision trigger records each
+  change, so the reversal is itself auditable.
+- Confirmation UI (`RevertBatchButton`): requires ≥3-char reason, shows
+  affected count in button label, renders warning about post-import
+  edits being included.
+- `/admin/importar` list rows now link into the detail page.
+- `/admin/auditoria` unified feed: last 100 events merged from
+  statement_revisions + import_batches + statement_submissions +
+  collections, sorted newest-first, per-kind icons, per-actor stamps,
+  deep-links into the originating resource.
+- Admin dashboard card for Auditoria.
+
+## Run 13 (2026-04-18)
+**Title:** Right-of-reply / retraction request system.
+
+- Migration 017 live: retraction_kind + retraction_status enums,
+  retraction_requests table with petitioner identity, claim/remedy/
+  evidence, workflow columns, public_reply, IP hash. RLS public-read
+  ONLY for status=replied.
+- POST /api/retratacoes — 3/hr rate limit, SSRF-safe, honeypot.
+- Public form /retratacoes/solicitar pre-fills ?statement=<slug>.
+- /retratacoes CTA to the new form.
+- Admin /admin/retratacoes queue with 6-tab status filter + per-row
+  decision widget (in_review / accept / reject / publish reply).
+- Statement detail renders published replies as amber right-of-reply
+  blockquotes (CF art. 5º V) + footer "solicitar retificação" link.
+- Admin dashboard card.
+
+## Run 14 (2026-04-18)
+**Title:** Severity-weighted politician activity scores + ranking revamp.
+
+- Migration 018 (live): materialized view `politician_activity_scores`
+  with per-politician `statements_count`, `verified_count`,
+  `disputed_count`, `severity_sum`, `recency_score` (exp decay,
+  half-life 365 days), `weighted_score` (recency × severity weight
+  0.6..1.4 for severities 1..5), first/last statement dates. Unique
+  index on politician_id enables CONCURRENT refresh; secondary
+  indexes on weighted + recency for cheap ORDER BY. SECURITY DEFINER
+  helper `refresh_politician_activity_scores()` granted to
+  service_role.
+- `/ranking` fully rewritten: 4 modes via tabs (weighted / recent /
+  count / disputed), per-row photo + score bar proportional to max in
+  page, medals for top 3, truncated-name layout handles 50 rows,
+  ItemList JSON-LD lists all 50, educational footer explains the
+  scoring maths.
+- `/api/maintenance/refresh-scores` GET|POST — dual auth (Vercel Cron
+  bearer or x-cron-secret), calls refresh RPC, returns timing.
+- `vercel.json` adds nightly cron `13 2 * * *` → refresh-scores.
+- Sample output verified live: top politician by weighted score
+  scored 131 with 274 statements all verified and most recent.
+
+## Run 15 (2026-04-18)
+**Title:** Self-service alert management portal.
+
+- `lib/utils/alert-access.ts`: HMAC-SHA256 tokens embed email + exp
+  (7-day TTL, base36). Secret falls through
+  ALERTS_ACCESS_SECRET → NEWSLETTER_SECRET → REVALIDATE_SECRET so the
+  feature works without extra env config. Timing-safe verify.
+- POST `/api/alerts/request-access`: 3-per-10min rate limit, always
+  returns generic success (never leaks which addresses have alerts),
+  only actually dispatches email when row count > 0. Resend email
+  contains tokenized portal URL valid 7 days.
+- `/meus-alertas` server page: three states — no params (request form);
+  invalid/expired token (error + re-request form); valid (list).
+- `AlertList` client component with optimistic cancel + cancel-all
+  (confirm prompt), active/cancelled split, per-alert deep-links to
+  the saved search on `/buscar`, human-readable query descriptions
+  via `describeQuery`.
+- Server actions `cancelAlert` + `cancelAllAlerts` re-verify token
+  server-side on every call; client token never grants mutation
+  powers without fresh HMAC check.
+- Footer link + `robots: noindex,nofollow` on the portal page (user
+  data surface, not SEO).
+- `env.d.ts` typed ALERTS_ACCESS_SECRET + NEWSLETTER_SECRET + Resend
+  config + CRON_SECRET.
+
+## Run 16 (2026-04-18)
+**Title:** Weekly editorial digest (newsletter) + public archive.
+
+- Migration 019 (live): `newsletter_digests` table with UNIQUE(week_of)
+  for idempotency, `statement_ids uuid[]`, HTML archive, recipient
+  count, sent_at timestamp. RLS: public read for sent digests only.
+- `/api/maintenance/weekly-digest` GET|POST — dual auth (Vercel Cron
+  bearer or x-cron-secret). Idempotent by week_of unless `?force=1`.
+  Scores past-7-days statements with `severity × exp(-days/4)` decay,
+  picks top 10. Renders HTML, records digest row first (so failure
+  mid-batch preserves content), then dispatches per-subscriber with
+  tokenized unsubscribe link via existing `generateUnsubscribeToken`.
+  Returns `{sent, failed, week_of, statements}`.
+- Public `/boletim` page lists sent digests (latest 24 weeks) with
+  subject + preview + recipient count. `/boletim/[week]` renders the
+  archived HTML — transparency: readers see exactly what was mailed.
+- `vercel.json` cron: Monday 13:37 UTC → `/api/maintenance/weekly-digest`
+  (off-peak cache-windows + not exact hour).
+- Footer + sitemap links wired.
+
+## Run 17 (2026-04-18)
+**Title:** External fact-check cross-references.
+
+- Migration 020 (live): `fact_check_rating` enum (8 values matching
+  Brazilian fact-check vocabulary: true/mostly_true/half_true/
+  mostly_false/false/misleading/unproven/satire), `statement_fact_checks`
+  table with FK, outlet key + display label, URL, title, rating +
+  outlet's original label, published_at. UNIQUE(statement_id, url)
+  prevents duplicate links. RLS: public read, service-only write.
+- `lib/fact-checks/outlets.ts`: canonical list of 9 Brazilian outlets
+  (Lupa, Aos Fatos, G1 Fato ou Fake, Estadão Verifica, Comprova, AFP
+  Checamos, Boatos.org, Reuters, "Outro") with brand colors; rating
+  labels + Tailwind class map.
+- `/admin/fact-checks`: form (outlet dropdown with "Outro" fallback
+  label override, SSRF-safe URL validation, rating enum picker with
+  pt-BR labels, optional publication date) + list of last 200 links
+  with remove action. All server actions re-verify admin cookie
+  timing-safe.
+- Statement detail page now shows "Checagens externas (N)" section
+  with per-check chips (outlet + rating badge color-coded) and link
+  to the external article.
+- Admin dashboard card added.
+## Run 18 (2026-04-18)
+**Title:** Public transparency dashboard.
+
+- `lib/utils/transparency.ts`: single source of truth for editorial
+  metrics. Pulls statements, revisions, retractions, submissions,
+  reactions, imports in parallel; buckets last 12 months; computes
+  acceptance rate, 30-day windows, by-status/by-actor breakdowns.
+- `/transparencia` page: 8-card top-level totals, 5 accountability
+  cards (revisions / retractions / submissions / reactions / imports)
+  with deep-links to source surfaces, 12-month monthly table with
+  activity bars. All numbers come from the same `buildTransparency
+  Report()` helper so site + API always match.
+- `/api/transparencia.json` — machine-readable open-data export,
+  CC BY 4.0 preamble, same numbers, 30-min edge cache + 1h swr.
+- Footer (Legal) + sitemap wired.
+- `metadata.alternates.types['application/json']` on the page so JSON
+  consumers auto-discover the machine-readable version.
+
+## Run 19 (2026-04-18)
+**Title:** Editorial stories — narrative articles with embedded statements.
+
+- Migration 021 (live): `stories` table (slug, title, subtitle, author,
+  body_markdown, hero_statement_id, cover_image_url, reading_time_min,
+  is_published), `story_statements` join (position, commentary). CHECK
+  constraints on slug regex + length bounds. RLS: public read on
+  published, writes service-only.
+- `lib/stories/render.ts`: tight-scope Markdown-ish parser — H2/H3,
+  paragraphs, `>` blockquote, `**bold**`/`_italic_`/`[link](url)`,
+  `---` HR, `{{statement:UUID}}` embed token. Returns typed Block[]
+  so the page renders React trees instead of `dangerouslySetInnerHTML`.
+  Helpers: `referencedStatementIds`, `estimateReadingTimeMinutes`.
+- Public `/historias` grid with cover / title / reading time / author.
+- Public `/historia/[slug]` renders body blocks, substitutes statement
+  embeds with blue-card `<aside>`s (hero on top + inline embeds where
+  tokens appear), per-embed editor commentary from `story_statements`,
+  Article + Breadcrumb JSON-LD, OG image support.
+- Admin `/admin/historias` index + `/admin/historias/[slug]` editor
+  (`StoryEditor` with live token-aware preview pane + reading-time/
+  block-count meter), `upsertStory` server action auto-syncs
+  `story_statements` join from body-embedded token IDs, `deleteStory`.
+- Footer + sitemap wired (static /historias + dynamic /historia/[slug]
+  for every published story).
+
+## Run 20 (2026-04-18)
+**Title:** Printable per-politician dossier + PDF-ready page.
+
+- `/politico/[slug]/dossie`: single-page export of every non-removed
+  statement for a politician, chronological, with full quotes +
+  contexts + category chips + clickable source URLs. Tops out at
+  1000 statements per dossier.
+- Header card: photo, full name, party + state + role, statement
+  totals (all/verified/disputed), period covered, Wikipedia link.
+- Top-8 categories tally computed from primary-categorized rows.
+- Dedicated `@media print` block: A4 page size with 18mm/14mm
+  margins, grayscale photos, site chrome hidden (`nav`/`header`/
+  `footer` as `role`-marked + `.no-print`), URLs auto-expanded via
+  `a[href]::after`, per-statement `page-break-inside: avoid`,
+  10.5pt body / 1.45 line-height, black-on-white palette.
+- In-page "Imprimir / Salvar PDF" button triggers
+  `window.print()` (JS URL scheme in form action so no JS needed to
+  render the page).
+- PoliticianHeader chip "Dossiê" alongside RSS/Câmara/Senado links.
+- Sitemap emits per-politician dossier URL at priority 0.5
+  (secondary to main /politico/[slug] at 0.8).
+
+## Run 21 (2026-04-18)
+**Title:** Per-politician activity calendar (GitHub-style heatmap).
+
+- `components/politicians/ActivityCalendar.tsx`: zero-dep accessible
+  CSS-grid heatmap. Takes daily-bucketed counts, normalizes missing
+  days to zero, auto-picks 4-bucket color ramp per max, draws 7 rows
+  × N weeks with sparse weekday labels + month-change markers on top.
+  Each cell is a `role="gridcell"` span with title + aria-label
+  ("2025-08-12: 3 declarações"); optional `hrefFor` makes cells link
+  to `/buscar?politico=X&de=Y&ate=Y`. Accessible with keyboard focus
+  ring via `focus-visible`.
+- `getPoliticianActivityByDay(supabase, id, weeks)` helper added to
+  the query module — ISO-date bucket for 52 weeks, non-removed only.
+- `/politico/[slug]` now renders monthly chart + calendar heatmap
+  together, stacked, with clickable cells deep-linking search.
+
+## Run 22 (2026-04-18)
+**Title:** Admin statement merge tool.
+
+- `mergeStatements(keeper_id, removed_id, field_values, reason)`
+  server action: annotates revision trigger via mig-016 RPC, applies
+  user-chosen field values to the keeper, re-parents every secondary
+  relation from the removed row (`statement_fact_checks`, reactions,
+  `collection_statements`, `story_statements`, `retraction_requests`,
+  submission backlinks, `statement_categories`) with conflict-safe
+  pre-delete of overlaps to respect unique constraints, then soft-
+  removes the B statement (`verification_status='removed'` + editor
+  note pointing at the keeper). Every UPDATE runs through the revision
+  trigger, so both rows' history explains the merge.
+- `/admin/merge?a=<uuid>&b=<uuid>` page: side-by-side radio picker
+  for which statement stays, per-field radio picker (A/B) for the
+  12 tracked fields, diffing rows highlighted yellow, reason input
+  (required ≥3 chars), cross-politician guard with confirm dialog.
+- `/admin/duplicatas` pairs now include a "Mesclar →" action that
+  deep-links into the merge page with both IDs pre-loaded.
+
+## Run 23 (2026-04-18)
+**Title:** Follow-by-email buttons on politician / category / party / state pages.
+
+- `components/alerts/FollowButton.tsx`: scope-aware client component
+  — given `{kind: 'politico'|'partido'|'estado'|'categoria', slug|value,
+  label}`, builds the saved-search query for that scope, pre-labels the
+  alert (e.g. "Declarações de Lula"), and POSTs to the existing
+  `/api/alerts/subscribe`. Same double-opt-in flow as `/buscar`'s
+  `AlertSubscribe`, but three-tap: button → email → create.
+- Optimistic state machine idle → open → submitting → ok|error with
+  inline error and a Close button on the popover.
+- Wired on four surfaces:
+  1. `PoliticianHeader` (seguir político por e-mail)
+  2. `/categorias/[slug]` (seguir categoria)
+  3. `/partidos/[slug]` (seguir partido)
+  4. `/estados/[uf]` (seguir estado)
+- Compact variant supported (icon-only) but all four placements use
+  the labelled variant for now.
+
+## Run 24 (2026-04-18)
+**Title:** Admin dashboard — editorial inbox.
+
+- `/admin` gains a "Caixa de entrada editorial" section at the top
+  with five tone-coded cards summarizing actionable queues in one
+  glance: pending submissions, pending/in-review retractions,
+  public reaction flags (erro + contestada), duplicates to review,
+  active newsletter subscribers. Each card is a `<Link>` into the
+  relevant admin sub-page.
+- Server-side uses five additional `head:true count:'exact'` queries
+  in parallel with the existing five, so the dashboard adds one
+  round-trip but no extra latency.
+- Tone-coded Tailwind class map (amber/red/orange/purple/blue)
+  matches the existing per-queue pill colors elsewhere in admin.
+- Duplicates card defers its count (runs only when clicked) because
+  `find_all_similar_pairs` is expensive for a homepage render;
+  links into pre-parametrized `?days=180&threshold=0.6`.
+
+## Run 25 (2026-04-18)
+**Title:** Live /status with editorial health metrics.
+
+- `/status` rewritten from a static all-green mock to a live page.
+  8 metrics pulled in parallel (1s cache at edge, 60s ISR): DB latency
+  (current request), total non-removed statements, active politicians,
+  age of last new statement, age of last editorial revision, age of
+  oldest pending submission (10-day SLA), age of oldest pending
+  retraction (10-day SLA), age of last weekly digest. Each card is
+  tone-coded ok/warn/bad by queue age relative to SLA.
+- Overall badge auto-rolls up: all green → "operacional", any amber
+  → "com alertas", any red → "atenção". Indicator uses the existing
+  `StatusIndicator` component's degraded/outage states instead of
+  always-operational.
+- Uptime chart stays (static placeholder component for now).
+- Link to /transparencia for historical series.
+
+## Run 26 (2026-04-18)
+**Title:** Multi-politician analysis page (`/analise`).
+
+- New `/analise?p=slug1&p=slug2&...` page: compare up to 4 politicians
+  side-by-side using slug-based URLs (shareable, bookmarkable, no
+  UUID leakage). Re-uses `politician_activity_scores` materialized
+  view from run 14 for cheap reads.
+- Sections:
+  1. Picker pill list + add-dropdown (removes current IDs from
+     options so duplicates can't be added).
+  2. 4-up photo + party badges with perfil link per politician.
+  3. Weighted-score bar chart normalized to the max of selected.
+  4. 9-row comparison table (total/verified/disputed/ratios/severity
+     sum/recency score/first + last statement date).
+  5. Severity distribution mini-histogram per politician (1–5 buckets
+     with red/amber/blue color coding for high/mid/low severity).
+  6. Top-5 primary categories per politician with clickable category
+     deep-links.
+- Graceful state when <2 politicians selected.
+- Sitemap + Footer wired.
+
+## Run 27 (2026-04-18)
+**Title:** Custom share-card generator + OpenSearch.
+
+- New `/declaracao/[id]/share-card?theme=dark|light|minimal&size=og|square|portrait`
+  route: parameterized `ImageResponse` rendering the same quote/
+  politician/date data as the auto OG but with 3 visual themes and
+  3 sizes (Twitter OG, Instagram feed square, Instagram portrait).
+  Quote length adapts font-size; portrait has tighter layout.
+- Client component `ShareCardMenu` in the statement detail's Share
+  section: theme + size radios, live preview, one-click download
+  with generated filename (`registra-brasil-<slug>-quadrado.png`),
+  open-in-new-tab fallback, CC BY 4.0 note.
+- `app/opensearch.xml` route serves OpenSearch 1.1 description with
+  pointers to favicon + 512px icon + `{searchTerms}` template on
+  `/buscar`. `<link rel="search">` added to root `<head>` — browsers
+  offer "Add Registra Brasil as a search engine". Typing `rb lula`
+  in Chrome/Firefox address bar then searches directly.
+
+## Run 28 (2026-04-18)
+**Title:** Installable PWA + offline fallback.
+
+- `/offline` page: static, noindex, explains the state + retry button.
+- `components/layout/PWARegister.tsx`: registers existing `/public/sw.js`
+  on mount (service worker caches shell + navigations with network-
+  first / cache-fallback), captures `beforeinstallprompt`, surfaces a
+  dismissible bottom-right install card. Dismissal sticky via
+  localStorage (no nag).
+- Wired into `ClientExtras` (alongside BackToTop / CookieConsent /
+  KeyboardShortcuts), behind dynamic import with `ssr: false` so the
+  prompt doesn't render at build time.
+- Sitemap includes /offline at priority 0.1 (for crawler reachability
+  — not really meant for indexing).
+- Manifest (`app/manifest.ts`) + icons + maskable variant from earlier
+  runs already provide the remaining PWA criteria; this completes the
+  install surface.
+
+## Run 29 (2026-04-18)
+**Title:** Command palette (Cmd/Ctrl+K) with static routes + live search.
+
+- Replaced the existing 9-command palette with a 26+ static-route
+  version plus live results from the existing `/api/suggest`
+  endpoint. Icons come from lucide; full keyboard control (↑/↓/Enter/
+  Esc). 200 ms debounce + AbortController cancels in-flight fetches
+  when the user keeps typing. Closing clears query + dynamic items +
+  aborts.
+- Static routes grouped mentally but rendered as a flat list so
+  filtering is O(static + dynamic). Multi-word queries AND across
+  tokens via `split(/\s+/)` for "politicos sp" etc.
+- Wired through `ClientExtras` alongside KeyboardShortcuts,
+  CookieConsent, PWARegister. Shortcut `?` still shows help; ⌘/Ctrl K
+  now documented there as the primary fast-jump key.
+
+## Run 30 (2026-04-18)
+**Title:** Wire anonymous bookmarks (they existed but were dead code).
+
+- Found `BookmarkButton` + `BookmarksList` + `useBookmarks` hook all
+  existing but never imported by any page. Bug: `BookmarksList`
+  routed statement bookmarks to `/declaracoes-recentes/<slug>` (not
+  a real route); fixed to `/declaracao/<slug>`.
+- `BookmarkButton` now surfaces on:
+  - statement detail page (next to Admin / Share buttons)
+  - `PoliticianHeader` (next to Follow button)
+  - Compact variant added for future use in cards.
+- `BookmarksList` gets import + export (JSON) for portability: users
+  can download a `registra-brasil-favoritos-YYYY-MM-DD.json` backup
+  and restore on another device/browser. 500 KB import guard;
+  per-row type+id+slug+title validation; silent dedupe via existing
+  `addBookmark` idempotency.
+- Restore box appears on the empty-state so a returning user without
+  bookmarks can import immediately. Added export/import/clear-all
+  toolbar to the populated state.
+- Footer gets "Favoritos" link under Legal sub-nav.
+
+## Run 31 (2026-04-18)
+**Title:** Per-category analytics page.
+
+- New `/categorias/[slug]/analise` — rich analytics view per category:
+  1. 4 top-level totals (total, verified, disputed, unique politicians).
+  2. 24-month activity bar chart with hover tooltips per month.
+  3. Severity distribution (1–5 buckets) color-coded red/amber/blue.
+  4. Top 10 politicians within category (sorted by count × severity),
+     each with photo + party + proportional bar.
+  5. Related-categories chips (co-occurrence tally with colored
+     category dots, linking to each).
+  6. Most-recent 6 statements in the category.
+- Efficient fetch: single 5000-row pull of the category's primary-
+  assigned statements + one extra query for related-category
+  co-occurrence bounded to 2000 statements.
+- Category detail page gains "Análise" pill link next to RSS chip.
+- Google-friendly metadata (title, description, canonical, OG URL).
+
+## Run 32 (2026-04-18)
+**Title:** Per-party + per-state analytics (DRY via shared scorecard).
+
+- New `lib/analytics/aggregate-statements.ts`: shared aggregator for
+  any scope-bound analytics page. Takes a `StatementForAnalytics[]`,
+  returns totals, by-status, by-severity, 24-month series (with
+  maxMonthly), top 10 politicians (count × severityAvg tiebreak),
+  most-recent 6. `topCategoriesFor(supabase, ids)` runs the secondary
+  primary-category tally.
+- New `components/analytics/AnalyticsScorecard.tsx`: data-only
+  renderer — consumers provide a page header and the scorecard draws
+  totals + 24-month bars + severity histogram + top politicians list
+  + category chips + recent list. Re-usable across category / party
+  / state.
+- `/partidos/[slug]/analise` + `/estados/[uf]/analise` created. Both
+  do a single politicians-id lookup → statements pull (5000 cap) →
+  aggregate → topCategoriesFor. Party/state detail pages now have
+  "Análise" pill alongside RSS.
+- The earlier run-31 category analise page still uses its own
+  inline rollup logic; future cleanup can port it to the shared
+  helpers.
+
+## Run 33 (2026-04-18)
+**Title:** Year-in-review retrospective.
+
+- `/retrospectiva` index: per-year cards with statement counts,
+  pulled from a single 20k-row date pull bucketed by year. Current
+  year flagged "em andamento".
+- `/retrospectiva/[year]` detail page: 4 totals (declarations /
+  verified / disputed / revisions made), 12-month activity bars
+  (Jan–Dez), top 10 politicians with photos + proportional bars,
+  top 6 categories with colored chips, notable statements block
+  (verified with severity ≥ 4), contested block, and a "transparency
+  in {year}" footer summarizing revisions + statements-revised
+  deep-linking /atualizacoes.
+- All content pulls live from the database (up to 5000 statements
+  + 2000 revisions per year); no hardcoded content.
+- Footer + sitemap wired. Canonical metadata + OG with article type.
+- Bounds guard: 1980..2100 to prevent abuse. notFound if zero
+  statements for requested year.
+
+## Run 34 (2026-04-18)
+**Title:** Dark mode (class-based, opt-in with system default).
+
+- `app/globals.css`: added `@custom-variant dark
+  (&:where(.dark, .dark *))` so existing `dark:` prefixes across
+  the codebase (status page, bookmark button, etc) activate when
+  `<html class="dark">` is set. Added html.dark root styles
+  (#0b1220 bg, gray-200 fg, color-scheme: dark) so even surfaces
+  without explicit `dark:` variants don't flash white.
+- `ThemeProvider` client component reads cookie `rb:theme`
+  (light/dark/auto), listens to system preference changes, keeps
+  html class in sync. Wired via `ClientExtras`.
+- `ThemeToggle` icon button cycles light → dark → auto; persists
+  to cookie (1-year, SameSite=Lax); shows sun/moon/monitor icon.
+  Placed in `Header` before the mobile menu.
+- FOUC guard: inline script in `<head>` (before first paint)
+  applies the class synchronously by reading cookie + system pref.
+  Stateless, ~230 bytes minified.
+- Fully opt-in: default is `auto`, matching OS preference. Users
+  who prefer always-light keep the current look.
+
+## Run 35 (2026-04-18)
+**Title:** Academic citation generator (ABNT / APA / Chicago / MLA).
+
+- `lib/citations/format.ts`: pure functions producing plain-string
+  citations in 5 styles — ABNT (NBR 6023/2018, Brazilian default),
+  APA 7, Chicago 17 author-date, MLA 9, plus a "referência simples"
+  form for journalistic inline citations. Handles name splitting
+  (LAST, First), pt-BR long/short dates, access-date defaults to today,
+  summary truncation.
+- `CitationGenerator` client component on the statement detail page:
+  collapsible, 5-style radio row, formatted preview in monospace
+  block, copy-to-clipboard with Check flash, contextual help line
+  explaining which discipline prefers each style.
+- Integrated into the Share section alongside ShareCardMenu,
+  EmbedCode, ShareCard.
+- Zero external deps (no citation.js / bibtex library).
+
+## Run 36 (2026-04-18)
+**Title:** Admin duplicate-source audit.
+
+- `/admin/fontes-duplicadas` page finds statements sharing the same
+  `primary_source_url` — strong signal for editorial duplicates that
+  text-similarity (run 3) misses when the two entries have different
+  summaries of the same video/article.
+- Scans the 10 000 most-recent non-removed statements; groups by URL
+  in memory; shows top 200 groups ≥ 2 by size. Threshold selector
+  (2+, 3+, 5+) via query param.
+- Per-group: outbound link to source URL, list of statements
+  (date · politician · status · summary) with inline Editar links.
+- 2-statement groups get a "Mesclar par →" deep-link into run 22's
+  `/admin/merge?a=…&b=…`. Larger groups suggest pairwise merging.
+- Added to admin inbox as a second "Duplicatas" tile (trigram +
+  source-URL).
+
+## Run 37 (2026-04-18)
+**Title:** Dead-link detector for primary sources.
+
+- Migration 022 (live): `statements.source_last_checked_at` +
+  `source_http_status` + `source_check_error` columns. Partial index
+  on `(source_last_checked_at NULLS FIRST)` for cheap LRU scheduling;
+  partial index on `source_http_status >= 400` for fast broken-list
+  queries. All scoped to non-removed rows.
+- `/api/maintenance/check-links` GET|POST — dual auth (Vercel Cron
+  bearer or x-cron-secret). Pulls 50 oldest-checked, runs HEAD (fall
+  back to GET Range for 403/405), 8s timeout, writes back status
+  + error + timestamp. Returns per-class summary (2xx/3xx/4xx/5xx/
+  errored). Safe to call repeatedly; LRU scheduling ensures
+  coverage over time.
+- `/admin/links-quebrados` page: coverage stats (checked / total),
+  broken count badge, scrollable list of up to 200 statements with
+  4xx/5xx or errored last-check. Per-row status pill + direct edit
+  link + source URL + relative last-checked timestamp.
+- `vercel.json` daily cron `23 3 * * *` — 50 rows/day = full 12 500
+  corpus scanned over ~9 months. For faster backfill, editors can
+  hit the endpoint manually with the revalidate secret.
+- Admin inbox gains "Links quebrados" tile (red tone).
+
+## Run 38 (2026-04-18)
+**Title:** Wayback Machine fallback for broken sources.
+
+- Migration 023 (live): `statements.source_wayback_url` +
+  `source_wayback_checked_at` columns + partial index.
+- `lib/wayback/client.ts`: zero-dep Internet Archive availability
+  API wrapper (`https://archive.org/wayback/available`), 5s timeout,
+  typed snapshot shape.
+- `/api/maintenance/check-links` now, when it finds a 4xx/5xx/error,
+  also queries Archive.org for the closest snapshot and writes
+  `source_wayback_url` + `source_wayback_checked_at`. Healthy URLs
+  are not queried (no spamming the Archive). `waybackHits` counter
+  added to the response summary.
+- Statement detail page renders an amber fallback banner above the
+  primary source section when `source_http_status >= 400` and a
+  wayback URL exists — readers reach the evidence even when the
+  original disappears.
+
+## Run 39 (2026-04-18)
+**Title:** Search analytics (anonymous) + zero-result surface.
+
+- Migration 024 (live): `search_queries` table keyed on
+  (day, q_normalized) with atomic upsert via SECURITY DEFINER
+  `bump_search_query(qn, result_count)`. No PII — just the term,
+  daily bucket, hit count, last result count. RLS locked.
+- `/api/search-beacon` POST: rate-limited 20/min, normalizes
+  (trim + lowercase + strip diacritics), bumps counter, returns
+  200 fire-and-forget. Never echoes user input.
+- `SearchBeacon` client component on `/buscar`: uses
+  `navigator.sendBeacon` when available (survives navigation),
+  falls back to keepalive fetch. Renders nothing.
+- `/admin/buscas` page: day-range selector (7/30/90), top 100
+  queries with rank + hits + click-through link to re-run, plus
+  a dedicated red block for zero-result queries (editorial
+  opportunities: readers looking for coverage the archive lacks).
+- Admin inbox: "Buscas dos leitores" tile.
+
+## Run 40 (2026-04-18)
+**Title:** Popular-searches public surface (closes the analytics loop).
+
+- `lib/supabase/queries/popular-searches.ts`: shared queries
+  `getPopularSearches` (hits ≥ 2, last result count > 0, top N)
+  and `getZeroResultSearches` (hits ≥ 2, last result count = 0,
+  top N). Both dedupe across days.
+- Public `/buscas-populares` page: 25 popular chips (click-through
+  reruns the search on /buscar) + up-to-20 zero-result block with
+  link to /sugerir so readers can help fill the gap. No PII.
+- `PopularSearches` server component widget: 8-chip compact list
+  added to the homepage as a new section, bottom of feed. Link to
+  /buscas-populares for "ver todas".
+- Sitemap wired.
+- Pattern ships what run 39 captured directly to readers — search
+  behavior is a public artifact of the project, not just internal
+  editorial metric.
+
+## Run 41 (2026-04-18)
+**Title:** Related-statements panel + admin Save-Page-Now trigger.
+
+- `POST /api/admin/archive-source`: admin-cookie-guarded endpoint
+  that triggers Internet Archive Save-Page-Now for a statement's
+  primary URL. Follows redirects (SPN finishes on the archived
+  snapshot URL), stores result in `source_wayback_url` +
+  `source_wayback_checked_at`. Per-admin rate limit 30/10min.
+- `ArchiveNowButton` client: states idle → working → ok | error,
+  surfaces existing Wayback URL with "Refazer" option, inline in
+  the /admin/links-quebrados row.
+- `RelatedStatements` server component on `/declaracao/[id]`:
+  pg_trgm-backed similar lookup scoped to same politician (reuses
+  run 3's `findSimilarStatements`). Shows up to 4 matches ≥ 30%
+  similar (excluding the current statement) with percent badge and
+  date. Null render when empty.
+- Complements run 38's passive Wayback fallback by giving editors
+  a proactive archival button, and run 3's similarity RPC by
+  surfacing it to readers.
+
+## Run 42 (2026-04-18)
+**Title:** Admin site-settings + public maintenance banner.
+
+- Migration 025 (live): `site_settings` table (key/value jsonb/
+  description/updated_at/updated_by). Public read, service-only
+  write. Seeded with five defaults (maintenance_banner,
+  weekly_digest_enabled, editorial_sla_days,
+  submissions_auto_close_days, footer_message).
+- `lib/utils/db-settings.ts`: `getSetting(key, fallback)` with 60s
+  in-process cache; `invalidateSetting`. Typed helpers
+  `getMaintenanceBanner()` and `getFooterMessage()`. Separate from
+  the existing env-based `lib/utils/settings.ts` to avoid clobbering
+  that module.
+- `MaintenanceBanner` async server component mounted between
+  Header and page content in `app/layout.tsx` — renders only when
+  the setting is enabled + text non-empty; 3 tones (info/warn/
+  critical) with matching icon.
+- `/admin/configuracoes-site` page: list all settings with
+  monospace JSON textareas, saves via `saveSetting` server action
+  (admin-cookie-guarded), invalidates cache + revalidates layout.
+- Admin inbox: "Configurações" tile.
+
+## Run 43 (2026-04-18)
+**Title:** Declaração do dia (daily pick) + archive + RSS.
+
+- Migration 026 (live): `daily_picks` table keyed by `pick_date`
+  with curator note + FK to statements, public read, service-only
+  write.
+- `lib/supabase/queries/daily-pick.ts`: `getTodaysPick` — first
+  checks for a manual schedule, falls back to the highest-severity
+  verified statement from the last 30 days so the homepage widget
+  is never empty. `getRecentPicks` for the archive page.
+- `DailyPick` server component on homepage (above Categories):
+  gradient card with politician photo + party, full quote or
+  summary (280-char cap), severity/date meta, curator note when
+  manual. Links to statement detail + archive.
+- `/declaracao-do-dia` archive page: last 90 manual picks, rel=
+  alternate RSS, OG metadata.
+- `/declaracao-do-dia/feed.xml` RSS 2.0 with `content:encoded`
+  including curator note + quote + source link.
+- Sitemap wired.
+
+## Run 44 (2026-04-18)
+**Title:** Admin daily-pick scheduler.
+
+- `/admin/declaracao-do-dia`: agenda-style editor for the daily
+  pick. Resolves statement by UUID or slug, stores with curator
+  note, upserts on `pick_date` PK. Server actions
+  `schedulePick` + `deletePick` re-verify admin cookie timing-safe.
+- Page splits "Próximos" (date ≥ today) and "Últimos picks" (past
+  30). Form validates min date = today, max note length 500.
+- Revalidates `/admin/declaracao-do-dia`, `/declaracao-do-dia`,
+  and `/` so the homepage widget (run 43) reflects the new pick
+  without redeploy.
+- Admin inbox gets two new tiles (Configurações — the run 42 tile
+  that got lost in an edit race — and Declaração do dia). Ran
+  tsc clean.
+
+## Run 45 (2026-04-18)
+**Title:** Admin bulk-verify in review queue.
+
+- `bulkChangeStatus(ids, status, reason)` server action: admin-
+  cookie-guarded, caps at 200 ids per call, UUID-validates each,
+  annotates the revision trigger via `set_revision_annotation`
+  (actor=`admin:bulk-review`, reason=`Lote <status>: <motivo>`)
+  so every affected row's revision carries the batch reason.
+- `ReviewQueue` rewritten with per-row checkboxes + "select all"
+  header + motivo input + three bulk buttons (Verificar /
+  Disputar / Remover). Row retains individual action buttons;
+  selection doesn't affect single-row flow.
+- Validation: motivo ≥3 chars before any bulk button dispatches;
+  ≥1 id required; errors/ok messages in colored banners.
+- Every bulk update flows through the revision trigger, so the
+  audit dashboard + public /atualizacoes log lists each row with
+  the batch reason.
+
+## Run 46 (2026-04-18)
+**Title:** Politician Wikipedia bio excerpt.
+
+- Migration 027 (live): `politicians.bio_excerpt` (≤1200 chars) +
+  `bio_source_url` + `bio_checked_at` columns with CHECK constraint.
+- `lib/wikipedia/summary.ts`: zero-dep Wikipedia REST `summary`
+  endpoint wrapper. Resolves article title from URL path when
+  `photo_source_url` or `wikipedia_url` is Wikimedia-based, falls
+  back to politician common_name search. 8s timeout, attribution-
+  correct User-Agent.
+- `POST /api/admin/sync-politician-bio { politician_id }`: admin-
+  cookie-guarded, rate-limited 60/10min. Updates
+  `bio_excerpt` + source + checked_at.
+- `PoliticianWikipediaBio` client component (collapsible, default
+  open) renders under `PoliticianHeader` on `/politico/[slug]`
+  when `bio_excerpt` is populated. Attribution line with CC BY-SA
+  4.0 + Wikipedia article link.
+- Database type + query select + test factory updated for the
+  three new columns.
+
+## Run 47 (2026-04-18)
+**Title:** Admin sidebar navigation with live queue badges.
+
+- `components/admin/AdminSidebar.tsx`: persistent left rail on
+  `/admin/*` with four sections (Revisão, Qualidade do acervo,
+  Curadoria, Operações) covering 17 admin routes. Active-route
+  highlight via `usePathname`. Icons from lucide.
+- Live badge system: the three highest-attention queues (pending
+  submissions, pending/in-review retractions, unverified
+  statements) fetch counts from a new dedicated edge endpoint
+  `GET /api/admin/sidebar-counts` (admin-cookie-guarded,
+  no-cache). Red badges next to the relevant links.
+- `app/admin/layout.tsx` now wraps admin routes in a two-column
+  flex: sidebar (hidden on <lg) + content. Existing per-page
+  back links still serve mobile.
+
+## Run 48 (2026-04-18)
+**Title:** Parsed-query chips + search-operator docs.
+
+- `lib/search/parse.ts`: zero-dep parser for the websearch operators
+  Postgres already respects plus 5 structured fields
+  (politico/partido/estado/status/categoria). Returns typed
+  `Token[]`; round-trips back to a string via `tokensToQueryString`.
+- `QueryChips` client component rendered above search results
+  when `q` has ≥2 tokens: phrase / term / negation / OR / field
+  chips, tone-coded, × button per chip removes and re-navigates.
+- New documented section `#search-operators` on `/api-docs` with
+  syntax examples. QueryChips links to it via an "operadores" tag.
+- Visibility: users learn the operator syntax implicitly just
+  from seeing their query rendered as structured pills.
+
+## Run 49 (2026-04-18)
+**Title:** Políticos A-Z alphabetical index.
+
+- New `/politicos/a-z`: 179 active politicians bucketed by
+  diacritic-stripped first letter (so "Álvaro" → A). Per-letter
+  sections with grid of 2-3 columns, each tile has photo + party
+  badge + statement count pill.
+- Sticky alphabet nav bar at the top of the page with in-page
+  anchor links (`#letter-A`), 27 letters + `#` for edge cases.
+  Missing letters render as gray (non-clickable).
+- `/politicos` gains three top-right links: A-Z, Por partido,
+  Por estado — making the three browsing modes discoverable.
+- Sitemap wired.
+- Bucketing is O(n); one statement-count query on 12k rows
+  aggregated client-side. Revalidate 1h.
+
+## Run 50 (2026-04-18) — halfway mark 🎉
+**Title:** Bulk Wikipedia-bio cron (LRU backfill).
+
+- `/api/maintenance/sync-bios` GET|POST — dual auth (Vercel Cron
+  bearer or x-cron-secret). Pulls the 15 politicians with the
+  oldest `bio_checked_at` (null first), fetches Wikipedia summary
+  via the helper from run 46, writes result (or null excerpt +
+  timestamp so we know we tried), 500ms pacing between external
+  calls to stay polite. Returns {processed, filled, missed, took_ms}.
+- `vercel.json` adds daily cron `53 4 * * *` — 15 rows/day covers
+  the 179-politician active roster in ~12 days. For faster
+  initial backfill, editors hit the endpoint manually with the
+  revalidate secret.
+- Complements run 46 (per-politician admin button) with
+  unattended coverage; complements run 1 (Wikipedia photo
+  backfill) with bio text.
+
+**50 runs, 50% done.** Highlights so far:
+- 27 DB migrations applied live
+- 14 RSS feed scopes
+- 4 cron-scheduled jobs
+- 17 admin pages with dedicated sidebar
+- Full LGPD/CF art. 5º V / ECA / CC BY 4.0 compliance surface
+- Complete open-data stack: JSON dumps + CSV + OpenAPI spec
+- Reader-facing: submissions, retractions, reactions, alerts,
+  bookmarks, command palette, dark mode, PWA, daily pick
+
+## Run 51 (2026-04-18)
+**Title:** `/contexto/[date]` — daily slice page.
+
+- New `/contexto/YYYY-MM-DD` page shows every non-removed statement
+  from a single calendar date, grouped by politician (sorted by
+  number of statements that day then alphabetical fallback).
+  Per-group card with photo + party + list of quotes + severity
+  + status chip.
+- Day-navigation bar: previous day link (always), next day link
+  (only when ≤ today), link to full `/linha-do-tempo`.
+- Header date formatted in pt-BR ("sexta-feira, 18 de abril de
+  2026"). 500-row hard cap, severity-desc ordering.
+- Statement detail page's `<time>` now deep-links to
+  `/contexto/{date}` — one-click jump from any statement to its
+  "that same day" context.
+- No sitemap entry (date-space is combinatorial); relies on
+  in-page navigation.
+
+## Run 52 (2026-04-18)
+**Title:** Feature flags (DB-backed, default-on).
+
+- 5 new `site_settings` rows seeded live: `feature_submissions`,
+  `feature_reactions`, `feature_alerts`, `feature_retractions`,
+  `feature_bookmarks`. Default true; admin can toggle via the
+  `/admin/configuracoes-site` page from run 42.
+- `lib/utils/db-settings.ts` gets typed `FeatureKey` enum +
+  `isFeatureEnabled(key)` that reads the `feature_<key>` setting
+  via the existing 60s cache. Default-on: missing row = enabled.
+- Three reader surfaces gated:
+  - `/sugerir` — when off, renders an amber "pausadas" notice
+    linking to /contato instead of the form.
+  - `/buscar` — `AlertSubscribe` widget hidden when `feature_alerts`
+    is off. Existing saved-searches continue to receive emails
+    regardless; this only hides the intake form.
+  - `/declaracao/[id]` — `ReactionBar` hidden when
+    `feature_reactions` is off. Counts preserved; write path
+    independently rate-limited at the API level.
+- Admin can now pause a feature without a deploy — useful during
+  incidents or email provider outages.
+
+## Run 53 (2026-04-18)
+**Title:** Admin bulk re-categorize tool.
+
+- `/admin/categorizar`: paste 200-line list (UUIDs or slugs),
+  choose category, click to add or remove in bulk. Client-side
+  resolver fetches `/api/admin/resolve-slugs` first to convert
+  slugs to UUIDs, reports unresolved items inline.
+- `bulkAddCategory(ids, slug, isPrimary)` server action:
+  idempotent upsert (existing pair → no-op). Primary flag only
+  applied to rows that don't already have a primary category.
+- `bulkRemoveCategory(ids, slug)`: preserves primary categories
+  (editors must reassign first); returns counts of removed + skipped.
+- `/api/admin/resolve-slugs` edge route (cookie-guarded) returns
+  slug → uuid map in one query.
+- Sidebar adds "Categorizar em lote" under Qualidade do acervo.
+
+## Run 54 (2026-04-18)
+**Title:** Admin "Sua fila do dia" priority card.
+
+- `lib/admin/queue-priorities.ts`: computes up to 5 top editorial
+  tasks in parallel queries: oldest pending retraction (SLA 10d),
+  oldest pending submission (SLA 10d), most reaction-flagged
+  statement (erro+contestada ≥3), oldest broken link, oldest
+  unverified statement. Each returns {severity, kind, title,
+  detail, href, ageDays}. Severity rolls up from age vs SLA
+  thresholds.
+- `EditorialQueue` component on `/admin` above the "Caixa de
+  entrada" block: tone-coded cards (critical/warn/info), age
+  pill, deep-link to the specific admin page with right filter.
+  Empty state is a green "sua fila está vazia" callout.
+- Priorities sorted critical → warn → info, then age-desc within.
+- Editor arrives at /admin and sees exactly what to do first.
+
+## Run 55 (2026-04-18)
+**Title:** Changelog rewrite with recent loop releases + RSS.
+
+- `lib/changelog/entries.ts`: single source of truth for the
+  changelog (editorial prose, not git-generated). 7 entries for
+  the v2.x loop releases, 5 preserved pre-2.0 entries.
+- `/changelog` rewritten to consume the module; rel=alternate
+  RSS + prominent RSS chip at top.
+- `/changelog/feed.xml`: RSS 2.0 with `content:encoded` bullet
+  lists, 24h edge cache.
+- Anchor per version (`#v2.5.0`) so linking to a specific release
+  works from the feed.
+
+## Run 56 (2026-04-18)
+**Title:** Admin weekly stats CSV export.
+
+- `GET /api/admin/stats.csv`: admin-cookie-guarded CSV with 12
+  months of weekly editorial metrics. Columns: semana,
+  novas_declaracoes, revisoes, submissoes_recebidas,
+  submissoes_aprovadas, submissoes_rejeitadas, retratacoes_abertas,
+  retratacoes_respondidas, lotes_importados,
+  links_quebrados_detectados.
+- ISO week-year key (YYYY-Www) produced deterministically in
+  UTC. Bucketing lives entirely in-process (parallel pulls from 6
+  tables → single pass). CSV includes BOM + formula-prefix
+  defense.
+- Sidebar adds a "Exportar relatório CSV" link under Operações,
+  pointing directly at the endpoint (browser downloads).
+- Complements run 18's public `/transparencia` JSON — editors +
+  funders get structured period-over-period numbers without
+  scraping.
+
+## Run 57 (2026-04-18)
+**Title:** Admin mobile drawer navigation.
+
+- Extracted `ADMIN_NAV` into `components/admin/nav-data.tsx`
+  shared between the desktop sidebar and new mobile drawer.
+  Single source of truth for all 20+ admin routes.
+- `AdminMobileNav` client: sticky top strip with hamburger +
+  current-page breadcrumb visible on <lg screens. Tapping
+  hamburger opens right-side 72-col drawer with full NAV
+  structure, badges fetched from `/api/admin/sidebar-counts`.
+- Drawer UX: closes on route change (`useEffect pathname`),
+  Escape key, backdrop click. Accessible `role="dialog"
+  aria-modal=true`. Focus-visible rings on both buttons.
+- Desktop sidebar unchanged; same component rendered on lg+.
+
+## Run 58 (2026-04-18)
+**Title:** Cross-politician similar-quote panel.
+
+- `CrossPoliticianRelated` server component below the same-
+  politician `RelatedStatements` on `/declaracao/[id]`: runs
+  the catalog-wide pg_trgm similarity RPC (run 3) *without*
+  politician filter, drops same-politician rows, surfaces up to
+  4 matches from *other* politicians.
+- Each row shows photo + politician name + party + date +
+  similarity percent + 2-line summary clamp.
+- Answers the journalistic question "quem mais disse algo
+  parecido?" — strong editorial angle for tracking talking
+  points that cross party lines.
+- Zero new DB work; reuses the GIN trigram index and RPC from
+  run 3.
+
+## Run 59 (2026-04-18)
+**Title:** Dynamic OG images for stories / retrospectiva / coleção.
+
+- Three new `opengraph-image.tsx` generators (edge runtime, 24h
+  revalidate) so every editorial publication has a polished
+  1200×630 social card:
+  - `/historia/[slug]`: dark gradient, big headline (60pt or 48pt
+    for long titles), subtitle in light blue, author + reading
+    time at bottom.
+  - `/retrospectiva/[year]`: blue gradient, 220pt year glyph,
+    live counts (declarações + politicos) from the DB.
+  - `/colecao/[slug]`: soft indigo gradient, title + subtitle,
+    item count footer.
+- Twitter/Facebook/Whatsapp previews now use the richer card
+  instead of falling back to the site-wide default.
+
+## Run 60 / 100 — "Você quis dizer?" trigram suggestions
+
+- Migration `028_name_trigram_indexes.sql` (applied live):
+  - GIN+pg_trgm index on `politicians.common_name` (partial
+    where is_active=true) and `categories.label_pt`.
+  - New RPCs `suggest_similar_politician(query_text, limit)`
+    and `suggest_similar_category(query_text, limit)` — both
+    STABLE, SQL, return top similarity-ranked matches using
+    the `%` operator.
+- `lib/search/suggestions.ts`: `getSearchSuggestions(q)` runs
+  both RPCs in parallel, swallows errors (pure UX polish).
+- `components/search/DidYouMean.tsx`: amber card with two
+  chip rows — politician pills (photo + party/state) linking
+  to `/politico/[slug]`, category pills (color dot) linking
+  to `/categorias/[slug]`.
+- `/buscar` now fetches suggestions only when curated total
+  is zero and renders the card below QueryChips. Avoids RPC
+  overhead on the hot path.
+
+## Run 61 / 100 — Source reputation directory (/fontes)
+
+- Migration `029_source_domains.sql` (applied live):
+  - IMMUTABLE `extract_domain(url)` function stripping scheme
+    and leading `www.`.
+  - Functional index on `statements(extract_domain(primary_source_url))`
+    (partial, verification_status<>'removed').
+  - RPC `get_source_domains(limit, offset)` — per-domain
+    citation / unique politician / first-seen / last-seen.
+  - RPC `get_source_domain_detail(domain, limit)` — recent
+    statements for a single domain.
+- `lib/sources/domain.ts`: TS-side `extractDomain`,
+  `displaySourceName` (curated labels for G1, Folha, Câmara,
+  etc.), and `classifySource` → imprensa / oficial / vídeo /
+  rede social / outro.
+- `lib/sources/queries.ts`: thin RPC wrappers.
+- `/fontes/page.tsx`: grouped directory with category pills
+  and sortable tables (citations, politicians, first/last).
+- `/fontes/[domain]/page.tsx`: per-domain detail with four
+  stat cards and 30 most recent statements citing it.
+- Footer link ("Diretório de fontes") + sitemap entry.
+
+## Run 62 / 100 — Editorial trend analytics (/tendencias)
+
+- Pivoted mid-run after discovering the fact-check feature
+  already existed (statement_fact_checks, admin form, public
+  rendering on declaração pages). Cleaned up my stub schema
+  and moved to trends instead.
+- Migration `030_category_trends.sql` (applied live):
+  - `get_archive_monthly_totals(months_back)` — total verified
+    statements per month.
+  - `get_category_monthly_trends(months_back)` — per-category
+    per-month counts joining through statement_categories.
+  - Both generate a continuous month axis via generate_series
+    so empty months render correctly.
+- `lib/trends/queries.ts`: typed wrappers; computes first-
+  third vs last-third sums for each category so the page can
+  show a trend direction.
+- `lib/trends/sparkline.ts`: SSR sparkline + area-chart SVG
+  builders (no client JS).
+- `/tendencias/page.tsx`:
+  - Window toggle (12/24/36 months) via ?janela=.
+  - Hero area chart showing total volume.
+  - Responsive grid of category cards with sparkline + delta
+    percentage (↑ red / ↓ green), linking to /categorias/slug.
+- Footer link + sitemap entry.
+
+## Run 63 / 100 — Contradictions tracker
+
+- Migration `031_contradictions.sql` (applied live):
+  - `contradiction_pairs` with NOT NULL politician_id, two
+    ordered statement refs (check constraint low < high so
+    duplicates are impossible), headline, editor_note,
+    severity 1–4, is_published, created_by, timestamps.
+  - Indexes on politician_id, both statement refs, and
+    (is_published, created_at DESC) for public list.
+  - RLS policy: public SELECT only for is_published=true.
+  - `updated_at` trigger + `contradiction_count_for_statement`
+    RPC.
+- `lib/contradictions/queries.ts`: typed reads
+  (list, byId, byPolitician, mentioningStatement) with fk
+  embeds for both statements and politician.
+- Public routes:
+  - `/contradicoes` — grid of published pairs with politician
+    photo, severity badge, headline, note preview, date range.
+  - `/contradicoes/[id]` — side-by-side cards (sky + amber),
+    links to each full statement + to the original source,
+    editor note highlighted below.
+- Admin routes under `/admin/contradicoes`:
+  - Server actions (create, togglePublish, delete) with
+    admin session check, pair normalization, politician-
+    match validation, and unique-constraint error surfacing.
+  - CreateForm (client) + RowActions (client) + list page.
+  - Nav entry added to curadoria section of admin sidebar.
+- `ContradictionPanel` rendered on every statement detail
+  page when that statement is part of a published pair —
+  cross-links between both sides.
+- Footer + sitemap entries.
+
+## Run 64 / 100 — Public moderation log (/registro-editorial)
+
+- Migration `032_public_revision_feed.sql` (applied live):
+  - RPC `public_revision_feed(result_limit)` joining
+    statement_revisions + statements + politicians.
+  - Redacts actor entirely. Trims reason to 280 chars and
+    regex-strips email / IPv4 patterns to avoid leaking PII
+    that an editor might have typed in a rush.
+  - Returns `changed_keys` as a text[] so the UI can render
+    pill badges without JSONB introspection.
+  - GRANT EXECUTE to anon/authenticated.
+- `lib/moderation/feed.ts`: typed wrapper + field-name
+  relabel map (summary→resumo, severity_score→gravidade
+  editorial, etc.).
+- `/registro-editorial/page.tsx`: vertical timeline with
+  indigo dot markers. Each entry shows relative revision
+  number, timestamp, politician link, statement summary
+  link, changed-field pill row, and reason blockquote.
+  RSS link button in the header.
+- `/registro-editorial/feed.xml/route.ts`: RSS 2.0 feed
+  (pubDate, unique guid, description with summary + fields
+  + reason). 10-min revalidate, 30-min SWR.
+- Transparencia page now has a CTA section linking both
+  the HTML page and the RSS feed.
+- Footer entry + sitemap entry.
+
+## Run 65 / 100 — Per-politician vocabulary page
+
+- `lib/vocabulary/analyze.ts`: Portuguese stopword list
+  (~150 words), accent-stripping tokenizer, bigram
+  extractor, count map helpers, and `overIndexedWords()` —
+  a Laplace-smoothed ratio of politician freq ÷ archive freq
+  to highlight characteristic terms.
+- `lib/vocabulary/queries.ts`: paged corpus loader (1k
+  chunks, 20k cap) combining summary + full_quote +
+  transcript_excerpt; plus a 5k-row archive baseline sample.
+- `/politico/[slug]/vocabulario/page.tsx`: full SSR analysis
+  page with four sections:
+  1. Stat row: tokens, unique words, lexical diversity %,
+     statement count.
+  2. Weighted wordcloud (top 60) — font size scales with
+     count, each word links to /buscar?q=term&politico=slug.
+  3. "Palavras características" — over-indexed terms in an
+     amber callout with Nx multiplier vs archive average.
+  4. Top 20 bigrams in a two-column list.
+- PoliticianHeader gets a new compact "Vocabulário" link
+  next to the existing Dossiê and RSS links.
+- No DB changes; works entirely over already-indexed data.
+
+## Run 66 / 100 — Brazil choropleth tile map
+
+- `lib/maps/brazil-tile.ts`: 7×8 grid-cartogram layout for
+  all 27 UFs — each state occupies one cell, roughly
+  preserving geography (Amazon top-left, NE coast on the
+  right, SP/RJ/South stacked below). Region color palette
+  exported for future use.
+- `components/maps/BrazilTileMap.tsx`: SSR SVG component
+  with a configurable color ramp (white → ramp color) and
+  href template, contrast-aware label color, accessible
+  `aria-label` per tile, and a legend footer showing
+  zero/low/high/peak swatches.
+- Wired into `/mapa` above the existing regional lists
+  (blue ramp) and `/estados` index (emerald ramp).
+- No DB changes, no client JS. Real clickable anchors
+  inside the SVG so keyboard + crawlers both work.
+
+## Run 67 / 100 — Saved search permalinks + RSS
+
+- `app/api/saved-search/feed.xml/route.ts`: accepts the
+  full /buscar querystring (q, categoria[], politico,
+  partido, estado, de, ate, status), runs
+  `searchStatements()` (curated only, verified, limit 50),
+  and emits a valid RSS 2.0 feed. Self-link, atom:link,
+  GUID-per-item, pubDate from statement_date. 3-min
+  browser cache, 5-min CDN cache, 15-min SWR.
+- Human-readable channel title auto-derived from the
+  querystring ("lula" · cat=fake-news · UF=SP) so feed
+  readers show something useful.
+- `components/search/SaveSearchPanel.tsx`: client component
+  showing the stable /buscar share URL, a copy button, an
+  RSS link, and a "copy RSS URL" secondary button with
+  transient check-icon feedback.
+- Wired into `/buscar` — appears only when the reader has
+  active filters and curated returned ≥1 result.
+- Stateless: identity of a saved search is the querystring
+  itself, no server-side record needed. That lets people
+  share the link without account creation.
+
+## Run 68 / 100 — Politician scorecard
+
+- `lib/politicians/scorecard.ts`: server helper that pulls
+  the full slim corpus (~1k chunks, 25k cap) and computes:
+  - Totals, verified %, featured count, with-video count
+  - Severity 1–5 histogram
+  - Monthly bucket over last 24 months
+  - Top 6 source domains (reuses lib/sources/domain
+    extractDomain) and source-type histogram
+  - First / last statement dates
+  - Rank vs party peers and (when present) vs state peers
+    via a single IN-query join over at most 400 peers
+  - Contradictions-published count (head:true query)
+  - Fact-check cross-references count via inner join on
+    statement_fact_checks
+- `/politico/[slug]/scorecard/page.tsx`:
+  - 4-card top stat row
+  - Monthly activity sparkline (reuses lib/trends
+    sparklineSvg)
+  - Severity distribution horizontal bars with gradient
+    colors (gray→yellow→orange→red→dark-red)
+  - Peer ranking card (party + state ordinals)
+  - Top fontes list linking to /fontes/[domain]
+  - Editorial cross-ref card linking to /contradicoes
+    and /fact-checks
+- PoliticianHeader gets a new "Scorecard" compact link
+  alongside Dossiê and Vocabulário.
+
+## Run 69 / 100 — Statement compare page
+
+- `/comparar-declaracoes/page.tsx`: reader-facing tool for
+  putting any two statements from the archive side-by-side.
+  Accepts slug or UUID per side via ?a= and ?b= query
+  params, so the permalink is shareable.
+- `lib/compare/statements.ts`: pure `compareTexts()` that
+  reuses the Portuguese tokenizer from run 65 and returns
+  Jaccard similarity, shared tokens, and unique-per-side
+  tokens.
+- Page renders:
+  - Paired input form (preserves current values on submit).
+  - Two tall SideCard panels (sky for A, amber for B) with
+    politician mini-header, summary blockquote, collapsible
+    full_quote, category chips, primary-source link.
+  - Four stats: same politician? days-apart, Jaccard %,
+    shared categories count.
+  - Three token lists (only-A, shared, only-B) with 60–80
+    tokens each and monospace pills.
+  - When both statements belong to the same politician, an
+    indigo "sugerir contradição" CTA invites the reader to
+    flag the pair for the editorial queue.
+- Linked from footer and sitemap.
+
+## Run 70 / 100 — Thematic politician similarity
+
+- Migration `033_similar_politicians.sql` (applied live):
+  - RPC `similar_politicians(pid, result_limit)` builds a
+    category-distribution vector for the target politician
+    and every other active politician, then computes cosine
+    similarity via a two-CTE norm + dot-product query. Also
+    returns a `shared_categories` tie-breaker. Party is
+    intentionally not a feature so rhetorical kinship across
+    parties surfaces.
+- `lib/politicians/similar.ts`: thin wrapper.
+- `components/politicians/SimilarPoliticians.tsx`: three-
+  column card grid with photo, party/state, shared-categories
+  count, similarity progress meter (aria-valuenow), and a
+  right-aligned percentage.
+- `/politico/[slug]/page.tsx`: new "Perfil temático parecido"
+  section rendered above the existing same-party list.
+
+## Run 71 / 100 — Reader feedback / issue reports
+
+- Migration `034_page_issues.sql` (applied live):
+  - Table with url, kind (5 enum values), message,
+    optional email, user_agent, status lifecycle
+    (open→acknowledged→resolved|spam), resolution_note,
+    resolved_at/by, plus length constraints.
+  - RLS: anon INSERT allowed, no public SELECT.
+  - `page_issues_summary()` RPC for admin badge counts.
+- `/api/report-issue` (nodejs runtime): 5/10min rate limit
+  keyed by `report-issue:<ip>`, strict validation of
+  site-relative URL + kind + 4–4000 char message + optional
+  email regex, stores user agent truncated to 500 chars.
+- `components/feedback/ReportIssueButton.tsx`: fixed
+  bottom-right pill that opens an accessible modal dialog
+  (role="dialog", aria-modal, Esc-equivalent close on
+  backdrop click). 5 issue kinds, optional email, inline
+  character counter, success/error state.
+- Mounted via ClientExtras so the button is global — hidden
+  on /admin paths so editors don't trip over it.
+- `/admin/feedback` lists reports filtered by status with
+  per-row StatusMenu (server action transitions status +
+  timestamps resolved_at/by). Tabs show counts per status.
+- Admin sidebar gets a "Reportes de leitores" entry in the
+  Revisão section.
+
+## Run 72 / 100 — Political events agenda
+
+- Migration `035_political_events.sql` (applied live):
+  - Table with 10-value kind enum (votacao/cpi/debate/
+    discurso/decreto/audiencia/reuniao/comissao/
+    agenda_oficial/other), start + optional end, location,
+    source URL, optional politician_id FK, is_published,
+    timestamps.
+  - Length constraints, indexes on event_date and
+    (is_published, event_date DESC).
+  - RLS: public SELECT only when published.
+  - updated_at trigger.
+- `lib/agenda/queries.ts`: `listEvents(scope)` fetches
+  upcoming / past / all with politician embed; plus
+  EVENT_KINDS + kindLabel helpers.
+- `/agenda` public page with upcoming/past/all tabs, events
+  grouped by day with long-form Portuguese dates, kind pill,
+  source link, cross-link to politician.
+- `/agenda/feed.xml` RSS feed of next 60 upcoming events.
+- Admin CRUD: `/admin/agenda` with CreateForm (client) +
+  RowActions (publish toggle + delete), server actions
+  validating title/summary length, kind enum, dates, and
+  politician UUID. Entry added to admin sidebar.
+- Footer and sitemap entries.
+
+## Run 73 / 100 — Collection exports (CSV / JSON / BibTeX)
+
+- `/api/colecao/[slug]/export?format=csv|json|bibtex`
+  (nodejs runtime, 20/min rate limit): publishes an
+  editorial collection as:
+  - CSV with formula-injection escape, ordered by position,
+    includes politician, date, summary, full_quote, venue,
+    event, verification, primary_source_url, permalink,
+    editor_note
+  - JSON with collection metadata wrapper + per-statement
+    permalink
+  - BibTeX @misc entries suitable for LaTeX citations —
+    deterministic citekey (rb-<slug>-<year>-<id6>), proper
+    character escaping, `note` field captures the Registra
+    Brasil URL, primary source URL, and access date
+- `components/collections/CollectionDownloads.tsx`: pill
+  menu with three download links + lucide icons, tooltipped.
+- Rendered inside `/colecao/[slug]/page.tsx` header below
+  the RSS link — visible on every public collection.
+
+## Run 74 / 100 — Inline glossary term popovers
+
+- `lib/glossary/render.tsx`: `renderWithGlossary(text)` —
+  builds one regex from all 30 GLOSSARY_TERMS sorted
+  longest-first (so multi-word terms win), case-insensitive,
+  with word boundaries. Returns React nodes; wraps only the
+  first occurrence of each term so the reader isn't
+  carpet-bombed with dotted links.
+- Matched term becomes a dotted-underline anchor linking to
+  `/glossario#<slug>` with a native `title` tooltip showing
+  the canonical name + first 200 chars of the definition.
+  Safe by construction: non-matching text passes through as
+  React strings, never HTML.
+- Applied to:
+  - Collection description on `/colecao/[slug]`
+  - Agenda event summary on `/agenda`
+  - Statement context on `/declaracao/[id]`
+  - Contradiction editor note on `/contradicoes/[id]`
+  - Politician bio excerpt in PoliticianWikipediaBio
+- /glossario#<slug> anchors already existed from
+  GlossaryEntry's id prop, so every link lands correctly.
+
+## Run 75 / 100 — Admin editorial watchlist
+
+- Migration `036_admin_watchlist.sql` (applied live):
+  - `admin_watchlist(politician_id PK → politicians, reason,
+    priority 1–4, added_by, created_at)`.
+  - RLS enabled with no public policies — service role only.
+  - `watchlist_recent_activity(window_days, result_limit)`
+    RPC joining admin_watchlist × politicians × statements,
+    filtered to non-removed rows created within the window,
+    ordered newest-first.
+- `/admin/watchlist`:
+  - AddForm (client) upserts by politician UUID with
+    priority 1–4 and optional reason.
+  - List of monitored politicians with priority pill,
+    photo-less summary line, and RowActions that both
+    update priority inline and remove via confirm().
+  - "Atividade recente — 7 dias" section surfaces new
+    statements from watched politicians with verification
+    status, cross-linked to declaração + politician.
+- Nav entry added to Revisão section of admin sidebar.
+
+## Run 76 / 100 — Weekly recap pages
+
+- `lib/weekly-recap/compute.ts`:
+  - `isoWeekFor(date)` / `parseIsoWeek(str)` — ISO-8601
+    week helpers so every week has a stable `YYYY-Www`
+    permalink.
+  - `computeWeeklyRecap(start, end)` pulls all non-removed
+    statements in the window (up to 2k), ranks them by
+    severity_score desc, and emits top-5 by severity,
+    top-5 politicians by count, and top-5 categories by
+    count. No SQL changes — pure aggregation in TS.
+- `components/weekly/WeeklyRecap.tsx`: shared view with
+  rank pills, politician avatars, category color dots, and
+  category chips on each top statement.
+- `/esta-semana/page.tsx`: current-week recap (30-min
+  revalidate) with a back-link button.
+- `/esta-semana/[week]/page.tsx`: archived week recap
+  (24-h revalidate) with previous / current / next nav
+  pills. Returns 404 for malformed week strings.
+- Footer + sitemap entries.
+
+## Run 77 / 100 — Themed configurable embeds
+
+- `/embed/declaracao/[id]` now accepts `theme=light|dark|auto`,
+  `size=sm|md|lg`, `hide_photo=1`, `hide_meta=1` via query
+  params; all parsed server-side with safe defaults.
+- `components/embed/EmbedStatement.tsx` refactored to render
+  three padding/text/photo scales plus per-theme root +
+  subtitle + status-badge + quote border styles. Auto mode
+  keeps the existing dark:/light: Tailwind pair.
+- `components/statements/EmbedCode.tsx` becomes an embed
+  builder:
+  - Three selects (tema, tamanho, esconder-foto/meta) drive
+    a live iframe preview
+  - Emits either an iframe snippet (width/height from size)
+    or a plain blockquote snippet
+  - Each snippet has its own copy button with transient
+    check-icon feedback
+- Backwards compatible: existing embeds without params still
+  render the md/auto variant.
+
+## Run 78 / 100 — Archive growth dashboard
+
+- Migration `037_archive_growth.sql` (applied live) +
+  companion `037b_archive_growth_fix.sql` fixing cumulative
+  seeds from pre-window data.
+  - `archive_growth_monthly(months_back)` RPC: window-axis
+    via generate_series, per-month new counts for statements,
+    first-seen-politicians, first-seen-categories, and
+    cumulative running totals that correctly seed with
+    pre-window base counts so long-history archives don't
+    start the politicians curve at zero.
+- `lib/growth/queries.ts`: typed wrapper.
+- `/crescimento`: public transparency page with:
+  - 12/24/36/60-month window toggle
+  - Three headline stat cards
+  - Hero cumulative area chart (declarações)
+  - Two sparkline cards (políticos / categorias)
+  - Ritmo-mensal area chart of new declarations per month
+  - Footer explaining retroactive edits
+- Footer + sitemap entries.
+
+## Run 79 / 100 — Party × category heatmap
+
+- Migration `038_party_category_matrix.sql` (applied live):
+  - `party_category_matrix(party_limit, category_limit)` RPC
+    returning the cross-product of the top N parties and
+    top M categories, with per-cell count and both axis
+    totals. A single CTE-backed query, exposed to
+    anon/authenticated.
+- `lib/analysis/party-category.ts`: Map-keyed
+  `Matrix` helper that indexes cells by `${party}::${cat_id}`
+  and exposes sorted axes + the global max for color ramps.
+- `/analise/partidos-x-categorias`:
+  - Sticky first-column table with 15 parties × 12
+    categories, alpha-blended category-color fills using
+    hex+alpha to keep each category visually distinct.
+  - Two-mode toggle: "Contagem absoluta" vs "% do total
+    do partido" (client-free link toggle).
+  - Category header chips link to /categorias/[slug],
+    party labels link to /partidos/[slug].
+  - Footer explains multi-category double-counting.
+- Footer + sitemap entries.
+
+## Run 80 / 100 — Politician trajectory timeline
+
+- `lib/politicians/trajectory.ts`:
+  - `getYearlyActivity(politicianId)` — counts non-removed
+    statements bucketed per year (30k row cap).
+  - `computeRange(parties, roles, activity)` — picks min/max
+    years across all three inputs.
+  - `partyColor(party, i)` — curated palette for 25+ BR
+    parties with indexed-palette fallback so unknown sigla
+    still get a stable color.
+- `/politico/[slug]/trajetoria`: three stacked sections:
+  1. Party Gantt — colored bars proportional to tenure,
+     tooltips showing from/to, compact label falls back to
+     colored strip when segment too narrow.
+  2. Role Gantt — indigo pills with same proportional
+     placement.
+  3. Annual volume mini-bars indexed to the same year
+     axis so party changes can be read against output
+     spikes.
+- Color legend appears above the Gantt, only listing
+  parties actually present in this politician's history.
+- PoliticianHeader gets a "Trajetória" link next to Dossiê,
+  Vocabulário, and Scorecard.
+
+## Run 81 / 100 — Homepage "Esta semana" spotlight
+
+- `components/home/WeeklySpotlight.tsx`: server component
+  that reuses `computeWeeklyRecap(currentWeek())` from run
+  76 and renders a compact 2-column homepage widget:
+  - Wide card: top 3 statements by severity with rank
+    pill, politician link, date
+  - Narrow card: top 3 most-active politicians with
+    avatars + counts, plus total-statements subtitle
+- Headline row links to `/esta-semana` for the full recap.
+- Suspense-wrapped in `app/page.tsx`, inserted between the
+  Categories section and the "Declarações em destaque"
+  block, so readers hit the current-week summary before
+  the featured grid.
+- Auto-hides when the current week has zero registered
+  statements (keeps the home from showing an empty slot).
+
+## Run 82 / 100 — Admin content calendar
+
+- `/admin/calendar` renders a full 6×7 month grid for any
+  `?m=YYYY-MM` (defaults to current). Three parallel queries
+  pull political_events, non-removed statements, and
+  daily_picks for the window in one round-trip.
+- Each cell shows:
+  - Day number with "today" highlight (indigo)
+  - Total-statements pill in the corner (tooltip with
+    verified split)
+  - Amber "★ dia" chip linking to the day's daily pick
+  - Up to 3 event badges (emerald if published, gray if
+    draft), kind-prefixed + truncated title, tooltips
+    carry the full title + status
+  - "+N mais" overflow footer
+- Three stat cards (declarações, eventos, picks) above
+  the grid.
+- Prev / Hoje / Next buttons walk months.
+- Admin sidebar gets a "Calendário editorial" entry next
+  to "Agenda política".
+
+## Run 83 / 100 — Wayback backfill cron + always-visible badge
+
+- `lib/wayback/client.ts`: new `submitSavePageNow(url)` —
+  fire-and-forget GET to https://web.archive.org/save/<url>
+  with 5s timeout; returns false on 429/5xx so the caller
+  can count failures.
+- `/api/maintenance/backfill-wayback/route.ts` (nodejs, 60s
+  max): Vercel-Cron/x-cron-secret auth, pulls 40 oldest-
+  unchecked statements lacking a wayback URL, queries
+  availability; on hit writes source_wayback_url + stamps
+  checked_at; on miss still stamps checked_at and best-
+  effort submits up to 8 per run to Save Page Now. 200ms
+  inter-request sleep to be polite. Returns JSON summary.
+- `vercel.json`: added cron at `17 5 * * *` daily.
+- `components/statements/ArchivePreservationBadge.tsx`:
+  always-visible tri-state badge — emerald "Preservado"
+  link when archived, amber "Sem snapshot" when checked
+  with no hit, gray "Preservação pendente" when not yet
+  checked.
+- Wired into `/declaracao/[id]` next to the "Fonte
+  primária" header so every reader sees the preservation
+  status at a glance.
+
+## Run 84 / 100 — Subscribe hub (/assinar)
+
+- Central page listing every subscription channel offered
+  by the site, with format pills, descriptions, and direct
+  URLs:
+  - Global RSS 2.0 + Atom 1.0
+  - Editorial feeds (declaração do dia, agenda, registro
+    editorial)
+  - Newsletter subscribe form wired to
+    /api/newsletter/subscribe
+  - Per-politician feeds: URL template + collapsible list
+    of all active politicians
+  - Per-category feeds: complete grid in natural sort order
+  - Saved-search / toolbelt feeds for journalists
+  - Link hub for /dados, /api-docs, /esta-semana, and
+    /crescimento
+- Footer explains that only /meus-alertas needs login.
+- Sitemap + footer entries.
+
+## Run 85 / 100 — Newsletter digest preview
+
+- `lib/newsletter/build-digest.ts`: extracted the ranking +
+  HTML builder out of the cron into a shared helper. Same
+  severity × exp(-days/4) decay, same 10-item limit, same
+  HTML layout — now callable from the admin UI without
+  triggering a send.
+- `/admin/boletim/preview`:
+  - Three stat cards: items selected, confirmed subscribers,
+    send status for this week (já enviado / registrado /
+    pendente) with relative timestamp.
+  - "Assunto + pré-cabeçalho" card showing the From /
+    Subject / preview text exactly as the email client will
+    render them.
+  - Ranked list with per-item score, politician header,
+    severity, and date — link directly to /declaracao.
+  - 600px-wide iframe rendering the actual email HTML
+    (sandboxed, no JS).
+  - Footer explains decay math and the scheduled cron time.
+- Admin sidebar gets a "Preview do boletim" entry under
+  Curadoria using the Mail icon.
+
+## Run 86 / 100 — Estado × categoria + TTS
+
+- Migration `039_state_category_matrix.sql` (applied live):
+  - `state_category_matrix(state_limit, category_limit)`
+    RPC — parallels the party version from migration 038
+    but pivots on politicians.state.
+- `lib/analysis/state-category.ts`: map-keyed Matrix helper.
+- `/analise/estados-x-categorias`: sticky-column table,
+  category-colored alpha shading, absolute vs % toggle.
+  State cells link to `/estados/<uf>`, category headers to
+  `/categorias/<slug>`.
+- `components/statements/ReadAloudButton.tsx`: client
+  component using the browser's native SpeechSynthesis API
+  to read "<politician> disse: <quote>" aloud in pt-BR with
+  play/pause/stop controls. Self-hides on browsers without
+  support — no network calls, uses OS voices.
+- Mounted on `/declaracao/[id]` next to ShareButton.
+- Footer + sitemap entries for the new heatmap.
+
+## Run 87 / 100 — Per-statement revisions + random + /s short-link
+
+- `/declaracao/[id]/revisoes`: per-statement public revision
+  list. Reuses `labelField` from run 64 for friendly field
+  names; redacts reason the same way (email/IPv4 → tokens,
+  trim 280 chars). Vertical timeline UI identical to
+  `/registro-editorial` so readers get a consistent feel.
+  `robots: noindex` so search engines keep the main
+  declaração page canonical. Link added below editor notes
+  on the statement detail page.
+- `/aleatoria` route handler: picks one of 300 recent
+  verified statements uniformly and 302s to /declaracao/…
+  Cheap "Me surpreenda" entry point.
+- `/s/[id]` compact share redirect:
+  - UUID → permanent 301 to /declaracao/<uuid>
+  - Slug match → 301
+  - 6–12 char UUID prefix (the short handle) → 302 after
+    `ilike id%` lookup
+  - Fallback → /buscar?q=<term>
+- Footer adds the "Me surpreenda" link.
+
+## Run 88 / 100 — Reader-mode / print-friendly view
+
+- `/declaracao/[id]/leitura`: minimal typography-first
+  layout for a single statement.
+  - Large serif blockquote with hanging quote mark
+  - Compact politician header (photo + name + party-state)
+  - Optional context paragraph
+  - Footer with date, word count, reading-time estimate,
+    "Fonte original ↗" link
+  - `robots: noindex` so the main /declaracao URL remains
+    canonical
+- `app/declaracao/[id]/leitura/layout.tsx` injects a print
+  stylesheet that hides nav/header/footer/.no-print and
+  strips the background, so ⌘P produces a clean one-page
+  hand-off sheet.
+- `components/statements/PrintButton.tsx`: client
+  component calling `window.print()`.
+- Main /declaracao page gets a "Modo leitura / imprimível"
+  link next to the revisions link.
+
+## Run 89 / 100 — Monthly "Destaques do mês"
+
+- `lib/monthly-recap/compute.ts`: ISO-month helpers
+  (currentMonth, isValidMonth, monthBounds, adjacentMonth,
+  monthLabel with pt-BR names) plus
+  `computeMonthlyRecap(month)` pulling all non-removed
+  statements for the calendar month (up to 5k), ranking top
+  20 by severity, and bucketing top-10 politicians and
+  top-8 categories.
+- `components/monthly/MonthlyRecap.tsx`: shared view with
+  rank pills, category chips per statement, politician
+  list with avatars, category list with color dots.
+- `/destaques`: current-month recap (30-min revalidate
+  effective via 1h) with a 12-month quick-jump chip nav.
+- `/destaques/[month]`: archived recap keyed by YYYY-MM,
+  24-h revalidate, prev/current/next pills. 404s on
+  malformed slug.
+- Footer + sitemap entries.
+
+## Run 90 / 100 — Politician badges
+
+- `lib/politicians/badges.ts`: pure derivation of
+  human-readable archive badges from a single 15k-row
+  statements query. Rules:
+  - 100+ / 500+ declarações (volume)
+  - 90%+ verificadas (with ≥10 baseline)
+  - 5+ / 10+ anos no arquivo (span)
+  - Muito em vídeo (≥30% and ≥20 videos)
+  - N críticas (severity_score ≥ 4 count)
+  - N partidos (multi-party history)
+  - N neste mês (recent 30-day activity spike)
+- Five tone classes (neutral / good / warn / hot / info)
+  with light+dark Tailwind pairs so badges stay legible on
+  both themes.
+- `components/politicians/PoliticianBadges.tsx`: inline pill
+  row with native tooltips on each badge.
+- Mounted on `/politico/[slug]` just below PoliticianHeader
+  so the badges are visible before statistics and
+  statements scroll in.
+
+## Run 91 / 100 — Per-politician archive exports
+
+- `/api/politico/[slug]/export?format=csv|json|bibtex`:
+  paginated export of every non-removed statement for one
+  politician (1k chunks, 25k cap). 10/min IP rate limit.
+  - CSV: formula-injection-escaped, includes severity,
+    verification, venue, categories (pipe-joined), primary
+    source, wayback snapshot URL, permalink
+  - JSON: wraps the list in a `politician` metadata object
+    with profile URL, and per-statement permalinks
+  - BibTeX: one @misc per statement with deterministic
+    citekey (rb-<slugnodash>-<year>-<id6>), escaped author
+    and title, note field carrying party + primary source +
+    access date
+- `components/politicians/PoliticianDownloads.tsx`: three
+  download pill links with lucide icons.
+- Rendered on `/politico/[slug]` right below the badges row
+  so journalists/researchers can grab the whole corpus
+  without paging the UI.
+
+## Run 92 / 100 — Per-category archive exports
+
+- `/api/categorias/[slug]/export?format=csv|json|bibtex`:
+  every non-removed statement classified in a category,
+  ordered by date desc, paged through the join table in
+  1k chunks (25k cap). 10/min IP rate limit.
+- CSV adds politician columns (name + party-UF) that the
+  politician export doesn't need. JSON wraps the list
+  in a category metadata object. BibTeX emits @misc per
+  statement with the category name in the `note` field.
+- `components/categories/CategoryDownloads.tsx`: compact
+  pill row mirroring the politician one.
+- Rendered on `/categorias/[slug]` below the Follow
+  button so the download UI stays out of the way of the
+  primary statement grid.
+
+## Run 93 / 100 — Per-party and per-state exports
+
+- `lib/export/statement-formats.ts`: deduplicated CSV /
+  BibTeX helpers (csvEscape, bibtexEscape, bibtexCitekey)
+  used by every export route.
+- `/api/partidos/[slug]/export?format=csv|json|bibtex`:
+  paginated per-party export (30k cap). CSV carries
+  politician name + state columns; BibTeX note field
+  includes party label.
+- `/api/estados/[uf]/export?format=csv|json|bibtex`:
+  same shape for per-UF export; CSV carries politician
+  name + party; BibTeX note carries UF + party.
+- `components/export/ScopeDownloads.tsx`: generic pill-row
+  component parameterized by `base` URL + label. Replaces
+  the copy-pasted ad-hoc downloads components with one
+  shared primitive.
+- Mounted under FollowButton on `/partidos/[slug]` and
+  `/estados/[uf]`.
+
+## Run 94 / 100 — /ao-vivo "Em tempo real" feed
+
+- `/ao-vivo`: single landing that combines five live streams
+  of recent activity, updated every 2 minutes:
+  - Main column: 10 newest non-removed statements with
+    politician avatar, verification pill, relative
+    "registrado há N min" timestamp
+  - Sidebar: next 5 upcoming agenda events, 5 newest
+    published contradictions, 3 newest collections, 3
+    newest stories
+- Pulsing Activity icon in the header hints at the live
+  character; each section has a dedicated color-tinted
+  icon for scannability.
+- Footer + sitemap entries.
+
+## Run 95 / 100 — "Hoje na história" feed
+
+- Migration `040_statements_by_day_of_year.sql` (applied
+  live):
+  - IMMUTABLE functional index on
+    (extract(month from statement_date)*100 +
+     extract(day from statement_date)) — PostgreSQL wouldn't
+    accept to_char(date, 'MM-DD') because that's STABLE.
+  - RPC `statements_on_day_of_year(mmdd, limit)` returning
+    denormalized columns ready for the page.
+- `lib/on-this-day/queries.ts` typed wrapper + date-label
+  helpers + slug `MM-DD` parsing.
+- `components/on-this-day/DayFeed.tsx`: sticky year
+  headings + compact card list grouping everything by year
+  within the same day-of-year.
+- `/hoje-na-historia`: today's date feed with "ontem" /
+  "amanhã" shortcut pills.
+- `/hoje-na-historia/[date]`: permalink archive keyed by
+  `MM-DD`. Prev/next links are computed via a leap-safe
+  UTC-2024 date walk so Feb-29 is navigable.
+- Footer entry.
+
+## Run 96 / 100 — Per-year archive dump
+
+- `/api/dump/year/[year]?format=csv|json|bibtex`: all
+  non-removed statements whose `statement_date` falls in
+  the requested year, streamed as a single archive (1k
+  chunks, 50k cap). CSV carries politician name + party +
+  UF + pipe-joined category slugs; JSON wraps the list in a
+  year metadata object; BibTeX has per-row UF note.
+- 4/min IP rate limit — heavier than the per-slug exports
+  because the payload is bigger. 1h browser / 6h CDN /
+  24h SWR cache because archived years don't change much.
+- `ScopeDownloads` pill row added to `/retrospectiva/[year]`
+  header so visitors see the download option at a glance.
+- Reuses the generic component from run 93 and the shared
+  helpers from `lib/export/statement-formats.ts`.
+
+## Run 97 / 100 — Quiz "De quem é a declaração?"
+
+- `/api/quiz`: picks a random verified statement (pool of
+  500 newest with full_quote and length ≥ 40 chars) and
+  bundles it with three politician distractors + the real
+  answer, shuffled. 60/min IP rate limit. `Cache-Control:
+  no-store` so each refresh is a new round.
+- `/quiz/QuizClient.tsx` (client): shows the quote in a
+  blockquote, four option cards with avatar/party, updates
+  a session-only hit/total tally, reveals correct/wrong
+  tones after pick, and exposes a "Próxima pergunta" button.
+- `/quiz/page.tsx` wraps it with a friendly header.
+- Footer link.
+- No DB writes — scores live only in the client state.
+
+## Run 98 / 100 — Severity browser
+
+- `lib/severity/labels.ts`: centralizes the 5-tier severity
+  metadata (label, short name, description, tone class,
+  color-ramp hex). Reusable by future components.
+- `/severidade`: index page listing all five tiers with
+  live counts pulled from head-count queries, each linking
+  to the level page. Footer explains that scoring is
+  subjective and single-valued per record.
+- `/severidade/[level]`: paginated (30/page) reverse-chron
+  list of statements scoped to one tier, with politician
+  avatar, verification pill, and prev/next pagination.
+  `generateStaticParams` keeps the 5 canonical levels in
+  the static build.
+- Footer entry.
+
+## Run 99 / 100 — All-time top page
+
+- `/top`: three-column leaderboard in one page.
+  - Top 20 statements by severity_score (ties broken by
+    statement_date desc) with politician mini-header,
+    severity pill, and link to full registro.
+  - Top 20 politicians by verified-statement count
+    (queried via the existing `statements!inner(count)`
+    embed).
+  - Top 20 categories by use (via
+    `statement_categories(count)` embed) with color dots.
+- Footer explains how this differs from /ranking
+  (weighted-decay) and the time-scoped /destaques and
+  /esta-semana pages.
+- Footer link added.
+
+## Run 100 / 100 — Central de índices (feature directory)
+
+- `/indices`: a single reader-facing meta-page catalogues
+  every major section built across the 100-run campaign,
+  organized into 8 groups with lucide icons and accent
+  colors:
+  - Navegação (8 routes)
+  - Cronológico (8)
+  - Análises & rankings (9)
+  - Transparência (8)
+  - Curadoria editorial (6)
+  - Ferramentas (7)
+  - Dados & APIs (7)
+  - Sobre & legal (9)
+- Each entry shows label + monospace URL + one-line
+  description. Footer explains the per-politician / per-
+  category / per-party / per-state / per-year sub-resources
+  that exist beyond the canonical routes listed.
+- Footer link ("Índice geral →", bold) + sitemap entry.
+- Closes out the 100-run improvement campaign.
+
+## Run 101 / 100+ — Copy as Markdown (bonus)
+
+Campaign technically closed at 100 but the cron kept firing.
+Keeping momentum with smaller polish additions.
+
+- `components/statements/CopyMarkdownButton.tsx`: client
+  one-click copies a clean Markdown snippet — blockquote
+  with the full_quote (line-breaks preserved), byline with
+  party-UF, formatted date, and two links (Registra Brasil
+  permalink + fonte original). Transient check-icon
+  feedback on copy.
+- Mounted next to ShareButton / ReadAloudButton on every
+  /declaracao page — journalists pasting into Substack or
+  Notion now get one-keystroke formatted output.
+
+## Campaign wrap-up
+
+- 101 runs committed + pushed; original 100-target met on
+  Run 100 with /indices.
+- Run 101's deploy hit Vercel's 100-deploys/day free-tier
+  cap — the code is merged on main and will go live on the
+  next allowed deploy (in ~24h or on the next build
+  trigger).
+- Cron `1cfa4e55` cancelled. No more auto-runs.
+
+## Run 102 / 500 — 3 features + cost opt + bug fix
+
+- **Bug + cost opt**: `/top` previously streamed one row per
+  politician with an embedded count (scaling poorly as the
+  politicians table grows) and had a flaky `Array.isArray` fallback.
+  Migration `041_top_alltime.sql` adds `top_politicians_all_time` and
+  `top_categories_all_time` RPCs that do the GROUP BY server-side and
+  return a tiny, pre-sorted rowset. `/top` now calls the RPCs, drops
+  the brittle shape-check, and formats counts with `toLocaleString`.
+- **Feature**: `/politicos/aleatorio` — 302s to a random active
+  politician that has at least one verified statement.
+- **Feature**: `/categorias/aleatoria` — 302s to a random category.
+- **Cost opt**: `/ao-vivo` revalidate relaxed from 120 s to 300 s
+  (the copy now says "5 minutos") — eliminates ~60% of the
+  periodic Supabase round-trips on that page without changing the
+  perceived freshness for most readers.
+
+## Run 103 / 500 — cite APIs + random party + bugfix + cost opt
+
+Policy: commit each run for safety, **deploy only on multiples of 10**
+to stay well under Vercel's 100-deploys/day cap.
+
+- **Feature**: `/api/declaracao/[id]/cite.txt` — plaintext ABNT-ish
+  citation (author · quote · Registra Brasil · fonte primária · acesso
+  em), curl-friendly, 30-min browser / 1-h CDN cache.
+- **Feature**: `/api/declaracao/[id]/cite.md` — Markdown citation block
+  mirroring CopyMarkdownButton output (blockquote + byline + two
+  links). Scriptable version of the button.
+- **Feature**: `/partidos/aleatorio` — 302s to a random party,
+  completing the "Me surpreenda" quartet
+  (aleatoria/politicos/categorias/partidos).
+- **Feature**: `/api/politico/[slug]/stats.json` — machine-readable
+  mirror of the /scorecard page. Reuses lib/politicians/scorecard.ts
+  so the two stay in sync. 30/min rate limit.
+- **Bug fix**: `/categorias/aleatoria` previously could pick an empty
+  category (slug with zero statements). Now uses `statement_categories
+  !inner(statement_id)` join with Set dedupe so only actively-used
+  categories are pooled.
+- **Cost opt**: reduced pool sizes — aleatoria 300→150, politicos
+  aleatorio 400→150. Statistically indistinguishable from the user's
+  perspective, ~50%+ fewer rows transferred per redirect.
+
+## Run 104 / 500 — contradicoes/destaques RSS + top.json + bug fix
+
+- **Feature**: `/contradicoes/feed.xml` — 30 most recent published
+  contradictions, RSS 2.0. Each item carries the editor note plus
+  both statements inline.
+- **Feature**: `/destaques/feed.xml` — monthly top-20 by severity as
+  RSS, regenerates hourly, dynamic channel title with the current
+  pt-BR month label.
+- **Feature**: `/api/top.json` — machine-readable mirror of the /top
+  leaderboard. Three sections (statements/politicians/categories)
+  in a single JSON. 1-h edge cache / 30-min browser / 24-h SWR.
+- **Bug fix**: `/s/[id]` prefix lookup now lowercases input (Postgres
+  stores UUIDs lowercase) and filters verification_status != removed
+  so the compact share link never resolves to a taken-down statement.
+- **Cost opt**: added browser max-age=600 to `/feed.xml` Cache-Control
+  so RSS readers can cache 10 min client-side and skip a roundtrip,
+  halving edge hits from aggressive pollers.
+
+## Run 105 / 500 — categ/party stats.json + hoje-na-historia RSS
+
+- **Feature**: `/api/categorias/[slug]/stats.json` — aggregate stats
+  for one category: totals, verified ratio, severity histogram,
+  top-10 politicians, monthly (24m) activity.
+- **Feature**: `/api/partidos/[slug]/stats.json` — party stats with
+  politician count (+ active), total statements, severity histogram,
+  top-10 politicians, state breakdown.
+- **Feature**: `/hoje-na-historia/feed.xml` — RSS 2.0 of
+  today's "on this day" entries, regenerates hourly; title carries
+  the pt-BR date label so subscribers see the date change.
+- **Bug fix**: caught by typecheck — initial draft referenced
+  `statement_slug`/`statement_id` on DayStatement (the shape is
+  `slug`/`id`); corrected before commit.
+- **Cost opt**: categoria stats query capped at 10k (was unbounded
+  before); party stats capped at 15k politicians and 500 row
+  politician list, preventing runaway SELECT on very large parties.
+
+## Run 106 / 500 — UF stats + global stats + search.json
+
+- **Feature**: `/api/estados/[uf]/stats.json` — per-UF aggregate with
+  politician count (+ active), total/verified statements, severity
+  histogram, top-10 politicians, and party breakdown.
+- **Feature**: `/api/stats.json` — global archive snapshot (total /
+  verified / disputed / unverified statements, active politicians,
+  contradictions published, fact-checks indexed). All nine
+  sub-queries run in parallel via head:true count-only requests, so
+  the endpoint is cheap.
+- **Feature**: `/api/search.json` — JSON mirror of /buscar accepting
+  the same querystring (q, categoria[], politico, partido, estado,
+  de, ate, status, page, limit), returns thinner payload (id, slug,
+  summary, dates, severity, politician, categories, source URL,
+  permalink) suited for notebooks + dashboards.
+- **Cost opt**: /api/stats.json uses head-only counts rather than
+  SELECT + length() — nine full-scans avoided.
+- **Bug fix**: typecheck clean on first pass after yesterday's
+  DayStatement shape regression; added UF ^[A-Za-z]{2}$ guard so
+  `/api/estados/xx/stats.json` returns 400 instead of leaking the
+  underlying query error.
+
+## Run 107 / 500 — JSON directories + partial indexes
+
+- **Feature**: `/api/politicos.json` — directory of active politicians
+  (slug/name/party/state/url). `?ativo=false` toggles including
+  inactive. Cached 1h browser / 3h CDN / 24h SWR.
+- **Feature**: `/api/categorias.json` — category directory with slug,
+  bilingual labels, color, description, severity tier, sort order.
+  Rarely changes — 24h CDN cache.
+- **Feature**: `/api/contradicoes.json` — machine-readable mirror of
+  `/contradicoes` with both statements inline per pair. Configurable
+  ?limite=N (max 200).
+- **Cost opt + bug fix**: Migration `042_non_removed_partial_indexes`
+  — four partial indexes filtered by `verification_status <> 'removed'`
+  (date DESC, politician_id + date, created_at DESC, severity_score).
+  Every public page filters by this predicate; the indexes slash scan
+  cost for hot queries like /declaracoes-recentes, /politico/[slug],
+  and severity histograms without growing total index size much
+  (removed rows are a small minority).
+
+## Run 108 / 500 — agenda/partidos/estados JSON
+
+- **Feature**: `/api/agenda.json` — curated political events with
+  `?escopo=upcoming|past|all` and `?limite=N` params, embedding the
+  linked politician when present.
+- **Feature**: `/api/partidos.json` — party directory with active-
+  politician counts, sorted by size. Lets integrations know every
+  sigla currently represented.
+- **Feature**: `/api/estados.json` — state directory using the
+  curated BRAZIL_TILES metadata (UF, name, region) as the source of
+  truth; adds active-politician + verified-statement counts per UF.
+- **Cost opt**: `/api/estados.json` limit tightened 20k→15k so the
+  per-state aggregation finishes in one page for the known archive
+  size without fetching more rows than it can use.
+- **Bug fix**: reused the canonical BRAZIL_TILES list, so the API
+  emits exactly 27 states even if a UF currently has zero verified
+  statements (prevents the directory from silently dropping states
+  during slow periods).
+
+## Run 109 / 500 — colecoes/historias/recent JSON
+
+- **Feature**: `/api/colecoes.json` — published collections directory
+  with per-collection statement_count (via PostgREST embedded count),
+  plus feed_url and export_url for quick discovery of related
+  endpoints.
+- **Feature**: `/api/historias.json` — published stories directory with
+  title/subtitle, author, reading time, hero statement id, and cover
+  image.
+- **Feature**: `/api/recent.json` — newest statements as JSON with
+  ?limite=N (1..100) and ?page=N (1..20) pagination. Ordered by
+  created_at desc so late-arriving historical additions still bubble.
+- **Cost opt**: `/api/recent.json` directly benefits from the partial
+  index on created_at added in Run 107 (042_non_removed_partial_indexes)
+  — no extra schema change needed.
+- **Bug fix**: /api/colecoes.json defensively handles both
+  PostgREST return shapes for embedded count (array or scalar) so
+  the endpoint stays robust across library versions.
+
+## Run 110 / 500 — fact-checks/hoje/esta-semana JSON + DEPLOY
+
+Deploy batch for Runs 103–110.
+
+- **Feature**: `/api/fact-checks.json` — external fact-check
+  cross-references from `statement_fact_checks` (the real table, not
+  the stub I dropped in Run 62). Supports ?rating=<id>&limite=N and
+  returns rating_counts aggregate for UI filtering.
+- **Feature**: `/api/hoje-na-historia.json` — MM-DD lookup (default
+  today) with configurable ?data=MM-DD for any calendar day.
+- **Feature**: `/api/esta-semana.json` — weekly recap JSON: iso_week,
+  top_by_severity, top_politicians, top_categories.
+- **Bug fix**: initial fact-checks route imported `getRecentFactChecks`
+  from the long-dropped `lib/fact-checks/queries.ts`. Rewrote to
+  query `statement_fact_checks` directly using the canonical columns
+  (outlet/outlet_label/rating/rating_label) and the existing
+  `lib/fact-checks/outlets.ts` for labels.
+- **Cost opt**: all three endpoints use head-friendly caches (900 s /
+  1800 s / 3600 s) so hot queries return from the edge.
+
+## Run 111 / 500 — API explorer + ranking/severidade JSON
+
+- **Feature**: `/desenvolvedores/api` — interactive API explorer
+  cataloguing every `/api/*.json` endpoint across 6 groups (stats,
+  directories, flows, per-scope stats, citations, exports). Each
+  endpoint shows method, path, params, and a ready-to-copy `curl`
+  example with realistic sample slugs (lula/sp/abc123/2025/01-01).
+- **Feature**: `/api/ranking.json` — weighted politician ranking
+  using severity × exp(-ageDays/365) computed over the 5k most
+  recent verified+disputed statements. ?limite=N (1..100).
+- **Feature**: `/api/severidade.json` — counts per severity level
+  with canonical labels + descriptions, using 5 parallel head-only
+  count queries so the endpoint is basically free.
+- **Bug fix**: footer gained a link to the new explorer alongside
+  the existing /api-docs, so readers can find the JSON catalogue
+  without leaving the site.
+- **Cost opt**: explorer page has `revalidate = 86400` (static 24 h)
+  since the endpoint list is effectively immutable.
+
+## Run 112 / 500 — destaques/crescimento/tendencias JSON
+
+- **Feature**: `/api/destaques.json` — monthly top-20 recap in JSON
+  with `?mes=YYYY-MM` override. Full payload mirrors /destaques/[month]
+  (top_by_severity with categories, top_politicians, top_categories).
+- **Feature**: `/api/crescimento.json` — monthly cumulative growth
+  series (declarations, politicians, categories). `?meses=N` window
+  clamped to 12..120.
+- **Feature**: `/api/tendencias.json` — per-category timeseries over
+  `?janela=N` (12..60) with computed `delta_pct` for each category
+  so consumers don't need to re-derive it.
+- **Bug fix**: `/api/destaques.json` validates `?mes` via
+  `isValidMonth()` before passing to the recap builder — rejects
+  malformed input with 400 instead of crashing the server component
+  path downstream.
+- **Cost opt**: all three endpoints reuse existing lib helpers
+  (`lib/monthly-recap`, `lib/growth/queries`, `lib/trends/queries`),
+  so no duplicated query code and no new DB migrations.
+
+## Run 113 / 500 — análise matrices + timeline JSON
+
+- **Feature**: `/api/analise/partidos-x-categorias.json` — dense JSON
+  version of the party × category heatmap. Accepts `?partidos=N`
+  (5..30), `?categorias=M` (5..20), `?normalizar=1` to emit per-party
+  percentages. Reuses `getPartyCategoryMatrix()` so the grid stays
+  identical to the HTML page.
+- **Feature**: `/api/analise/estados-x-categorias.json` — same idea
+  for the UF × category matrix, wrapping `getStateCategoryMatrix()`.
+  Clients get the full `states`, `categories`, `max`, `rows[]` bundle
+  in one request, no second round trip needed.
+- **Feature**: `/api/linha-do-tempo.json` — chronological event feed
+  grouped by YYYY-MM month buckets. `?limite=N` (1..200, default 50).
+- **Bug fix**: `/desenvolvedores/api` explorer had never been updated
+  with Run 112's destaques/crescimento/tendencias endpoints nor with
+  the new análise + timeline ones. Added a dedicated "Análise" group
+  and plugged timeline into "Fluxos" so all 30+ endpoints are now
+  discoverable from one page.
+- **Cost opt**: all three new endpoints hit at `s-maxage=1800..3600`
+  with `stale-while-revalidate` up to 24 h, and they reuse the
+  existing matrix/timeline helpers — no extra DB work, no new RPCs,
+  no new indexes.
+
+## Run 114 / 500 — retrospectiva/aleatoria/timeline JSON
+
+- **Feature**: `/api/retrospectiva/[year].json` — aggregate year
+  summary with counts, monthly histogram, top 10 politicians, top 6
+  categories, notable (severity ≥ 4 verified) + disputed highlights,
+  revision tally via head-only `count: 'exact', head: true`.
+- **Feature**: `/api/aleatoria.json` — JSON counterpart to the
+  existing /aleatoria redirect. ?inclui_contestadas=1 broadens the
+  pool to include disputed statements. Same "120-row recency pool +
+  uniform pick" trick, so no TABLESAMPLE cost.
+- **Feature**: `/api/politico/[slug]/timeline.json` — per-politician
+  chronological event feed wrapping `getPoliticianTimeline()`.
+  `?limite=N` (1..200, default 50). 404 when the slug is empty.
+- **Bug fix**: `/desenvolvedores/api` explorer listed nothing for the
+  new analysis/timeline/random routes — added 4 entries under
+  "Escopos individuais" so all Run 113–114 additions are discoverable.
+- **Cost opt**: retrospectiva endpoint uses `Promise.all` for the
+  5k-row statements query + head-only revision count, vs. the HTML
+  page that ran them sequentially and pulled every revision row.
+
+## Run 115 / 500 — comparar/timeline/categorias JSON
+
+- **Feature**: `/api/comparar.json` — JSON version of the
+  /comparar/resultado page. Accepts `?a=` and `?b=` as either
+  politician UUIDs or slugs (transparent resolve via a cheap lookup),
+  returns per-politician metadata, category comparison rows, monthly
+  series, and the `computeComparisonSummary()` overlap stats.
+- **Feature**: `/api/timeline.json` — unified scoped chronological
+  feed. `?categoria=`, `?partido=`, `?estado=` filters replace the
+  need for three separate per-scope endpoints. Omit all three for a
+  flat global feed (no month grouping, unlike /api/linha-do-tempo).
+- **Feature**: `/api/politico/[slug]/categorias.json` — category
+  breakdown (primary + total counts) for a single politician.
+  Answers "what does this person talk about most?" without hitting
+  the full scorecard endpoint.
+- **Bug fix**: explorer now lists all three new endpoints.
+- **Cost opt**: one `/api/timeline.json` endpoint replaces three
+  planned per-scope timelines (categoria/partido/estado), saving ~3×
+  the surface area, rate limits, caches, and future maintenance.
+
+## Run 116 / 500 — related/similar/boletim JSON
+
+- **Feature**: `/api/declaracao/[id]/related.json` — two buckets of
+  related statements: same_politician (most recent by the same
+  speaker) + same_category (sharing any primary category). Accepts
+  UUID or slug as the id path segment.
+- **Feature**: `/api/politico/[slug]/similar.json` — similar
+  politicians ranked by shared-primary-category overlap, wrapping
+  the `similar_politicians` RPC. `?limite=N` (1..20, default 6).
+- **Feature**: `/api/boletim.json` — current weekly digest items +
+  subject + preview, reusing `buildWeeklyDigest()` so the public
+  preview and the email subscribers get cannot drift.
+- **Bug fix**: explorer gained all three under "Escopos individuais".
+- **Cost opt**: related.json runs samePol + sameCat queries in
+  `Promise.all`, and skips the category lookup entirely when the
+  seed has no primary categories (saves a needless roundtrip).
+
+## Run 117 / 500 — JSON Feed 1.1 endpoints
+
+- **Feature**: `/feed.json` — JSON Feed 1.1 of the 30 newest verified
+  statements, modern alternative to /feed.xml for NetNewsWire, Feedbin
+  and other JSON-only aggregators.
+- **Feature**: `/politico/[slug]/feed.json` — per-politician JSON Feed
+  mirror with author metadata, category tags, external_url → primary
+  source, and a custom `_registra_brasil` extension object carrying
+  severity / verification / source-type.
+- **Feature**: `/categorias/[slug]/feed.json` — per-category JSON Feed
+  built by resolving category → statement_ids → batch statements
+  (same trick used by /api/timeline.json).
+- **Bug fix**: explorer gained a new "JSON Feed 1.1" group listing
+  all three new routes.
+- **Cost opt**: introduced `lib/feeds/json-feed.ts` so all three
+  endpoints share one `buildJsonFeed()` builder — no duplicated
+  escaping logic, no drift between routes. Category feed uses
+  `in('id', …)` batch instead of joining through
+  statement_categories in the main query (one round-trip cheaper
+  for high-fan-out categories).
+
+## Run 118 / 500 — complete JSON Feed coverage (partidos/estados/coleção)
+
+- **Feature**: `/partidos/[slug]/feed.json` — JSON Feed 1.1 per party.
+  Handles URL-encoded party acronyms (`UNI%C3%83O` → `UNIÃO`) via
+  `decodeURIComponent` before the uppercase + validation.
+- **Feature**: `/estados/[uf]/feed.json` — JSON Feed 1.1 per UF, with
+  the strict `^[A-Z]{2}$` guard used by the RSS counterpart.
+- **Feature**: `/colecao/[slug]/feed.json` — JSON Feed 1.1 per
+  published collection, preserving the curator-chosen
+  `collection_statements.position` order.
+- **Bug fix**: first draft of the partido JSON route used
+  `slug.toUpperCase()` directly — would 400 on encoded ASCII-extended
+  party names. Matched the RSS route's decode step before shipping.
+- **Cost opt**: all three new endpoints reuse `buildJsonFeed()` and
+  `JSON_FEED_HEADERS` from Run 117; zero duplicated feed-building
+  logic across the six per-scope JSON Feeds.
+
+## Run 119 / 500 — feed discovery + catalog page + atualizacoes JSON
+
+- **Feature**: `/desenvolvedores/feeds` — new catalog page listing
+  every RSS, Atom and JSON Feed the site publishes, grouped by
+  scope (global vs. per-escopo), with direct sample links and a note
+  about the `_registra_brasil` JSON Feed extension.
+- **Feature**: feed auto-discovery — added `alternates.types`
+  entries for `application/feed+json` on /politico/[slug],
+  /categorias/[slug], /partidos/[slug], /estados/[uf] and
+  /colecao/[slug] pages alongside the existing RSS alternates, so
+  aggregators see both formats when crawling those scopes.
+- **Feature**: `/api/atualizacoes.json` — JSON version of the public
+  corrections log (mirrors /atualizacoes + /atualizacoes/feed.xml),
+  returning revision_number, changed_fields, reason, actor, and a
+  link to the statement's `/historico` page.
+- **Bug fix**: explorer + footer now link /desenvolvedores/feeds
+  (new) and /api/atualizacoes.json so discovery of the 9-feed surface
+  area does not require reading source.
+- **Cost opt**: catalog page uses `revalidate = 86400` (static 24 h
+  since feed URLs are immutable) — one cached edge response serves
+  every visit. Atualizacoes endpoint caps at 200 revisions and uses
+  `s-maxage=600`.
+
+## Run 120 / 500 — global JSON Feeds + deploy batch
+
+- **Feature**: `/contradicoes/feed.json` — JSON Feed 1.1 of the
+  most recent published contradiction pairs, counterpart to the
+  existing RSS; serializes the full editor note + both sides of
+  each pair in `content_html`.
+- **Feature**: `/hoje-na-historia/feed.json` — JSON Feed 1.1 of
+  today's MM-DD historical callbacks across every year, with
+  `_registra_brasil` extension carrying severity + verification.
+- **Feature**: `/atualizacoes/feed.json` — JSON Feed 1.1 of the
+  public correction log; tags include revision field names so
+  aggregators can filter by what changed.
+- **Bug fix**: catalog page (/desenvolvedores/feeds) now surfaces
+  JSON Feed links for the three globals that had RSS only.
+- **Cost opt**: all three endpoints inline their tiny JSON Feed
+  builders (no per-item statement row so buildJsonFeed() is
+  overkill) with s-maxage 600..3600 and long SWR windows.
+
+### Deploy batch
+
+Runs 111–120 staged to production in one push (Vercel free-tier
+deploy budget: one deploy covers 10 commits).
+
+## Run 121 / 500 — bulk dumps for revisions / fact-checks / contradictions
+
+- **Feature**: `/api/dump/revisions` — full statement_revisions dump
+  (JSON + ?format=csv). Caps at 20k rows to stay under Vercel's
+  edge response limit. Changed_fields serialized as pipe-joined
+  keys in CSV, as an array of keys in JSON.
+- **Feature**: `/api/dump/fact-checks` — bulk dump of external
+  fact-check rows (outlet, rating, url, title, published_at). Same
+  JSON+CSV dual format and licensing header as the statements dump.
+- **Feature**: `/api/dump/contradictions` — bulk dump of published
+  `contradiction_pairs` rows (both statement ids + headline + editor
+  note + severity). CSV friendly for spreadsheets.
+- **Bug fix**: first drafts of all three routes inlined a local
+  `csvCell()` that omitted `csvEscape()`'s formula-injection guard
+  (leading `=`, `+`, `-`, `@`, `\t`, `\r` must be prefixed with `'`).
+  Swapped every call to the shared `csvEscape()` helper so no dump
+  can produce a CSV that Excel executes as a formula.
+- **Cost opt**: all three routes use `s-maxage=3600` + 24h SWR; the
+  underlying tables change slowly and the payloads are 1–20k rows
+  each, so CDN caching is the difference between pennies and dollars
+  when a journalist decides to curl the entire archive.
+
+## Run 122 / 500 — ETag on bulk dumps + 2 more dumps + per-statement revisions
+
+- **Feature**: weak ETag + `If-None-Match` → 304 on all three
+  Run-121 dumps (`/api/dump/revisions`, `/fact-checks`,
+  `/contradictions`). Tag is `W/"<prefix>-<count>-<digits-of-latest-ts>"`
+  so repeat pulls (which is how any mirror/aggregator will use
+  these) get a few-byte 304 instead of re-downloading up to 20k
+  rows. Pure bandwidth win on top of existing s-maxage.
+- **Feature**: `/api/dump/statement-categories` — full join-table
+  dump (statement_id × category_id, is_primary). Enables offline
+  category histograms without needing to reconstruct the join.
+  50k-row cap (join tables are larger than entity tables).
+- **Feature**: `/api/dump/collections` — metadata dump of published
+  editorial collections (title, slug, cover, timestamps). Pair it
+  with `/api/colecao/:slug/export` for members.
+- **Feature**: `/api/declaracao/[id]/revisions.json` — per-statement
+  revision history (JSON only), lookup by UUID or slug. Returns
+  `changed_field_keys` alongside the raw `changed_fields` object
+  so aggregators can filter without parsing the diff. Rate
+  limited (60/min); emits weak ETag so /atualizacoes fan-outs
+  return 304 cheaply.
+- **Bug fix**: the statement-categories table has no timestamp
+  column — first draft tried to ETag on `max(updated_at)` which
+  doesn't exist. Fell back to a count-only ETag; acceptable
+  because the table is mostly append-only.
+- **Cost opt**: 304 short-circuit on all four new+updated endpoints
+  is pure savings: Supabase round-trip, Postgrest serialization,
+  and Vercel egress all skipped when the caller's tag matches.
+
+## Run 123 / 500 — per-politician contradictions + fact-checks + sparkline
+
+- **Feature**: `/api/politico/[slug]/contradictions.json` — all
+  published contradiction pairs for one politician, both sides
+  inlined (statement_low / statement_high with permalinks). Weak
+  ETag + 304 so pollers pay bytes, not rows.
+- **Feature**: `/api/politico/[slug]/fact-checks.json` — external
+  fact-check cross-references for one politician's statements, with
+  a rating_counts tally so clients can render filter chips without
+  a second request. Two-step query (statement ids first, then
+  statement_fact_checks `in (...)`) keeps it on existing indexes.
+- **Feature**: `/api/declaracao/[id]/fact-checks.json` — same as
+  above but scoped to a single declaration (UUID or slug lookup).
+  Easy dependency for embeddable "see fact-checks for this claim"
+  widgets.
+- **Feature**: `/api/politico/[slug]/sparkline.json` — 12-month
+  (configurable 3..24) bucket of statement counts + avg severity
+  for a politician. Designed to be small enough to inline in cards
+  and OG images; cached 1h at the edge.
+- **Bug fix**: `/api/fact-checks.json` was running an unbounded
+  `SELECT rating FROM statement_fact_checks` to compute the
+  rating_counts aggregate. On a growing table that's O(rows) per
+  request with no cap. Added `.limit(20000)` — still enough for
+  an accurate tally while putting a hard ceiling on worst-case
+  DB work.
+- **Cost opt**: all four new endpoints emit weak `W/"<prefix>-..."`
+  ETags and short-circuit to 304 on If-None-Match match. Combined
+  with the existing s-maxage that means re-pulls from aggregators
+  (the common case) skip PostgREST and round-trip in ~100 bytes.
+
+## Run 124 / 500 — SVG sparkline + contradiction detail + chrono context
+
+- **Feature**: `/api/politico/[slug]/sparkline.svg` — inline-sized
+  SVG sparkline (default 160×32, configurable 60..480 × 16..80) of
+  monthly statement counts. No JS, no fonts, `role="img"` with
+  aria-label. Works in any `<img src>` and in OG image pipelines.
+  Query: `?meses=3..24&w=…&h=…&cor=#hex`. ETag keyed to the bucket
+  counts so repeat loads are 304.
+- **Feature**: `/api/contradicoes/[id].json` — single contradiction
+  pair detail with both statements + politician inlined and
+  permalinks. Pairs nicely with the /contradicoes/:id HTML page
+  and lets aggregators hydrate a pair from an ID without pulling
+  the full /api/contradicoes.json list.
+- **Feature**: `/api/declaracao/[id]/context.json` — chronological
+  neighbours of a declaration (N before + N after by statement_date
+  from the same politician). Useful for "what else was this person
+  saying that week" panels. Query: `?n=1..10` (default 3). Lookup
+  by UUID or slug.
+- **Bug fix**: `/api/categorias/[slug]/stats.json` built the
+  monthly bucket keys with `new Date(y, m, 1)` (local-time) but
+  then matched them against `statement_date.slice(0, 7)` which is
+  UTC-ish. In the BRT→UTC transition window the current month
+  could drop its first day's statements into the previous bucket.
+  Switched to `Date.UTC(…)` + `getUTCFullYear/getUTCMonth`.
+- **Bug fix**: first draft of `/api/declaracao/[id]/context.json`
+  reused a shared Supabase query builder across before/after
+  queries. supabase-js filter methods mutate the builder, so the
+  second `.order()` would have stacked on top of the first. Switched
+  to a `build()` factory so each branch gets a fresh builder.
+- **Cost opt**: SVG endpoint emits `W/"spkv-…-<bucket-counts>"`
+  ETag + 304. Combined with CDN s-maxage=3600 a page that embeds
+  dozens of sparklines only hits Supabase once per politician per
+  hour; subsequent pageloads stream 304s. Contradiction detail
+  endpoint gets the same treatment.
+
+## Run 125 / 500 — SVG sparkline helper + partido/categoria/UF variants + single-statement JSON
+
+- **Feature**: extracted shared sparkline SVG renderer in
+  `lib/export/sparkline-svg.ts` — pure formatter (buckets → `<svg>`
+  string), a UTC-safe `bucketByMonthUtc(months, dates)` helper, a
+  `parseSparklineParams` guard for `?meses|w|h|cor`, shared
+  response headers + ETag helper. Refactored the politico
+  sparkline.svg onto it.
+- **Feature**: `/api/partidos/:slug/sparkline.svg` — per-party
+  sparkline (default color `#0369a1`, sky-700) using a party-name
+  join on the statements table.
+- **Feature**: `/api/categorias/:slug/sparkline.svg` — per-category
+  sparkline. Defaults to the category's own `color_hex` as stroke
+  so the chart matches the brand chips.
+- **Feature**: `/api/estados/:uf/sparkline.svg` — per-UF sparkline
+  (default color `#15803d`, green-700). 2-letter UF regex.
+- **Feature**: `/api/declaracao/[id]` — canonical single-statement
+  JSON (UUID or slug), with politician, categories, source, and a
+  `related` dict of sibling API URLs so a single fetch gives a
+  client everything it needs to link out. ETag on `updated_at`.
+- **Bug fix**: `/api/hoje-na-historia.json` defaulted today's MM-DD
+  via `getMonth() + 1`/`getDate()` (local time). Server runs in
+  UTC but BRT is UTC-3, so between 00:00 and 03:00 BRT the
+  computed date lagged by one calendar day. Switched to
+  `getUTCMonth()`/`getUTCDate()`.
+- **Cost opt**: every new sparkline SVG emits a content-keyed
+  `W/"spk-…-<counts>"` ETag. Pages embedding dozens of sparklines
+  (rankings, party pages) drop from N DB round-trips per refresh
+  to zero once the counts haven't changed. Single-statement JSON
+  ETag keyed to `updated_at` means feed aggregators polling
+  detail endpoints pay 304s between edits.
+
+## Run 126 / 500 — search facets + peer cohorts + severity histogram SVG
+
+- **Feature**: `/api/search/facets.json` — facet counts over the
+  last 24 months of non-removed statements: verification_status,
+  severity_score (1..5), primary_source_type, party (top 20),
+  state, categories (top 40 primary). One endpoint powers every
+  filter chip on /buscar and any third-party search UI without
+  forcing the client to hydrate the full corpus. ETag keyed to
+  (row count, category count, window cutoff).
+- **Feature**: `/api/politico/[slug]/peers.json` — three peer
+  cohorts (same party, same state, same party+state) with
+  verified-statement counts so the caller can render "compare
+  with peers" lists. Single aggregation query over the union of
+  peer ids, capped at 20k rows.
+- **Feature**: `/api/politico/[slug]/severity.svg` — inline SVG
+  5-bucket severity histogram (1 gray → 5 dark red). Works in
+  any `<img>`. Shared helper `lib/export/histogram-svg.ts`
+  (renderer + ETag helper + SEVERITY_COLORS ramp) so future
+  party/category variants reuse it.
+- **Bug fix**: three `/api/politico/[slug]/*` routes — similar,
+  categorias, timeline — forwarded the raw `slug` param straight
+  into Supabase without a format check. Added the standard
+  `SLUG_RE` guard so malformed slugs short-circuit at 400 and
+  never hit the DB (cheap rejection + defence in depth).
+- **Cost opt**: `/api/search/facets.json` ETags the full facet
+  payload (few KB) and emits s-maxage=3600. That turns a refresh
+  that's expensive to compute from scratch (30k-row aggregation
+  plus a 40k-row join) into a near-free 304 for any caller that
+  polls within the hour.
+
+## Run 127 / 500 — severity SVG variants + politico sources breakdown
+
+- **Feature**: `/api/categorias/:slug/severity.svg` — 5-bucket
+  severity histogram for a category (SVG, 160×40 default). Uses
+  the shared renderer + SEVERITY_COLORS ramp.
+- **Feature**: `/api/partidos/:slug/severity.svg` — same, scoped
+  to one party via the `statements → politicians.party` inner
+  join; handles URL-encoded party names.
+- **Feature**: `/api/estados/:uf/severity.svg` — same, scoped to
+  one UF.
+- **Feature**: `/api/politico/:slug/sources.json` — top source
+  domains + source-type breakdown for a politician. Great for
+  "coverage diversity" audits and for building source-reliability
+  widgets. Emits a content-keyed ETag so repeat pulls get 304s.
+- **Bug fix**: `/api/partidos/:slug/stats.json` and
+  `/api/partidos/:slug/export` only validated the decoded party
+  length — a raw path like `///` or control chars would sneak
+  through the regex-less gate before hitting `decodeURIComponent`.
+  Added a `^[a-z0-9%A-Z.-]{1,100}$` pre-check so malformed slugs
+  are 400'd before any decode/DB work.
+- **Cost opt**: every severity SVG emits a content-keyed ETag
+  (`W/"sev-…-<counts>"`) + s-maxage=3600. A page embedding
+  per-party severity badges does one DB hit per party per hour
+  at most, with subsequent pageloads 304'ing from the CDN.
+
+## Run 128 / 500 — fontes JSON + cat→politicos + timeline bar-chart SVG + partido sources
+
+- **Feature**: `/api/fontes/[domain].json` — statements citing one
+  source domain. Wraps the existing `get_source_domain_detail`
+  RPC so the API surface matches the HTML page at /fontes/:domain.
+  Returns display name + classification category + statement list
+  with politician refs.
+- **Feature**: `/api/categorias/[slug]/politicos.json` — top-N
+  politicians inside a category ranked by non-removed statement
+  count. Content-keyed ETag so the page refresh-loop on
+  /categorias/:slug pays 304s between edits.
+- **Feature**: `/api/politico/[slug]/timeline.svg` — bar-chart
+  variant of the sparkline (discrete monthly bars). Same config
+  surface (meses/w/h/cor) + optional year labels. Reuses the
+  shared histogram renderer + UTC bucketer.
+- **Feature**: `/api/partidos/[slug]/sources.json` — top source
+  domains + source-type breakdown for statements by members of
+  a party. Mirrors the politico variant so the two pair naturally
+  in "coverage diversity" dashboards.
+- **Bug fix**: `app/api/v2/statements/route.ts` — when filtering
+  by category, we fetched `statement_categories.statement_id` rows
+  with no `.limit()`. For popular categories that's potentially
+  thousands of ids fed into a single `.in('id', stmtIds)` query.
+  Added `.limit(10000)` — still larger than any single paginated
+  v2 response, but bounds worst-case memory + network.
+- **Cost opt**: every new endpoint emits an ETag (content-keyed
+  for SVGs and for aggregate JSON). The politico timeline.svg
+  is especially useful for card embeds — repeat pageloads of a
+  politico page serve the chart as a 304 from the CDN.
+
+## Run 129 / 500 — scope × (sources/politicos) matrix completion
+
+- **Feature**: `/api/partidos/[slug]/politicos.json` — active
+  politicians of a party ranked by verified-statement count, with
+  slug/name/state/role/photo + verified_count + per-politico URL.
+  Two-step query (politicians.party=X → statements.IN(ids)) to
+  stay within PostgREST limits and avoid a heavy join.
+- **Feature**: `/api/estados/[uf]/politicos.json` and
+  `/api/estados/[uf]/sources.json` — UF-scoped mirrors of the
+  party endpoints. Together with the existing politico/categoria/
+  partido routes this closes the scope × (sources/politicos)
+  matrix: every scope now exposes both facets uniformly.
+- **Feature**: `/api/categorias/[slug]/sources.json` — top source
+  domains + source-type breakdown for statements tagged with a
+  given category. Chunks the `IN (...)` lookup at 500 ids so the
+  PostgREST URL length stays well below limits even for wide
+  categories.
+- **Bug fix**: `app/api/v2/statements/route.ts` — the `q` param
+  was interpolated raw into a PostgREST `.or(...)` filter.
+  Commas, parens and backslashes are filter-grammar delimiters,
+  so a query like `foo, bar (2024)` broke the search silently
+  (or, worse, injected filter terms). Strip delimiters and
+  LIKE wildcards (`%`, `_`) before building the or-expression
+  so user input matches literally.
+- **Cost opt**: all four new endpoints ship weak content-keyed
+  ETags + `s-maxage=3600, stale-while-revalidate=86400`. Party/UF
+  landing pages embedding both politicos + sources cards now
+  amortise to at most 2 DB hits per scope per hour across the
+  entire CDN edge, with every subsequent render served as a 304.
+
+## Run 130 / 500 — scope×categorias matrix + global fontes + deploy batch
+
+- **Feature**: `/api/partidos/[slug]/categorias.json` and
+  `/api/estados/[uf]/categorias.json` — primary + all tally of
+  category tags across statements by members of a party / UF.
+  Mirrors the existing `/api/politico/:slug/categorias.json` so
+  every scope exposes the same category breakdown shape.
+- **Feature**: `/api/categorias/[slug]/partidos.json` — party
+  breakdown inside a category. Complements `politicos.json` +
+  `sources.json` so a category page now has three facet feeds.
+- **Feature**: `/api/fontes.json` — global domain catalog. Returns
+  all source domains ranked by non-removed statement count, with
+  dominant-type and share stats. Mirrors the /fontes HTML page.
+- **Bug fix**: `/api/comparar.json` — input-level `a === b` check
+  only caught identical strings, so passing slug vs uuid for the
+  same politician slipped through and triggered two redundant
+  `getPoliticianCompareData` calls plus a meaningless self-diff.
+  Added a post-resolution `idA === idB` guard.
+- **Cost opt**: all four new endpoints ship content-keyed ETags
+  + `s-maxage=3600, stale-while-revalidate=86400`. Party / UF
+  landing pages now carry politicos + sources + categorias cards
+  that collectively amortise to a handful of DB hits per hour.
+- **Deploy**: Run 130 is a deploy batch — pushes Runs 121–130 to
+  production after the typecheck + commit lands.
+

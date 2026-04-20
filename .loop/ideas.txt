@@ -1,0 +1,15 @@
+iCal agenda/destaques-do-dia
+RDF/JSON-LD schema.org variants of entities
+Grafana /api/metrics/*
+politico badge JSON variant
+v2 cursor feeds for scope declaracoes
+/api/alertas.json subscribable filter hashes
+sitemap/news indexes per scope
+diff endpoints (statements revisions compare)
+party-vs-party comparar.json
+embed list card (mini leaderboard)
+JSON feed 1.1 variants
+per-fonte sparkline/severity
+verify-ratio timeseries
+per-UF contradictions leaderboard
+categoria co-occurrence graph JSON
