@@ -79,8 +79,13 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid URL' }, { status: 400 })
   }
 
-  const siteHost = new URL(SITE_URL).hostname
-  if (parsedUrl.hostname !== siteHost && parsedUrl.hostname !== `www.${siteHost}`) {
+  // Normalize both sides by stripping a leading `www.` so we accept
+  // `registrabrasil.com.br`, `www.registrabrasil.com.br`, and either
+  // variant of SITE_URL (the prior check broke when SITE_URL itself
+  // carried a `www.` prefix — it would compute `www.www.host`).
+  const stripWww = (h: string) => h.replace(/^www\./i, '')
+  const siteHost = stripWww(new URL(SITE_URL).hostname.toLowerCase())
+  if (stripWww(parsedUrl.hostname.toLowerCase()) !== siteHost) {
     return NextResponse.json({ error: 'URL not supported' }, { status: 404 })
   }
 
