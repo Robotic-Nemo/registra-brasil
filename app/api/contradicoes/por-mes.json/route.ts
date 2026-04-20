@@ -41,7 +41,8 @@ export async function GET(request: NextRequest) {
 
   const counts = new Map<string, number>()
   for (const r of rows) {
-    const key = r.created_at.slice(0, 7) // YYYY-MM
+    const key = r.created_at?.slice(0, 7) // YYYY-MM
+    if (!key) continue
     counts.set(key, (counts.get(key) ?? 0) + 1)
   }
 
