@@ -52,7 +52,12 @@ export async function GET(request: NextRequest) {
   const parties = parseMultiValueUpper(sp.get('party'))
   const states = parseMultiValueUpper(sp.get('state'))
   const categories = parseMultiValueLower(sp.get('category'))
-  const status = sp.get('status') ?? 'verified'
+  // Whitelist to prevent `status=removed` from leaking soft-deleted
+  // rows and `status=all` (or any other value) from returning an
+  // empty page because of an exact `eq` against a made-up literal.
+  const statusRaw = sp.get('status') ?? 'verified'
+  const ALLOWED_STATUS = new Set(['verified', 'disputed', 'unverified'])
+  const status = ALLOWED_STATUS.has(statusRaw) ? statusRaw : 'verified'
   const sortKey = sp.get('sort') ?? 'date'
   const order = sp.get('order') === 'asc'
   const cursor = sp.get('cursor')
