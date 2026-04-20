@@ -27,11 +27,14 @@ export async function GET(request: NextRequest) {
   const offset = (page - 1) * lim
 
   const supabase = getSupabaseServiceClient()
+  // Overfetch by 1 so `has_more` is correct when the last page ends
+  // exactly on `lim` rows (a range that returns exactly `lim` rows
+  // would otherwise always report `has_more: true`).
   const { data, error } = await (supabase.from('statements') as any)
     .select('id, slug, summary, statement_date, created_at, verification_status, severity_score, politicians!inner(slug, common_name, party, state)')
     .neq('verification_status', 'removed')
     .order('created_at', { ascending: false })
-    .range(offset, offset + lim - 1)
+    .range(offset, offset + lim)
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })
@@ -42,13 +45,15 @@ export async function GET(request: NextRequest) {
     created_at: string; verification_status: string; severity_score: number | null
     politicians: { slug: string; common_name: string; party: string | null; state: string | null }
   }
-  const rows = (data ?? []) as Row[]
+  const raw = (data ?? []) as Row[]
+  const hasMore = raw.length > lim
+  const rows = hasMore ? raw.slice(0, lim) : raw
 
   return NextResponse.json({
     page,
     limit: lim,
     count: rows.length,
-    has_more: rows.length === lim,
+    has_more: hasMore,
     results: rows.map((r) => ({
       id: r.id,
       slug: r.slug,
