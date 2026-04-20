@@ -76,7 +76,9 @@ export async function GET(
   }
   const byYm = new Map(buckets.map((b) => [b.ym, b]))
   for (const r of stmts) {
-    const b = byYm.get(r.statement_date.slice(0, 7))
+    const key = r.statement_date?.slice(0, 7)
+    if (!key) continue
+    const b = byYm.get(key)
     if (!b) continue
     b.total++
     if (r.verification_status === 'verified') b.verified++

@@ -49,7 +49,8 @@ export async function GET(request: NextRequest) {
     buckets.set(ym, { ym, verified: 0, disputed: 0, unverified: 0, total: 0 })
   }
   for (const r of rows) {
-    const ym = r.statement_date.slice(0, 7)
+    const ym = r.statement_date?.slice(0, 7)
+    if (!ym) continue
     const b = buckets.get(ym)
     if (!b) continue
     b.total++

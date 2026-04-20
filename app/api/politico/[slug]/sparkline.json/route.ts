@@ -67,7 +67,8 @@ export async function GET(
   }
   const byYm = new Map(buckets.map((b) => [b.ym, b]))
   for (const r of stmts) {
-    const ym = r.statement_date.slice(0, 7)
+    const ym = r.statement_date?.slice(0, 7)
+    if (!ym) continue
     const b = byYm.get(ym)
     if (!b) continue
     b.count++
