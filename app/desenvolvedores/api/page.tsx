@@ -180,6 +180,10 @@ const GROUPS: Group[] = [
       { method: 'GET', path: '/api/tendencias.json', desc: 'Série por categoria com delta_pct.', params: [{ name: 'janela', desc: '12..60 meses' }] },
       { method: 'GET', path: '/api/analise/partidos-x-categorias.json', desc: 'Matriz partido × categoria.', params: [{ name: 'partidos', desc: '5..30' }, { name: 'categorias', desc: '5..20' }, { name: 'normalizar', desc: '1 para %' }] },
       { method: 'GET', path: '/api/analise/estados-x-categorias.json', desc: 'Matriz UF × categoria.', params: [{ name: 'estados', desc: '5..27' }, { name: 'categorias', desc: '5..20' }, { name: 'normalizar', desc: '1 para %' }] },
+      { method: 'GET', path: '/api/analise/partidos-x-severidade.json', desc: 'Matriz top-N partidos × nível de severidade (1..5).', params: [{ name: 'partidos', desc: '5..30 (padrão 15)' }, { name: 'meses', desc: '6..60 (padrão 24)' }, { name: 'normalizar', desc: '1 para %' }] },
+      { method: 'GET', path: '/api/analise/estados-x-severidade.json', desc: 'Matriz UF × nível de severidade (1..5).', params: [{ name: 'estados', desc: '5..27 (padrão 27)' }, { name: 'meses', desc: '6..60 (padrão 24)' }, { name: 'normalizar', desc: '1 para %' }] },
+      { method: 'GET', path: '/api/analise/categorias-x-severidade.json', desc: 'Matriz top-N categorias (primary) × nível de severidade (1..5).', params: [{ name: 'categorias', desc: '5..30 (padrão 15)' }, { name: 'meses', desc: '6..60 (padrão 24)' }, { name: 'normalizar', desc: '1 para %' }] },
+      { method: 'GET', path: '/api/estatisticas/calendario.svg', desc: 'Heatmap calendário (53 semanas) de volume diário global em SVG.', params: [{ name: 'ano', desc: 'YYYY (opcional)' }, { name: 'cor', desc: '#RRGGBB (padrão #d97706)' }] },
     ],
   },
   {

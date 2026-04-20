@@ -86,7 +86,8 @@ export async function computeScorecard(
   }
   const monthMap = new Map<string, number>(months.map((m) => [m, 0]))
   for (const s of all) {
-    const key = s.statement_date.slice(0, 7)
+    const key = s.statement_date?.slice(0, 7)
+    if (!key) continue
     if (monthMap.has(key)) monthMap.set(key, (monthMap.get(key) ?? 0) + 1)
   }
   const monthly = months.map((m) => ({ month: m, count: monthMap.get(m) ?? 0 }))
