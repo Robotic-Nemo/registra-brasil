@@ -33,8 +33,12 @@ export async function GET(request: NextRequest) {
     .order('sort_order')
 
   if (q) {
-    const escaped = q.replace(/%/g, '\\%').replace(/_/g, '\\_')
-    query = query.or(`label_pt.ilike.%${escaped}%,label_en.ilike.%${escaped}%,description.ilike.%${escaped}%`)
+    // Strip PostgREST or-grammar chars + LIKE metachars so user
+    // input can't inject filter clauses or wildcard-scan.
+    const safe = q.replace(/[,()\\:]/g, ' ').replace(/[%_]/g, ' ').trim()
+    if (safe) {
+      query = query.or(`label_pt.ilike.%${safe}%,label_en.ilike.%${safe}%,description.ilike.%${safe}%`)
+    }
   }
 
   if (severity) query = query.in('severity', severity)

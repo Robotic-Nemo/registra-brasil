@@ -39,12 +39,15 @@ api/comparar.json
 api/contradicoes.csv
 api/contradicoes.json
 api/contradicoes/[id].json
+api/contradicoes/por-estado.json
+api/contradicoes/por-partido.json
 api/crescimento.json
 api/declaracao/[id]
 api/declaracao/[id]/cite.md
 api/declaracao/[id]/cite.txt
 api/declaracao/[id]/context.json
 api/declaracao/[id]/fact-checks.json
+api/declaracao/[id]/jsonld
 api/declaracao/[id]/related.json
 api/declaracao/[id]/revisions.json
 api/declaracao/[id]/similar.json
@@ -132,6 +135,7 @@ api/ranking.csv
 api/ranking.json
 api/reactions
 api/recent.json
+api/recent.jsonfeed
 api/report-issue
 api/retratacoes
 api/retrospectiva/[year].json

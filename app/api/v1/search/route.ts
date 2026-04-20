@@ -3,11 +3,12 @@ import { getSupabaseServiceClient } from '@/lib/supabase/server'
 import { checkRateLimit, getRateLimitKey } from '@/lib/utils/rate-limit'
 
 /**
- * Escape characters that have special meaning in PostgREST filter strings
- * to prevent filter injection via `.or()` string interpolation.
+ * Strip characters that break the PostgREST or-grammar (`,`, `(`, `)`,
+ * `:`, `\`) plus LIKE metachars (`%`, `_`) so a user-supplied query
+ * can't either inject filter clauses or turn into a wildcard scan.
  */
 function sanitizePostgrestFilter(value: string): string {
-  return value.replace(/[,().]/g, '')
+  return value.replace(/[,()\\:]/g, ' ').replace(/[%_]/g, ' ').trim()
 }
 
 export const runtime = 'edge'
@@ -40,6 +41,9 @@ export async function GET(request: NextRequest) {
   const results: { statements?: unknown[]; politicians?: unknown[] } = {}
 
   const safeQ = sanitizePostgrestFilter(q)
+  if (!safeQ) {
+    return NextResponse.json({ query: q, type, data: { statements: [], politicians: [] } })
+  }
 
   if (type === 'all' || type === 'statements') {
     const { data: statements } = await supabase
