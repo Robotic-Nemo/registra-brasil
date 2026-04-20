@@ -28,7 +28,8 @@ export function buildDailyStatusSeries(
 
   const tally = new Map<string, StatusDayBucket>()
   for (const r of rows) {
-    const k = r.statement_date.slice(0, 10)
+    const k = r.statement_date?.slice(0, 10)
+    if (!k) continue
     let b = tally.get(k)
     if (!b) { b = { date: k, total: 0, verified: 0, disputed: 0, unverified: 0 }; tally.set(k, b) }
     b.total++
