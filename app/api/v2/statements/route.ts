@@ -215,7 +215,11 @@ export async function GET(request: NextRequest) {
 
 function v2Headers(remaining: number): HeadersInit {
   return {
-    'Cache-Control': 'public, s-maxage=120, stale-while-revalidate=60',
+    // SWR shorter than s-maxage left a coverage gap — once the fresh
+// window closed, clients paid a synchronous DB round-trip instead
+// of riding the stale window. Bumped SWR past s-maxage so stale
+// hits serve instantly while we refresh in the background.
+'Cache-Control': 'public, s-maxage=120, stale-while-revalidate=600',
     'Vary': 'Accept-Encoding',
     'X-RateLimit-Remaining': String(remaining),
     'X-API-Version': 'v2',
