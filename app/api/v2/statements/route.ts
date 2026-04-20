@@ -107,9 +107,15 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  // Full-text search
+  // Full-text search. PostgREST `or()` parses commas/parens/colons as
+  // delimiters; a raw user `q` with those chars breaks the filter or
+  // opens injection. Strip delimiters and wildcards so `%` and `_` in
+  // user input match literally.
   if (q) {
-    query = query.or(`summary.ilike.%${q}%,full_quote.ilike.%${q}%`)
+    const safe = q.replace(/[,()\\]/g, ' ').replace(/[%_]/g, ' ').trim()
+    if (safe) {
+      query = query.or(`summary.ilike.%${safe}%,full_quote.ilike.%${safe}%`)
+    }
   }
 
   // Date range
