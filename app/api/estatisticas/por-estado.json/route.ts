@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSupabaseServiceClient } from '@/lib/supabase/server'
 import { checkRateLimit, getRateLimitKey } from '@/lib/utils/rate-limit'
 import { monthlyStartStr } from '@/lib/stats/monthly-buckets'
+import { buildGroupMatrix } from '@/lib/stats/group-matrix'
 
 export const runtime = 'nodejs'
 export const revalidate = 3600
@@ -10,8 +11,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://registrabrasil.com
 
 /**
  * GET /api/estatisticas/por-estado.json — month × UF matrix for the
- * top N states by total activity in the window. Mirror of
- * `/por-partido.json`.
+ * top N states by total activity in the window.
  *   ?meses=3..24 (default 12)
  *   ?limite=1..27 (default 10)
  */
@@ -38,47 +38,27 @@ export async function GET(request: NextRequest) {
   type Row = { statement_date: string; politicians: { state: string | null } | null }
   const rows = (data ?? []) as Row[]
 
-  const byUf = new Map<string, Map<string, number>>()
-  const ufTotal = new Map<string, number>()
-  for (const r of rows) {
-    const uf = r.politicians?.state
-    if (!uf) continue
-    const m = r.statement_date?.slice(0, 7)
-    if (!m) continue
-    let mm = byUf.get(uf)
-    if (!mm) { mm = new Map(); byUf.set(uf, mm) }
-    mm.set(m, (mm.get(m) ?? 0) + 1)
-    ufTotal.set(uf, (ufTotal.get(uf) ?? 0) + 1)
-  }
-
-  const topUfs = [...ufTotal.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, limit)
-    .map(([uf]) => uf)
-
-  const now = new Date()
-  const startY = now.getUTCFullYear()
-  const startM = now.getUTCMonth() - (meses - 1)
-  const monthKeys: string[] = []
-  for (let i = 0; i < meses; i++) {
-    const d = new Date(Date.UTC(startY, startM + i, 1))
-    monthKeys.push(`${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`)
-  }
-
-  const estados = topUfs.map((uf) => {
-    const mm = byUf.get(uf) ?? new Map<string, number>()
-    const series = monthKeys.map((month) => ({ month, count: mm.get(month) ?? 0 }))
-    return { uf, url: `${SITE_URL}/estados/${uf}`, total: ufTotal.get(uf) ?? 0, series }
+  const { months, uniqueKeys, matrix } = buildGroupMatrix(rows, meses, {
+    keyFn: (r) => r.politicians?.state ?? null,
+    dateFn: (r) => r.statement_date,
+    limit,
   })
 
-  const etag = `W/"estat-por-estado-${meses}-${limit}-${rows.length}-${byUf.size}"`
+  const estados = matrix.map((m) => ({
+    uf: m.key,
+    url: `${SITE_URL}/estados/${m.key}`,
+    total: m.total,
+    series: m.series,
+  }))
+
+  const etag = `W/"estat-por-estado-${meses}-${limit}-${rows.length}-${uniqueKeys}"`
   if (request.headers.get('if-none-match') === etag) {
     return new Response(null, { status: 304, headers: { ETag: etag } })
   }
 
   return NextResponse.json({
-    meses, limite: limit, months: monthKeys,
-    unique_ufs: byUf.size,
+    meses, limite: limit, months,
+    unique_ufs: uniqueKeys,
     estados,
     generated_at: new Date().toISOString(),
   }, {
