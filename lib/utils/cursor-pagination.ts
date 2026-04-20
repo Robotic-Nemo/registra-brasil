@@ -36,6 +36,13 @@ export function decodeCursor(cursor: string): CursorData | null {
     }
     const parsed = JSON.parse(json)
     if (parsed && typeof parsed.v === 'string' && typeof parsed.id === 'string') {
+      // Reject PostgREST grammar chars — callers splice cursor
+      // values into `.or(...)` filters via template strings, so a
+      // crafted base64 payload containing `,()\:` would break out
+      // of the filter. Legit values (ISO dates, UUIDs, names) never
+      // include these chars; anything that does is tampering.
+      const UNSAFE_CURSOR = /[,()\\:]/
+      if (UNSAFE_CURSOR.test(parsed.v) || UNSAFE_CURSOR.test(parsed.id)) return null
       return parsed as CursorData
     }
     return null
