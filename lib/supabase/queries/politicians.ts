@@ -100,7 +100,8 @@ export async function getPoliticianActivityByMonth(
 
   const counts: Record<string, number> = {}
   for (const row of data as { statement_date: string }[]) {
-    const month = row.statement_date.slice(0, 7) // YYYY-MM
+    const month = row.statement_date?.slice(0, 7) // YYYY-MM
+    if (!month) continue
     counts[month] = (counts[month] ?? 0) + 1
   }
 

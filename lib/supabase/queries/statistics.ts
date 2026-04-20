@@ -26,7 +26,8 @@ export async function getStatementTimeSeries(
 
   const counts = new Map<string, number>()
   for (const row of data as { statement_date: string }[]) {
-    const month = row.statement_date.slice(0, 7)
+    const month = row.statement_date?.slice(0, 7)
+    if (!month) continue
     counts.set(month, (counts.get(month) ?? 0) + 1)
   }
 
@@ -183,7 +184,8 @@ export async function getPartyTimeSeries(
   for (const row of data as unknown as { statement_date: string; politicians: { party: string } }[]) {
     const party = row.politicians.party
     if (!parties.includes(party)) continue
-    const month = row.statement_date.slice(0, 7)
+    const month = row.statement_date?.slice(0, 7)
+    if (!month) continue
     if (!partyMonthCounts.has(party)) partyMonthCounts.set(party, new Map())
     const monthMap = partyMonthCounts.get(party)!
     monthMap.set(month, (monthMap.get(month) ?? 0) + 1)

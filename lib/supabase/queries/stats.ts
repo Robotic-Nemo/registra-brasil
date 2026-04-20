@@ -21,7 +21,8 @@ export async function getMonthlyStatementCounts(
   // Group by month
   const counts = new Map<string, number>()
   for (const row of data as { statement_date: string }[]) {
-    const month = row.statement_date.slice(0, 7) // YYYY-MM
+    const month = row.statement_date?.slice(0, 7) // YYYY-MM
+    if (!month) continue
     counts.set(month, (counts.get(month) ?? 0) + 1)
   }
 
