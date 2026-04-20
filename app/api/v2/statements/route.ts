@@ -159,10 +159,14 @@ export async function GET(request: NextRequest) {
       }, { headers: v2Headers(remaining) })
     }
     // Filter statements that have at least one of the given categories
+    // Cap at 10k ids — postgres' `IN (...)` query below already caps
+    // the practical filter size, and a single page of v2 results is
+    // at most `limit` rows anyway.
     const { data: scRows } = await supabase
       .from('statement_categories')
       .select('statement_id')
       .in('category_id', catIds)
+      .limit(10000)
     const stmtIds = [...new Set((scRows ?? []).map((r: unknown) => (r as { statement_id: string }).statement_id))]
     if (stmtIds.length === 0) {
       return NextResponse.json({
