@@ -21,17 +21,14 @@ export async function GET(
 
   const supabase = getSupabaseServiceClient()
 
-  const { data: polIds } = await (supabase.from('politicians') as any)
-    .select('id')
-    .eq('party', party)
-    .eq('is_active', true)
-
-  const ids = ((polIds ?? []) as { id: string }[]).map((p) => p.id)
-  if (ids.length === 0) return new Response('No data', { status: 404 })
-
+  // Two-step (fetch all politician IDs → .in() statements) blew up
+  // the PostgREST URL for big parties — thousands of UUIDs easily
+  // breach nginx's default 8KB request-line limit. Use a single
+  // `politicians!inner` filter join instead.
   const { data: rows } = await (supabase.from('statements') as any)
-    .select('id, slug, summary, statement_date, primary_source_url, verification_status, politicians(common_name, party, state)')
-    .in('politician_id', ids)
+    .select('id, slug, summary, statement_date, primary_source_url, verification_status, politicians!inner(common_name, party, state, is_active)')
+    .eq('politicians.party', party)
+    .eq('politicians.is_active', true)
     .neq('verification_status', 'removed')
     .order('statement_date', { ascending: false })
     .limit(50)
