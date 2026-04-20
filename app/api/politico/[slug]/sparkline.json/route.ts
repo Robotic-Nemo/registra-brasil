@@ -53,14 +53,16 @@ export async function GET(
   type R = { statement_date: string; severity_score: number | null }
   const stmts = (rows ?? []) as R[]
 
-  // Build buckets.
-  const buckets: { ym: string; count: number; severity_sum: number }[] = []
+  // Build buckets. Track severity sum + count separately so statements
+  // with a null severity_score don't dilute the monthly average.
+  const buckets: { ym: string; count: number; severity_sum: number; severity_n: number }[] = []
   for (let i = 0; i < months; i++) {
     const d = new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth() + i, 1))
     buckets.push({
       ym: `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`,
       count: 0,
       severity_sum: 0,
+      severity_n: 0,
     })
   }
   const byYm = new Map(buckets.map((b) => [b.ym, b]))
@@ -69,7 +71,10 @@ export async function GET(
     const b = byYm.get(ym)
     if (!b) continue
     b.count++
-    b.severity_sum += r.severity_score ?? 0
+    if (r.severity_score != null) {
+      b.severity_sum += r.severity_score
+      b.severity_n++
+    }
   }
 
   const peak = buckets.reduce((m, b) => Math.max(m, b.count), 0)
@@ -82,7 +87,7 @@ export async function GET(
     buckets: buckets.map((b) => ({
       month: b.ym,
       count: b.count,
-      avg_severity: b.count ? +(b.severity_sum / b.count).toFixed(2) : 0,
+      avg_severity: b.severity_n > 0 ? +(b.severity_sum / b.severity_n).toFixed(2) : null,
     })),
     generated_at: new Date().toISOString(),
   }, {
