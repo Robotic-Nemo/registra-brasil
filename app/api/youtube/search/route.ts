@@ -50,7 +50,7 @@ export async function GET(req: NextRequest) {
       quotaRemaining: await getQuotaRemaining(),
     }, {
       headers: {
-        'Cache-Control': 'public, s-maxage=600, stale-while-revalidate=300',
+        'Cache-Control': 'public, s-maxage=600, stale-while-revalidate=3600',
         'X-Content-Type-Options': 'nosniff',
       },
     })
@@ -77,7 +77,7 @@ export async function GET(req: NextRequest) {
       quotaRemaining: await getQuotaRemaining(),
     }, {
       headers: {
-        'Cache-Control': 'public, s-maxage=600, stale-while-revalidate=300',
+        'Cache-Control': 'public, s-maxage=600, stale-while-revalidate=3600',
         'X-Content-Type-Options': 'nosniff',
       },
     })

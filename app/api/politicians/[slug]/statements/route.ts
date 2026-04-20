@@ -59,7 +59,7 @@ export async function GET(
       hasMore: result.hasMore,
     }, {
       headers: {
-        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=60',
+        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=1800',
         Vary: 'Accept-Encoding',
         'X-Content-Type-Options': 'nosniff',
       },
