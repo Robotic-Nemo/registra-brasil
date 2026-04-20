@@ -23,7 +23,10 @@ export async function GET(
   }
 
   const { id } = await params
-  if (!/^[0-9a-f-]{8,36}$/i.test(id)) {
+  // Strict UUID match. The previous `[0-9a-f-]{8,36}` accepted
+  // malformed strings like `--------` or `deadbeef`, wasting a
+  // DB round-trip before 404. Fail fast at the boundary.
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) {
     return NextResponse.json({ error: 'id inválido' }, { status: 400 })
   }
 
