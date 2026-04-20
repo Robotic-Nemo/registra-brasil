@@ -24,8 +24,12 @@ export interface TopStatement {
 const MONTH_RE = /^(\d{4})-(\d{2})$/
 
 export function currentMonth(): string {
+  // UTC-only: statement_date is stored as UTC YYYY-MM-DD, so the
+  // recap month must be keyed the same way or BRT drift splits
+  // late-night-BRT registrations into "next month" buckets that
+  // never match the DB.
   const d = new Date()
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
+  return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`
 }
 
 export function isValidMonth(m: string): boolean {

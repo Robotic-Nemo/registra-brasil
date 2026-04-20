@@ -49,17 +49,19 @@ export function aggregateTimeSeries<T>(
 }
 
 function bucketDate(dateStr: string, bucket: 'day' | 'week' | 'month'): string {
+  // statement_date comes in as `YYYY-MM-DD` (UTC). Parsing that with
+  // `new Date()` yields a UTC-midnight instant — any local-time
+  // getFullYear / getMonth / getDay then drifts on BRT machines
+  // (previous day for anything after 21:00 UTC). Stay in UTC.
+  if (bucket === 'day') return dateStr.slice(0, 10)
   const d = new Date(dateStr)
   if (bucket === 'month') {
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
+    return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`
   }
-  if (bucket === 'week') {
-    const day = d.getDay()
-    const diff = d.getDate() - day
-    const weekStart = new Date(d.setDate(diff))
-    return weekStart.toISOString().slice(0, 10)
-  }
-  return dateStr.slice(0, 10)
+  // Week: ISO-ish, starting Sunday UTC.
+  const day = d.getUTCDay()
+  const weekStart = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() - day))
+  return weekStart.toISOString().slice(0, 10)
 }
 
 /**
