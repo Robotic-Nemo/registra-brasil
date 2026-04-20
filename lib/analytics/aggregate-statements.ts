@@ -63,10 +63,13 @@ export function aggregate(statements: StatementForAnalytics[], monthsBack = 24):
     }
   }
 
+  // Build bucket keys with Date.UTC so they match `statement_date`
+  // (stored UTC-only as YYYY-MM-DD). Using the local-time Date
+  // constructor here drifts at month boundaries for BRT vs UTC.
   const now = new Date()
   const months: Array<{ month: string; count: number }> = []
   for (let i = monthsBack - 1; i >= 0; i--) {
-    const d = new Date(now.getUTCFullYear(), now.getUTCMonth() - i, 1)
+    const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - i, 1))
     const k = `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`
     months.push({ month: k, count: byMonth.get(k) ?? 0 })
   }
