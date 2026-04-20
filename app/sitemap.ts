@@ -79,11 +79,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const { getSupabaseServiceClient } = await import('@/lib/supabase/server')
     const supabase = getSupabaseServiceClient()
 
-    // Politicians
+    // Politicians — bounded; sitemap fits an order of magnitude more,
+    // but a hard cap keeps a growth surprise from OOMing the build.
     const { data: politicians } = await supabase
       .from('politicians')
       .select('slug, updated_at')
       .eq('is_active', true)
+      .limit(20000)
 
     const politicianPages: MetadataRoute.Sitemap = (politicians ?? []).flatMap((p: { slug: string; updated_at: string }) => [
       {
@@ -104,6 +106,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const { data: categories } = await supabase
       .from('categories')
       .select('slug')
+      .limit(5000)
 
     const categoryPages: MetadataRoute.Sitemap = (categories ?? []).map((c: { slug: string }) => ({
       url: `${SITE_URL}/categorias/${c.slug}`,
@@ -133,6 +136,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .from('collections')
       .select('slug, updated_at')
       .eq('is_published', true)
+      .limit(5000)
     const collectionPages: MetadataRoute.Sitemap = (collections ?? []).map((c: { slug: string; updated_at: string }) => ({
       url: `${SITE_URL}/colecao/${c.slug}`,
       lastModified: new Date(c.updated_at),
@@ -140,11 +144,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     }))
 
-    // Parties
+    // Parties (dedup client-side; bounded scan).
     const { data: partyRows } = await supabase
       .from('politicians')
       .select('party')
       .eq('is_active', true)
+      .limit(20000)
 
     const uniqueParties = [...new Set((partyRows ?? []).map((p: { party: string }) => p.party))]
     const partyPages: MetadataRoute.Sitemap = uniqueParties.map((party) => ({
@@ -154,12 +159,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.5,
     }))
 
-    // States
+    // States (dedup client-side; bounded scan).
     const { data: stateRows } = await supabase
       .from('politicians')
       .select('state')
       .eq('is_active', true)
       .not('state', 'is', null)
+      .limit(20000)
 
     const uniqueStates = [...new Set((stateRows ?? []).map((p: { state: string }) => p.state))]
     const statePages: MetadataRoute.Sitemap = uniqueStates.map((state) => ({
