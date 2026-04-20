@@ -90,8 +90,13 @@ export async function GET(request: NextRequest) {
 
   // Search
   if (q) {
-    const escaped = q.replace(/%/g, '\\%').replace(/_/g, '\\_')
-    query = query.or(`common_name.ilike.%${escaped}%,full_name.ilike.%${escaped}%`)
+    // Strip PostgREST or-grammar metachars (`,()` and backslash) before
+    // escaping LIKE wildcards. Without this a user-supplied `q` like
+    // `a,b)` breaks out of the ilike filter into a sibling or-clause.
+    const safe = q.replace(/[,()\\]/g, ' ').replace(/[%_]/g, ' ').trim()
+    if (safe) {
+      query = query.or(`common_name.ilike.%${safe}%,full_name.ilike.%${safe}%`)
+    }
   }
 
   // Multi-value filters
