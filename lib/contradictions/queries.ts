@@ -101,15 +101,24 @@ export async function getContradictionCountForStatement(statementId: string): Pr
   return Number(data ?? 0)
 }
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
 export async function listContradictionsMentioningStatement(
   statementId: string,
+  limit = 50,
 ): Promise<ContradictionPairFull[]> {
+  // Hard-validate before interpolating into a PostgREST or-filter —
+  // the caller is the only layer guarding this against injection
+  // via the raw `.or(...)` grammar, and an unbounded result set on
+  // contradiction_pairs will explode once the table grows.
+  if (!UUID_RE.test(statementId)) return []
   const supabase = getSupabaseServiceClient()
   const { data, error } = await (supabase.from('contradiction_pairs') as any)
     .select(SELECT)
     .eq('is_published', true)
     .or(`statement_low_id.eq.${statementId},statement_high_id.eq.${statementId}`)
     .order('created_at', { ascending: false })
+    .limit(limit)
   if (error) throw error
   return ((data ?? []) as Raw[]).map(shape).filter((x): x is ContradictionPairFull => x !== null)
 }
