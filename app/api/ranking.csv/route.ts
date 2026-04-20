@@ -2,6 +2,7 @@ import { NextRequest } from 'next/server'
 import { getSupabaseServiceClient } from '@/lib/supabase/server'
 import { checkRateLimit, getRateLimitKey } from '@/lib/utils/rate-limit'
 import { csvEscape } from '@/lib/export/statement-formats'
+import { ageDaysFromStatementDate, decayScore } from '@/lib/utils/age-decay'
 
 export const runtime = 'nodejs'
 export const revalidate = 1800
@@ -40,8 +41,8 @@ export async function GET(request: NextRequest) {
   const now = Date.now()
   for (const r of ((data ?? []) as Row[])) {
     const severity = r.severity_score ?? 1
-    const ageDays = (now - new Date(r.statement_date + 'T12:00:00Z').getTime()) / 86400_000
-    const contribution = severity * Math.exp(-ageDays / 365)
+    const ageDays = ageDaysFromStatementDate(now, r.statement_date)
+    const contribution = decayScore(severity, ageDays)
     const e = agg.get(r.politician_id)
     if (e) { e.count++; e.score += contribution }
     else { agg.set(r.politician_id, { pol: r.politicians, count: 1, score: contribution }) }

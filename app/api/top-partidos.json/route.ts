@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSupabaseServiceClient } from '@/lib/supabase/server'
 import { checkRateLimit, getRateLimitKey } from '@/lib/utils/rate-limit'
+import { ageDaysFromStatementDate, decayScore } from '@/lib/utils/age-decay'
 
 export const runtime = 'nodejs'
 export const revalidate = 1800
@@ -38,8 +39,8 @@ export async function GET(request: NextRequest) {
     const party = r.politicians?.party
     if (!party) continue
     const sev = r.severity_score ?? 1
-    const ageDays = (now - new Date(r.statement_date + 'T12:00:00Z').getTime()) / 86400_000
-    const score = sev * Math.exp(-ageDays / 365)
+    const ageDays = ageDaysFromStatementDate(now, r.statement_date)
+    const score = decayScore(sev, ageDays)
     const e = agg.get(party) ?? { count: 0, score: 0, severitySum: 0, severityN: 0 }
     e.count++
     e.score += score
