@@ -40,6 +40,9 @@ export async function GET(
   }
 
   const { slug } = await params
+  if (!/^[a-z0-9%A-Z.-]{1,100}$/.test(slug)) {
+    return NextResponse.json({ error: 'partido inválido' }, { status: 400 })
+  }
   const party = decodeURIComponent(slug)
   if (party.length < 1 || party.length > 50) {
     return NextResponse.json({ error: 'partido inválido' }, { status: 400 })
