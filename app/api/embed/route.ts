@@ -94,7 +94,7 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.json(oEmbed, {
     headers: {
-      'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=600',
+      'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
       'Content-Type': 'application/json+oembed',
       'X-Content-Type-Options': 'nosniff',
     },

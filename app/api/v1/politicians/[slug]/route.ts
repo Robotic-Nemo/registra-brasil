@@ -58,7 +58,7 @@ export async function GET(
     },
   }, {
     headers: {
-      'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=1800',
+      'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
       'X-RateLimit-Remaining': String(remaining),
       'X-API-Version': 'v1',
     },

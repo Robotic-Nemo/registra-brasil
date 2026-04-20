@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
     pagination: { page, perPage: limit, total: count ?? 0, totalPages, hasNext: page < totalPages, hasPrev: page > 1 },
   }, {
     headers: {
-      'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=1800',
+      'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
       'Vary': 'Accept-Encoding',
       'X-RateLimit-Remaining': String(remaining),
       'X-API-Version': 'v1',

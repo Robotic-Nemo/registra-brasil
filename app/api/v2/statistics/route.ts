@@ -93,7 +93,7 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.json(response, {
     headers: {
-      'Cache-Control': 'public, s-maxage=1800, stale-while-revalidate=900',
+      'Cache-Control': 'public, s-maxage=1800, stale-while-revalidate=86400',
       'Vary': 'Accept-Encoding',
       'X-RateLimit-Remaining': String(remaining),
       'X-API-Version': 'v2',
