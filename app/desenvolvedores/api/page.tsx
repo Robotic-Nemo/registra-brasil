@@ -184,6 +184,11 @@ const GROUPS: Group[] = [
       { method: 'GET', path: '/api/analise/estados-x-severidade.json', desc: 'Matriz UF × nível de severidade (1..5).', params: [{ name: 'estados', desc: '5..27 (padrão 27)' }, { name: 'meses', desc: '6..60 (padrão 24)' }, { name: 'normalizar', desc: '1 para %' }] },
       { method: 'GET', path: '/api/analise/categorias-x-severidade.json', desc: 'Matriz top-N categorias (primary) × nível de severidade (1..5).', params: [{ name: 'categorias', desc: '5..30 (padrão 15)' }, { name: 'meses', desc: '6..60 (padrão 24)' }, { name: 'normalizar', desc: '1 para %' }] },
       { method: 'GET', path: '/api/estatisticas/calendario.svg', desc: 'Heatmap calendário (53 semanas) de volume diário global em SVG.', params: [{ name: 'ano', desc: 'YYYY (opcional)' }, { name: 'cor', desc: '#RRGGBB (padrão #d97706)' }] },
+      { method: 'GET', path: '/api/politico/:slug/calendario.svg', desc: 'Heatmap calendário do político (53 semanas ou ?ano=YYYY).', params: [{ name: 'ano', desc: 'YYYY' }, { name: 'cor', desc: '#RRGGBB (padrão #0369a1)' }] },
+      { method: 'GET', path: '/api/partidos/:slug/calendario.svg', desc: 'Heatmap calendário do partido.', params: [{ name: 'ano', desc: 'YYYY' }, { name: 'cor', desc: '#RRGGBB (padrão #7c3aed)' }] },
+      { method: 'GET', path: '/api/estados/:uf/calendario.svg', desc: 'Heatmap calendário da UF.', params: [{ name: 'ano', desc: 'YYYY' }, { name: 'cor', desc: '#RRGGBB (padrão #059669)' }] },
+      { method: 'GET', path: '/api/categorias/:slug/calendario.svg', desc: 'Heatmap calendário da categoria (primary). Herda cor da categoria se não especificado.', params: [{ name: 'ano', desc: 'YYYY' }, { name: 'cor', desc: '#RRGGBB' }] },
+      { method: 'GET', path: '/api/fontes/:domain/calendario.svg', desc: 'Heatmap calendário do domínio fonte.', params: [{ name: 'ano', desc: 'YYYY' }, { name: 'cor', desc: '#RRGGBB (padrão #be123c)' }] },
     ],
   },
   {

@@ -63,6 +63,7 @@ export async function getPoliticianCompareData(
   const stmts = (statements ?? []) as { id: string; summary: string; statement_date: string; verification_status: string }[]
   const monthlyCounts = new Map<string, number>()
   for (const s of stmts) {
+    if (!s.statement_date) continue
     if (s.statement_date >= startStr) {
       const month = s.statement_date.slice(0, 7)
       monthlyCounts.set(month, (monthlyCounts.get(month) ?? 0) + 1)
