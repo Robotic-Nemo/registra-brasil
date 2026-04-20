@@ -47,6 +47,12 @@ export async function GET(request: NextRequest) {
   if (!idA || !idB) {
     return NextResponse.json({ error: 'not_found', a: idA ? null : a, b: idB ? null : b }, { status: 404 })
   }
+  // `a === b` above only catches identical input strings; slug vs uuid
+  // for the same politician slips through. Recheck post-resolution to
+  // avoid wasted queries + meaningless self-diffs.
+  if (idA === idB) {
+    return NextResponse.json({ error: 'same_politician' }, { status: 400 })
+  }
 
   const [dataA, dataB] = await Promise.all([
     getPoliticianCompareData(supabase, idA),
