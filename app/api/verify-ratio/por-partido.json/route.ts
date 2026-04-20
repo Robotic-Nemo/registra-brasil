@@ -72,7 +72,7 @@ export async function GET(request: NextRequest) {
     .sort((a, b) => b.total - a.total)
     .slice(0, lim)
 
-  const etag = `W/"vr-party-${months}-${rows.length}-${results.length}"`
+  const etag = `W/"vr-party-${months}-${lim}-${rows.length}-${results.length}"`
   if (request.headers.get('if-none-match') === etag) {
     return new Response(null, { status: 304, headers: { ETag: etag } })
   }
