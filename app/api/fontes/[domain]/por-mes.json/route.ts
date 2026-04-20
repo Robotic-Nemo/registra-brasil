@@ -2,60 +2,64 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSupabaseServiceClient } from '@/lib/supabase/server'
 import { checkRateLimit, getRateLimitKey } from '@/lib/utils/rate-limit'
 import { buildMonthlyStatusSeries, monthlyStartStr } from '@/lib/stats/monthly-buckets'
+import { displaySourceName } from '@/lib/sources/domain'
+import { sourceUrlOrFilter, DOMAIN_RE_STRICT } from '@/lib/sources/domain-filter'
 
 export const runtime = 'nodejs'
 export const revalidate = 3600
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://registrabrasil.com.br'
-const SLUG_RE = /^[a-z0-9%A-Z.-]{1,100}$/
+const DOMAIN_RE = /^[a-z0-9%.-]{3,253}$/i
 
 /**
- * GET /api/partidos/:slug/por-mes.json — monthly statement timeseries
- * for a single party. Status-split, gap-filled.
+ * GET /api/fontes/:domain/por-mes.json — monthly (UTC) bucket counts
+ * for statements citing this domain. Status-split, gap-filled.
  *   ?meses=3..36 (default 24)
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ slug: string }> },
+  { params }: { params: Promise<{ domain: string }> },
 ) {
-  const rl = checkRateLimit(getRateLimitKey(request, 'partido-por-mes'), {
+  const rl = checkRateLimit(getRateLimitKey(request, 'fontes-por-mes'), {
     limit: 30, windowMs: 60_000,
   })
   if (!rl.allowed) {
     return NextResponse.json({ error: { code: 'RATE_LIMITED' } }, { status: 429 })
   }
 
-  const { slug } = await params
-  if (!SLUG_RE.test(slug)) {
-    return NextResponse.json({ error: 'slug inválido' }, { status: 400 })
+  const { domain: raw } = await params
+  if (!DOMAIN_RE.test(raw)) {
+    return NextResponse.json({ error: 'domínio inválido' }, { status: 400 })
   }
-  const party = decodeURIComponent(slug).toUpperCase()
+  const domain = decodeURIComponent(raw).toLowerCase().replace(/^www\./, '')
+  if (!DOMAIN_RE_STRICT.test(domain)) {
+    return NextResponse.json({ error: 'domínio inválido' }, { status: 400 })
+  }
   const meses = Math.max(3, Math.min(36, Number(request.nextUrl.searchParams.get('meses')) || 24))
 
   const supabase = getSupabaseServiceClient()
   const { data, error } = await (supabase.from('statements') as any)
-    .select('statement_date, verification_status, politicians!inner(party)')
-    .eq('politicians.party', party)
+    .select('statement_date, verification_status')
     .neq('verification_status', 'removed')
     .gte('statement_date', monthlyStartStr(meses))
-    .limit(30000)
+    .or(sourceUrlOrFilter(domain))
+    .limit(20000)
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
   type Row = { statement_date: string; verification_status: string }
   const { series, total } = buildMonthlyStatusSeries(meses, (data ?? []) as Row[])
 
-  const etag = `W/"partido-por-mes-${party}-${meses}-${total}"`
+  const etag = `W/"fontes-por-mes-${domain}-${meses}-${total}"`
   if (request.headers.get('if-none-match') === etag) {
     return new Response(null, { status: 304, headers: { ETag: etag } })
   }
 
   return NextResponse.json({
-    party,
-    url: `${SITE_URL}/partidos/${encodeURIComponent(party)}`,
-    meses,
-    total,
-    series,
+    domain,
+    display_name: displaySourceName(domain),
+    url: `${SITE_URL}/fontes/${encodeURIComponent(domain)}`,
+    meses, total, series,
     generated_at: new Date().toISOString(),
   }, {
     headers: {
