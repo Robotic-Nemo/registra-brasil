@@ -52,7 +52,9 @@ export function buildWeeklyStatusSeries(
 
   const tally = new Map<string, StatusWeekBucket>()
   for (const r of rows) {
-    const k = weekKeyFromDate(r.statement_date)
+    const raw = r.statement_date?.slice(0, 10)
+    if (!raw) continue
+    const k = weekKeyFromDate(raw)
     let b = tally.get(k)
     if (!b) {
       b = { week_start: k, total: 0, verified: 0, disputed: 0, unverified: 0 }

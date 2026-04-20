@@ -73,7 +73,9 @@ export async function GET(
 
   const buckets = new Map<string, { total: number; verified: number; disputed: number; sevSum: number; sevN: number }>()
   for (const r of rows) {
-    const k = weekKey(r.statement_date.slice(0, 10))
+    const raw = r.statement_date?.slice(0, 10)
+    if (!raw) continue
+    const k = weekKey(raw)
     let b = buckets.get(k)
     if (!b) { b = { total: 0, verified: 0, disputed: 0, sevSum: 0, sevN: 0 }; buckets.set(k, b) }
     b.total++
