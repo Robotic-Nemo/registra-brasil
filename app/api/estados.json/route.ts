@@ -15,10 +15,14 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://registrabrasil.com
 export async function GET() {
   const supabase = getSupabaseServiceClient()
   const [polRes, stmtRes] = await Promise.all([
+    // Cap politician scan so a runaway bulk-import can't force us
+    // to stream tens of thousands of single-column rows. Same
+    // reasoning as the /api/partidos.json fix.
     (supabase.from('politicians') as any)
       .select('state')
       .eq('is_active', true)
-      .not('state', 'is', null),
+      .not('state', 'is', null)
+      .limit(20000),
     (supabase.from('statements') as any)
       .select('politicians!inner(state)')
       .eq('verification_status', 'verified')
