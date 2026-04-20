@@ -13,10 +13,14 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://registrabrasil.com
  */
 export async function GET() {
   const supabase = getSupabaseServiceClient()
+  // Cap at 20k so a runaway `politicians` table (e.g. bulk import
+  // of historical candidates) doesn't force us to stream tens of
+  // thousands of single-column rows through the edge just to count.
   const { data, error } = await (supabase.from('politicians') as any)
     .select('party')
     .eq('is_active', true)
     .not('party', 'is', null)
+    .limit(20000)
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
