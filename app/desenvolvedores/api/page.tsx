@@ -91,6 +91,8 @@ const GROUPS: Group[] = [
       { method: 'GET', path: '/api/estados/:uf/jsonld', desc: 'Schema.org JSON-LD AdministrativeArea + CollectionPage para a UF.' },
       { method: 'GET', path: '/api/estados/:uf/leaderboard.json', desc: 'Top políticos da UF por severidade×recência.', params: [{ name: 'limite', desc: '1..50 (padrão 20)' }] },
       { method: 'GET', path: '/api/verify-ratio/por-estado.json', desc: 'Razões verificada/disputada/não verificada por UF.', params: [{ name: 'meses', desc: '1..24 (padrão 6)' }] },
+      { method: 'GET', path: '/api/categorias/:slug/leaderboard.json', desc: 'Top políticos na categoria (primary) por severidade×recência.', params: [{ name: 'limite', desc: '1..50 (padrão 20)' }] },
+      { method: 'GET', path: '/api/fontes/:domain/jsonld', desc: 'Schema.org JSON-LD WebSite/NewsMediaOrganization + CollectionPage para o domínio fonte.' },
       { method: 'GET', path: '/api/fact-checks.json', desc: 'Checagens externas indexadas.', params: [{ name: 'rating', desc: 'filtrar por veredito' }, { name: 'limite', desc: '1..200' }] },
       { method: 'GET', path: '/api/fontes/:domain.json', desc: 'Declarações citando um domínio (via RPC get_source_domain_detail).', params: [{ name: 'limite', desc: '1..100 (padrão 25)' }] },
       { method: 'GET', path: '/api/agenda.json', desc: 'Eventos políticos curados.', params: [{ name: 'escopo', desc: 'upcoming | past | all' }, { name: 'limite', desc: '1..200' }] },

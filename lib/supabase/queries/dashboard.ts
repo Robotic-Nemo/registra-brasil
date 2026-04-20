@@ -43,26 +43,33 @@ export async function getWeeklyCounts(
   supabase: SupabaseClient,
   weeks = 12
 ): Promise<WeeklyCount[]> {
-  const results: WeeklyCount[] = []
+  // Previously this ran `weeks` head-count queries **sequentially**,
+  // one `await` per week — at 12 weeks that's 12 round-trips and the
+  // dashboard blocked on their sum. We now issue all week head-counts
+  // in parallel via Promise.all (~1 RTT total) and preserve order
+  // by index, not arrival time.
   const now = new Date()
-
+  const bounds: Array<{ week: string; start: string; end: string }> = []
   for (let i = weeks - 1; i >= 0; i--) {
     const weekStart = new Date(now)
-    weekStart.setDate(now.getDate() - (i + 1) * 7)
+    weekStart.setUTCDate(now.getUTCDate() - (i + 1) * 7)
     const weekEnd = new Date(now)
-    weekEnd.setDate(now.getDate() - i * 7)
+    weekEnd.setUTCDate(now.getUTCDate() - i * 7)
+    bounds.push({
+      week: weekStart.toISOString().slice(0, 10),
+      start: weekStart.toISOString(),
+      end: weekEnd.toISOString(),
+    })
+  }
 
+  const results = await Promise.all(bounds.map(async (b) => {
     const { count } = await supabase
       .from('statements')
       .select('id', { count: 'exact', head: true })
-      .gte('created_at', weekStart.toISOString())
-      .lt('created_at', weekEnd.toISOString())
-
-    results.push({
-      week: weekStart.toISOString().slice(0, 10),
-      count: count ?? 0,
-    })
-  }
+      .gte('created_at', b.start)
+      .lt('created_at', b.end)
+    return { week: b.week, count: count ?? 0 }
+  }))
 
   return results
 }

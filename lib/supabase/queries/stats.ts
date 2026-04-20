@@ -25,14 +25,15 @@ export async function getMonthlyStatementCounts(
     counts.set(month, (counts.get(month) ?? 0) + 1)
   }
 
-  // Fill in missing months
+  // Fill missing months in UTC — statement_date is UTC YYYY-MM-DD
+  // so local-time bucket keys drift on BRT past midnight.
   const result: { month: string; count: number }[] = []
   const current = new Date(startDate)
   const now = new Date()
   while (current <= now) {
-    const key = `${current.getFullYear()}-${String(current.getMonth() + 1).padStart(2, '0')}`
+    const key = `${current.getUTCFullYear()}-${String(current.getUTCMonth() + 1).padStart(2, '0')}`
     result.push({ month: key, count: counts.get(key) ?? 0 })
-    current.setMonth(current.getMonth() + 1)
+    current.setUTCMonth(current.getUTCMonth() + 1)
   }
 
   return result
